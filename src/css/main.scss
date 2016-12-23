@@ -1,0 +1,79 @@
+@import "normalize";
+
+* {
+  box-sizing: border-box;
+  outline: none;
+}
+
+
+html { font-size: 625%;/*10 ÷ 16 × 100% = 62.5%*/ }
+
+body {
+  font-size: .12rem;
+  font-family: '微软雅黑', Arial, sans-serif;
+  overflow: hidden;
+}
+a {
+  text-decoration: none;
+}
+
+ul, li, ol, h3, table, td, th, tr {
+  margin: 0;
+  padding: 0;
+}
+
+li {
+  list-style: none;
+}
+
+.fl {
+  float: left;
+}
+
+.fr {
+  float: right;
+}
+
+.clearfix:after {
+  content: '';
+  display: block;
+  clear: both;
+}
+
+header {
+  width: 100%;
+  height: .4rem;
+  background-color: #fe8228;
+}
+
+.tab {
+  width: 1.4rem;
+  margin: 0 auto;
+  line-height: .4rem;
+  span {
+    display: inline-block;
+    width: .7rem;
+    border: 1px solid #fff;
+    color: #fff;
+    text-align: center;
+    cursor: pointer;
+  }
+}
+
+section {
+  width: 100%;
+  height: 6rem;
+  border: 1px solid red;
+}
+
+footer {
+  width: 100%;
+  height: .45rem;
+  li {
+    float: left;
+    width: 25%;
+    text-align: center;
+  }
+}
+
+
