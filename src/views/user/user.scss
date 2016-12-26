@@ -1,0 +1,83 @@
+@import "../valViews";
+
+.user {
+  height: 100%;
+  width: 100%;
+  color: #fff;
+}
+
+.info {
+  height: 42%;
+  width: 100%;
+  padding: 3%;
+  background-color: $bgColor;
+}
+
+.avatar {
+  position: relative;
+  height: 40%;
+  text-align: center;
+  img {
+    height: 100%;
+  }
+}
+
+.middle {
+  height: 30%;
+  width: 100%;
+  padding: .18rem 25% 0;
+  font-size: .15rem;
+  font-weight: bold;
+
+  div {
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+  }
+
+  button {
+    display: inline-block;
+    width: 42%;
+    height: .3rem;
+    max-height: 100%;
+    margin: 0 4%;
+    color: inherit;
+    background: transparent;
+    box-shadow: -0.01rem -0.01rem #e6cece,
+    0.01rem 0.01rem #ab8d8d;
+    border-radius: 0.05rem/.1rem;
+  }
+
+  span {
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+  }
+}
+
+.asset {
+  height: 30%;
+  width: 100%;
+}
+
+.asset-item {
+  text-align: center;
+  vertical-align: middle;
+  span {
+    display: inline-block;
+    padding: 0.03rem 0;
+    width: 100%;
+  }
+}
+
+.asset-amount {
+  font-size: .14rem;
+  font-weight: bold;
+}
+
+.asset-name {
+
+}
+
+

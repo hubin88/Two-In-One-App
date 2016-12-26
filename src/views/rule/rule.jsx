@@ -1,21 +1,23 @@
-/**
- * Created by admin on 2016/12/22.
- */
-
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import cssModules from 'react-css-modules';
 import styles from './rule.scss';
+import SingleHtml from '../single-html/single-html';
 
-class Rule extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
+@cssModules(styles, { allowMultiple: true, errorWhenNotFound: false })
+export default class Rule extends Component {
+  static defaultProps = {
+    htmlURL: 'rule(规则)h5地址url参数',
+  };
+  static propTypes = {
+    htmlURL: PropTypes.string,
+  };
+
   render() {
     return (
-      <div styleName="rule">规则</div>
+      <div styleName="rule">
+        <SingleHtml htmlURL={this.props.htmlURL} />
+      </div>
     );
   }
 }
 
-export default cssModules(Rule, styles, { allowMultiple: true, errorWhenNotFound: false });

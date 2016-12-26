@@ -1,38 +1,36 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router';
+import Footer from './views/footer';
+import Header from './views/header';
 
 import './css/main.scss'; // import global css style
 
 class App extends Component {
   static propTypes = {
-    children: React.PropTypes.any,
+    dispatch: PropTypes.func.isRequired,
+    appState: PropTypes.object.isRequired,
+    exchangeInfo: PropTypes.object.isRequired,
+    systemInfo: PropTypes.object.isRequired,
+    children: PropTypes.any,
   };
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
+
   render() {
-    // const { dispatch, appState:{ data } } = this.props;
+    const {
+      dispatch,
+      exchangeInfo: { systemList },
+      systemInfo: { navList },
+    } = this.props;
     return (
       // App root node
-      <div>
+      <div className="main">
         <header>
-          <div className="tab">
-            <span><a>点差宝</a></span>
-            <span><a>点微宝</a></span>
-          </div>
+          <Header dispatch={dispatch} systemList={systemList} />
         </header>
         <section>
           {this.props.children}
         </section>
         <footer>
-          <ul>
-            <li><Link to="/deal">交易</Link></li>
-            <li><Link to="/track">轨迹</Link></li>
-            <li><Link to="/rule">规则</Link></li>
-            <li><Link to="/info">我</Link></li>
-          </ul>
+          <Footer navList={navList} />
         </footer>
       </div>
     );
@@ -41,7 +39,8 @@ class App extends Component {
 
 function mapStateToProps(state) {
   return {
-    appState: state.appState,
+    exchangeInfo: state.exchangeInfo,
+    systemInfo: state.systemInfo,
   };
 }
 

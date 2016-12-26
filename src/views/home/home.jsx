@@ -1,15 +1,14 @@
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 import cssModules from 'react-css-modules';
-import styles from './track.scss';
+import styles from './home.scss';
 
 @cssModules(styles, { allowMultiple: true, errorWhenNotFound: false })
-export default class Record extends Component {
-
+export default class Home extends Component {
   render() {
     return (
-      <div styleName="track">
-        Track(轨迹)!
+      <div styleName="home">
+        home(首页)
       </div>
     );
   }
