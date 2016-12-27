@@ -8,7 +8,6 @@ import './css/main.scss'; // import global css style
 class App extends Component {
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
-    appState: PropTypes.object.isRequired,
     exchangeInfo: PropTypes.object.isRequired,
     systemInfo: PropTypes.object.isRequired,
     children: PropTypes.any,

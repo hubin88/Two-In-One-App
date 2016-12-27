@@ -8,7 +8,7 @@ export default class Header extends Component {
 
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
-    systemList: PropTypes.array.isRequired,
+    systemList: PropTypes.object.isRequired,
   };
 
   toChangeSystem = (type) => () => {

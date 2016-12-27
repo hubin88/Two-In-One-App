@@ -26,18 +26,25 @@ const store = DEBUG ? createStore(
 
 const history = syncHistoryWithStore(browserHistory, store);
 
+const checkLogin =  (nextState, replace) => {
+  alert('定义未登录时的钩子')
+  if (0 === 0) {
+    replace({ pathname: '/login', search: `?source=${nextState.location.pathname.slice(1)}` })
+  }
+};
+
 const StoreWrap = () => (
   <Provider store={store}>
     <Router history={history}>
       <Route path="/login" component={Login} />
       <Route path="/join" component={Register} />
       <Route path="/password_reset" component={Reset} />
-      <Route path="/pay" component={Pay} />
-      <Route path="/withdraw" component={Withdraw} />
+      <Route path="/pay" component={Pay} onEnter={checkLogin} />
+      <Route path="/withdraw" component={Withdraw} onEnter={checkLogin} />
       <Route path="/" component={App}>
         <IndexRoute component={Home} />
         <Route path="/home" component={Home} />
-        <Route path="/track" component={Track} />
+        <Route path="/track" component={Track} onEnter={checkLogin} />
         <Route path="/rule" component={Rule} />
         <Route path="/user" component={User} />
       </Route>
