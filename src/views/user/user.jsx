@@ -6,6 +6,8 @@ import styles from './user.scss';
 
 @cssModules(styles, { allowMultiple: true, errorWhenNotFound: false })
 class User extends Component {
+  static defaultProps = {
+  };
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
     systemInfo: PropTypes.object.isRequired,
@@ -21,7 +23,7 @@ class User extends Component {
             <Link to="/withdraw"><span>提现</span></Link>
           </div>
           <div styleName="avatar">
-            <img src={avatarURL} />
+            <img src={avatarURL} alt="" />
           </div>
           <div styleName="middle">
             {
@@ -42,10 +44,9 @@ class User extends Component {
                 </li>
               ))
             }
-
           </ol>
         </div>
-        <div styleName="links"></div>
+        <div styleName="links" />
       </div>
     );
   }

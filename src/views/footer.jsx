@@ -5,11 +5,14 @@ import styles from './footer.scss';
 
 @cssModules(styles, { allowMultiple: true, errorWhenNotFound: false })
 export default class Footer extends Component {
-
   static propTypes = {
     navList: PropTypes.object,
   };
-
+  constructor(props) {
+    super(props);
+    this.state = {
+    };
+  }
   render() {
     const { navList } = this.props;
     return (

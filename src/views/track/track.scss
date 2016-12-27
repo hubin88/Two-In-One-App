@@ -1,4 +1,30 @@
-.track {
+i{
+  font-style: normal;
+}
+.track{
   height: 100%;
-  background-color: #23f7ff;
+  padding: .2rem .15rem;
+  background-color: #fff;
+}
+.mains{
+  border-bottom: 1px solid #efecec;
+}
+.mains>div{
+  display: inline-block;
+  width: 50%;
+  line-height: .2rem;
+}
+.mains i{
+  width: .6rem;
+  display: inline-block;
+}
+.mains p{
+  margin: .1rem 0;
+}
+//.mains span{
+//  margin-left: 0.1rem;
+//}
+.notMore{
+  margin: .2rem 0;
+  text-align: center;
 }

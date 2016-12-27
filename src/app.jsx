@@ -6,6 +6,8 @@ import Header from './views/header';
 import './css/main.scss'; // import global css style
 
 class App extends Component {
+  static defaultProps = {
+  };
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
     exchangeInfo: PropTypes.object.isRequired,

@@ -1,4 +1,10 @@
 .rule{
   height: 100%;
-  background-color: #e99aff;
+  background-color: #fff;
+
+  iframe{
+    width: 100%;
+    height: 89%;
+    position: fixed;
+  }
 }

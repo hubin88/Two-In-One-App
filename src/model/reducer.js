@@ -37,7 +37,7 @@ const initExchangeInfo = {
 };
 
 // 不同交易所有不同的行情数据
-const marketInfo = {};
+// const marketInfo = {};
 
 // 切换不同系统，底部导航栏，资金展示方式，个人中心功能点会有所变化
 const initSystemInfo = {

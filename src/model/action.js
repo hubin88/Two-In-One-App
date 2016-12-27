@@ -1,7 +1,8 @@
 import * as ActionTypes from './action-types';
 
-const api = new Promise(function (resolve, reject) {
+const api = new Promise((resolve, reject) => {
   console.log('Promise');
+  console.log(reject);
   resolve();
 });
 

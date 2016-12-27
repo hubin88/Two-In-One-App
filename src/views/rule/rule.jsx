@@ -1,21 +1,42 @@
 import React, { Component, PropTypes } from 'react';
 import cssModules from 'react-css-modules';
 import styles from './rule.scss';
-import SingleHtml from '../single-html/single-html';
+
+const config = require('../../../app.config');
 
 @cssModules(styles, { allowMultiple: true, errorWhenNotFound: false })
 export default class Rule extends Component {
-  static defaultProps = {
-    htmlURL: 'rule(规则)h5地址url参数',
-  };
   static propTypes = {
-    htmlURL: PropTypes.string,
+    DC: PropTypes.object,
+    DW: PropTypes.object,
   };
+  constructor(props) {
+    super(props);
+    this.state = {
+      value: 1,
+      DC: config.htmlPage.DC,
+      DW: 'http://120.25.135.199:9003/webstatic/1zjyjy/rule/rule.html',
+    };
+  }
 
+  getRule = () => {
+    let htmls = '';
+
+    if (this.state.value === 1) {
+      htmls = (
+        <iframe src={this.state.DC} />
+      );
+    } else {
+      htmls = (
+        <iframe src="http://120.25.135.199:9003/webstatic/1zjyjy/rule/rule.html" />
+      );
+    }
+    return htmls;
+  };
   render() {
     return (
       <div styleName="rule">
-        <SingleHtml htmlURL={this.props.htmlURL} />
+        {this.getRule()}
       </div>
     );
   }

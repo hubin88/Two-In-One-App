@@ -7,15 +7,17 @@ import SingleHtml from '../single-html/single-html';
 
 export default class Pay extends Component {
   static defaultProps = {
-    htmlURL: 'pay(充值)h5地址url参数',
+    htmlURL: 'http://120.25.135.199:9003/webstatic/1zjyjy/rule/rule.html',
+    title: '充值',
   };
   static propTypes = {
     htmlURL: PropTypes.string,
+    title: PropTypes.string,
   };
 
   render() {
     return (
-      <SingleHtml htmlURL={this.props.htmlURL} />
+      <SingleHtml htmlURL={this.props.htmlURL} title={this.props.title} />
     );
   }
 }
