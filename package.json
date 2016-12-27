@@ -12,7 +12,7 @@
   "scripts": {
     "precommit": "npm run precheck",
     "precheck": "npm run eslint",
-    "eslint": "cross-env NODE_ENV=test eslint --cache --ext .jsx,.js src/",
+    "eslint": "cross-env NODE_ENV=test eslint --cache --fix --ext .jsx,.js src/",
     "csslint": "stylelint src/**/*.scss --syntax scss",
     "start": "webpack-dev-server --config ./dev/webpack.config.js",
     "dstart": "cross-env NODE_ENV=production node ./dev/server.dist.js",
