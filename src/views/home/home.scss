@@ -1,17 +1,20 @@
 .home {
   height: 100%;
   width: 100%;
+  font-family: 微软雅黑;
 }
-.content{
-  height: 100%;
-  width: 100%;
+
+.quotations-choose {
+  border-top: 1.5px solid #F8812C;
+  background-color: #E0EEFF;
 }
+
 .user-property {
-  height: 12%;
+  height: 13%;
   width: 100%;
   padding: .15rem;
   background-color: #FFFFFF;
-  img{
+  img {
     max-height: 100%;
     max-width: 100%;
     vertical-align: middle;
@@ -21,18 +24,23 @@
     vertical-align: middle;
   }
   .property {
-    margin-left: 3%;
+    margin-left: .15rem;
     font-size: .15rem;
-    margin-right: 15%;
   }
   .money {
     color: #ffa040;
   }
-  .button{
-    margin-top: 2%;
-    height: 100%;
+  .button {
+    float: right;
     display: inline-block;
     width: 1.5rem;
+    height: 100%;
+    img {
+      width: 0px;
+      height: 100%;
+      vertical-align: middle;
+      opacity:0;
+    }
   }
   .Recharge,.withdraw  {
     text-align: center;
@@ -41,7 +49,7 @@
     width: .65rem;
     color: #FFFFFF;
     margin-left: .1rem;
-    padding: .06rem 0;
+    padding: 2% 0;
     border-radius: 2px;
   }
   .Recharge {
@@ -53,32 +61,76 @@
 
 }
 .commodity-quotations {
-  height: 12%;
+  height: 13%;
   width: 100%;
   background-color: #E9E9EF;
+  padding-top: .1rem;
   ul {
     height: 100%;
+    background-color: #EFEFF4;
   }
-  ul li{
+  ul li {
     list-style-type: none;
     display: inline-block;
     height: 100%;
     width: 33.33%;
-    vertical-align: middle;
+    //width: 50%;
   }
+  .quotations-info {
+    width: 60%;
+    text-align: center;
+    margin-top: .1rem;
+  }
+  span {
+    display: block;
+
+  }
+
 }
 .trend-chart {
-  height: 60%;
+  height: 56%;
   width: 100%;
-  background-color: #FFFFFF;
+  background-color: red;
 }
 .building-button {
-  height: 12%;
+  height: 13%;
   width: 100%;
-  background-color: #F84142;
+  padding: .08rem .15rem;
+  background-color: #FFFFFF;
+  img {
+    width: 0px;
+    height: 100%;
+    vertical-align: middle;
+    opacity:0;
+  }
+  span {
+    display: inline-block;
+    width: 49%;
+    padding: .12rem;
+    text-align: center;
+    border-radius: 3px;
+    color: #FFFFFF;
+  }
+  .bullish {
+    background-color: #F84142;
+  }
+  .bearish {
+    background-color: #55CF69;
+    margin-left: 2%;
+  }
 }
 .exchange-hour {
-  height: 4%;
+  height: 5%;
   width: 100%;
   background-color: #EFEFF4;
+  text-align: center;
+  img {
+    width: 0px;
+    height: 100%;
+    vertical-align: middle;
+    opacity:0;
+  }
+  span {
+    color: #CACACE;
+  }
 }
