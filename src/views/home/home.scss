@@ -1,4 +1,84 @@
 .home {
   height: 100%;
-  background-color: red;
+  width: 100%;
+}
+.content{
+  height: 100%;
+  width: 100%;
+}
+.user-property {
+  height: 12%;
+  width: 100%;
+  padding: .15rem;
+  background-color: #FFFFFF;
+  img{
+    max-height: 100%;
+    max-width: 100%;
+    vertical-align: middle;
+    border-radius: 5px;
+  }
+  span {
+    vertical-align: middle;
+  }
+  .property {
+    margin-left: 3%;
+    font-size: .15rem;
+    margin-right: 15%;
+  }
+  .money {
+    color: #ffa040;
+  }
+  .button{
+    margin-top: 2%;
+    height: 100%;
+    display: inline-block;
+    width: 1.5rem;
+  }
+  .Recharge,.withdraw  {
+    text-align: center;
+    font-size: .15rem;
+    display: inline-block;
+    width: .65rem;
+    color: #FFFFFF;
+    margin-left: .1rem;
+    padding: .06rem 0;
+    border-radius: 2px;
+  }
+  .Recharge {
+    background-color: #FE8228;
+  }
+  .withdraw {
+    background-color: #6FA0F5;
+  }
+
+}
+.commodity-quotations {
+  height: 12%;
+  width: 100%;
+  background-color: #E9E9EF;
+  ul {
+    height: 100%;
+  }
+  ul li{
+    list-style-type: none;
+    display: inline-block;
+    height: 100%;
+    width: 33.33%;
+    vertical-align: middle;
+  }
+}
+.trend-chart {
+  height: 60%;
+  width: 100%;
+  background-color: #FFFFFF;
+}
+.building-button {
+  height: 12%;
+  width: 100%;
+  background-color: #F84142;
+}
+.exchange-hour {
+  height: 4%;
+  width: 100%;
+  background-color: #EFEFF4;
 }

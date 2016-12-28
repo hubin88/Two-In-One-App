@@ -46,7 +46,7 @@ const initSystemInfo = {
   avatarURL: require('../images/me_image_avator@3x.png'),      // 头像
   nickName: '',           // 昵称
   navList: {              // 底部导航栏数据
-    home: { name: 'home', label: '首页', direction: '/home' },
+    home: { name: 'home', label: '交易', direction: '/home' },
     track: { name: 'track', label: '轨迹', direction: '/track' },
     rule: { name: 'rule', label: '规则', direction: '/rule' },
     user: { name: 'user', label: '我', direction: '/user' },
