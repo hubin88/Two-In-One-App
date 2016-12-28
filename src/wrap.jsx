@@ -29,10 +29,10 @@ const history = syncHistoryWithStore(browserHistory, store);
 
 const checkLogin = (nextState, replace) => {
   // alert('定义未登录时的钩子');
-  // const i = 0;
-  // if (i === 0) {
-  //   replace({ pathname: '/login', search: `?source=${nextState.location.pathname.slice(1)}` });
-  // }
+  const i = 0;
+  if (i !== 0) {
+    replace({ pathname: '/login', search: `?source=${nextState.location.pathname.slice(1)}` });
+  }
 };
 
 const StoreWrap = () => (
