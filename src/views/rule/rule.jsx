@@ -15,27 +15,30 @@ export default class Rule extends Component {
     this.state = {
       value: 1,
       DC: config.htmlPage.DC,
-      DW: 'http://120.25.135.199:9003/webstatic/1zjyjy/rule/rule.html',
+      DW: config.htmlPage.DW,
     };
+  }
+
+  componentWillMount() {
+    console.log(11);
   }
 
   getRule = () => {
     let htmls = '';
-
     if (this.state.value === 1) {
       htmls = (
         <iframe src={this.state.DC} />
       );
     } else {
       htmls = (
-        <iframe src="http://120.25.135.199:9003/webstatic/1zjyjy/rule/rule.html" />
+        <iframe src={this.state.DW} />
       );
     }
     return htmls;
   };
   render() {
     return (
-      <div styleName="rule">
+      <div styleName="rules">
         {this.getRule()}
       </div>
     );

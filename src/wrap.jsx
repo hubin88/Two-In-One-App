@@ -15,6 +15,7 @@ import Register from './views/sign/register';
 import Reset from './views/sign/reset';
 import Pay from './views/check-channel/pay';
 import Withdraw from './views/check-channel/withdraw';
+import Gold from './views/check-channel/gold';
 
 const store = DEBUG ? createStore(
   rootReducer,
@@ -27,11 +28,11 @@ const store = DEBUG ? createStore(
 const history = syncHistoryWithStore(browserHistory, store);
 
 const checkLogin = (nextState, replace) => {
-  alert('定义未登录时的钩子');
-  const i = 0;
-  if (i === 0) {
-    replace({ pathname: '/login', search: `?source=${nextState.location.pathname.slice(1)}` });
-  }
+  // alert('定义未登录时的钩子');
+  // const i = 0;
+  // if (i === 0) {
+  //   replace({ pathname: '/login', search: `?source=${nextState.location.pathname.slice(1)}` });
+  // }
 };
 
 const StoreWrap = () => (
@@ -42,6 +43,7 @@ const StoreWrap = () => (
       <Route path="/password_reset" component={Reset} />
       <Route path="/pay" component={Pay} onEnter={checkLogin} />
       <Route path="/withdraw" component={Withdraw} onEnter={checkLogin} />
+      <Route path="/gold" component={Gold} onEnter={checkLogin} />
       <Route path="/" component={App}>
         <IndexRoute component={Home} />
         <Route path="/home" component={Home} />

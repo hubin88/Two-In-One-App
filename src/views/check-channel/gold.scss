@@ -1,17 +1,6 @@
-/**
- * Created by Amg on 2016/12/26.
- */
-
-.single-html {
-  width: 100%;
+.gold{
+  background: #f2f2f2;
   height: 100%;
-  -webkit-overflow-scrolling:touch;
-  overflow:auto;
-
-  iframe {
-    width: 100%;
-    height: 100%;
-  }
 }
 .titleName{
   text-align: center;
@@ -21,7 +10,6 @@
   color: #fff;
   line-height: .4rem;
   font-size: .2rem;
-  //position: absolute;
 }
 .titleName span{
   display: inline-block;
@@ -32,5 +20,26 @@
   width: 16px;
   height: 30px;
   float: left;
-  margin: 5px 0 5px 10px
+  margin: 5px 10px;
+}
+.mains{
+  border-bottom: 1px solid #efecec;
+  background: #fff;
+  padding: .1rem;
+}
+.mains>div{
+  display: inline-block;
+  width: 50%;
+  line-height: .3rem;
+}
+.mainRight{
+  text-align: right;
+}
+.mains i{
+  display: inline-block;
+}
+
+.notMore{
+  margin: .2rem 0;
+  text-align: center;
 }

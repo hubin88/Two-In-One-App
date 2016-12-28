@@ -28,7 +28,7 @@ const config = {
   ],
   htmlPage: {
     DC: 'http://120.25.135.199:9003/webstatic/1zjyjy/rule/rule.html',
-    DW: 'http://120.25.135.199:9003/webstatic/1zjyjy/rule/rule.html',
+    DW: 'http://www.baidu.com',
   },
   entry: './src/index',
 };

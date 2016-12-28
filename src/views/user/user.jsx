@@ -21,6 +21,7 @@ class User extends Component {
           <div style={{ position: 'fixed', top: '10px', left: '10px' }}>
             <Link to="/pay"><span>充值</span></Link>
             <Link to="/withdraw"><span>提现</span></Link>
+            <Link to="/gold"><span>出入金记录</span></Link>
           </div>
           <div styleName="avatar">
             <img src={avatarURL} alt="" />

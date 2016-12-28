@@ -8,8 +8,8 @@ import styles from './single-html.scss';
 
 class SingleHtml extends Component {
   static propTypes = {
-    htmlURL: PropTypes.string.isRequired,
-    title: PropTypes.string.isRequired,
+    htmlURL: PropTypes.string,
+    title: PropTypes.string,
     onCloseCallback: PropTypes.func,
   };
   toUpper = () => {
@@ -19,9 +19,8 @@ class SingleHtml extends Component {
   render() {
     return (
       <div styleName="single-html">
-        <input type="button" styleName="close" onClick={this.toUpper} />
         <div styleName="titleName">
-
+          <input type="button" styleName="close" onClick={this.toUpper} />
           <span>{this.props.title}</span>
         </div>
         <iframe src={this.props.htmlURL} />

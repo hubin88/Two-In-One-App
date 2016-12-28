@@ -2,9 +2,12 @@ i{
   font-style: normal;
 }
 .track{
-  height: 100%;
-  padding: .2rem .15rem;
+  //height: 100%;
+  //padding: 0 .15rem;
   background-color: #fff;
+}
+.main{
+  padding: .15rem .15rem 0 .15rem;
 }
 .mains{
   border-bottom: 1px solid #efecec;
@@ -17,6 +20,9 @@ i{
 .mains i{
   width: .6rem;
   display: inline-block;
+}
+.mains>div:nth-child(odd) i{
+  width: .5rem;
 }
 .mains p{
   margin: .1rem 0;
