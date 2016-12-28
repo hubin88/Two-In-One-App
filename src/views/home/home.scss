@@ -4,6 +4,14 @@
   font-family: 微软雅黑;
 }
 
+.haveHold{
+  height: 41%;
+}
+
+.noHaveHold{
+  height: 56%;
+}
+
 .quotations-choose {
   border-top: 1.5px solid #F8812C;
   background-color: #E0EEFF;
@@ -14,6 +22,7 @@
   width: 100%;
   padding: .15rem;
   background-color: #FFFFFF;
+  margin-bottom: 2%;
   img {
     max-height: 100%;
     max-width: 100%;
@@ -61,10 +70,8 @@
 
 }
 .commodity-quotations {
-  height: 13%;
+  height: 11%;
   width: 100%;
-  background-color: #E9E9EF;
-  padding-top: .1rem;
   ul {
     height: 100%;
     background-color: #EFEFF4;
@@ -83,12 +90,11 @@
   }
   span {
     display: block;
-
   }
 
 }
 .trend-chart {
-  height: 56%;
+  //height: 56%;
   width: 100%;
   background-color: red;
 }
@@ -132,5 +138,6 @@
   }
   span {
     color: #CACACE;
+    font-size: .1rem;
   }
 }

@@ -1,9 +1,8 @@
 import * as ActionTypes from './action-types';
 
 const api = new Promise((resolve, reject) => {
-  console.log('Promise');
-  console.log(reject);
   resolve();
+  reject();
 });
 
 /* === 获取交易所列表 === */
