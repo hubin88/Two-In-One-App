@@ -1,0 +1,50 @@
+.property {
+  height: 13%;
+  width: 100%;
+  padding: .15rem;
+  background-color: #FFFFFF;
+  img {
+    max-height: 100%;
+    max-width: 100%;
+    vertical-align: middle;
+    border-radius: 5px;
+  }
+  span {
+    vertical-align: middle;
+  }
+  .property-str {
+    margin-left: .15rem;
+    font-size: .15rem;
+  }
+  .money {
+    color: #ffa040;
+  }
+  .button {
+    float: right;
+    display: inline-block;
+    width: 1.5rem;
+    height: 100%;
+    img {
+      width: 0px;
+      height: 100%;
+      vertical-align: middle;
+      opacity:0;
+    }
+  }
+  .Recharge,.withdraw  {
+    text-align: center;
+    font-size: .15rem;
+    display: inline-block;
+    width: .65rem;
+    color: #FFFFFF;
+    margin-left: .1rem;
+    padding: 2% 0;
+    border-radius: 2px;
+  }
+  .Recharge {
+    background-color: #FE8228;
+  }
+  .withdraw {
+    background-color: #6FA0F5;
+  }
+}

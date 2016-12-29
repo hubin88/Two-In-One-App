@@ -2,88 +2,83 @@ import React, { Component } from 'react';
 import cssModules from 'react-css-modules';
 import { connect } from 'react-redux';
 import Hold from '../../components/hold/hold';
+import Property from './property';
+import Chart from './chart';
 import styles from './home.scss';
 
 @cssModules(styles, { allowMultiple: true, errorWhenNotFound: false })
 class Home extends Component {
   static defaultProps = {};
+  state = {
+    hold: false,
+    holdHeader: [],
+    holdRecoder: [],
+    holdKey: [],
+  };
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      quotations: [
-        { name: '白银', value: '4380' },
-        { name: '刚玉', value: '3342' },
-        { name: '塑料', value: '1335' },
-      ],
-      hold: false,
-    };
+  holdHeader = {
+    dcb: ['名称', '数量', '建仓价', '定金', '止盈止损'],
+    dwb: ['名称', '数量', '建仓价', '盈亏', '操作'],
+  }
+  holdRecoder = {
+    dcb: [
+      { a: '亚太银', b: '2', c: '3732', d: '10.00', e: '5' },
+      { a: '亚太银', b: '2', c: '3732', d: '10.00', e: '5' },
+      { a: '亚太银', b: '2', c: '3732', d: '10.00', e: '5' },
+      { a: '亚太银', b: '2', c: '3732', d: '10.00', e: '5' },
+      { a: '亚太银', b: '2', c: '3732', d: '10.00', e: '5' },
+    ],
+    dwb: [
+      { a: '亚太银', b: '2', c: '3732', d: '-5' },
+      { a: '亚太银', b: '2', c: '3732', d: '-5' },
+      { a: '亚太银', b: '2', c: '3732', d: '-5' },
+    ],
+  }
+  holdKey = {
+    dcb: ['a', 'b', 'c', 'd', 'e'],
+    dwb: ['a', 'b', 'c', 'd'],
   }
 
-  haveHold = () => {
+  haveHold = (str) => {
     if (this.state.hold) {
-      this.setState({ hold: false });
+      this.setState({ hold: false, holdHeader: [], holdRecoder: [], holdKey: [] });
       return;
     }
-    this.setState({ hold: true });
+    this.setState({
+      hold: true,
+      holdHeader: this.holdHeader[str],
+      holdRecoder: this.holdRecoder[str],
+      holdKey: this.holdKey[str],
+    });
     return;
   }
 
-  renderProperty() {
-    return (
-      <div styleName="user-property">
-        <img src={require('../../images/touxiang.jpg')} alt="" />
-        <span styleName="property">总资产<b styleName="money">68.50</b>元</span>
-        <div styleName="button">
-          <img src="" alt="" />
-          <span styleName="Recharge">充值</span>
-          <span styleName="withdraw">提现</span>
-        </div>
-      </div>
-    );
-  }
-
-  renderQuotations() {
-    return (
-      <div styleName="commodity-quotations">
-        <ul>
-          {this.state.quotations.map((quotations, index) =>
-            <li key={index}>
-              <div styleName="quotations-info">
-                <span>{quotations.name}</span>
-                <span>{quotations.value}</span>
-              </div>
-              <div>
-                <img src="" alt="" />
-              </div>
-            </li>
-          )}
-        </ul>
-      </div>
-    );
-  }
-
-  renderChart() {
-    const haveHold = `${this.state.hold ? 'haveHold' : 'noHaveHold'}`;
-    return (
-      <div styleName={`trend-chart ${haveHold}`}>走势图</div>
-    );
+  // 根据首页持仓列表计算分时图高度
+  chartHeight = () => {
+    if (this.state.holdRecoder.length >= 2) return '55%';
+    if (this.state.holdRecoder.length === 1) return '60%';
+    return '70%';
   }
 
   renderBuildingButton() {
     return (
       <div styleName="building-button">
         <img src="" alt="" />
-        <span styleName="bullish" onClick={this.haveHold}>看涨</span>
-        <span styleName="bearish">看跌</span>
+        <span styleName="bullish" onClick={() => this.haveHold('dcb')}>看涨</span>
+        <span styleName="bearish" onClick={() => this.haveHold('dwb')}>看跌</span>
       </div>
     );
   }
 
+  // 如果持仓大于零 显示持仓列表
   renderHold() {
-    if (this.state.hold) {
+    if (this.state.holdRecoder.length > 0) {
       return (
-        <Hold stylename />
+        <Hold
+          holdHeader={this.state.holdHeader}
+          holdRecoder={this.state.holdRecoder}
+          holdKey={this.state.holdKey}
+        />
       );
     }
     return null;
@@ -92,9 +87,8 @@ class Home extends Component {
   render() {
     return (
       <div styleName="home">
-        {this.renderProperty()}
-        {this.renderQuotations()}
-        {this.renderChart()}
+        <Property />
+        <Chart chartHeight={this.chartHeight()} />
         {this.renderBuildingButton()}
         <div styleName="exchange-hour">
           <img src="" alt="" />
@@ -105,7 +99,6 @@ class Home extends Component {
     );
   }
 }
-
 
 function mapStateToProps(state) {
   return {
