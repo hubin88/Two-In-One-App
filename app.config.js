@@ -1,11 +1,11 @@
 const config = {
   server: {
-    host: '192.168.1.127', // IP 地址
+    host: 'localhost', // IP 地址
     port: 9000, // 端口号
   },
   copyFile: [
     // { from: './single_part', to: './' },
-    // { from: './config.js', to: './config.js' },
+    { from: './config.js', to: './config.js' },
   ],
   html: [
     {
@@ -14,7 +14,7 @@ const config = {
         // './static/bootstrap_part.min.css',
       ],
       scripts: [
-        // './config.js',
+        './config.js',
         // `./js/index.entry.js`,
         './static/polyfill.min.js',
       ],

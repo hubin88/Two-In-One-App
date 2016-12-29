@@ -1,3 +1,9 @@
 /**
  * Created by Amg on 2016/12/26.
  */
+
+export const REQUEST_MARKET_INFO = 'REQUEST_MARKET_INFO';
+
+export const SUCCESS_MARKET_INFO = 'SUCCESS_MARKET_INFO';
+
+export const ERROR_MARKET_INFO = 'ERROR_MARKET_INFO';

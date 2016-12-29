@@ -22,5 +22,6 @@ module.exports = {
   ],
   "globals": {
     "DEBUG":true,
+    "BASE_SERVER":true,
   }
 };

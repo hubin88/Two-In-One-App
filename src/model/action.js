@@ -1,8 +1,7 @@
 import * as ActionTypes from './action-types';
 
-const api = new Promise((resolve, reject) => {
+const api = new Promise((resolve) => {
   resolve();
-  reject();
 });
 
 /* === 获取交易所列表 === */
@@ -163,3 +162,30 @@ export function reset() {
   };
 }
 /* ===重置密码=== */
+
+
+/* === 登出 === */
+export function requestLogout() {
+  return {
+    type: ActionTypes.REQUEST_LOGOUT,
+  };
+}
+export function successLogout() {
+  return {
+    type: ActionTypes.SUCCESS_LOGOUT,
+  };
+}
+export function errorLogout() {
+  return {
+    type: ActionTypes.ERROR_LOGOUT,
+  };
+}
+export function logout() {
+  return function wrap(dispatch) {
+    dispatch(requestLogout());
+    return api
+      .then(() => dispatch(successLogout()))
+      .catch(() => dispatch(errorLogout()));
+  };
+}
+/* === 登出 === */

@@ -1,5 +1,7 @@
 @import "../valViews";
 
+$padding: .1rem;
+
 .user {
   height: 100%;
   width: 100%;
@@ -7,25 +9,23 @@
 }
 
 .info {
-  height: 42%;
   width: 100%;
-  padding: 3%;
   background-color: $bgColor;
 }
 
 .avatar {
-  position: relative;
-  height: 40%;
   text-align: center;
+  padding-top: $padding;
+  font-size: 0;
+
   img {
-    height: 100%;
+    height: .8rem;
   }
 }
 
 .middle {
-  height: 30%;
   width: 100%;
-  padding: .18rem 25% 0;
+  padding: $padding 25% 0;
   font-size: .15rem;
   font-weight: bold;
 
@@ -54,10 +54,13 @@
     height: 100%;
     text-align: center;
   }
+  a {
+    color: inherit;
+  }
 }
 
 .asset {
-  height: 30%;
+  padding: 2*$padding 0;
   width: 100%;
 }
 
@@ -76,8 +79,56 @@
   font-weight: bold;
 }
 
-.asset-name {
+.check-channel {
+  height: .4rem;
+  width: 100%;
+  background: #fff;
+  li {
+    text-align: center;
+    vertical-align: middle;
+  }
+}
+
+@mixin bg-image($names,$ratio:1) {
+  @each $cls, $name in $names {
+    $ratioString: if($ratio != 1, "@#{$ratio}x", "");
+    @if $name {
+      #{$cls} {
+        background-image: url(#{$name}#{$ratioString}.png);
+      }
+    } @else {
+      background-image: url(#{$cls}#{$ratioString}.png);
+    }
+  }
+}
+
+@mixin channel-image($names,$ratios) {
+  @each $r in $ratios {
+    @if $r != 1 {
+      @media only screen and (-webkit-min-device-pixel-ratio: $r) {
+        @include bg-image($names, $r);
+      }
+    } @else {
+      @include bg-image($names);
+    }
+  }
+}
+
+@mixin channel-images($names) {
+  @include channel-image($names, (2, 3));
+}
+
+@each $ddd in 'pay', 'withdraw' {
+  .channel-#{$ddd} {
+
+  }
 
 }
+
+// sample 1
+@include channel-images((
+        '.channel-pay': '../../images/me_icon_pay',
+        '.channel-withdraw': '../../images/me_icon_withdraw'
+));
 
 
