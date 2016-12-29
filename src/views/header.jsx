@@ -20,7 +20,7 @@ export default class Header extends Component {
         this.props.dispatch(changeSystem('DWB'));
         break;
       default:
-        alert('err');
+        console.log('err');
     }
   };
 

@@ -52,3 +52,7 @@ export const REQUEST_CHANGE_SYSTEM = 'REQUEST_CHANGE_SYSTEM';
 export const SUCCESS_CHANGE_SYSTEM = 'SUCCESS_CHANGE_SYSTEM';
 
 export const ERROR_CHANGE_SYSTEM = 'ERROR_CHANGE_SYSTEM';
+
+export const GET_APP_NAME = Symbol();
+
+export const DOWN_LOAD_URL = Symbol();

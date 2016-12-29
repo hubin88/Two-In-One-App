@@ -15,7 +15,7 @@ const config = {
       ],
       scripts: [
         './config.js',
-        // `./js/index.entry.js`,
+        './static/md5.js',
         './static/polyfill.min.js',
       ],
       meta: [

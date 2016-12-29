@@ -58,8 +58,8 @@ class User extends Component {
               isLogin ?
                 <div><span>{nickName}</span></div> :
                 <div>
-                  <button><Link to="/join">注册</Link></button>
-                  <button><Link to="/login">登录</Link></button>
+                  <button><Link to="/register"><span>注册</span></Link></button>
+                  <button><Link to="/login"><span>登录</span></Link></button>
                 </div>
             }
           </div>

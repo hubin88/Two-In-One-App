@@ -1,6 +1,10 @@
 import * as ActionTypes from './action-types';
+import Api from '../server/api';
+import Tips from '../views/sign/cummon/tips';
 
-const api = new Promise((resolve) => {
+const api = new Promise((resolve, reject) => {
+  console.log('Promise');
+  console.log(reject);
   resolve();
 });
 
@@ -162,30 +166,17 @@ export function reset() {
   };
 }
 /* ===重置密码=== */
-
-
-/* === 登出 === */
-export function requestLogout() {
+export function downLoadUrl(url) {
   return {
-    type: ActionTypes.REQUEST_LOGOUT,
+    type: ActionTypes.DOWN_LOAD_URL,
+    url,
   };
 }
-export function successLogout() {
-  return {
-    type: ActionTypes.SUCCESS_LOGOUT,
-  };
+export function getDownLoadUrl(options) {
+  return dispatch => Api.getDownLoadUrl(options).then((json) => {
+    if (json.code === 0) {
+      return dispatch(downLoadUrl(json.result.downUrl));
+    }
+    return Tips.show(json.message);
+  });
 }
-export function errorLogout() {
-  return {
-    type: ActionTypes.ERROR_LOGOUT,
-  };
-}
-export function logout() {
-  return function wrap(dispatch) {
-    dispatch(requestLogout());
-    return api
-      .then(() => dispatch(successLogout()))
-      .catch(() => dispatch(errorLogout()));
-  };
-}
-/* === 登出 === */

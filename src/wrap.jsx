@@ -10,6 +10,7 @@ import Home from './views/home/home';
 import Track from './views/track/track';
 import Rule from './views/rule/rule';
 import User from './views/user/user';
+import Personal from './views/sign/personal';
 import Login from './views/sign/login';
 import Register from './views/sign/register';
 import Reset from './views/sign/reset';
@@ -38,9 +39,12 @@ const checkLogin = (nextState, replace) => {
 const StoreWrap = () => (
   <Provider store={store}>
     <Router history={history}>
-      <Route path="/login" component={Login} />
-      <Route path="/join" component={Register} />
-      <Route path="/password_reset" component={Reset} />
+      <Route path="/login" component={Personal}>
+        <IndexRoute component={Login} />
+        <Route path="/login" component={Login} />
+        <Route path="/register" component={Register} />
+        <Route path="/reset" component={Reset} />
+      </Route>
       <Route path="/pay" component={Pay} onEnter={checkLogin} />
       <Route path="/withdraw" component={Withdraw} onEnter={checkLogin} />
       <Route path="/gold" component={Gold} onEnter={checkLogin} />

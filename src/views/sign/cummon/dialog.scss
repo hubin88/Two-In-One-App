@@ -1,0 +1,68 @@
+//@import '../css/var';
+
+.overlay {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  background-color: #000;
+  opacity: 0.3;
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=30);
+}
+
+.title {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 0.9rem;
+  font-size: 0.4rem;
+  font-weight: bold;
+  border-bottom: 0.01rem solid #ccc;
+  text-align: center;
+  line-height: 0.9rem;
+}
+
+.close {
+  position: absolute;
+  bottom: -0.7rem;
+  width: 100%;
+  .close-btn {
+    display: block;
+    margin: 0 auto;
+    width: 0.5rem;
+    height: 0.5rem;
+    background: url('../../../images/close@2x.png') no-repeat center center;
+    border: 0;
+    opacity: 0.6;
+    filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=60);
+  }
+}
+
+.content {
+  display: block;
+  height: 100%;
+  box-sizing: border-box;
+  padding: 1.2rem 0 0.2rem;
+  .cell {
+    height: 100%;
+    vertical-align: middle;
+    padding: 0 0.2rem;
+    color: #606060;
+    font-size: 0.16rem;
+    line-height: 0.3rem;
+    word-break: normal;
+    word-wrap: break-word;
+    overflow-y: auto;
+  }
+}
+
+.dialog {
+  width: 90%;
+  box-shadow: 0 .08rem 0 rgba(0, 0, 0, 0.5);
+  position: absolute;
+  top: 0.7rem;
+  background: #fff;
+  border-radius: 0.1rem;
+}

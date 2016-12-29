@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux';
 import { routerReducer } from 'react-router-redux';
 import * as ActionTypes from './action-types';
+import { getQueryString, getDevice } from '../server/tools';
 import { Cookie } from '../ultils/tools';
 
 // 交易所的信息
@@ -79,8 +80,32 @@ function systemInfo(state = initSystemInfo, action) {
     }
   }
 }
+
+const initState = {
+  orgId: getQueryString('organization') || '62',
+  exchangecode: getQueryString('exchangecode') || '10',
+  deviceType: getDevice(),
+};
+
+function appState(state = initState, action) {
+  switch (action.type) {
+    default:
+      return state;
+  }
+}
+
+function registerState(state = initState, action) {
+  switch (action.type) {
+    case ActionTypes.DOWN_LOAD_URL:
+      return { ...state, downLoadUrl: action.url };
+    default:
+      return state;
+  }
+}
 export default combineReducers({
   exchangeInfo,
   systemInfo,
+  appState,
+  registerState,
   routing: routerReducer,
 });
