@@ -55,6 +55,7 @@
     "file-loader": "^0.9.0",
     "html-webpack-plugin": "^2.16.0",
     "http-rewrite-middleware": "^0.1.6",
+    "husky": "^0.12.0",
     "node-sass": "^3.10.0",
     "postcss-loader": "^1.2.0",
     "precss": "^1.4.0",
