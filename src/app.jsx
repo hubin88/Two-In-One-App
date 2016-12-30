@@ -27,7 +27,7 @@ class App extends Component {
         <header>
           <Header dispatch={dispatch} systemList={systemList} />
         </header>
-        <section>
+        <section id="section">
           {this.props.children}
         </section>
         <footer>

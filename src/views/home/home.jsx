@@ -16,6 +16,7 @@ class Home extends Component {
     holdKey: [],
   };
 
+  // 模拟数据 ##################################################
   holdHeader = {
     dcb: ['名称', '数量', '建仓价', '定金', '止盈止损'],
     dwb: ['名称', '数量', '建仓价', '盈亏', '操作'],
@@ -38,6 +39,7 @@ class Home extends Component {
     dcb: ['a', 'b', 'c', 'd', 'e'],
     dwb: ['a', 'b', 'c', 'd'],
   }
+  // ###########################################
 
   haveHold = (str) => {
     if (this.state.hold) {

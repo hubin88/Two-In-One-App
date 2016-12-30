@@ -4,18 +4,20 @@
 
 import React, { Component, PropTypes } from 'react';
 import cssModules from 'react-css-modules';
+import CloseOut from '../close-out/close-out';
 import styles from './hold.scss';
 
 @cssModules(styles, { allowMultiple: true, errorWhenNotFound: false })
 class Hold extends Component {
   static propTypes = {
+    dispatch: PropTypes.func,
     holdHeader: PropTypes.array,
     holdRecoder: PropTypes.array,
     holdKey: PropTypes.array,
   }
 
-  closeOut = () => {
-    alert('平仓');
+  onCloseOut = () => {
+    CloseOut.show({ dispatch: this.props.dispatch });
   }
 
   // 持仓列表 表头
@@ -58,7 +60,7 @@ class Hold extends Component {
               {this.props.holdKey.map((key, keyIndex) =>
                 <td key={keyIndex}>{recoder[key]}</td>
               )}
-              <td><span styleName="close-out" onClick={this.closeOut}>平仓</span></td>
+              <td><span styleName="close-out" onClick={this.onCloseOut}>平仓</span></td>
             </tr>
           </tbody>
         </table>
