@@ -23,8 +23,6 @@ module.exports = {
   "globals": {
     DEBUG: true,
     BASE_SERVER:true,
-    AJAX_URL: true,
-    NORMAL_SERVER: true,
     hex_md5:true,
   }
 };

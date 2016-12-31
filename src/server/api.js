@@ -27,13 +27,9 @@ export default class Api {
     return postJSON('register', common(options), Api.register.name);
   }
 
-  static registerSubmit(opts, flag, path, url) {
+  static registerSubmit(opts, path) {
     Api.register(opts).then((json) => {
-      if (json.code !== 0) {
-        if (flag) {
-          window.location.href = url;
-          return false;
-        }
+      if (json.code === 0) {
         browserHistory.push(path);
         return false;
       }
@@ -44,6 +40,11 @@ export default class Api {
   // 获取下载链接
   static getDownLoadUrl(options) {
     return postJSON('queryRegistInfo', common(options), Api.getDownLoadUrl.name);
+  }
+
+  // 获取机构信息
+  static getOrgInfo(options) {
+    return postJSON('getOrgs', common(options), Api.getOrgInfo.name);
   }
 
   // 登录

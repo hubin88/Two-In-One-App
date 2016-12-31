@@ -34,7 +34,7 @@ export function isEmpty(strValue) {
   return false;
 }
 export function getCodeAgain(_this) {
-  let TIME = 5;
+  let TIME = 60;
   _this.setState({ codeBtnValue: `${TIME}秒后重新获取`, isCodeRequest: false });
   function doTimer() {
     if (TIME > 0) {

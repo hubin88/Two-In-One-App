@@ -1,9 +1,10 @@
 /**
  * Created by admin on 2016/12/27.
  */
-// import 'fetch-ie8';
+import 'fetch-ie8';
 
 export const common = d => ({ params: { ...d } });
+const systemType = 'DCB';
 function ajaxJSON(url, obj, name) {
   const postData = (typeof obj === 'object') ? JSON.stringify(obj) : obj;
   return fetch(`${url}?${name}`, {
@@ -17,5 +18,5 @@ function ajaxJSON(url, obj, name) {
 }
 
 export function postJSON(url, obj, name = 'test') {
-  return ajaxJSON(`${AJAX_URL}${url}`, obj, name);
+  return ajaxJSON(`${BASE_SERVER[systemType]}${url}`, obj, name);
 }

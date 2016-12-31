@@ -27,5 +27,5 @@ html
             if (typeof sItem == 'string' || sItem instanceof String)
                 - sItem = {src:sItem}
             script(type='text/javascript')&attributes(sItem)
-        each file in htmlWebpackPlugin.files.chunks
-            script(type='text/javascript',src=file.entry)
+        //each file in htmlWebpackPlugin.files.chunks
+        //    script(type='text/javascript',src=file.entry)

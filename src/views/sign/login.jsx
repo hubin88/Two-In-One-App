@@ -4,7 +4,9 @@ import { Link } from 'react-router';
 import cssModules from 'react-css-modules';
 import styles from './login.scss';
 import Api from '../../server/api';
+// import SignApi from '../../server/api/sign-api';
 import { regAccount, regPassword } from '../../server/tools';
+// import Tips from './cummon/tips';
 
 @cssModules(styles, { allowMultiple: true, errorWhenNotFound: false })
 class Login extends Component {
@@ -74,6 +76,13 @@ class Login extends Component {
       password: hex_md5(this.password.value),
     };
     Api.loginSubmit(options, '/');
+    // SignApi.login(options).then((json) => {
+    //   if (json.code === 0) {
+    //     browserHistory.push('/');
+    //     return false;
+    //   }
+    //   return Tips.show(json.message);
+    // });
   };
 
   render() {

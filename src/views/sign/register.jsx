@@ -1,11 +1,11 @@
 import React, { Component, PropTypes } from 'react';
-import { connect } from 'react-redux';
 import cssModules from 'react-css-modules';
+import { connect } from 'react-redux';
 import styles from './register.scss';
 import Dialog from './cummon/dialog';
+// import Tips from './cummon/tips';
 import { text } from '../../server/text';
 import Api from '../../server/api';
-import { getDownLoadUrl } from '../../model/action';
 import { regAccount, regPassword, regCode } from '../../server/tools';
 
 @cssModules(styles, { allowMultiple: true, errorWhenNotFound: false })
@@ -25,17 +25,7 @@ class Register extends Component {
       isCodeRequest: false, // 验证码按钮是否可以点击
       isCodeRight: false, // 验证码是否正确
       codeBtnValue: '获取短信验证码',
-      brokerId: '1',
     };
-  }
-
-  componentDidMount() {
-    const { registerState, dispatch } = this.props;
-    const options = {
-      exchangecode: registerState.exchangecode,
-      type: registerState.deviceType,
-    };
-    dispatch(getDownLoadUrl(options));
   }
 
   showAgreement = () => {
@@ -98,10 +88,9 @@ class Register extends Component {
   registerGetCode = (e) => {
     e.stopPropagation();
     e.preventDefault();
-    const { appState } = this.props;
     if (!this.state.isCodeRequest) return;
     const options = {
-      orgId: appState.orgId,
+      orgId: this.props.appState.orgId,
       mobile: this.account.value,
       sendType: '1',
     };
@@ -111,30 +100,24 @@ class Register extends Component {
   submit = (e) => {
     e.stopPropagation();
     e.preventDefault();
-    const { appState, registerState } = this.props;
     const isSubmit = this.state.isAccountRight && this.state.isPassWordRight && this.state.isCodeRight;
     if (!isSubmit) return;
-    const flag = this.state.brokerId;
     const options = {
-      orgId: appState.orgId,
+      orgId: this.props.appState.orgId,
       mobile: this.account.value,
-      newPwdOne: hex_md5(this.password.value),
+      password: hex_md5(this.password.value),
       valiCode: this.code.value,
-      brokerId: this.state.brokerId,
       channelType: 'app',
     };
-    Api.registerSubmit(options, flag, '/', registerState.downLoadUrl);
+    Api.registerSubmit(options, '/');
   };
 
   render() {
-    const { appState } = this.props;
     const isSubmit = this.state.isAccountRight && this.state.isPassWordRight && this.state.isCodeRight;
     return (
       <div styleName="register-box">
         <div styleName="title">手机号注册</div>
         <form styleName="form-register" autoComplete="off">
-          {appState.orgId ?
-            <div styleName="organization">{appState.orgId}</div> : null}
           <div styleName="account">
             <label htmlFor="account">
               <input
@@ -194,7 +177,8 @@ class Register extends Component {
 function mapStateToProps(state) {
   return {
     appState: state.appState,
-    registerState: state.registerState,
   };
 }
+
 export default connect(mapStateToProps)(Register);
+

@@ -100,7 +100,6 @@ class User extends Component {
 
 function mapStateToProps(state) {
   return {
-    appState: state.appState,
     exchangeInfo: state.exchangeInfo,
     systemInfo: state.systemInfo,
   };

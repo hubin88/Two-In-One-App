@@ -1,6 +1,5 @@
 import * as ActionTypes from './action-types';
-import Api from '../server/api';
-import Tips from '../views/sign/cummon/tips';
+
 
 const api = new Promise((resolve, reject) => {
   console.log('Promise');
@@ -166,17 +165,3 @@ export function reset() {
   };
 }
 /* ===重置密码=== */
-export function downLoadUrl(url) {
-  return {
-    type: ActionTypes.DOWN_LOAD_URL,
-    url,
-  };
-}
-export function getDownLoadUrl(options) {
-  return dispatch => Api.getDownLoadUrl(options).then((json) => {
-    if (json.code === 0) {
-      return dispatch(downLoadUrl(json.result.downUrl));
-    }
-    return Tips.show(json.message);
-  });
-}
