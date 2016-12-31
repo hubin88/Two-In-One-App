@@ -78,10 +78,10 @@ class Login extends Component {
     Api.loginSubmit(options, '/');
     // SignApi.login(options).then((json) => {
     //   if (json.code === 0) {
-    //     browserHistory.push('/');
+    //     // browserHistory.push('/');
     //     return false;
     //   }
-    //   return Tips.show(json.message);
+    //   // return Tips.show(json.message);
     // });
   };
 

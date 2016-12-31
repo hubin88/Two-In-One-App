@@ -46,7 +46,7 @@ function ajax(url, obj, systemType, name) {
 }
 
 function postJSON(pre, pos, obj, name = 'test') {
-  const systemType = AppConfig.systemType();
+  const systemType = AppConfig.systemType() || 'DCB';
   const url = `${BASE_SERVER[systemType]}${pre[systemType]}${pos}`;
   const postData = postDataFormat(systemType)(obj, name);
   return ajax(url, postData, systemType, name);
