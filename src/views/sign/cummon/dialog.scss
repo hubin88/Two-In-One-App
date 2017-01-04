@@ -54,7 +54,8 @@
     line-height: 0.3rem;
     word-break: normal;
     word-wrap: break-word;
-    overflow-y: auto;
+    overflow: scroll;
+    -webkit-overflow-scrolling: touch;
   }
 }
 

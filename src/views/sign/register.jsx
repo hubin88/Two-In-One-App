@@ -3,10 +3,9 @@ import cssModules from 'react-css-modules';
 import { connect } from 'react-redux';
 import styles from './register.scss';
 import Dialog from './cummon/dialog';
-// import Tips from './cummon/tips';
 import { text } from '../../server/text';
 import Api from '../../server/api';
-import { regAccount, regPassword, regCode } from '../../server/tools';
+import { regAccount, regPassword, regCode, isEmpty } from '../../server/tools';
 
 @cssModules(styles, { allowMultiple: true, errorWhenNotFound: false })
 class Register extends Component {
@@ -25,6 +24,7 @@ class Register extends Component {
       isCodeRequest: false, // 验证码按钮是否可以点击
       isCodeRight: false, // 验证码是否正确
       codeBtnValue: '获取短信验证码',
+      isShowAccountIcon: false,
     };
   }
 
@@ -46,6 +46,15 @@ class Register extends Component {
     const id = e.target.getAttribute('id');
     switch (id) {
       case 'account':
+        if (isEmpty(val)) {
+          this.setState({
+            isShowAccountIcon: false,
+          });
+        } else {
+          this.setState({
+            isShowAccountIcon: true,
+          });
+        }
         if (regAccount.test(val)) {
           this.setState({
             isAccountRight: true,
@@ -126,9 +135,10 @@ class Register extends Component {
                 autoFocus="autofocus"
               />
             </label>
-            <span
-              styleName={this.state.isAccountRight ? 'icon account-right' : 'icon account-error'}
-            />
+            {this.state.isShowAccountIcon ?
+              <span
+                styleName={this.state.isAccountRight ? 'icon account-right' : 'icon account-error'}
+              /> : <span styleName="icon" /> }
           </div>
           <div styleName="code">
             <label htmlFor="code">

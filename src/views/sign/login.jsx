@@ -1,13 +1,13 @@
+/**
+ * Created by admin on 2017/1/4.
+ */
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import cssModules from 'react-css-modules';
 import styles from './login.scss';
 import Api from '../../server/api';
-// import SignApi from '../../server/api/sign-api';
-import { regAccount, regPassword } from '../../server/tools';
-// import Tips from './cummon/tips';
-
+import { regAccount, regPassword, isEmpty } from '../../server/tools';
 @cssModules(styles, { allowMultiple: true, errorWhenNotFound: false })
 class Login extends Component {
   static propTypes = {
@@ -20,7 +20,8 @@ class Login extends Component {
     this.state = {
       isShowPassword: false, // 是否显示密码
       isAccountRight: false, // 账号是否正确
-      isPassWordRight: false, //密码是否正确
+      isPassWordRight: false, // 密码是否正确
+      isShowAccountIcon: false,
     };
   }
 
@@ -38,6 +39,15 @@ class Login extends Component {
     const id = e.target.getAttribute('id');
     switch (id) {
       case 'account':
+        if (isEmpty(text)) {
+          this.setState({
+            isShowAccountIcon: false,
+          });
+        } else {
+          this.setState({
+            isShowAccountIcon: true,
+          });
+        }
         if (regAccount.test(text)) {
           this.setState({
             isAccountRight: true,
@@ -76,13 +86,6 @@ class Login extends Component {
       password: hex_md5(this.password.value),
     };
     Api.loginSubmit(options, '/');
-    // SignApi.login(options).then((json) => {
-    //   if (json.code === 0) {
-    //     // browserHistory.push('/');
-    //     return false;
-    //   }
-    //   // return Tips.show(json.message);
-    // });
   };
 
   render() {
@@ -100,9 +103,10 @@ class Login extends Component {
                 autoFocus="autofocus"
               />
             </label>
-            <span
-              styleName={this.state.isAccountRight ? 'icon account-right' : 'icon account-error'}
-            />
+            {this.state.isShowAccountIcon ?
+              <span
+                styleName={this.state.isAccountRight ? 'icon account-right' : 'icon account-error'}
+              /> : <span styleName="icon" /> }
           </div>
           <div styleName="password">
             <label htmlFor="password">
@@ -145,6 +149,4 @@ function mapStateToProps(state) {
     appState: state.appState,
   };
 }
-
 export default connect(mapStateToProps)(Login);
-
