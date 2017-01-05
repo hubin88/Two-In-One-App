@@ -17,6 +17,8 @@ import Reset from './views/sign/reset';
 import Pay from './views/check-channel/pay';
 import Withdraw from './views/check-channel/withdraw';
 import Gold from './views/check-channel/gold';
+import Dcpage from './views/check-channel/dcpage';
+import Dwpage from './views/check-channel/dwpage';
 
 const store = DEBUG ? createStore(
   rootReducer,
@@ -48,6 +50,8 @@ const StoreWrap = () => (
       <Route path="/pay" component={Pay} onEnter={checkLogin} />
       <Route path="/withdraw" component={Withdraw} onEnter={checkLogin} />
       <Route path="/gold" component={Gold} onEnter={checkLogin} />
+      <Route path="/dcpage" component={Dcpage} />
+      <Route path="/dwpage" component={Dwpage} />
       <Route path="/" component={App}>
         <IndexRoute component={Home} />
         <Route path="/home" component={Home} />

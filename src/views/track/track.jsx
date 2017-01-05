@@ -1,11 +1,14 @@
 import React, { Component, PropTypes } from 'react';
+import { connect } from 'react-redux';
 import cssModules from 'react-css-modules';
 import styles from './track.scss';
 
 @cssModules(styles, { allowMultiple: true, errorWhenNotFound: false })
-export default class Record extends Component {
+
+class Track extends Component {
   static propTypes = {
     value: PropTypes.string,
+    systemInfo: PropTypes.object.isRequired,
   };
   constructor(props) {
     super(props);
@@ -16,7 +19,7 @@ export default class Record extends Component {
 
   setTrackValue = () => {
     let tpls = '';
-    if (this.state.value !== 1) {
+    if (this.props.systemInfo.systemType === 'DCB') {
       tpls = (
         <div styleName="main">
           <div styleName="mains">
@@ -37,7 +40,8 @@ export default class Record extends Component {
           <div styleName="notMore">没有更多</div>
         </div>
       );
-    } else {
+    }
+    if (this.props.systemInfo.systemType === 'DWB') {
       tpls = (
         <div styleName="main">
           <div styleName="mains">
@@ -59,6 +63,7 @@ export default class Record extends Component {
     }
     return tpls;
   };
+
   render() {
     return (
       <div styleName="track">
@@ -67,4 +72,13 @@ export default class Record extends Component {
     );
   }
 }
+
+function mapStateToProps(state) {
+  return {
+    exchangeInfo: state.exchangeInfo,
+    systemInfo: state.systemInfo,
+  };
+}
+
+export default connect(mapStateToProps)(Track);
 

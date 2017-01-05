@@ -4,21 +4,20 @@
 
 import React, { Component, PropTypes } from 'react';
 import cssModules from 'react-css-modules';
+import { connect } from 'react-redux';
 import styles from './gold.scss';
 
-
+@cssModules(styles, { allowMultiple: true, errorWhenNotFound: false })
 class Gold extends Component {
-  static defaultProps = {
-    title: '',
-  };
   static propTypes = {
+    title: '',
+    systemInfo: PropTypes.object.isRequired,
     onCloseCallback: PropTypes.func,
   };
 
   setValue = () => {
     let tab = '';
-    const num = 10;
-    if (num <= 10) {
+    if (this.props.systemInfo.systemType === 'DCB') {
       tab = (
         <div styleName="main">
           <div styleName="mains">
@@ -32,7 +31,8 @@ class Gold extends Component {
           <div styleName="notMore">没有更多</div>
         </div>
       );
-    } else {
+    }
+    if (this.props.systemInfo.systemType === 'DWB') {
       tab = (
         <div styleName="main">
           <div styleName="mains">
@@ -67,4 +67,12 @@ class Gold extends Component {
   }
 }
 
-export default cssModules(Gold, styles, { allowMultiple: true, errorWhenNotFound: false });
+function mapStateToProps(state) {
+  return {
+    exchangeInfo: state.exchangeInfo,
+    systemInfo: state.systemInfo,
+  };
+}
+
+export default connect(mapStateToProps)(Gold);
+
