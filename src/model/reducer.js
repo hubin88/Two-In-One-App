@@ -81,7 +81,7 @@ function systemInfo(state = initSystemInfo, action) {
 }
 
 const initState = {
-  orgId: '62',
+  orgId: null,
 };
 
 function appState(state = initState, action) {

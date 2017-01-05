@@ -27,9 +27,15 @@ export default class Api {
     return postJSON('register', common(options), Api.register.name);
   }
 
-  static registerSubmit(opts, path) {
+  static registerSubmit(opts, flag, url, path) {
     Api.register(opts).then((json) => {
       if (json.code === 0) {
+        if (flag) {
+          if (!url) return false;
+          Tips.show(json.message);
+          window.location.href = url;
+          return false;
+        }
         browserHistory.push(path);
         return false;
       }

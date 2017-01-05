@@ -94,7 +94,7 @@ form.form-register {
     background: $canClickBtnBgColor;
     color: $canClickBtnColor;
   }
-  .no-pass {
+  .no-pass,input[disabled] {
     background: $noClickBtnBgColor;
     color: $noClickBtnColor;
   }

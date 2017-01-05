@@ -2,9 +2,14 @@
  * Created by admin on 2016/12/27.
  */
 import 'fetch-ie8';
+import {getQueryString} from './tools';
 
 export const common = d => ({ params: { ...d } });
-const systemType = 'DCB';
+const systemType = getQueryString('systemType')||'DCB';
+const BASE_SERVER_AJAX = {
+  DCB: BASE_SERVER.DCB+'trade/',
+  DWB: BASE_SERVER.DWB+'weipan/',
+};
 function ajaxJSON(url, obj, name) {
   const postData = (typeof obj === 'object') ? JSON.stringify(obj) : obj;
   return fetch(`${url}?${name}`, {
@@ -18,5 +23,5 @@ function ajaxJSON(url, obj, name) {
 }
 
 export function postJSON(url, obj, name = 'test') {
-  return ajaxJSON(`${BASE_SERVER[systemType]}${url}`, obj, name);
+  return ajaxJSON(`${BASE_SERVER_AJAX[systemType.toUpperCase()]}${url}`, obj, name);
 }

@@ -132,8 +132,13 @@ class Login extends Component {
         </div>
         <div styleName="forget">
           <div styleName="tr">
-            <Link to="/reset"><input type="button" value="忘记密码？" /></Link>
-            <Link to="/"><input type="button" value="随便看看" /></Link></div>
+            <div styleName="td">
+              <Link to="/reset"><input type="button" value="忘记密码？" /></Link>
+            </div>
+            <div styleName="td">
+              <Link to="/"><input type="button" value="随便看看" /></Link>
+            </div>
+          </div>
         </div>
         <Link to="/register">
           <div styleName="register">
