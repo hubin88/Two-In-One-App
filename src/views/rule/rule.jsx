@@ -1,14 +1,16 @@
 import React, { Component, PropTypes } from 'react';
 import cssModules from 'react-css-modules';
+import { connect } from 'react-redux';
 import styles from './rule.scss';
 
 const config = require('../../../app.config');
 
 @cssModules(styles, { allowMultiple: true, errorWhenNotFound: false })
-export default class Rule extends Component {
+class Rule extends Component {
   static propTypes = {
     DC: PropTypes.object,
     DW: PropTypes.object,
+    systemInfo: PropTypes.object.isRequired,
   };
   constructor(props) {
     super(props);
@@ -25,11 +27,12 @@ export default class Rule extends Component {
 
   getRule = () => {
     let htmls = '';
-    if (this.state.value === 1) {
+    if (this.props.systemInfo.systemType === 'DCB') {
       htmls = (
         <iframe src={this.state.DC} />
       );
-    } else {
+    }
+    if (this.props.systemInfo.systemType === 'DWB') {
       htmls = (
         <iframe src={this.state.DW} />
       );
@@ -45,3 +48,11 @@ export default class Rule extends Component {
   }
 }
 
+function mapStateToProps(state) {
+  return {
+    exchangeInfo: state.exchangeInfo,
+    systemInfo: state.systemInfo,
+  };
+}
+
+export default connect(mapStateToProps)(Rule);

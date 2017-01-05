@@ -40,13 +40,40 @@ class User extends Component {
     if (type === 2) this.props.dispatch(logout());
   };
 
+  bottomList = () => {
+    let bottomList = '';
+    if (this.props.systemInfo.systemType === 'DCB') {
+      bottomList = (
+        <ul>
+          <Link to="/gold"><li><img src="1.png" alt="" /><span>出入金</span></li></Link>
+          <Link to="/register"><li><img src="1.png" alt="" /><span>个人设置</span></li></Link>
+          <Link to="/dcpage">
+            <li styleName="itemName"><img src="1.png" alt="" /><span>点差宝介绍</span></li>
+          </Link>
+        </ul>
+      );
+    }
+    if (this.props.systemInfo.systemType === 'DWB') {
+      bottomList = (
+        <ul>
+          <Link to="/gold"><li><img src="1.png" alt="" /><span>当前持仓</span></li></Link>
+          <Link to="/gold"><li><img src="1.png" alt="" /><span>出入金</span></li></Link>
+          <Link to="/register"><li><img src="1.png" alt="" /><span>个人设置</span></li></Link>
+          <Link to="/dwpage">
+            <li styleName="itemName"><img src="1.png" alt="" /><span>点微宝介绍</span></li>
+          </Link>
+        </ul>
+      );
+    }
+    return bottomList;
+  };
+
   render() {
     const { systemInfo: { systemType, assetInfo, isLogin, avatarURL, nickName } } = this.props;
     return (
       <div styleName="user">
         <div styleName="info">
           <div style={{ position: 'fixed', top: '10px', left: '10px' }}>
-
             <b onClick={this.clickFunc(1)}><span>登录</span></b>
             <b onClick={this.clickFunc(2)}><span>登出</span></b>
           </div>
@@ -91,7 +118,7 @@ class User extends Component {
           </ol>) : null
         }
         <div styleName="links">
-          底部
+          {this.bottomList()}
         </div>
       </div>
     );

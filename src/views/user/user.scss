@@ -90,6 +90,24 @@ $padding: .1rem;
     vertical-align: middle;
   }
 }
+.links {
+  margin-top: .05rem;
+}
+
+.links li{
+  line-height: .4rem;
+  background-color: #fff;
+  border: 1px #f3f3f3 solid;
+  padding-left: .25rem;
+  //background: url("../1.png") no-repeat right ;
+}
+.links .itemName{
+  margin-top: .1rem;
+}
+.links span{
+  vertical-align: super;
+  margin-left: .1rem;
+}
 
 @mixin bg-image($names,$ratio:1) {
   @each $cls, $name in $names {
