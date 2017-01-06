@@ -6,8 +6,8 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import cssModules from 'react-css-modules';
 import styles from './login.scss';
-import Api from '../../server/api';
-import { regAccount, regPassword, isEmpty } from '../../server/tools';
+import Api from '../../server/api/sign-api';
+import { regAccount, regPassword } from '../../server/tools';
 @cssModules(styles, { allowMultiple: true, errorWhenNotFound: false })
 class Login extends Component {
   static propTypes = {
@@ -21,7 +21,6 @@ class Login extends Component {
       isShowPassword: false, // 是否显示密码
       isAccountRight: false, // 账号是否正确
       isPassWordRight: false, // 密码是否正确
-      isShowAccountIcon: false,
     };
   }
 
@@ -39,15 +38,6 @@ class Login extends Component {
     const id = e.target.getAttribute('id');
     switch (id) {
       case 'account':
-        if (isEmpty(text)) {
-          this.setState({
-            isShowAccountIcon: false,
-          });
-        } else {
-          this.setState({
-            isShowAccountIcon: true,
-          });
-        }
         if (regAccount.test(text)) {
           this.setState({
             isAccountRight: true,
@@ -103,10 +93,9 @@ class Login extends Component {
                 autoFocus="autofocus"
               />
             </label>
-            {this.state.isShowAccountIcon ?
-              <span
-                styleName={this.state.isAccountRight ? 'icon account-right' : 'icon account-error'}
-              /> : <span styleName="icon" /> }
+            <span
+              styleName={this.state.isAccountRight ? 'icon account-right' : 'icon'}
+            />
           </div>
           <div styleName="password">
             <label htmlFor="password">

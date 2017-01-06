@@ -17,9 +17,7 @@ html { font-size: 625%;/*10 ÷ 16 × 100% = 62.5%*/ }
 
 body {
   font-family: SimSun, helvetica, arial, sans-serif;
-  //font-size: 12px;
   font-size: .12rem;
-  overflow: hidden;
 }
 
 #root {
@@ -107,11 +105,11 @@ input {
   outline: none;
 }
 
-.content {
+#root>div:first-child {
   position: relative;
   overflow-y: hidden;
   height:100%;
-  min-height: 5rem;
+  min-height: 5.5rem;
 }
 .content>div:last-child{
   padding: 0.42rem 4.83% 0;

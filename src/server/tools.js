@@ -33,21 +33,35 @@ export function isEmpty(strValue) {
   }
   return false;
 }
-export function getCodeAgain(_this) {
+let timeCount;
+export function getCodeAgain(id, _this) {
   let TIME = 60;
+  const btn = document.getElementById(id);
   _this.setState({ codeBtnValue: `${TIME}秒后重新获取`, isCodeRequest: false });
   function doTimer() {
     if (TIME > 0) {
-      setTimeout(() => {
+      btn.setAttribute('disabled', true);
+      timeCount = setTimeout(() => {
         _this.setState({ codeBtnValue: `${--TIME}秒后重新获取` });
         doTimer();
       }, 1000);
     } else {
+      btn.removeAttribute('disabled');
       _this.setState({ codeBtnValue: '获取短信验证码', isCodeRequest: true });
     }
   }
 
   doTimer();
+}
+export function resetGetCodeAgain(id, _this) {
+  const btn = document.getElementById(id);
+  clearTimeout(timeCount);
+  btn.removeAttribute('disabled');
+  _this.setState({ codeBtnValue: '获取短信验证码', isCodeRequest: true });
+}
+export function resetForm(id, _this) {
+  document.forms[0].reset();
+  resetGetCodeAgain(id, _this);
 }
 export function getQueryString(name) {
   const reg = new RegExp(`(^|&)${name}=([^&]*)(&|$)`, 'i');

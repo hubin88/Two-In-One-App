@@ -2,8 +2,8 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import cssModules from 'react-css-modules';
 import styles from './reset.scss';
-import Api from '../../server/api';
-import { regAccount, regPassword, regCode, isEmpty } from '../../server/tools';
+import Api from '../../server/api/sign-api';
+import { regAccount, regPassword, regCode } from '../../server/tools';
 
 @cssModules(styles, { allowMultiple: true, errorWhenNotFound: false })
 class Reset extends Component {
@@ -22,7 +22,6 @@ class Reset extends Component {
       isCodeRequest: false, // 验证码按钮是否可以点击
       isCodeRight: false, // 验证码是否正确
       codeBtnValue: '获取短信验证码',
-      isShowAccountIcon: false,
     };
   }
 
@@ -40,15 +39,6 @@ class Reset extends Component {
     const id = e.target.getAttribute('id');
     switch (id) {
       case 'account':
-        if (isEmpty(text)) {
-          this.setState({
-            isShowAccountIcon: false,
-          });
-        } else {
-          this.setState({
-            isShowAccountIcon: true,
-          });
-        }
         if (regAccount.test(text)) {
           this.setState({
             isAccountRight: true,
@@ -129,10 +119,9 @@ class Reset extends Component {
                 ref={(ref) => { this.account = ref; }} onKeyUp={this.check}
               />
             </label>
-            {this.state.isShowAccountIcon ?
-              <span
-                styleName={this.state.isAccountRight ? 'icon account-right' : 'icon account-error'}
-              /> : <span styleName="icon" /> }
+            <span
+              styleName={this.state.isAccountRight ? 'icon account-right' : 'icon'}
+            />
           </div>
           <div styleName="code">
             <label htmlFor="code">

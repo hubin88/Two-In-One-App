@@ -56,7 +56,7 @@ form.form-register {
       border: 0.01rem solid $canClickBtnBgColor;
       color: $canClickBtnBgColor;
     }
-    .no-pass {
+    .no-pass,.code[disabled] {
       border: 0.01rem solid $noClickBtnBgColor;
       color: $noClickBtnColor;
     }
@@ -94,7 +94,7 @@ form.form-register {
     background: $canClickBtnBgColor;
     color: $canClickBtnColor;
   }
-  .no-pass,input[disabled] {
+  .no-pass,.submit-btn[disabled] {
     background: $noClickBtnBgColor;
     color: $noClickBtnColor;
   }

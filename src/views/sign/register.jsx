@@ -1,26 +1,27 @@
 import React, { Component, PropTypes } from 'react';
 import cssModules from 'react-css-modules';
-import { connect } from 'react-redux';
 import styles from './register.scss';
 import Dialog from './cummon/dialog';
 import Tips from './cummon/tips';
 import { text } from '../../server/text';
-import Api from '../../server/api';
+import Api from '../../server/api/sign-api';
+import { systemType } from '../../server/help';
 import {
   regAccount,
   regPassword,
   regCode,
-  isEmpty,
   getQueryString,
   getDevice,
 } from '../../server/tools';
 
 @cssModules(styles, { allowMultiple: true, errorWhenNotFound: false })
-class Register extends Component {
+export default class Register extends Component {
   static propTypes = {
     dispatch: PropTypes.func,
     appState: PropTypes.object,
     registerState: PropTypes.object,
+    orgId: PropTypes.string,
+    systemType: PropTypes.string,
   };
 
   constructor(props) {
@@ -33,15 +34,13 @@ class Register extends Component {
       isCodeRight: false, // 验证码是否正确
       codeBtnValue: '获取短信验证码',
       brokerId: getQueryString('brokerId'),
-      orgId: getQueryString('organization') || this.props.appState.orgId,
+      orgId: this.props.orgId || getQueryString('organization'),
       exchangecode: getQueryString('exchangecode'),
-      deviceType: getDevice(),
+      deviceType: getDevice().toLowerCase(),
       downLoadUrl: null,
       orgName: '机构信息加载中…',
       isRequestOrgName: false,
-      isShowAccountIcon: false,
-      isSubmited: false,
-      title: getQueryString('systemType'),
+      systemType: this.props.systemType || systemType,
     };
   }
 
@@ -50,10 +49,10 @@ class Register extends Component {
       DCB: '云交易注册',
       DWB: '微交易注册',
     };
-    document.title = titleType[this.state.title];
-    const [flagCode,flagOrgId,flagBrokerId] =
+    const [flagCode, flagOrgId, flagBrokerId] =
       [Boolean(this.state.exchangecode), Boolean(this.state.orgId), Boolean(this.state.brokerId)];
     if (flagBrokerId && flagOrgId) {
+      document.title = titleType[this.state.systemType];
       this.getOrganization({ orgIds: this.state.orgId });
     }
     if (flagCode) {
@@ -80,12 +79,17 @@ class Register extends Component {
   getOrganization = (options) => {
     Api.getOrgInfo(options).then((json) => {
       if (json.code === 0) {
-        const data = JSON.parse(json.result).data[0];
+        let data;
+        if (this.state.systemType === 'DCB') {
+          data = JSON.parse(json.result).data[0];
+        } else {
+          data = JSON.parse(json.result).records[0];
+        }
         if (!data) {
           return Tips.show('机构不存在');
         }
         this.setState({
-          orgName: data.orgName,
+          orgName: data.orgName || data.OrgName,
           isRequestOrgName: true,
         });
       }
@@ -112,15 +116,6 @@ class Register extends Component {
     const id = e.target.getAttribute('id');
     switch (id) {
       case 'account':
-        if (isEmpty(val)) {
-          this.setState({
-            isShowAccountIcon: false,
-          });
-        } else {
-          this.setState({
-            isShowAccountIcon: true,
-          });
-        }
         if (regAccount.test(val)) {
           this.setState({
             isAccountRight: true,
@@ -164,13 +159,23 @@ class Register extends Component {
   registerGetCode = (e) => {
     e.stopPropagation();
     e.preventDefault();
-    if (!this.state.isCodeRequest) return;
-    const options = {
-      orgId: this.state.orgId,
-      mobile: this.account.value,
-      sendType: '1',
-    };
-    Api.getCode(this, options);
+    const flag = e.target.getAttribute('disabled');
+    if (flag) return;
+    let options;
+    if (this.state.systemType === 'DCB') {
+      options = {
+        orgId: this.state.orgId,
+        mobile: this.account.value,
+        sendType: '1',
+      };
+    } else {
+      options = {
+        orgId: this.state.orgId,
+        mobile: this.account.value,
+        msgType: '0',
+      };
+    }
+    Api.getCode('code-btn', this, options);
   };
 
   showOrgName = () => {
@@ -196,7 +201,6 @@ class Register extends Component {
     const flag = Boolean(this.state.brokerId);
     const isSubmit = this.state.isAccountRight && this.state.isPassWordRight && this.state.isCodeRight;
     if (!isSubmit) return;
-    if (this.state.isSubmited) return;
     const options = {
       orgId: this.state.orgId,
       mobile: this.account.value,
@@ -206,11 +210,7 @@ class Register extends Component {
       brokerId: this.state.brokerId,
       channelType: 'app',
     };
-    Api.registerSubmit(options, flag, this.state.downLoadUrl, '/');
-    this.submitref.setAttribute('disabled', true);
-    this.setState({
-      isSubmited: true,
-    });
+    Api.registerSubmit(options, flag, this.state.downLoadUrl, 'code-btn', this);
   };
 
   render() {
@@ -228,10 +228,9 @@ class Register extends Component {
                 autoFocus="autofocus"
               />
             </label>
-            {this.state.isShowAccountIcon ?
-              <span
-                styleName={this.state.isAccountRight ? 'icon account-right' : 'icon'}
-              /> : <span styleName="icon" /> }
+            <span
+              styleName={this.state.isAccountRight ? 'icon account-right' : 'icon'}
+            />
           </div>
           <div styleName="code">
             <label htmlFor="code">
@@ -244,7 +243,8 @@ class Register extends Component {
             <div styleName="code-btn">
               <input
                 type="button"
-                styleName={this.state.isCodeRequest ? 'pass' : 'no-pass'}
+                id="code-btn"
+                styleName={this.state.isCodeRequest ? 'code pass' : 'code no-pass'}
                 value={this.state.codeBtnValue}
                 onClick={this.registerGetCode}
               />
@@ -267,7 +267,7 @@ class Register extends Component {
         </form>
         <div styleName="submit">
           <input
-            type="submit" styleName={isSubmit ? 'pass' : 'no-pass'} value="提交"
+            type="submit" styleName={isSubmit ? 'submit-btn pass' : 'submit-btn no-pass'} value="提交"
             ref={(ref) => { this.submitref = ref; }}
             onClick={this.submit}
           />
@@ -278,11 +278,3 @@ class Register extends Component {
     );
   }
 }
-function mapStateToProps(state) {
-  return {
-    appState: state.appState,
-  };
-}
-
-export default connect(mapStateToProps)(Register);
-
