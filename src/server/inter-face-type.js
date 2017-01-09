@@ -25,3 +25,39 @@ export const GET_SYS_CONFIG = 'getSysconfig';
 
 // 获取用户数据
 export const GET_USER_DATA = 'getUseData';
+
+// 获取商品、服务器信息
+export const GET_MERCHS_AND_SERVERS = 'getMerchsAndServers';
+
+// 忘记密码
+export const GORGET_PWD = 'forgetPwd';
+
+// 发送验证码
+export const SEND_CAPTCHA = 'sendCaptcha';
+
+// 设置、修改交易密码
+export const UPADTE_PWD = 'upadtePwd';
+
+// 修改手机号
+export const UPDATE_MOBILE = 'updateMobile';
+
+// 下单、建仓
+export const CREATE_USER_ORDER = 'createUserOrder';
+
+// 查询用户信息
+export const GET_USERS = 'getUsers';
+
+// 查询机构信息
+export const GET_ORGS = 'getOrgs';
+
+// 修改用户
+export const UPDATE_USER = 'updateUser';
+
+// 查询用户
+export const FIND_USER = 'findUser';
+
+// 系统设置是否注册，版本升级
+export const QUERY_REGISTINFO = 'queryRegistInfo';
+
+// 查询交易所会员机构
+export const GET_MEMBER_LIST = 'getMemberList';

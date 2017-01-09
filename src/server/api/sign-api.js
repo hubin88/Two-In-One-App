@@ -89,5 +89,4 @@ export default class Api {
       return Tips.show(json.message);
     });
   }
-
 }

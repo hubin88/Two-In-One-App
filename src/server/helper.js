@@ -29,15 +29,17 @@ function ajax(url, obj, systemType, name) {
     },
     body: `{params:${postData}}`,
   }).then(res => res.json()).then((rs) => {
-    if (DEBUG) {
-      // 输出网络记录
-      console.groupCollapsed(`[POST] [${name}] `, rs);
-      console.log(`%c${postData}`, 'font-style:italic;color:#666');
-      console.log(`%c${JSON.stringify(rs, null, '\t')}`, 'color:green');
-      console.groupEnd();
-    }
+    console.log(rs);
+    console.log(JSON.parse(rs.result));
+    // if (DEBUG) {
+    //   // 输出网络记录
+    //   console.groupCollapsed(`[POST] [${name}] `, rs);
+    //   console.log(`%c${postData}`, 'font-style:italic;color:#666');
+    //   console.log(`%c${JSON.stringify(rs, null, '\t')}`, 'color:green');
+    //   console.groupEnd();
+    // }
 
-    if (rs.code !== '0') {
+    if (rs.code !== 0) {
       console.error(`调用失败! ${JSON.stringify(rs)}`);
       throw new Error(rs.msg);
     }

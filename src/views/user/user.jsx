@@ -35,7 +35,9 @@ class User extends Component {
   clickFunc = (type) => () => {
     if (type === 1) {
       this.props.dispatch(login());
-      SysApi.getUserData({ userID: '2222222' });
+      // SysApi.getUserData({ userID: '2222222', ttt: '33333', ddd: 'ccc' });
+      SysApi.getSysConfig();
+      // SysApi.getSysConfig();
     }
     if (type === 2) this.props.dispatch(logout());
   };

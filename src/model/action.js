@@ -1,5 +1,6 @@
 import * as ActionTypes from './action-types';
-
+import { Cookie } from '../ultils/tools';
+import tradeApi from '../server/api/trade-api';
 
 const api = new Promise((resolve, reject) => {
   console.log('Promise');
@@ -79,6 +80,7 @@ export function errorChangeSystem() {
   };
 }
 export function changeSystem(systemType) {
+  Cookie.setCookie('systemType', systemType);
   return function wrap(dispatch) {
     dispatch(requestChangeSystem());
     return api
@@ -165,3 +167,44 @@ export function reset() {
   };
 }
 /* ===重置密码=== */
+
+
+/* === 登出 === */
+export function requestLogout() {
+  return {
+    type: ActionTypes.REQUEST_LOGOUT,
+  };
+}
+export function successLogout() {
+  return {
+    type: ActionTypes.SUCCESS_LOGOUT,
+  };
+}
+export function errorLogout() {
+  return {
+    type: ActionTypes.ERROR_LOGOUT,
+  };
+}
+export function logout() {
+  return function wrap(dispatch) {
+    dispatch(requestLogout());
+    return api
+      .then(() => dispatch(successLogout()))
+      .catch(() => dispatch(errorLogout()));
+  };
+}
+/* === 登出 === */
+
+/* 检查是否注册 */
+export function successQueryRegistInfo() {
+  return {
+    type: ActionTypes.SUCCESS_QUERY_REGIST_INFO,
+  };
+}
+
+export function requestQueryRegistInfo() {
+  return function wrap(dispatch) {
+    return tradeApi.queryRegistInfo()
+      .then(json => dispatch(successQueryRegistInfo(json)));
+  };
+}
