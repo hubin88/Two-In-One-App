@@ -87,12 +87,23 @@ export function pagination(currentPageNum, maxPageNum, delta = 2) {
   return rangeWithDots;
 }
 
+export function safeGetParameter(param, key) {
+  console.log(param, key);
+  if (!param) return null;
+  if (typeof param === 'object' && param.length !== 0 && typeof key !== 'undefined') {
+    return param[key];
+  } else if (typeof param === 'string') {
+    return param;
+  }
+  alert('错误格式化！');
+  return null;
+}
 
 // 数组排序后，转换对象
-export function arrayToObject(data, value) {
+export function arrayToObject(data, key) {
   return data.reduce((obj, product) => {
     const o = obj;
-    o[product[value]] = {
+    o[product[key]] = {
       ...product,
     };
     return obj;

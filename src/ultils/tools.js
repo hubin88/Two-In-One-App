@@ -2,6 +2,7 @@
  * Created by fighter on 2016/9/28.
  */
 import cookie from 'cookie';
+import { IS_IOS, IS_ANDROID, IS_WINDOWS_PHONE, IS_UN_KNOW_PHONE } from '../server/define';
 
 // 增加时间秒数
 export function dateAddSeconds(sec) {
@@ -113,29 +114,29 @@ export class Dates {
     return Dates.getThisWeek(0, dateType, weekType);
   }
 }
-//
-// // 获取系统参数
-// export function getSystem() {
-//   const systemInfo = {
-//     isIpad: 'ipad',
-//     isIphoneOs: 'iphone os',
-//     isMidp: 'midp',
-//     isUc7: 'rv:1.2.3.4',
-//     isUc: 'ucweb',
-//     isAndroid: 'android',
-//     isCE: 'windows ce',
-//     isWM: 'windows mobile',
-//   };
-//   const userAgent = navigator.userAgent.toLowerCase();
-//   const s = { ...systemInfo };
-//   Object.keys(systemInfo).forEach((i) => {
-//     s[i] = userAgent.includes(systemInfo[i]);
-//   });
-//   if (s.isIpad || s.isIphoneOs) return IS_IOS;
-//   if (s.isMidp || s.isUc7 || s.isUc || s.isAndroid) return IS_ANDROID;
-//   if (s.isCE || s.isWM) return IS_WINDOWS_PHONE;
-//   return null;
-// }
+
+// 获取系统参数
+export function getSystem() {
+  const systemInfo = {
+    isIpad: 'ipad',
+    isIphoneOs: 'iphone os',
+    isMidp: 'midp',
+    isUc7: 'rv:1.2.3.4',
+    isUc: 'ucweb',
+    isAndroid: 'android',
+    isCE: 'windows ce',
+    isWM: 'windows mobile',
+  };
+  const userAgent = navigator.userAgent.toLowerCase();
+  const s = { ...systemInfo };
+  Object.keys(systemInfo).forEach((i) => {
+    s[i] = userAgent.includes(systemInfo[i]);
+  });
+  if (s.isIpad || s.isIphoneOs) return IS_IOS;
+  if (s.isMidp || s.isUc7 || s.isUc || s.isAndroid) return IS_ANDROID;
+  if (s.isCE || s.isWM) return IS_WINDOWS_PHONE;
+  return IS_UN_KNOW_PHONE;
+}
 
 // 获取地址栏参数，传入参数名，获取参数值
 const GetParamData = () => {

@@ -2,7 +2,7 @@
  * Created by admin on 2016/12/29.
  */
 import postJSON from '../helper';
-import * as InterFace from '../inter-face-type';
+import * as InterFace from './inter-face-type';
 
 export default class TradeApi {
 
@@ -41,5 +41,9 @@ export default class TradeApi {
   // 查询交易所会员机构
   static getMemberList(obj = {}) {
     return postJSON(InterFace.TRADE_DIR, InterFace.GET_MEMBER_LIST, obj, TradeApi.getMemberList.name);
+  }
+  // 交易记录
+  static getTradeRecordPage(obj = {}) {
+    return postJSON(InterFace.TRADE_DIR, InterFace.CLOSE_USER_ORDER, obj, TradeApi.getTradeRecordPage.name);
   }
 }

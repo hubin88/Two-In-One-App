@@ -2,18 +2,25 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import Footer from './views/footer';
 import Header from './views/header';
-
 import './css/main.scss'; // import global css style
+import { getCommodityAndServers, appStart } from './model/action';
 
 class App extends Component {
-  static defaultProps = {
-  };
+  static defaultProps = {};
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
     exchangeInfo: PropTypes.object.isRequired,
     systemInfo: PropTypes.object.isRequired,
     children: PropTypes.any,
   };
+
+  componentDidMount() {
+    this.props.dispatch(appStart());
+  }
+
+  test() {
+    this.props.dispatch(getCommodityAndServers());
+  }
 
   render() {
     const {

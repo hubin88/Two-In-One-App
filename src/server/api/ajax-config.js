@@ -1,18 +1,19 @@
 /**
  * Created by Amg on 2016/12/27.
  */
-
+import { SYS_DCB, SYS_DWB } from '../define';
 
 const AjaxConfig = {
-  DCB: {
-    register: null,
-    getSysConfig: null,
-    getUserData: { sessionId: 'userID' },
-    getMerchsAndServers: null,
-    forgetPwd: null,
-    login: null,
-    upadtePwd: null,
-    updateMobile: null,
+  [SYS_DCB]: {
+    // home
+    getUserData: { mobile: 'mobile', orgId: 'orgId' },
+    getMerchsAndServers: { mobile: 'mobile', orgId: 'orgId' },
+    getTradeRecordPage: {
+      mobile: 'mobile',
+      orgId: 'orgId',
+      lastId: 'lastId',
+      pageSize: 'pageSize',
+    },
     createUserOrder: {
       sessionId: 'sessionId',
       margin: 'margin',
@@ -22,27 +23,22 @@ const AjaxConfig = {
       volume: 'volume',
       point: 'point',
     },
-    getUsers: null,
-    getOrgs: null,
     updateUser: {
       nickName: 'nickName',
       headImgUrl: 'headImgUrl',
       orgId: 'orgId',
       mobile: 'mobile',
     },
-    findUser: null,
-    queryRegistInfo: null,
-    getMemberList: null,
   },
-  DWB: {
-    register: null,
-    getSysConfig: null,
-    getUserData: { openId: 'userID' },
-    getMerchsAndServers: null,
-    forgetPwd: null,
-    login: null,
-    upadtePwd: null,
-    updateMobile: null,
+  [SYS_DWB]: {
+    // home
+    getUserData: { sessionId: 'sessionId' },
+    getMerchsAndServers: { sessionId: 'sessionId' },
+    getTradeRecordPage: {
+      sessionId: 'sessionId',
+      lastId: 'lastId',
+      pageSize: 'pageSize',
+    },
     createUserOrder: {
       sessionId: 'sessionId',
       bsType: 'bsType',
@@ -53,8 +49,6 @@ const AjaxConfig = {
       direction: 'direction',
       volume: 'volume',
     },
-    getUsers: null,
-    getOrgs: null,
     updateUser: {
       nickName: 'nickName',
       headImgUrl: 'headImgUrl',
@@ -62,9 +56,6 @@ const AjaxConfig = {
       mobile: 'mobile',
       sessionId: 'sessionId',
     },
-    findUser: null,
-    queryRegistInfo: null,
-    getMemberList: null,
   },
 };
 

@@ -69,9 +69,11 @@ export function getQueryString(name) {
   if (r != null) return unescape(decodeURI(r[2]));
   return null;
 }
+
 export const regAccount = /^1[34578]{1}[0-9]{9}$/;
 export const regPassword = /^\w{6}$/;
 export const regCode = /^\d{4}$/;
+
 // 判断设备
 export function getDevice() {
   const UserAgent = navigator.userAgent.toLowerCase();
