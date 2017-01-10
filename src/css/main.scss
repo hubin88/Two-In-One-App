@@ -13,7 +13,9 @@ html, body {
   height: 100%;
 }
 
-html { font-size: 625%;/*10 ÷ 16 × 100% = 62.5%*/ }
+html {
+  font-size: 625%; /*10 ÷ 16 × 100% = 62.5%*/
+}
 
 body {
   font-family: SimSun, helvetica, arial, sans-serif;
@@ -24,7 +26,6 @@ body {
   width: 100%;
   height: 100%;
 }
-
 
 a {
   text-decoration: none;
@@ -66,7 +67,6 @@ li {
   display: table-cell;
 }
 
-
 .main {
   width: 100%;
   height: 100%;
@@ -96,7 +96,6 @@ footer {
   width: 100%;
   border-top: .01rem #c0c0c0 solid;
   background: #fff;
-
 }
 
 input {
@@ -105,13 +104,15 @@ input {
   outline: none;
 }
 
-#root>div:first-child {
-  position: relative;
-  overflow-y: hidden;
-  height:100%;
+#root > div:first-child {
+  position: absolute;
+  height: 100%;
+  width: 100%;
   min-height: 5.5rem;
+  transition: left 0.6s cubic-bezier(0.65, 0.05, 0.36, 1);
 }
-.content>div:last-child{
+
+.content > div:last-child {
   padding: 0.42rem 4.83% 0;
   height: 100%;
   font-size: 0.14rem;
@@ -135,10 +136,18 @@ input {
     background: url('../images/back@2x.png') no-repeat center center/auto 80%;
   }
 }
-.indend-2{
+
+.indend-2 {
   text-indent: 2em;
 }
 
+.show-left-nav {
+  left: 75%;
+}
+
+.hide-left-nav {
+  left: 0;
+}
 
 
 
