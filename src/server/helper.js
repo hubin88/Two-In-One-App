@@ -92,4 +92,36 @@ export function postJSONImitate(param) {
 }
 /* === 模拟暂不存在接口请求 === */
 
+/* 资产推送请求 */
+function ajaxAsset(url, obj) {
+  return fetch(`${url}?SecKey=${obj}`, {
+    method: 'post',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: {},
+  }).then(res => res.json()).then((rs) => {
+    if (parseInt(rs.status, 10) !== 0) {
+      console.error(`调用失败! ${JSON.stringify(rs)}`);
+      throw new Error(rs.msg);
+    }
+    return rs;
+  });
+}
+export function postAsset(param) {
+  const baseServerType = AppConfig.systemType();
+  const pre = param.interFacePre ? safeGetParameter(param.interFacePre, baseServerType) : '';
+  const pos = param.interFacePos ? safeGetParameter(param.interFacePos, baseServerType) : '';
+  let assetUrl;
+  if (baseServerType === 'DCB') {
+    assetUrl = 'DCBASSET';
+  } else {
+    assetUrl = 'DWBASSET';
+  }
+  const url = `${BASE_SERVER[assetUrl]}${pre}${pos}`;
+  const postData = postDataFormat(baseServerType)(param.data, param.name);
+  return ajaxAsset(url, postData, baseServerType, param.name);
+}
+
 export default postJSON ;

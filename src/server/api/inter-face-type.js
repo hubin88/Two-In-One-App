@@ -78,3 +78,5 @@ export const GET_TRADE_RECORD = {
   [SYS_DWB]: 'getTradeHoldHisPage',
 };
 
+export const QUERY_USER_INFO_GATEWAY = 'QueryUserInfoGateway.jsp';
+

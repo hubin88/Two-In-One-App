@@ -47,12 +47,12 @@ export default class SysApi {
   }
 
   // 获取用户数据
-  static getUserData(obj = {}) {
+  static getUseData(obj = {}) {
     return postJSON({
       interFacePre: InterFace.TRADE_DIR,
       interFacePos: InterFace.GET_USER_DATA,
       data: obj,
-      name: SysApi.getUserData.name,
+      name: SysApi.getUseData.name,
     });
   }
 
@@ -65,10 +65,5 @@ export default class SysApi {
       name: SysApi.getMerchsAndServers.name,
     });
   }
-
-  static getUseData(obj = {}) {
-    return postJSON(InterFace.TRADE_DIR, InterFace.GET_USER_DATA, obj, SysApi.getUseData.name);
-  }
-
 }
 
