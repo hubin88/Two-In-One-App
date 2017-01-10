@@ -2,17 +2,18 @@
  * Created by admin on 2017/1/4.
  */
 import React, { Component, PropTypes } from 'react';
-import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import cssModules from 'react-css-modules';
 import styles from './login.scss';
 import Api from '../../server/api/sign-api';
-import { regAccount, regPassword } from '../../server/tools';
+import { regAccount, regPassword, getQueryString } from '../../server/tools';
+import { systemType } from '../../server/help';
+
 @cssModules(styles, { allowMultiple: true, errorWhenNotFound: false })
-class Login extends Component {
+export default class Login extends Component {
   static propTypes = {
-    dispatch: PropTypes.func,
-    appState: PropTypes.object,
+    orgId: PropTypes.string,
+    systemType: PropTypes.string,
   };
 
   constructor(props) {
@@ -21,6 +22,8 @@ class Login extends Component {
       isShowPassword: false, // 是否显示密码
       isAccountRight: false, // 账号是否正确
       isPassWordRight: false, // 密码是否正确
+      orgId: this.props.orgId || getQueryString('organization'),
+      systemType: this.props.systemType || systemType,
     };
   }
 
@@ -67,11 +70,10 @@ class Login extends Component {
   submit = (e) => {
     e.stopPropagation();
     e.preventDefault();
-    const { appState } = this.props;
     const isSubmit = this.state.isAccountRight && this.state.isPassWordRight;
     if (!isSubmit) return;
     const options = {
-      orgId: appState.orgId,
+      orgId: this.props.orgId,
       mobile: this.account.value,
       password: hex_md5(this.password.value),
     };
@@ -138,9 +140,4 @@ class Login extends Component {
     );
   }
 }
-function mapStateToProps(state) {
-  return {
-    appState: state.appState,
-  };
-}
-export default connect(mapStateToProps)(Login);
+

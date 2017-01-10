@@ -17,9 +17,6 @@ import {
 @cssModules(styles, { allowMultiple: true, errorWhenNotFound: false })
 export default class Register extends Component {
   static propTypes = {
-    dispatch: PropTypes.func,
-    appState: PropTypes.object,
-    registerState: PropTypes.object,
     orgId: PropTypes.string,
     systemType: PropTypes.string,
   };
@@ -226,6 +223,7 @@ export default class Register extends Component {
                 type="text" id="account" placeholder="请输入手机号码" maxLength="11"
                 ref={(ref) => { this.account = ref; }} onKeyUp={this.check}
                 autoFocus="autofocus"
+                autoComplete="off"
               />
             </label>
             <span
@@ -237,6 +235,7 @@ export default class Register extends Component {
               <input
                 type="text" id="code" placeholder="请输入短信验证码" maxLength="4"
                 ref={(ref) => { this.code = ref; }} onKeyUp={this.check}
+                autoComplete="off"
               />
             </label>
             <span styleName="icon" />
@@ -257,6 +256,7 @@ export default class Register extends Component {
                 placeholder="请输入6位交易密码"
                 maxLength="6"
                 ref={(ref) => { this.password = ref; }} onKeyUp={this.check}
+                autoComplete="off"
               />
             </label>
             <span
@@ -268,7 +268,6 @@ export default class Register extends Component {
         <div styleName="submit">
           <input
             type="submit" styleName={isSubmit ? 'submit-btn pass' : 'submit-btn no-pass'} value="提交"
-            ref={(ref) => { this.submitref = ref; }}
             onClick={this.submit}
           />
         </div>

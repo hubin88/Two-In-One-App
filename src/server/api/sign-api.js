@@ -38,8 +38,8 @@ export default class Api {
       if (json.code === 0) {
         if (flag) {
           if (!url) return false;
-          resetForm(id, _this);
           Tips.show(json.message);
+          resetForm(id, _this);
           window.location.href = url;
           return false;
         }

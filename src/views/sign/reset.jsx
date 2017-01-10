@@ -1,16 +1,15 @@
 import React, { Component, PropTypes } from 'react';
-import { connect } from 'react-redux';
 import cssModules from 'react-css-modules';
 import styles from './reset.scss';
 import Api from '../../server/api/sign-api';
-import { regAccount, regPassword, regCode } from '../../server/tools';
+import { regAccount, regPassword, regCode, getQueryString } from '../../server/tools';
+import { systemType } from '../../server/help';
 
 @cssModules(styles, { allowMultiple: true, errorWhenNotFound: false })
-class Reset extends Component {
+export default class Reset extends Component {
   static propTypes = {
-    dispatch: PropTypes.func,
-    appState: PropTypes.object,
-    loginState: PropTypes.object,
+    orgId: PropTypes.string,
+    systemType: PropTypes.string,
   };
 
   constructor(props) {
@@ -22,6 +21,8 @@ class Reset extends Component {
       isCodeRequest: false, // 验证码按钮是否可以点击
       isCodeRight: false, // 验证码是否正确
       codeBtnValue: '获取短信验证码',
+      orgId: this.props.orgId || getQueryString('organization'),
+      systemType: this.props.systemType || systemType,
     };
   }
 
@@ -81,24 +82,22 @@ class Reset extends Component {
   forgetPwdGetCode = (e) => {
     e.stopPropagation();
     e.preventDefault();
-    const { appState } = this.props;
     if (!this.state.isCodeRequest) return;
     const options = {
-      orgId: appState.orgId,
+      orgId: this.props.orgId,
       mobile: this.account.value,
       sendType: '2',
     };
-    Api.getCode(this, options);
+    Api.getCode('code-btn', this, options);
   };
 
   submit = (e) => {
     e.stopPropagation();
     e.preventDefault();
-    const { appState } = this.props;
     const isSubmit = this.state.isAccountRight && this.state.isPassWordRight && this.state.isCodeRight;
     if (!isSubmit) return;
     const options = {
-      orgId: appState.orgId,
+      orgId: this.props.orgId,
       mobile: this.account.value,
       newPwdOne: hex_md5(this.password.value),
       valiCode: this.code.value,
@@ -135,6 +134,7 @@ class Reset extends Component {
             <div styleName="code-btn">
               <input
                 type="button"
+                id="code-btn"
                 styleName={this.state.isCodeRequest ? 'pass' : 'no-pass'}
                 value={this.state.codeBtnValue}
                 onClick={this.forgetPwdGetCode}
@@ -166,11 +166,4 @@ class Reset extends Component {
     );
   }
 }
-function mapStateToProps(state) {
-  return {
-    appState: state.appState,
-  };
-}
-
-export default connect(mapStateToProps)(Reset);
 
