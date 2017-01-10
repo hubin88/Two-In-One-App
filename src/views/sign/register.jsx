@@ -3,7 +3,7 @@ import cssModules from 'react-css-modules';
 import styles from './register.scss';
 import Dialog from './cummon/dialog';
 import Tips from './cummon/tips';
-import { text } from '../../server/text';
+import { Agreement } from './agreement';
 import Api from '../../server/api/sign-api';
 import { systemType } from '../../server/help';
 import {
@@ -95,7 +95,7 @@ export default class Register extends Component {
   };
 
   showAgreement = () => {
-    Dialog.show('用户协议书', text);
+    Dialog.show('用户协议书', Agreement);
   };
 
   changePasswordState = (e) => {

@@ -5,19 +5,35 @@ import cssModules from 'react-css-modules';
 import styles from './user.scss';
 import { login, logout } from '../../model/action';
 import SysApi from '../../server/api/sys-api';
+import { SYS_DCB, SYS_DWB } from '../../server/define';
 
-const assetLists = {
-  DCB: [
-    { name: 'allCash', label: '总资产' },
-    { name: 'availableCash', label: '可用资金' },
-    { name: 'frozenCash', label: '占用合约定金' },
-  ],
-  DWB: [
-    { name: 'allCash', label: '总资产' },
-    { name: 'availableCash', label: '可用资金' },
-    { name: 'frozenCash', label: '占用资金' },
-    { name: 'cashEarnAll', label: '持仓盈亏' },
-  ],
+const renderList = {
+  [SYS_DCB]: {
+    asset: [
+      { name: 'allCash', label: '总资产' },
+      { name: 'availableCash', label: '可用资金' },
+      { name: 'frozenCash', label: '占用合约定金' },
+    ],
+    channel: [
+      { name: 'gold', label: '出入金', direction: '/gold' },
+      { name: 'userCenter', label: '个人设置', direction: '/userCenter' },
+      { name: 'track', label: '点差宝介绍', direction: '/track' },
+    ],
+  },
+  [SYS_DWB]: {
+    asset: [
+      { name: 'allCash', label: '总资产' },
+      { name: 'availableCash', label: '可用资金' },
+      { name: 'frozenCash', label: '占用资金' },
+      { name: 'cashEarnAll', label: '持仓盈亏' },
+    ],
+    channel: [
+      { name: 'hold', label: '当前持仓', direction: '/hold' },
+      { name: 'gold', label: '出入金', direction: '/gold' },
+      { name: 'userCenter', label: '个人设置', direction: '/userCenter' },
+      { name: 'track', label: '点差宝介绍', direction: '/track' },
+    ],
+  },
 };
 
 const checkChannel = [
@@ -40,34 +56,6 @@ class User extends Component {
       // SysApi.getSysConfig();
     }
     if (type === 2) this.props.dispatch(logout());
-  };
-
-  bottomList = () => {
-    let bottomList = '';
-    if (this.props.systemInfo.systemType === 'DCB') {
-      bottomList = (
-        <ul>
-          <Link to="/gold"><li><img src="1.png" alt="" /><span>出入金</span></li></Link>
-          <Link to="/register"><li><img src="1.png" alt="" /><span>个人设置</span></li></Link>
-          <Link to="/dcpage">
-            <li styleName="itemName"><img src="1.png" alt="" /><span>点差宝介绍</span></li>
-          </Link>
-        </ul>
-      );
-    }
-    if (this.props.systemInfo.systemType === 'DWB') {
-      bottomList = (
-        <ul>
-          <Link to="/gold"><li><img src="1.png" alt="" /><span>当前持仓</span></li></Link>
-          <Link to="/gold"><li><img src="1.png" alt="" /><span>出入金</span></li></Link>
-          <Link to="/register"><li><img src="1.png" alt="" /><span>个人设置</span></li></Link>
-          <Link to="/dwpage">
-            <li styleName="itemName"><img src="1.png" alt="" /><span>点微宝介绍</span></li>
-          </Link>
-        </ul>
-      );
-    }
-    return bottomList;
   };
 
   render() {
@@ -94,7 +82,7 @@ class User extends Component {
           </div>
           <ol className="table" styleName="asset">
             {
-              assetLists[systemType].map((assetItem) => {
+              renderList[systemType].asset.map((assetItem) => {
                 const amount = isLogin && assetInfo[assetItem.name] ?
                   assetInfo[assetItem.name] : '- -';
                 return (
@@ -105,7 +93,6 @@ class User extends Component {
                 );
               })
             }
-
           </ol>
         </div>
         {
@@ -120,7 +107,17 @@ class User extends Component {
           </ol>) : null
         }
         <div styleName="links">
-          {this.bottomList()}
+          <ul>
+            {
+              renderList[systemType].channel.map((channelItem) => (
+                <li key={channelItem.name} styleName={`channel-${channelItem.name}`}>
+                  <Link to={channelItem.direction}>
+                    <img src="1.png" alt="" /><span>{channelItem.label}</span>
+                  </Link>
+                </li>
+              ))
+            }
+          </ul>
         </div>
       </div>
     );

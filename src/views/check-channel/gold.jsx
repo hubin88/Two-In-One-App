@@ -6,6 +6,7 @@ import React, { Component, PropTypes } from 'react';
 import cssModules from 'react-css-modules';
 import { connect } from 'react-redux';
 import styles from './gold.scss';
+import { SYS_DCB, SYS_DWB } from '../../server/define';
 
 @cssModules(styles, { allowMultiple: true, errorWhenNotFound: false })
 class Gold extends Component {
@@ -17,7 +18,7 @@ class Gold extends Component {
 
   setValue = () => {
     let tab = '';
-    if (this.props.systemInfo.systemType === 'DCB') {
+    if (this.props.systemInfo.systemType === SYS_DCB) {
       tab = (
         <div styleName="main">
           <div styleName="mains">
@@ -32,7 +33,7 @@ class Gold extends Component {
         </div>
       );
     }
-    if (this.props.systemInfo.systemType === 'DWB') {
+    if (this.props.systemInfo.systemType === SYS_DWB) {
       tab = (
         <div styleName="main">
           <div styleName="mains">

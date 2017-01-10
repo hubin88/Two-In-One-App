@@ -1,16 +1,16 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware, compose } from 'redux';
-import { Router, IndexRoute, Route, browserHistory, IndexRedirect } from 'react-router';
+import { Router, IndexRoute, Route, browserHistory } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
 import thunkMiddleware from 'redux-thunk';
 import rootReducer from './model/reducer';
 import App from './app';
 import Home from './views/home/home';
-import Track from './views/track/track';
+import Track from './views/user/track';
 import Rule from './views/rule/rule';
 import User from './views/user/user';
-import Personal from './views/sign/personal';
+import Broker from './views/broker/broker';
 import Login from './views/sign/login';
 import Register from './views/sign/register';
 import Reset from './views/sign/reset';
@@ -18,7 +18,7 @@ import Pay from './views/check-channel/pay';
 import Withdraw from './views/check-channel/withdraw';
 import Gold from './views/check-channel/gold';
 import Dcpage from './views/check-channel/dcpage';
-import Dwpage from './views/check-channel/dwpage';
+import UserCenter from './views/check-channel/dwpage';
 
 const store = DEBUG ? createStore(
   rootReducer,
@@ -41,21 +41,19 @@ const checkLogin = (nextState, replace) => {
 const StoreWrap = () => (
   <Provider store={store}>
     <Router history={history}>
-      <Route path="/" component={Personal}>
-        <IndexRedirect to="/login" />
-        <Route path="/login" component={Login} />
-        <Route path="/register" component={Register} />
-        <Route path="/reset" component={Reset} />
-      </Route>
+      <Route path="/login" component={Login} />
+      <Route path="/register" component={Register} />
+      <Route path="/reset" component={Reset} />
       <Route path="/pay" component={Pay} onEnter={checkLogin} />
       <Route path="/withdraw" component={Withdraw} onEnter={checkLogin} />
+      <Route path="/hold" component={Dcpage} />
       <Route path="/gold" component={Gold} onEnter={checkLogin} />
-      <Route path="/dcpage" component={Dcpage} />
-      <Route path="/dwpage" component={Dwpage} />
+      <Route path="/track" component={Track} onEnter={checkLogin} />
+      <Route path="/userCenter" component={UserCenter} onEnter={checkLogin} />
+      <Route path="/broker" component={Broker} onEnter={checkLogin} />
       <Route path="/" component={App}>
         <IndexRoute component={Home} />
         <Route path="/home" component={Home} />
-        <Route path="/track" component={Track} onEnter={checkLogin} />
         <Route path="/rule" component={Rule} />
         <Route path="/user" component={User} />
       </Route>

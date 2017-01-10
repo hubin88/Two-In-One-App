@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import cssModules from 'react-css-modules';
 import styles from './track.scss';
+import { SYS_DCB, SYS_DWB } from '../../server/define';
 
 @cssModules(styles, { allowMultiple: true, errorWhenNotFound: false })
 
@@ -10,6 +11,7 @@ class Track extends Component {
     value: PropTypes.string,
     systemInfo: PropTypes.object.isRequired,
   };
+
   constructor(props) {
     super(props);
     this.state = {
@@ -19,7 +21,7 @@ class Track extends Component {
 
   setTrackValue = () => {
     let tpls = '';
-    if (this.props.systemInfo.systemType === 'DCB') {
+    if (this.props.systemInfo.systemType === SYS_DCB) {
       tpls = (
         <div styleName="main">
           <div styleName="mains">
@@ -41,7 +43,7 @@ class Track extends Component {
         </div>
       );
     }
-    if (this.props.systemInfo.systemType === 'DWB') {
+    if (this.props.systemInfo.systemType === SYS_DWB) {
       tpls = (
         <div styleName="main">
           <div styleName="mains">

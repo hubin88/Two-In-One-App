@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import cssModules from 'react-css-modules';
 import { changeSystem } from '../model/action';
 import styles from './header.scss';
+import { SYS_DCB, SYS_DWB } from '../server/define';
 
 @cssModules(styles, { allowMultiple: true, errorWhenNotFound: false })
 export default class Header extends Component {
@@ -13,11 +14,11 @@ export default class Header extends Component {
 
   toChangeSystem = (type) => () => {
     switch (type) {
-      case 'DCB':
-        this.props.dispatch(changeSystem('DCB'));
+      case SYS_DCB:
+        this.props.dispatch(changeSystem(SYS_DCB));
         break;
-      case 'DWB':
-        this.props.dispatch(changeSystem('DWB'));
+      case SYS_DWB:
+        this.props.dispatch(changeSystem(SYS_DWB));
         break;
       default:
         console.log('err');

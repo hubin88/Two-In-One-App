@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import cssModules from 'react-css-modules';
 import { connect } from 'react-redux';
 import styles from './rule.scss';
+import { SYS_DCB, SYS_DWB } from '../../server/define';
 
 const config = require('../../../app.config');
 
@@ -12,6 +13,7 @@ class Rule extends Component {
     DW: PropTypes.object,
     systemInfo: PropTypes.object.isRequired,
   };
+
   constructor(props) {
     super(props);
     this.state = {
@@ -27,18 +29,19 @@ class Rule extends Component {
 
   getRule = () => {
     let htmls = '';
-    if (this.props.systemInfo.systemType === 'DCB') {
+    if (this.props.systemInfo.systemType === SYS_DCB) {
       htmls = (
         <iframe src={this.state.DC} />
       );
     }
-    if (this.props.systemInfo.systemType === 'DWB') {
+    if (this.props.systemInfo.systemType === SYS_DWB) {
       htmls = (
         <iframe src={this.state.DW} />
       );
     }
     return htmls;
   };
+
   render() {
     return (
       <div styleName="rules">
