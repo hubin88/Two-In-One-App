@@ -3,7 +3,6 @@
  */
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { getQueryString } from '../../server/tools';
 
 import '../../css/main.scss'; // import global css style
 
@@ -14,14 +13,6 @@ class Persponal extends Component {
     exchangeInfo: PropTypes.object,
     children: PropTypes.any,
   };
-
-  constructor(props) {
-    super(props);
-    this.state = {
-      isShowHeader: !getQueryString('showTop'), //是否显示头部标题
-    };
-  }
-
   back = () => {
     window.history.go(-1);
   };
@@ -37,10 +28,10 @@ class Persponal extends Component {
     });
     return (
       <div className="content" ref={(ref) => { this.content = ref; }}>
-        {this.state.isShowHeader ? <div className="header">
+        <div className="header">
           <input type="button" className="back" onClick={() => { this.back(); }} />
           {titleName}
-        </div> : null}
+        </div>
         {this.props.children}
       </div>
     );
