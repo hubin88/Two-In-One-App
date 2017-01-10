@@ -2,8 +2,6 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import Footer from './views/footer';
 import Header from './views/header';
-import LeftNav from './views/left-nav';
-
 import './css/main.scss'; // import global css style
 import { getCommodityAndServers, appStart } from './model/action';
 
@@ -16,13 +14,6 @@ class App extends Component {
     children: PropTypes.any,
   };
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      isShowLeftNav: false,
-    };
-  }
-
   componentDidMount() {
     this.props.dispatch(appStart());
   }
@@ -30,12 +21,6 @@ class App extends Component {
   test() {
     this.props.dispatch(getCommodityAndServers());
   }
-
-  showLeftNav = () => {
-    this.setState({
-      isShowLeftNav: !this.state.isShowLeftNav,
-    });
-  };
 
   render() {
     const {
@@ -45,10 +30,9 @@ class App extends Component {
     } = this.props;
     return (
       // App root node
-      <div className={this.state.isShowLeftNav ? 'main show-left-nav' : 'main hide-left-nav'}>
-        <LeftNav />
+      <div className="main">
         <header>
-          <Header dispatch={dispatch} systemList={systemList} showLeftNav={this.showLeftNav} />
+          <Header dispatch={dispatch} systemList={systemList} />
         </header>
         <section id="section">
           {this.props.children}

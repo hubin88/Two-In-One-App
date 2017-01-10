@@ -1,7 +1,7 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware, compose } from 'redux';
-import { Router, IndexRoute, Route, browserHistory, IndexRedirect } from 'react-router';
+import { Router, IndexRoute, Route, browserHistory } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
 import thunkMiddleware from 'redux-thunk';
 import rootReducer from './model/reducer';
@@ -11,7 +11,6 @@ import Track from './views/user/track';
 import Rule from './views/rule/rule';
 import User from './views/user/user';
 import Broker from './views/broker/broker';
-import Personal from './views/sign/personal';
 import Login from './views/sign/login';
 import Register from './views/sign/register';
 import Reset from './views/sign/reset';
@@ -42,15 +41,9 @@ const checkLogin = (nextState, replace) => {
 const StoreWrap = () => (
   <Provider store={store}>
     <Router history={history}>
-      {/* <Route path="/login" component={Login} />*/}
-      {/* <Route path="/register" component={Register} />*/}
-      {/* <Route path="/reset" component={Reset} />*/}
-      <Route path="/personal" component={Personal}>
-        <IndexRedirect to="/login" />
-        <Route path="/login" component={Login} />
-        <Route path="/register" component={Register} />
-        <Route path="/reset" component={Reset} />
-      </Route>
+      <Route path="/login" component={Login} />
+      <Route path="/register" component={Register} />
+      <Route path="/reset" component={Reset} />
       <Route path="/pay" component={Pay} onEnter={checkLogin} />
       <Route path="/withdraw" component={Withdraw} onEnter={checkLogin} />
       <Route path="/hold" component={Dcpage} />

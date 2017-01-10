@@ -9,8 +9,6 @@ import { SYS_DCB, SYS_DWB } from '../define';
 export const TRADE_DIR = {
   [SYS_DCB]: 'trade/',
   [SYS_DWB]: 'weipan/',
-  DCB: 'trade/',
-  DWB: 'weipan/',
 };
 
 // 经纪人前缀
@@ -42,13 +40,10 @@ export const GET_USER_DATA = 'getUseData';
 export const GET_MERCHS_AND_SERVERS = 'getMerchsAndServers';
 
 // 忘记密码
-export const FORGET_PWD = 'forgetPwd';
+export const GORGET_PWD = 'forgetPwd';
 
 // 发送验证码
-export const GET_CODE = {
-  DCB: 'sendCaptcha',
-  DWB: 'sendCodeRegister',
-};
+export const SEND_CAPTCHA = 'sendCaptcha';
 
 // 设置、修改交易密码
 export const UPADTE_PWD = 'upadtePwd';
