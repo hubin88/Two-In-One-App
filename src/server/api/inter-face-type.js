@@ -77,3 +77,4 @@ export const GET_TRADE_RECORD = {
   [SYS_DCB]: 'getTradeRecordPage',
   [SYS_DWB]: 'getTradeHoldHisPage',
 };
+

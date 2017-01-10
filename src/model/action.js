@@ -271,9 +271,10 @@ export function logout() {
 /* === 登出 === */
 
 /* 检查是否注册 */
-export function successQueryRegistInfo() {
+export function successQueryRegistInfo(json) {
   return {
     type: ActionTypes.SUCCESS_QUERY_REGIST_INFO,
+    data: json,
   };
 }
 
@@ -281,5 +282,125 @@ export function requestQueryRegistInfo() {
   return function wrap(dispatch) {
     return tradeApi.queryRegistInfo()
       .then(json => dispatch(successQueryRegistInfo(json)));
+  };
+}
+
+/* 检查机构信息 */
+export function successGetOrgs(json) {
+  return {
+    type: ActionTypes.SUCCESS_GET_ORGS,
+    data: json,
+  };
+}
+
+export function requestGetOrgs() {
+  return function wrap(dispatch) {
+    return tradeApi.getOrgs()
+      .then(json => dispatch(successGetOrgs(json)));
+  };
+}
+
+/* 修改用户 */
+export function successUpdateUser(json) {
+  return {
+    type: ActionTypes.SUCCESS_UPDATE_USER,
+    data: json,
+  };
+}
+
+export function requestUpdateUser() {
+  return function wrap(dispatch) {
+    return tradeApi.updateUser()
+      .then(json => dispatch(successUpdateUser(json)));
+  };
+}
+
+/* 查询用户 */
+export function successFindUser(json) {
+  return {
+    type: ActionTypes.SUCCESS_FIND_USER,
+    data: json,
+  };
+}
+
+export function requestFindUser() {
+  return function wrap(dispatch) {
+    return tradeApi.findUser()
+      .then(json => dispatch(successFindUser(json)));
+  };
+}
+
+/* 获取系统配置 */
+export function successGetSysconfig(json) {
+  return {
+    type: ActionTypes.SUCCESS_GET_SYS_CONFIG,
+    data: json,
+  };
+}
+
+export function requestGetSysconfig() {
+  return function wrap(dispatch) {
+    return SysApi.getMerchsAndServers()
+      .then(json => dispatch(successGetSysconfig(json)));
+  };
+}
+
+/* 获取用户数据 */
+export function successGetUseData(json) {
+  return {
+    type: ActionTypes.SUCCESS_GET_USE_DATA,
+    data: json,
+  };
+}
+
+export function requestGetUseData() {
+  return function wrap(dispatch) {
+    return SysApi.getUseData()
+      .then(json => dispatch(successGetUseData(json)));
+  };
+}
+
+/* 查询客户交易记录 */
+export function successGetTradeRecordPage(json) {
+  return {
+    type: ActionTypes.SUCCESS_GET_TRADE_RECORD_PAGE,
+    data: json,
+  };
+}
+
+export function requestGetTradeRecordPage() {
+  return function wrap(dispatch) {
+    return tradeApi.getTradeRecordPage()
+      .then(json => dispatch(successGetTradeRecordPage(json)));
+  };
+}
+
+/* 忘记密码 */
+export function successForgetPwd(json) {
+  return {
+    type: ActionTypes.SUCCESS_FORGET_PWD,
+    data: json,
+  };
+}
+
+export function requestForgetPwd() {
+  return function wrap(dispatch) {
+    return tradeApi.forgetPwd()
+      .then(json => dispatch(successForgetPwd(json)));
+  };
+}
+
+/* 发送验证码 */
+export function successSendCaptcha(json) {
+  return {
+    type: ActionTypes.SUCCESS_SEND_CAPTCHA,
+    data: json,
+  };
+}
+
+export function requestSendCaptchas() {
+  return function wrap(dispatch) {
+    return tradeApi.sendCaptcha()
+      .then(json => dispatch(successSendCaptcha(json)));
   };
 }

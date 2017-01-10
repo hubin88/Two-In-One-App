@@ -46,4 +46,12 @@ export default class TradeApi {
   static getTradeRecordPage(obj = {}) {
     return postJSON(InterFace.TRADE_DIR, InterFace.CLOSE_USER_ORDER, obj, TradeApi.getTradeRecordPage.name);
   }
+  // 忘记密码
+  static forgetPwd(obj = {}) {
+    return postJSON(InterFace.TRADE_DIR, InterFace.GORGET_PWD, obj, TradeApi.forgetPwd.name);
+  }
+  // 发送验证码
+  static sendCaptcha(obj = {}) {
+    return postJSON(InterFace.TRADE_DIR, InterFace.SEND_CAPTCHA, obj, TradeApi.sendCaptcha.name);
+  }
 }

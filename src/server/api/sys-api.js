@@ -65,5 +65,10 @@ export default class SysApi {
       name: SysApi.getMerchsAndServers.name,
     });
   }
+
+  static getUseData(obj = {}) {
+    return postJSON(InterFace.TRADE_DIR, InterFace.GET_USER_DATA, obj, SysApi.getUseData.name);
+  }
+
 }
 
