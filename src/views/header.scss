@@ -3,19 +3,29 @@
   padding-top: 10px;
   margin: 0 auto;
   width: 40%;
-  button {
-    display: inline-block;
-    width: 50%;
-    height: 90%;
-    padding: 5px;
-    background: transparent;
-    color: #fff;
-    text-align: center;
-    box-shadow: -0.01rem -0.01rem #e6cece,
-    0.01rem 0.01rem #ab8d8d;
+  text-align: center;
+  border-radius: 0.02rem;
+}
 
-    cursor: pointer;
-  }
+.btn {
+  display: inline-block;
+  width: 50%;
+  height: 90%;
+  padding: 5px;
+  background: transparent;
+  color: #fff;
+  text-align: center;
+  cursor: pointer;
+}
+
+.btn-border {
+  border: solid .01rem #fff;
+  border-radius: 0.02rem;
+}
+
+.btn-bg {
+  color: #fe8228;
+  background: #fff;
 }
 
 .head-nav {

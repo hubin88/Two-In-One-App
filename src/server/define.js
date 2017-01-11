@@ -14,6 +14,8 @@ export const SYS_DCB = 'DCB';
 
 export const SYS_DWB = 'DWB';
 
+export const NONE = -1;
+
 export const STATUS = {
   fetching: 0,
   success: 1,

@@ -4,19 +4,21 @@
 
 import React, { Component, PropTypes } from 'react';
 import cssModules from 'react-css-modules';
-import styles from './chart.scss';
+import styles from './quotes.scss';
 
-class Chart extends Component {
+const commodityInfo = [
+  { name: '白银', value: '4380' },
+  { name: '刚玉', value: '3342' },
+  { name: '塑料', value: '1335' },
+];
+class Quotes extends Component {
+  static defaultProps = {
+    commodityInfo,
+  };
   static propTypes = {
-    dispatch: PropTypes.func,
-    chartHeight: PropTypes.string,
-  }
-
-  quotations = [
-    { name: '白银', value: '4380' },
-    { name: '刚玉', value: '3342' },
-    { name: '塑料', value: '1335' },
-  ]
+    dispatch: PropTypes.func.isRequired,
+    commodityInfo: PropTypes.any,
+  };
 
   choose = () => {}
 
@@ -24,11 +26,11 @@ class Chart extends Component {
     return (
       <div styleName="commodity-quotations">
         <ul>
-          {this.quotations.map((quotations, index) =>
+          {this.props.commodityInfo.map((quotation, index) =>
             <li key={index} onClick={this.choose()}>
               <div styleName="quotations-info">
-                <span>{quotations.name}</span>
-                <span>{quotations.value}</span>
+                <span>{quotation.name}</span>
+                <span>{quotation.value}</span>
               </div>
               <div>
                 <img src="" alt="" />
@@ -47,9 +49,8 @@ class Chart extends Component {
   }
 
   render() {
-    const chartHeight = this.props.chartHeight;
     return (
-      <div styleName="chart" style={{ height: `${chartHeight}` }}>
+      <div styleName="chart">
         <hr styleName="line" />
         {this.renderQuotations()}
         {this.renderChart()}
@@ -58,4 +59,4 @@ class Chart extends Component {
   }
 }
 
-export default cssModules(Chart, styles, { allowMultiple: true, errorWhenNotFound: false });
+export default cssModules(Quotes, styles, { allowMultiple: true, errorWhenNotFound: false });

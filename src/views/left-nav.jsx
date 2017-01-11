@@ -2,59 +2,63 @@
  * Created by admin on 2017/1/10.
  */
 
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import cssModules from 'react-css-modules';
 import styles from './left-nav.scss';
 
 @cssModules(styles, { allowMultiple: true, errorWhenNotFound: false })
 export default class LeftNav extends Component {
+  static propTypes = {
+    dispatch: PropTypes.func.isRequired,
+    exchangeList: PropTypes.array,
+  };
+
   constructor(props) {
     super(props);
     this.state = {
-      orgId: 1,
-      orgName: '海西亚太微交易',
-      imgurl: '../images/touxiang.jpg',
+      exchangeId: 1,
+      exchangeName: '海西亚太微交易',
+      logoUrl: '../images/touxiang.jpg',
     };
   }
 
-  choseOrg = (item) => {
+  getExchangeData = () => {
+    const { exchangeId: id, exchangeName: name, logoUrl } = this.state;
+    return { id, name, logoUrl };
+  };
+
+  choseExchange = (exchange) => {
     this.setState({
-      orgId: item.id,
-      orgName: item.text,
-      imgurl: item.logoUrl,
+      exchangeId: exchange.id,
+      exchangeName: exchange.name,
+      logoUrl: exchange.logoUrl,
     });
   };
 
   render() {
-    const listArr = [
-      { id: 1, text: '海西亚太微交易', logoUrl: '../images/touxiang.jpg' },
-      { id: 2, text: '海西亚太微交易2', logoUrl: '../images/touxiang.jpg' },
-      { id: 3, text: '海西亚太微交易3', logoUrl: '../images/touxiang.jpg' },
-      { id: 4, text: '海西亚太微交易4', logoUrl: '../images/touxiang.jpg' },
-      { id: 5, text: '海西亚太微交易5', logoUrl: '../images/touxiang.jpg' },
-      { id: 6, text: '海西亚太微交易6', logoUrl: '../images/touxiang.jpg' },
-      { id: 7, text: '海西亚太微交易7', logoUrl: '../images/touxiang.jpg' },
-    ];
+    console.log(this.props);
     return (
       <div styleName="left-nav">
         <div styleName="header">
           <div>
-            <div styleName="logo"><span><img src={this.state.imgurl} role="presentation" /></span></div>
-            <div styleName="active-org-name">{this.state.orgName}</div>
+            <div styleName="logo">
+              <span><img src={this.state.logoUrl} role="presentation" /></span>
+            </div>
+            <div styleName="active-org-name">{this.state.exchangeName}</div>
           </div>
         </div>
         <div styleName="org-name">
           <ul styleName="list-name">
-            {listArr.map((item) => (
+            {this.props.exchangeList.map((exchange) => (
               <li
-                styleName={item.id === this.state.orgId ? 'active' : ''}
-                key={item.id}
-                onClick={() => { this.choseOrg(item); }}
+                styleName={exchange.id === this.state.exchangeId ? 'active' : ''}
+                key={exchange.id}
+                onClick={() => { this.choseExchange(exchange); }}
               >
-                {item.text}
+                {exchange.name}
                 <span />
               </li>
-              ))
+            ))
             }
           </ul>
         </div>

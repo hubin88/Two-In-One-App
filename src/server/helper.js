@@ -79,12 +79,13 @@ const api = new Promise((resolve) => {
 const ajaxImitate = (url, postData, systemType, name) => {
   console.log('进入模拟');
   return api
-    .then(() =>
+    .then(() => {
       // console.log('url', url);
-      // console.log('postData', postData);
+      console.log('postData', postData);
       // console.log('systemType', systemType);
       // console.log('name', name);
-      imitateData[name]);
+      return imitateData[name];
+    });
 };
 
 function postJSONImitate(param) {

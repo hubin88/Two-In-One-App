@@ -93,7 +93,6 @@ export default class Table extends React.Component {
   }
 
   render() {
-    console.log(this.props);
     return (
       <div>
         <div styleName="table" className={this.props.className}>

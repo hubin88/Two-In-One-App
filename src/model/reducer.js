@@ -3,18 +3,19 @@ import { routerReducer } from 'react-router-redux';
 import * as ActionTypes from './action-types';
 import { Cookie } from '../ultils/tools';
 import { arrayToObject } from '../ultils/helper';
-import { SYS_DCB, SYS_DWB } from '../server/define';
+import { SYS_DCB, SYS_DWB, NONE } from '../server/define';
 import AppConfig from '../server/app-config';
 
-const initSystemList = [
-  { type: SYS_DCB, label: '点差宝', sort: 1 },
-  { type: SYS_DWB, label: '点微宝', sort: 2 },
-];
+const initSystemList = [];
+const localExchangeData = Cookie.getCookie('exchangeData') || {};
 // 交易所的信息
 const initExchangeInfo = {
   exchangeList: [],
+  exchangeId: parseInt(localExchangeData.id || NONE, 10),
+  exChangeName: localExchangeData.name || '',
+  exchangeLogoUrl: localExchangeData.logoUrl || '',
   isSingleSystem: false, // 只有一个系统
-  systemList: arrayToObject(initSystemList, 'sort'),
+  systemList: initSystemList,
   commodity: {},
 };
 
@@ -59,15 +60,36 @@ function exchangeInfo(state = initExchangeInfo, action) {
         ...state,
       };
     }
+    case ActionTypes.SUCCESS_CHANGE_EXCHANGE: {
+      const {
+        exchangeData: { id: exchangeId, name: exchangeName, logoUrl: exchangeLogoUrl },
+      } = action;
+      Cookie.setCookie('exchangeData', action.exchangeData);
+      // TODO：切换系统后，清除登录状态。（产品要求切换失败时返回原来交易所，此处不支持）
+      Cookie.deleteCookie(`${SYS_DCB}-isLogin`);
+      Cookie.deleteCookie(`${SYS_DWB}-isLogin`);
+      return {
+        ...state,
+        exchangeId,
+        exchangeName,
+        exchangeLogoUrl,
+      };
+    }
+    case ActionTypes.SUCCESS_GET_ONE_EXCHANGE_INFO: {
+      console.log(action);
+      const { exchangeInfo: { system: systemList } } = action;
+      return {
+        ...state,
+        isSingleSystem: systemList ? systemList.length === 1 : false,
+        systemList,
+      };
+    }
     case ActionTypes.SUCCESS_GET_COMMODITY_SERVERS: {
       const { Merchs: commodityInfo = [] } = JSON.parse(action.commodityStr);
       return {
         ...state,
         commodity: arrayToObject(commodityInfo, 'MerchCode'),
       };
-    }
-    case ActionTypes.SUCCESS_CHANGE_EXCHANGE: {
-      return state;
     }
     default: {
       return state;

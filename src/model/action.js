@@ -2,6 +2,8 @@ import * as ActionTypes from './action-types';
 import { Cookie } from '../ultils/tools';
 import TradeApi from '../server/api/trade-api';
 import SysApi from '../server/api/sys-api';
+import AppConfig from '../server/app-config';
+import { arrayToObject } from '../ultils/helper';
 
 const api = new Promise((resolve) => {
   resolve();
@@ -75,12 +77,15 @@ export function errorGetOneExchangeInfo() {
     type: ActionTypes.ERROR_GET_ONE_EXCHANGE_INFO,
   };
 }
-export function getOneExchangeInfo(exchangeId) {
+export function getOneExchangeInfo(exchangeData) {
   return function wrap(dispatch) {
     dispatch(requestGetOneExchangeInfo());
-    return SysApi.getOneExchangeInfo(exchangeId)
-      .then(data => dispatch(successGetOneExchangeInfo(data)))
-      .catch(() => dispatch(errorGetOneExchangeInfo()));
+    return SysApi.getOneExchangeInfo({ exchangeId: exchangeData.id })
+    // TODO: 模拟不同交易所返回不同数据
+      .then(data => dispatch(successGetOneExchangeInfo(data[exchangeData.id])))
+      .catch((e) => {
+        dispatch(errorGetOneExchangeInfo(e));
+      });
   };
 }
 /* === 获取交易所信息 === */
@@ -112,28 +117,6 @@ export function getCommodityAndServers() {
 }
 /* === 获取商品、服务器 === */
 
-/* === 更改交易所 === */
-export function changeExchange(exchangeId) {
-  return function wrap(dispatch) {
-    return dispatch(getOneExchangeInfo(exchangeId))
-      .then((exchangeInfo) => {
-        dispatch(getCommodityAndServers(exchangeId, exchangeInfo.systemType));
-      });
-  };
-}
-/* === 更改交易所=== */
-
-/* === 程序启动 === */
-export function appStart() {
-  return function wrap(dispatch) {
-    return dispatch(getExchangeList())
-      .then((exList) => {
-        dispatch(changeExchange(exList[0]));
-      });
-  };
-}
-/* === 程序启动 === */
-
 /* === 切换系统 === */
 export function requestChangeSystem() {
   return {
@@ -160,7 +143,51 @@ export function changeSystem(systemType) {
       .catch(() => dispatch(errorChangeSystem()));
   };
 }
+export function changeSystemWrap(systemType) {
+  return function wrap(dispatch) {
+    if (!systemType || systemType === Cookie.getCookie('systemType')) return;
+    dispatch(changeSystem(systemType));
+  };
+}
 /* === 切换系统 === */
+
+/* === 更改交易所 === */
+export function successChangeExchange(exchangeData) {
+  return {
+    type: ActionTypes.SUCCESS_CHANGE_EXCHANGE,
+    exchangeData,
+  };
+}
+export function changeExchange(exchangeData) {
+  return function wrap(dispatch, getState) {
+    // TODO: 添加判断，如果exchangeId未改变，不重复请求
+    if (getState().exchangeInfo.exchangeId === exchangeData.id) return null;
+
+    dispatch(successChangeExchange(exchangeData));
+    return dispatch(getOneExchangeInfo(exchangeData))
+      .then((action) => {
+        const systemType = action.exchangeInfo.system[0].type;
+        dispatch(getCommodityAndServers(exchangeData));
+        return dispatch(changeSystem(systemType));
+      });
+  };
+}
+/* === 更改交易所=== */
+
+/* === 程序启动 === */
+export function appStart(initExchangeData = AppConfig.exchangeData()) {
+  return function wrap(dispatch) {
+    return dispatch(getExchangeList())
+      .then((action) => {
+        const exchangeIdArr = Object.keys(arrayToObject(action.exchangeList, 'id'));
+        const exchangeData = exchangeIdArr.includes(JSON.stringify(initExchangeData.id)) ?
+          initExchangeData.id : action.exchangeList[0];
+        return dispatch(changeExchange(exchangeData));
+      })
+
+  };
+}
+/* === 程序启动 === */
 
 /* 获取用户数据 */
 export function successGetUseData(json) {
@@ -169,7 +196,6 @@ export function successGetUseData(json) {
     data: json,
   };
 }
-
 export function requestGetUseData(obj) {
   return function wrap(dispatch) {
     return SysApi.getUseData(obj)
@@ -281,7 +307,6 @@ export function reset() {
 }
 /* ===重置密码=== */
 
-
 /* === 登出 === */
 export function requestLogout() {
   return {
@@ -315,7 +340,6 @@ export function successQueryRegistInfo(json) {
     data: json,
   };
 }
-
 export function requestQueryRegistInfo() {
   return function wrap(dispatch) {
     return TradeApi.queryRegistInfo()
@@ -330,7 +354,6 @@ export function successGetOrgs(json) {
     data: json,
   };
 }
-
 export function requestGetOrgs() {
   return function wrap(dispatch) {
     return TradeApi.getOrgs()
@@ -345,14 +368,12 @@ export function successUpdateUser(json) {
     data: json,
   };
 }
-
 export function requestUpdateUser() {
   return function wrap(dispatch) {
     return TradeApi.updateUser()
       .then(json => dispatch(successUpdateUser(json)));
   };
 }
-
 
 /* 获取系统配置 */
 export function successGetSysconfig(json) {
@@ -361,14 +382,12 @@ export function successGetSysconfig(json) {
     data: json,
   };
 }
-
 export function requestGetSysconfig() {
   return function wrap(dispatch) {
     return SysApi.getMerchsAndServers()
       .then(json => dispatch(successGetSysconfig(json)));
   };
 }
-
 
 /* 查询客户交易记录 */
 export function successGetTradeRecordPage(json) {
@@ -377,7 +396,6 @@ export function successGetTradeRecordPage(json) {
     data: json,
   };
 }
-
 export function requestGetTradeRecordPage() {
   return function wrap(dispatch) {
     return TradeApi.getTradeRecordPage()
@@ -392,7 +410,6 @@ export function successForgetPwd(json) {
     data: json,
   };
 }
-
 export function requestForgetPwd() {
   return function wrap(dispatch) {
     return TradeApi.forgetPwd()
@@ -407,7 +424,6 @@ export function successSendCaptcha(json) {
     data: json,
   };
 }
-
 export function requestSendCaptchas() {
   return function wrap(dispatch) {
     return TradeApi.getCodeRequest()
@@ -422,7 +438,6 @@ export function successGetMemberList(json) {
     data: json,
   };
 }
-
 export function requestGetMemberList() {
   return function wrap(dispatch) {
     return TradeApi.getMemberList()
@@ -437,7 +452,6 @@ export function successQueryUserInfoGateway(json) {
     data: json,
   };
 }
-
 export function requestQueryUserInfoGateway() {
   return function wrap(dispatch) {
     return TradeApi.queryUserInfoGateway()

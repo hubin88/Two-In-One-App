@@ -3,7 +3,7 @@ import cssModules from 'react-css-modules';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import Table from '../../components/table/table';
-import Chart from './chart';
+import Quotes from './quotes';
 import styles from './home.scss';
 import styles2 from './hold-table.scss';
 import { SYS_DCB, SYS_DWB } from '../../server/define';
@@ -29,6 +29,7 @@ class Home extends Component {
   static defaultProps = {};
 
   static propTypes = {
+    dispatch: PropTypes.func.isRequired,
     systemInfo: PropTypes.object,
   };
 
@@ -48,7 +49,8 @@ class Home extends Component {
     });
   };
 
-  holdHeader = (systemType) => {
+  // 持仓记录头部
+  holdHeaderList = (systemType) => {
     const obj = {
       [SYS_DCB]: [
         {
@@ -86,10 +88,8 @@ class Home extends Component {
     return obj[systemType];
   };
 
-  // 如果持仓大于零 显示持仓列表
-
   render() {
-    const { systemInfo: { systemType, assetInfo, isLogin, avatarURL, checkChannel } } = this.props;
+    const { dispatch, systemInfo: { systemType, assetInfo, isLogin, avatarURL, checkChannel } } = this.props;
     const allCash = isLogin && assetInfo.allCash ? assetInfo.allCash : '- -';
     return (
       <div styleName="home">
@@ -111,7 +111,7 @@ class Home extends Component {
         </div>
         <div styleName="trade" style={{ bottom: `${this.state.holdHeight}` }}>
           <div styleName="market">
-            <Chart />
+            <Quotes dispatch={dispatch} />
           </div>
           <div styleName="building">
             <span
@@ -131,7 +131,7 @@ class Home extends Component {
           {
             <Table
               ref={(ref) => { this.table = ref; }}
-              fields={this.holdHeader(systemType)}
+              fields={this.holdHeaderList(systemType)}
               data={this.state.holdBody}
               className="txt-center"
               styles={styles2}

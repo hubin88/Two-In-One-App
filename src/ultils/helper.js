@@ -88,7 +88,6 @@ export function pagination(currentPageNum, maxPageNum, delta = 2) {
 }
 
 export function safeGetParameter(param, key) {
-  console.log(param, key);
   if (!param) return null;
   if (typeof param === 'object' && param.length !== 0 && typeof key !== 'undefined') {
     return param[key];
