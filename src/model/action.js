@@ -400,7 +400,7 @@ export function successSendCaptcha(json) {
 
 export function requestSendCaptchas() {
   return function wrap(dispatch) {
-    return tradeApi.sendCaptcha()
+    return tradeApi.getCodeRequest()
       .then(json => dispatch(successSendCaptcha(json)));
   };
 }

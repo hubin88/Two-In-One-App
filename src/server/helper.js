@@ -7,6 +7,7 @@ import AppConfig from './app-config';
 import AjaxConfig from './api/ajax-config';
 import { safeGetParameter } from '../ultils/helper';
 import imitateData from './imitateData';
+import * as InterFace from './api/inter-face-type';
 
 const postDataFormat = (systemType) => {
   const formatConfig = AjaxConfig[systemType];
@@ -34,14 +35,12 @@ function ajax(url, obj, systemType, name) {
     },
     body: `{params:${postData}}`,
   }).then(res => res.json()).then((rs) => {
-    console.log(rs);
-    console.log(JSON.parse(rs.result));
     if (DEBUG) {
       // 输出网络记录
-      console.groupCollapsed(`[POST] [${name}] `, rs);
-      console.log(`%c${postData}`, 'font-style:italic;color:#666');
-      console.log(`%c${JSON.stringify(rs, null, '\t')}`, 'color:green');
-      console.groupEnd();
+      // console.groupCollapsed(`[POST] [${name}] `, rs);
+      // console.log(`%c${postData}`, 'font-style:italic;color:#666');
+      // console.log(`%c${JSON.stringify(rs, null, '\t')}`, 'color:green');
+      // console.groupEnd();
     }
 
     if (parseInt(rs.code, 10) !== 0) {
@@ -63,6 +62,16 @@ function postJSON(param) {
   return ajax(url, postData, baseServerType, param.name);
 }
 
+function postWithTrade(pos, data, name) {
+  const o = {
+    interFacePre: InterFace.TRADE_DIR,
+    interFacePos: pos,
+    data,
+    name,
+  };
+  return postJSON(o);
+}
+
 /* === 模拟暂不存在接口请求 === */
 const api = new Promise((resolve) => {
   resolve();
@@ -71,16 +80,15 @@ const api = new Promise((resolve) => {
 const ajaxImitate = (url, postData, systemType, name) => {
   console.log('进入模拟');
   return api
-    .then(() => {
-      console.log('url', url);
-      console.log('postData', postData);
-      console.log('systemType', systemType);
-      console.log('name', name);
-      return imitateData[name];
-    });
+    .then(() =>
+      // console.log('url', url);
+      // console.log('postData', postData);
+      // console.log('systemType', systemType);
+      // console.log('name', name);
+      imitateData[name]);
 };
 
-export function postJSONImitate(param) {
+function postJSONImitate(param) {
   const baseServerType = param.serverType || AppConfig.systemType();
   const pre = param.interFacePre ? safeGetParameter(param.interFacePre, baseServerType) : '';
   const pos = param.interFacePos ? safeGetParameter(param.interFacePos, baseServerType) : '';
@@ -90,6 +98,7 @@ export function postJSONImitate(param) {
   const postData = postDataFormat(baseServerType)(param.data, param.name);
   return ajaxImitate(url, postData, baseServerType, param.name);
 }
-/* === 模拟暂不存在接口请求 === */
 
-export default postJSON ;
+/* === 模拟暂不存在接口请求 === */
+export default postJSON;
+export { postWithTrade, postJSONImitate };
