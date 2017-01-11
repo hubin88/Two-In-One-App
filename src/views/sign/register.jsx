@@ -209,7 +209,6 @@ export default class Register extends Component {
       browserHistory.push('/');
       return false;
     }).catch(err => Tips.show(err.message));
-    Api.registerSubmit(options, flag, this.state.downLoadUrl, 'code-btn', this);
   };
 
   render() {
