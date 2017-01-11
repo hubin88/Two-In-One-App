@@ -1,7 +1,7 @@
 /**
  * Created by admin on 2016/12/29.
  */
-import postJSON, { postWithTrade } from '../helper';
+import postJSON, { postWithTrade, postAsset } from '../helper';
 import * as InterFace from './inter-face-type';
 
 export default class TradeApi {
@@ -41,11 +41,6 @@ export default class TradeApi {
     return postWithTrade(InterFace.FIND_USER, obj, TradeApi.findUser.name);
   }
 
-  // 系统设置是否注册,版本升级
-  static queryRegistInfo(obj = {}) {
-    return postWithTrade(InterFace.QUERY_REGISTINFO, obj, TradeApi.queryRegistInfo.name);
-  }
-
   static getMemberList(obj = {}) {
     return postWithTrade(InterFace.GET_MEMBER_LIST, obj, TradeApi.getMemberList.name);
   }
@@ -55,14 +50,13 @@ export default class TradeApi {
     return postJSON(InterFace.TRADE_DIR, InterFace.CLOSE_USER_ORDER, obj, TradeApi.getTradeRecordPage.name);
   }
 
-  // 忘记密码
-  static forgetPwd(obj = {}) {
-    return postJSON(InterFace.TRADE_DIR, InterFace.GORGET_PWD, obj, TradeApi.forgetPwd.name);
-  }
-
-  // 发送验证码
-  static sendCaptcha(obj = {}) {
-    return postJSON(InterFace.TRADE_DIR, InterFace.SEND_CAPTCHA, obj, TradeApi.sendCaptcha.name);
+  // 资产推送
+  static queryUserInfoGateway(obj = '444GLD02cFXWCb286da9P0X1Hc1e1ba46262N7e2DJI4bf6CX693LO') {
+    return postAsset({
+      interFacePos: InterFace.QUERY_USER_INFO_GATEWAY,
+      data: obj,
+      name: TradeApi.queryUserInfoGateway.name,
+    });
   }
 
 }
