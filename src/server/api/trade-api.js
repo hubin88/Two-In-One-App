@@ -5,65 +5,6 @@ import postJSON, { postWithTrade } from '../helper';
 import * as InterFace from './inter-face-type';
 
 export default class TradeApi {
-  // 登录
-  static login(obj = {}) {
-    return postJSON({
-      interFacePre: InterFace.TRADE_DIR,
-      interFacePos: InterFace.LOGIN,
-      data: obj,
-      name: TradeApi.login.name,
-    });
-  }
-
-  // 注册
-  static register(obj = {}) {
-    return postJSON({
-      interFacePre: InterFace.TRADE_DIR,
-      interFacePos: InterFace.REG,
-      data: obj,
-      name: TradeApi.register.name,
-    });
-  }
-
-  // 忘记密码
-  static forgetPassword(obj = {}) {
-    return postJSON({
-      interFacePre: InterFace.TRADE_DIR,
-      interFacePos: InterFace.FORGET_PWD,
-      data: obj,
-      name: TradeApi.forgetPassword.name,
-    });
-  }
-
-  // 获取验证码
-  static getCodeRequest(obj = {}) {
-    return postJSON({
-      interFacePre: InterFace.TRADE_DIR,
-      interFacePos: InterFace.GET_CODE,
-      data: obj,
-      name: TradeApi.getCodeRequest.name,
-    });
-  }
-
-  // 查询机构信息
-  static getOrgsName(obj = {}) {
-    return postJSON({
-      interFacePre: InterFace.TRADE_DIR,
-      interFacePos: InterFace.GET_ORGS,
-      data: obj,
-      name: TradeApi.getOrgsName.name,
-    });
-  }
-
-  // 系统设置是否注册,版本升级
-  static queryRegist(obj = {}) {
-    return postJSON({
-      interFacePre: InterFace.TRADE_DIR,
-      interFacePos: InterFace.QUERY_REGISTINFO,
-      data: obj,
-      name: TradeApi.queryRegistInfo.name,
-    });
-  }
 
   // 设置、修改交易密码
   static upadtePwd(obj = {}) {

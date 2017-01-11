@@ -3,9 +3,9 @@ import { connect } from 'react-redux';
 import Footer from './views/footer';
 import Header from './views/header';
 import LeftNav from './views/left-nav';
-
 import './css/main.scss'; // import global css style
 import { getCommodityAndServers, appStart } from './model/action';
+import Mask from './views/mask';
 
 class App extends Component {
   static defaultProps = {};
@@ -33,9 +33,19 @@ class App extends Component {
 
   showLeftNav = () => {
     this.setState({
-      isShowLeftNav: !this.state.isShowLeftNav,
+      isShowLeftNav: true,
+    }, () => { Mask.show(this.callback); });
+  };
+
+  hideLeftNav = () => {
+    this.setState({
+      isShowLeftNav: false,
     });
   };
+
+  callback = () => {
+    this.hideLeftNav();
+  }
 
   render() {
     const {

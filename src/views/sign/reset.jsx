@@ -1,8 +1,18 @@
 import React, { Component, PropTypes } from 'react';
 import cssModules from 'react-css-modules';
+import { browserHistory } from 'react-router';
 import styles from './reset.scss';
 import Api from '../../server/api/sign-api';
-import { regAccount, regPassword, regCode, getQueryString } from '../../server/tools';
+import Tips from './cummon/tips';
+import {
+  regAccount,
+  regPassword,
+  regCode,
+  getQueryString,
+  getCodeAgain,
+  resetGetCodeAgain,
+  resetForm,
+} from '../../server/tools';
 
 @cssModules(styles, { allowMultiple: true, errorWhenNotFound: false })
 export default class Reset extends Component {
@@ -87,7 +97,7 @@ export default class Reset extends Component {
       mobile: this.account.value,
       sendType: '2',
     };
-    Api.getCode('code-btn', this, options);
+    Api.getCode(options).then(() => { getCodeAgain('code-btn', this); }).catch(err => Tips.show(err.message));
   };
 
   submit = (e) => {
@@ -101,7 +111,11 @@ export default class Reset extends Component {
       newPwdOne: hex_md5(this.password.value),
       valiCode: this.code.value,
     };
-    Api.forgetPwdSubmit(options, '/');
+    Api.forgetPassword(options).then(() => {
+      resetGetCodeAgain('code-btn', this);
+      resetForm();
+      browserHistory.push('/');
+    }).catch(err => Tips.show(err.message));
   };
 
   render() {
@@ -113,7 +127,8 @@ export default class Reset extends Component {
           <div styleName="account">
             <label htmlFor="account">
               <input
-                type="text" id="account" placeholder="请输入手机号码" autoFocus="autofocus"
+                type="text" id="account" placeholder="请输入手机号码" maxLength="11"
+                autoFocus="autofocus"
                 ref={(ref) => { this.account = ref; }} onKeyUp={this.check}
               />
             </label>

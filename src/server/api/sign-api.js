@@ -1,70 +1,69 @@
 /**
  * Created by admin on 2016/12/27.
  */
-import { browserHistory } from 'react-router';
-import Tips from '../../views/sign/cummon/tips';
-import { getCodeAgain, resetForm } from '../tools';
-import TradeApi from './trade-api';
+import postJSON from '../helper';
+import * as InterFace from './inter-face-type';
 
 export default class Api {
-  // 获取验证码
-  static getCode(id, _this, opts) {
-    TradeApi.getCodeRequest(opts).then((json) => {
-      if (json.code === 0) {
-        getCodeAgain(id, _this);
-        return Tips.show(json.message);
-      }
-      return Tips.show(json.message);
-    });
-  }
-
-  // 提交注册
-  static registerSubmit(opts, flag, url, id, _this) {
-    TradeApi.register(opts).then((json) => {
-      if (json.code === 0) {
-        if (flag) {
-          if (!url) return false;
-          Tips.show(json.message);
-          resetForm(id, _this);
-          window.location.href = url;
-          return false;
-        }
-        resetForm(id, _this);
-        return false;
-      }
-      return Tips.show(json.message);
-    });
-  }
-
-  // 获取下载链接
-  static getDownLoadUrl(options) {
-    return TradeApi.queryRegist(options);
-  }
-
-  // 获取机构信息
-  static getOrgInfo(options) {
-    return TradeApi.getOrgsName(options);
-  }
 
   // 登录
-  static loginSubmit(opts, path) {
-    TradeApi.login(opts).then((json) => {
-      if (json.code === 0) {
-        browserHistory.push(path);
-        return false;
-      }
-      return Tips.show(json.message);
+  static login(obj = {}) {
+    return postJSON({
+      interFacePre: InterFace.TRADE_DIR,
+      interFacePos: InterFace.LOGIN,
+      data: obj,
+      name: Api.login.name,
+    });
+  }
+
+  // 注册
+  static register(obj = {}) {
+    return postJSON({
+      interFacePre: InterFace.TRADE_DIR,
+      interFacePos: InterFace.REG,
+      data: obj,
+      name: Api.register.name,
     });
   }
 
   // 忘记密码
-  static forgetPwdSubmit(opts, path) {
-    TradeApi.forgetPassword(opts).then((json) => {
-      if (json.code === 0) {
-        browserHistory.push(path);
-        return false;
-      }
-      return Tips.show(json.message);
+  static forgetPassword(obj = {}) {
+    return postJSON({
+      interFacePre: InterFace.TRADE_DIR,
+      interFacePos: InterFace.FORGET_PWD,
+      data: obj,
+      name: Api.forgetPassword.name,
     });
   }
+
+  // 获取验证码
+  static getCode(obj = {}) {
+    return postJSON({
+      interFacePre: InterFace.TRADE_DIR,
+      interFacePos: InterFace.GET_CODE,
+      data: obj,
+      name: Api.getCode.name,
+    });
+  }
+
+  // 查询机构信息
+  static getOrgsName(obj = {}) {
+    return postJSON({
+      interFacePre: InterFace.TRADE_DIR,
+      interFacePos: InterFace.GET_ORGS,
+      data: obj,
+      name: Api.getOrgsName.name,
+    });
+  }
+
+  // 系统设置是否注册,版本升级
+  static queryRegistInfo(obj = {}) {
+    return postJSON({
+      interFacePre: InterFace.TRADE_DIR,
+      interFacePos: InterFace.QUERY_REGISTINFO,
+      data: obj,
+      name: Api.queryRegistInfo.name,
+    });
+  }
+
 }

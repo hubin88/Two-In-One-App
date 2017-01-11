@@ -59,9 +59,8 @@ export function resetGetCodeAgain(id, _this) {
   btn.removeAttribute('disabled');
   _this.setState({ codeBtnValue: '获取短信验证码', isCodeRequest: true });
 }
-export function resetForm(id, _this) {
+export function resetForm() {
   document.forms[0].reset();
-  resetGetCodeAgain(id, _this);
 }
 export function getQueryString(name) {
   const reg = new RegExp(`(^|&)${name}=([^&]*)(&|$)`, 'i');

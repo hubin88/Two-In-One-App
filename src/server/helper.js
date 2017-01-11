@@ -45,7 +45,7 @@ function ajax(url, obj, systemType, name) {
 
     if (parseInt(rs.code, 10) !== 0) {
       console.error(`调用失败! ${JSON.stringify(rs)}`);
-      throw new Error(rs.msg);
+      throw new Error(rs.message);
     }
     return rs;
   });

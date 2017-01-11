@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import cssModules from 'react-css-modules';
+import { browserHistory } from 'react-router';
 import styles from './register.scss';
 import Dialog from './cummon/dialog';
 import Tips from './cummon/tips';
@@ -11,6 +12,9 @@ import {
   regCode,
   getQueryString,
   getDevice,
+  getCodeAgain,
+  resetGetCodeAgain,
+  resetForm,
 } from '../../server/tools';
 
 @cssModules(styles, { allowMultiple: true, errorWhenNotFound: false })
@@ -49,32 +53,7 @@ export default class Register extends Component {
       [Boolean(this.state.exchangecode), Boolean(this.state.orgId), Boolean(this.state.brokerId)];
     if (flagBrokerId && flagOrgId) {
       document.title = titleType[this.state.systemType];
-      this.getOrganization({ orgIds: this.state.orgId });
-    }
-    if (flagCode) {
-      const options = {
-        exchangecode: this.state.exchangecode,
-        type: this.state.deviceType,
-      };
-      this.getDownLoadUrl(options);
-    }
-  }
-
-  getDownLoadUrl = (options) => {
-    Api.getDownLoadUrl(options).then((json) => {
-      if (json.code === 0) {
-        this.setState({
-          downLoadUrl: json.result.downUrl,
-        });
-        return false;
-      }
-      return false;
-    });
-  };
-
-  getOrganization = (options) => {
-    Api.getOrgInfo(options).then((json) => {
-      if (json.code === 0) {
+      Api.getOrgsName({ orgIds: this.state.orgId }).then((json) => {
         let data;
         if (this.state.systemType === 'DCB') {
           data = JSON.parse(json.result).data[0];
@@ -88,10 +67,21 @@ export default class Register extends Component {
           orgName: data.orgName || data.OrgName,
           isRequestOrgName: true,
         });
-      }
-      return false;
-    });
-  };
+        return false;
+      }).catch(err => Tips.show(err.message));
+    }
+    if (flagCode) {
+      const options = {
+        exchangecode: this.state.exchangecode,
+        type: this.state.deviceType,
+      };
+      Api.queryRegistInfo(options).then((json) => {
+        this.setState({
+          downLoadUrl: json.result.downUrl,
+        });
+      });
+    }
+  }
 
   showAgreement = () => {
     Dialog.show('用户协议书', Agreement);
@@ -171,7 +161,7 @@ export default class Register extends Component {
         msgType: '0',
       };
     }
-    Api.getCode('code-btn', this, options);
+    Api.getCode(options).then(() => { getCodeAgain('code-btn', this); }).catch(err => Tips.show(err.message));
   };
 
   showOrgName = () => {
@@ -206,6 +196,19 @@ export default class Register extends Component {
       brokerId: this.state.brokerId,
       channelType: 'app',
     };
+    Api.register(options).then((json) => {
+      if (flag) {
+        const url = this.state.downLoadUrl;
+        if (!url) return false;
+        Tips.show(json.message);
+        window.location.href = url;
+        return false;
+      }
+      resetGetCodeAgain('code-btn', this);
+      resetForm();
+      browserHistory.push('/');
+      return false;
+    }).catch(err => Tips.show(err.message));
     Api.registerSubmit(options, flag, this.state.downLoadUrl, 'code-btn', this);
   };
 

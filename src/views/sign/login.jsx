@@ -6,7 +6,7 @@ import { Link, browserHistory } from 'react-router';
 import cssModules from 'react-css-modules';
 import styles from './login.scss';
 import Api from '../../server/api/sign-api';
-import { regAccount, regPassword, getQueryString } from '../../server/tools';
+import { regAccount, regPassword, getQueryString, resetForm } from '../../server/tools';
 import Tips from './cummon/tips';
 
 @cssModules(styles, { allowMultiple: true, errorWhenNotFound: false })
@@ -79,11 +79,12 @@ export default class Login extends Component {
       password: hex_md5(this.password.value),
     };
     Api.login(options).then((json) => {
+      resetForm();
       browserHistory.push('/');
-      if (this.props.callback) this.props.callback(json);
-    }).catch(err => {
-      Tips.show(err.message);
-    });
+      if (this.props.callback) {
+        this.props.callback(json);
+      }
+    }).catch(err => Tips.show(err.message));
   };
 
   render() {
