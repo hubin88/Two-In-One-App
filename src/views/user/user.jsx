@@ -36,11 +36,6 @@ const renderList = {
   },
 };
 
-const checkChannel = [
-  { type: 'pay', label: '充值', direction: '/pay' },
-  { type: 'withdraw', label: '提现', direction: '/withdraw' },
-];
-
 @cssModules(styles, { allowMultiple: true, errorWhenNotFound: false })
 class User extends Component {
   static propTypes = {
@@ -59,7 +54,11 @@ class User extends Component {
   };
 
   render() {
-    const { systemInfo: { systemType, assetInfo, isLogin, avatarURL, nickName } } = this.props;
+    const {
+      systemInfo: {
+        systemType, assetInfo, isLogin, avatarURL, nickName, checkChannel,
+      },
+    } = this.props;
     return (
       <div styleName="user">
         <div styleName="info">
@@ -99,7 +98,7 @@ class User extends Component {
           isLogin ? (<ol className="table" styleName="check-channel">
             {
               checkChannel.map((channel) => (
-                <li key={channel.type} className="td" styleName={`channel-${channel.name}`}>
+                <li key={channel.type} className="td" styleName={`channel-${channel.type}`}>
                   <Link to={channel.direction}>{channel.label}</Link>
                 </li>
               ))

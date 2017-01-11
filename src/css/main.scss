@@ -29,6 +29,7 @@ body {
 
 a {
   text-decoration: none;
+  color: inherit;
 }
 
 ul, li, ol, h3, table, td, th, tr {
@@ -71,7 +72,7 @@ li {
   width: 100%;
   height: 100%;
   position: relative;
-  padding: .4rem 0 .3rem;
+  padding: .4rem 0 .35rem;
   background-color: #EFEFF5;
 }
 

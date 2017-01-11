@@ -1,19 +1,91 @@
+$playColor: ("on":#3b85d9, "off":#899198);
+$avatarH: .4rem;
+$infoPaddingTop: .12rem;
+$infoPaddingBottom: .08rem;
+$infoPaddingLeft: .1rem;
+$tradingH: .6rem;
+$tipsH: .2rem;
+
 .home {
   height: 100%;
   width: 100%;
-  font-family: 微软雅黑;
+  //padding: $avatarH+$infoPaddingTop+$infoPaddingBottom 0 0;
+  position: relative;
 }
 
-.building-button {
-  height: 13%;
+.user-info {
+  //height: 0.7rem;
+  width: 100%;
+  padding: $infoPaddingTop $infoPaddingLeft $infoPaddingBottom;
+  border-bottom: .01rem #c0c0c0 solid;
+  background-color: #FFFFFF;
+  span {
+    height: $avatarH;
+    line-height: $avatarH;
+    display: inline-block;
+    vertical-align: middle;
+  }
+}
+
+.avatar {
+  font-size: 0;
+  img {
+    height: 100%;
+    vertical-align: middle;
+    border-radius: 0.1*$avatarH;
+  }
+}
+
+.asset {
+  margin-left: 0.1rem;
+  b {
+    display: inline-block;
+    padding: 0 .01rem;
+    color: #ffa040;
+    font-weight: bold;
+  }
+}
+
+@each $key, $bgColor in (pay:#FE8228, withdraw: #6FA0F5) {
+  .channel-#{$key} {
+    display: inline-block;
+    text-align: center;
+    margin-left: .1rem;
+    height: 0.3rem;
+    line-height: 0.3rem;
+    padding: 0 0.14rem;
+    font-size: 0.14rem;
+    color: #FFFFFF;
+    background-color: $bgColor;
+    border-radius: 0.03rem;
+  }
+}
+
+.trade {
+  //height: 100%;
+  width: 100%;
+  position: absolute;
+  top: $avatarH+$infoPaddingTop+$infoPaddingBottom;
+  bottom: 0;
+}
+
+.market {
+  height: 100%;
+  border: solid 1px red;
+}
+
+.building {
+  position: absolute;
+  bottom: $tipsH;
+  height: .6rem;
   width: 100%;
   padding: .08rem .15rem;
   background-color: #FFFFFF;
   img {
-    width: 0px;
+    width: 0;
     height: 100%;
     vertical-align: middle;
-    opacity:0;
+    opacity: 0;
   }
   span {
     display: inline-block;
@@ -31,19 +103,33 @@
     margin-left: 2%;
   }
 }
-.exchange-hour {
-  height: 4%;
+
+.tips {
+  position: absolute;
+  bottom: 0;
+  height: $tipsH;
+  line-height: $tipsH;
   width: 100%;
   background-color: #EFEFF4;
+  border-top: .01rem #c0c0c0 solid;
   text-align: center;
   img {
-    width: 0px;
+    width: 0;
     height: 100%;
     vertical-align: middle;
-    opacity:0;
+    opacity: 0;
   }
   span {
     color: #CACACE;
     font-size: .1rem;
+  }
+}
+
+.hold {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  & > div {
+    height: 100%;
   }
 }
