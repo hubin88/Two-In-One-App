@@ -6,3 +6,10 @@ var BASE_SERVER = {
   DCB: 'http://120.76.246.192:9091/',
   DWB: 'http://120.76.246.192:9002/',
 };
+
+// 交易相关字段
+var DCB_BULLISH_LABEL = '买涨';
+var DCB_BEARISH_LABEL = '买跌';
+
+var DWB_BULLISH_LABEL = '看涨';
+var DWB_BEARISH_LABEL = '看跌';

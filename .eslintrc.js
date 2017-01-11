@@ -22,7 +22,11 @@ module.exports = {
   ],
   "globals": {
     DEBUG: true,
-    BASE_SERVER:true,
-    hex_md5:true,
+    BASE_SERVER: true,
+    hex_md5: true,
+    DCB_BULLISH_LABEL: true,
+    DCB_BEARISH_LABEL: true,
+    DWB_BULLISH_LABEL: true,
+    DWB_BEARISH_LABEL: true,
   }
 };

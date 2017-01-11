@@ -39,10 +39,10 @@ const initSystemInfo = {
     frozenCash: '',
     cashEarnAll: '',
   },
-  checkChannel: {
-    pay: '',
-    withdraw: '',
-  },
+  checkChannel: [
+    { type: 'pay', label: '充值', direction: '/pay' },
+    { type: 'withdraw', label: '提现', direction: '/withdraw' },
+  ],
 };
 
 // 交易所信息
