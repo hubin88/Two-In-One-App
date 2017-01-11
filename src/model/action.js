@@ -1,6 +1,6 @@
 import * as ActionTypes from './action-types';
 import { Cookie } from '../ultils/tools';
-import tradeApi from '../server/api/trade-api';
+import TradeApi from '../server/api/trade-api';
 import SysApi from '../server/api/sys-api';
 
 const api = new Promise((resolve) => {
@@ -170,9 +170,9 @@ export function successGetUseData(json) {
   };
 }
 
-export function requestGetUseData() {
+export function requestGetUseData(obj) {
   return function wrap(dispatch) {
-    return SysApi.getUseData()
+    return SysApi.getUseData(obj)
       .then(json => dispatch(successGetUseData(json)));
   };
 }
@@ -185,9 +185,9 @@ export function successFindUser(json) {
   };
 }
 
-export function requestFindUser() {
+export function requestFindUser(obj) {
   return function wrap(dispatch) {
-    return tradeApi.findUser()
+    return TradeApi.findUser(obj)
       .then(json => dispatch(successFindUser(json)));
   };
 }
@@ -208,14 +208,18 @@ export function errorLogin() {
     type: ActionTypes.ERROR_LOGIN,
   };
 }
-export function login(t = 2) {
+export function login(obj) {
   return function wrap(dispatch) {
     dispatch(requestLogin());
-    return SysApi.login()
+    return TradeApi.login(obj)
       .then(() => {
+        const objs = {
+          orgId: obj.orgId,
+          mobile: obj.mobile,
+        };
         dispatch(successLogin());
-        dispatch(requestGetUseData(t));
-        dispatch(requestFindUser());
+        dispatch(requestGetUseData(objs));
+        dispatch(requestFindUser(objs));
       })
       .catch((e) => {
         console.log(e);
@@ -314,7 +318,7 @@ export function successQueryRegistInfo(json) {
 
 export function requestQueryRegistInfo() {
   return function wrap(dispatch) {
-    return tradeApi.queryRegistInfo()
+    return TradeApi.queryRegistInfo()
       .then(json => dispatch(successQueryRegistInfo(json)));
   };
 }
@@ -329,7 +333,7 @@ export function successGetOrgs(json) {
 
 export function requestGetOrgs() {
   return function wrap(dispatch) {
-    return tradeApi.getOrgs()
+    return TradeApi.getOrgs()
       .then(json => dispatch(successGetOrgs(json)));
   };
 }
@@ -344,7 +348,7 @@ export function successUpdateUser(json) {
 
 export function requestUpdateUser() {
   return function wrap(dispatch) {
-    return tradeApi.updateUser()
+    return TradeApi.updateUser()
       .then(json => dispatch(successUpdateUser(json)));
   };
 }
@@ -376,7 +380,7 @@ export function successGetTradeRecordPage(json) {
 
 export function requestGetTradeRecordPage() {
   return function wrap(dispatch) {
-    return tradeApi.getTradeRecordPage()
+    return TradeApi.getTradeRecordPage()
       .then(json => dispatch(successGetTradeRecordPage(json)));
   };
 }
@@ -391,7 +395,7 @@ export function successForgetPwd(json) {
 
 export function requestForgetPwd() {
   return function wrap(dispatch) {
-    return tradeApi.forgetPwd()
+    return TradeApi.forgetPwd()
       .then(json => dispatch(successForgetPwd(json)));
   };
 }
@@ -406,7 +410,7 @@ export function successSendCaptcha(json) {
 
 export function requestSendCaptchas() {
   return function wrap(dispatch) {
-    return tradeApi.getCodeRequest()
+    return TradeApi.getCodeRequest()
       .then(json => dispatch(successSendCaptcha(json)));
   };
 }
@@ -421,7 +425,7 @@ export function successGetMemberList(json) {
 
 export function requestGetMemberList() {
   return function wrap(dispatch) {
-    return tradeApi.getMemberList()
+    return TradeApi.getMemberList()
       .then(json => dispatch(successGetMemberList(json)));
   };
 }
@@ -436,7 +440,7 @@ export function successQueryUserInfoGateway(json) {
 
 export function requestQueryUserInfoGateway() {
   return function wrap(dispatch) {
-    return tradeApi.queryUserInfoGateway()
+    return TradeApi.queryUserInfoGateway()
       .then(json => dispatch(successQueryUserInfoGateway(json)));
   };
 }

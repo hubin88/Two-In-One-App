@@ -37,17 +37,13 @@ export default class SysApi {
   }
 
   // 获取用户数据
-  static getUserData(obj = {}) {
-    return postWithTrade(InterFace.GET_USER_DATA, obj, SysApi.getUserData.name);
+  static getUseData(obj = {}) {
+    return postWithTrade(InterFace.GET_USER_DATA, obj, SysApi.getUseData.name);
   }
 
   // 获取商品、服务器信息（不传参数，不返回SecKey）
   static getMerchsAndServers(obj = {}) {
     return postWithTrade(InterFace.GET_MERCHS_AND_SERVERS, obj, SysApi.getMerchsAndServers.name);
-  }
-
-  static getUseData(obj = {}) {
-    return postWithTrade(InterFace.GET_USER_DATA, obj, SysApi.getUseData.name);
   }
 
 }
