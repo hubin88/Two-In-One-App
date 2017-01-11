@@ -1,28 +1,68 @@
 /**
  * Created by admin on 2016/12/29.
  */
-import { postWithTrade } from '../helper';
+import postJSON, { postWithTrade } from '../helper';
 import * as InterFace from './inter-face-type';
 
 export default class TradeApi {
   // 登录
   static login(obj = {}) {
-    return postWithTrade(InterFace.LOGIN, obj, TradeApi.login.name);
+    return postJSON({
+      interFacePre: InterFace.TRADE_DIR,
+      interFacePos: InterFace.LOGIN,
+      data: obj,
+      name: TradeApi.login.name,
+    });
   }
 
   // 注册
   static register(obj = {}) {
-    return postWithTrade(InterFace.REG, obj, TradeApi.register.name);
+    return postJSON({
+      interFacePre: InterFace.TRADE_DIR,
+      interFacePos: InterFace.REG,
+      data: obj,
+      name: TradeApi.register.name,
+    });
   }
 
   // 忘记密码
-  static forgetPwd(obj = {}) {
-    return postWithTrade(InterFace.FORGET_PWD, obj, TradeApi.forgetPwd.name);
+  static forgetPassword(obj = {}) {
+    return postJSON({
+      interFacePre: InterFace.TRADE_DIR,
+      interFacePos: InterFace.FORGET_PWD,
+      data: obj,
+      name: TradeApi.forgetPassword.name,
+    });
   }
 
   // 获取验证码
   static getCodeRequest(obj = {}) {
-    return postWithTrade(InterFace.GET_CODE, obj, TradeApi.getCodeRequest.name);
+    return postJSON({
+      interFacePre: InterFace.TRADE_DIR,
+      interFacePos: InterFace.GET_CODE,
+      data: obj,
+      name: TradeApi.getCodeRequest.name,
+    });
+  }
+
+  // 查询机构信息
+  static getOrgsName(obj = {}) {
+    return postJSON({
+      interFacePre: InterFace.TRADE_DIR,
+      interFacePos: InterFace.GET_ORGS,
+      data: obj,
+      name: TradeApi.getOrgsName.name,
+    });
+  }
+
+  // 系统设置是否注册,版本升级
+  static queryRegist(obj = {}) {
+    return postJSON({
+      interFacePre: InterFace.TRADE_DIR,
+      interFacePos: InterFace.QUERY_REGISTINFO,
+      data: obj,
+      name: TradeApi.queryRegistInfo.name,
+    });
   }
 
   // 设置、修改交易密码
@@ -65,15 +105,23 @@ export default class TradeApi {
     return postWithTrade(InterFace.QUERY_REGISTINFO, obj, TradeApi.queryRegistInfo.name);
   }
 
-  // 查询交易所会员机构
   static getMemberList(obj = {}) {
     return postWithTrade(InterFace.GET_MEMBER_LIST, obj, TradeApi.getMemberList.name);
   }
 
   // 交易记录
   static getTradeRecordPage(obj = {}) {
-    return postWithTrade(InterFace.GET_TRADE_RECORD, obj, TradeApi.getTradeRecordPage.name);
+    return postJSON(InterFace.TRADE_DIR, InterFace.CLOSE_USER_ORDER, obj, TradeApi.getTradeRecordPage.name);
   }
 
+  // 忘记密码
+  static forgetPwd(obj = {}) {
+    return postJSON(InterFace.TRADE_DIR, InterFace.GORGET_PWD, obj, TradeApi.forgetPwd.name);
+  }
+
+  // 发送验证码
+  static sendCaptcha(obj = {}) {
+    return postJSON(InterFace.TRADE_DIR, InterFace.SEND_CAPTCHA, obj, TradeApi.sendCaptcha.name);
+  }
 
 }

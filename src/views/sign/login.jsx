@@ -7,7 +7,6 @@ import cssModules from 'react-css-modules';
 import styles from './login.scss';
 import Api from '../../server/api/sign-api';
 import { regAccount, regPassword, getQueryString } from '../../server/tools';
-import { systemType } from '../../server/help';
 
 @cssModules(styles, { allowMultiple: true, errorWhenNotFound: false })
 export default class Login extends Component {
@@ -23,7 +22,7 @@ export default class Login extends Component {
       isAccountRight: false, // 账号是否正确
       isPassWordRight: false, // 密码是否正确
       orgId: this.props.orgId || getQueryString('organization'),
-      systemType: this.props.systemType || systemType,
+      systemType: this.props.systemType,
     };
   }
 

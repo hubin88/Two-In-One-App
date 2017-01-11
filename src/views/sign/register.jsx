@@ -5,7 +5,6 @@ import Dialog from './cummon/dialog';
 import Tips from './cummon/tips';
 import { Agreement } from './agreement';
 import Api from '../../server/api/sign-api';
-import { systemType } from '../../server/help';
 import {
   regAccount,
   regPassword,
@@ -37,7 +36,7 @@ export default class Register extends Component {
       downLoadUrl: null,
       orgName: '机构信息加载中…',
       isRequestOrgName: false,
-      systemType: this.props.systemType || systemType,
+      systemType: this.props.systemType || getQueryString('systemType'),
     };
   }
 

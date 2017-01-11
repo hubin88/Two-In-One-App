@@ -3,7 +3,6 @@ import cssModules from 'react-css-modules';
 import styles from './reset.scss';
 import Api from '../../server/api/sign-api';
 import { regAccount, regPassword, regCode, getQueryString } from '../../server/tools';
-import { systemType } from '../../server/help';
 
 @cssModules(styles, { allowMultiple: true, errorWhenNotFound: false })
 export default class Reset extends Component {
@@ -22,7 +21,7 @@ export default class Reset extends Component {
       isCodeRight: false, // 验证码是否正确
       codeBtnValue: '获取短信验证码',
       orgId: this.props.orgId || getQueryString('organization'),
-      systemType: this.props.systemType || systemType,
+      systemType: this.props.systemType || getQueryString('systemType'),
     };
   }
 
