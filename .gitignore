@@ -26,3 +26,4 @@ dist/
 .sync
 .yarn.lock
 .eslintcache
+.app.config

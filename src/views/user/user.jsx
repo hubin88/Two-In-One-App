@@ -16,22 +16,22 @@ const renderList = {
     ],
     channel: [
       { name: 'gold', label: '出入金', direction: '/gold' },
-      { name: 'userCenter', label: '个人设置', direction: '/userCenter' },
-      { name: 'track', label: '点差宝介绍', direction: '/track' },
+      { name: 'userCenter', label: '个人设置', direction: '/userSet' },
+      { name: 'dcpage', label: '点差宝', direction: '/dcpage' },
     ],
   },
   [SYS_DWB]: {
     asset: [
       { name: 'allCash', label: '总资产' },
       { name: 'availableCash', label: '可用资金' },
-      { name: 'frozenCash', label: '占用资金' },
+      { name: 'frozenCash', label: '占用合约定金' },
       { name: 'cashEarnAll', label: '持仓盈亏' },
     ],
     channel: [
       { name: 'hold', label: '当前持仓', direction: '/hold' },
       { name: 'gold', label: '出入金', direction: '/gold' },
-      { name: 'userCenter', label: '个人设置', direction: '/userCenter' },
-      { name: 'track', label: '点差宝介绍', direction: '/track' },
+      { name: 'userCenter', label: '个人设置', direction: '/userSet' },
+      { name: 'dcpage', label: '点微宝', direction: '/dcpage' },
     ],
   },
 };
@@ -108,12 +108,12 @@ class User extends Component {
         <div styleName="links">
           <ul>
             {
-              renderList[systemType].channel.map((channelItem) => (
-                <li key={channelItem.name} styleName={`channel-${channelItem.name}`}>
-                  <Link to={channelItem.direction}>
-                    <img src="1.png" alt="" /><span>{channelItem.label}</span>
-                  </Link>
-                </li>
+              renderList[systemType].channel.map((channeLitm) => (
+                <Link to={channeLitm.direction}>
+                  <li key={channeLitm.name} styleName={`channel-${channeLitm.name}`} >
+                    <img src="1.png" alt="" /><span>{channeLitm.label}</span>
+                  </li>
+                </Link>
               ))
             }
           </ul>

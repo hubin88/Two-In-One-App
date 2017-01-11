@@ -1,0 +1,56 @@
+.userSet{
+  background: #f2f2f2;
+  height: 100%;
+}
+.titleName{
+  text-align: center;
+  background-color: #fe8228;
+  height: .4rem;
+  width: 100%;
+  color: #fff;
+  line-height: .4rem;
+  font-size: .2rem;
+}
+.titleName span{
+  display: inline-block;
+  margin: 0 auto;
+}
+.close{
+  background: url(../../images/back@2x.png) no-repeat;
+  width: 16px;
+  height: 30px;
+  float: left;
+  margin: 5px 10px;
+}
+
+.main{
+  li{
+    padding: 0 .2rem;
+    line-height: .4rem;
+    height: .4rem;
+    background-color: #fff;
+    border: 1px #f5f5f5 solid;
+  }
+
+  li>span{
+    display: inline-block;
+    width: 47%;
+  }
+
+  .listLeft{
+    font-weight: bold;
+  }
+  .listRight {
+    text-align: right;
+    margin-right: .2rem;
+  }
+
+  .out{
+    line-height: .4rem;
+    height: .4rem;
+    background-color: #fff;
+    margin-top: .3rem;
+    text-align: center;
+    font-weight: bold;
+  }
+}
