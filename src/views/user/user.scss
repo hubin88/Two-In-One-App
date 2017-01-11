@@ -121,10 +121,12 @@ $padding: .1rem;
     $ratioString: if($ratio != 1, "@#{$ratio}x", "");
     @if $name {
       #{$cls} {
-        background-image: url(#{$name}#{$ratioString}.png);
+        background-image: url(#{$name}#{$ratioString}.png) ;
+        background-repeat: no-repeat;
       }
     } @else {
       background-image: url(#{$cls}#{$ratioString}.png);
+      background-repeat: no-repeat;
     }
   }
 }

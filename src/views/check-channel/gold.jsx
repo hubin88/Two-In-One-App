@@ -7,11 +7,15 @@ import cssModules from 'react-css-modules';
 import { connect } from 'react-redux';
 import styles from './gold.scss';
 import { SYS_DCB, SYS_DWB } from '../../server/define';
+import TopReturn from '../../components/topTeturn/topReturn';
 
 @cssModules(styles, { allowMultiple: true, errorWhenNotFound: false })
 class Gold extends Component {
+  static defaultProps = {
+    title: '出入金记录',
+  };
   static propTypes = {
-    title: '',
+    title: PropTypes.string,
     systemInfo: PropTypes.object.isRequired,
     onCloseCallback: PropTypes.func,
   };
@@ -49,19 +53,10 @@ class Gold extends Component {
     }
     return tab;
   };
-
-  toUpper = () => {
-    if (this.props.onCloseCallback) this.props.onCloseCallback();
-    window.history.back();
-  };
-
   render() {
     return (
       <div styleName="gold">
-        <input type="button" styleName="close" onClick={this.toUpper} />
-        <div styleName="titleName">
-          <span>出入金记录</span>
-        </div>
+        <TopReturn title={this.props.title} />
         {this.setValue()}
       </div>
     );

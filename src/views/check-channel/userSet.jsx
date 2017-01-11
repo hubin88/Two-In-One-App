@@ -6,12 +6,17 @@ import React, { Component, PropTypes } from 'react';
 import cssModules from 'react-css-modules';
 import { connect } from 'react-redux';
 import styles from './userSet.scss';
+import TopReturn from '../../components/topTeturn/topReturn';
 
 @cssModules(styles, { allowMultiple: true, errorWhenNotFound: false })
 class Userset extends Component {
+  static defaultProps = {
+    title: '个人设置',
+  };
   static propTypes = {
     systemInfo: PropTypes.object.isRequired,
     onCloseCallback: PropTypes.func,
+    title: PropTypes.string,
   };
 
   setValue = () => {
@@ -45,18 +50,10 @@ class Userset extends Component {
     return tpl;
   };
 
-  toUpper = () => {
-    if (this.props.onCloseCallback) this.props.onCloseCallback();
-    window.history.back();
-  };
-
   render() {
     return (
       <div styleName="userSet">
-        <input type="button" styleName="close" onClick={this.toUpper} />
-        <div styleName="titleName">
-          <span>个人设置</span>
-        </div>
+        <TopReturn title={this.props.title} />
         {this.setValue()}
       </div>
     );
