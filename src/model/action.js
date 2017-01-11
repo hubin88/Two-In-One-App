@@ -162,6 +162,36 @@ export function changeSystem(systemType) {
 }
 /* === 切换系统 === */
 
+/* 获取用户数据 */
+export function successGetUseData(json) {
+  return {
+    type: ActionTypes.SUCCESS_GET_USE_DATA,
+    data: json,
+  };
+}
+
+export function requestGetUseData() {
+  return function wrap(dispatch) {
+    return SysApi.getUseData()
+      .then(json => dispatch(successGetUseData(json)));
+  };
+}
+
+/* 查询用户 */
+export function successFindUser(json) {
+  return {
+    type: ActionTypes.SUCCESS_FIND_USER,
+    data: json,
+  };
+}
+
+export function requestFindUser() {
+  return function wrap(dispatch) {
+    return tradeApi.findUser()
+      .then(json => dispatch(successFindUser(json)));
+  };
+}
+
 /* === 登录 === */
 export function requestLogin() {
   return {
@@ -178,11 +208,15 @@ export function errorLogin() {
     type: ActionTypes.ERROR_LOGIN,
   };
 }
-export function login() {
+export function login(t = 2) {
   return function wrap(dispatch) {
     dispatch(requestLogin());
-    return api
-      .then(() => dispatch(successLogin()))
+    return SysApi.login()
+      .then(() => {
+        dispatch(successLogin());
+        dispatch(requestGetUseData(t));
+        dispatch(requestFindUser());
+      })
       .catch((e) => {
         console.log(e);
         dispatch(errorLogin());
@@ -315,20 +349,6 @@ export function requestUpdateUser() {
   };
 }
 
-/* 查询用户 */
-export function successFindUser(json) {
-  return {
-    type: ActionTypes.SUCCESS_FIND_USER,
-    data: json,
-  };
-}
-
-export function requestFindUser() {
-  return function wrap(dispatch) {
-    return tradeApi.findUser()
-      .then(json => dispatch(successFindUser(json)));
-  };
-}
 
 /* 获取系统配置 */
 export function successGetSysconfig(json) {
@@ -345,20 +365,6 @@ export function requestGetSysconfig() {
   };
 }
 
-/* 获取用户数据 */
-export function successGetUseData(json) {
-  return {
-    type: ActionTypes.SUCCESS_GET_USE_DATA,
-    data: json,
-  };
-}
-
-export function requestGetUseData() {
-  return function wrap(dispatch) {
-    return SysApi.getUseData()
-      .then(json => dispatch(successGetUseData(json)));
-  };
-}
 
 /* 查询客户交易记录 */
 export function successGetTradeRecordPage(json) {
@@ -402,5 +408,35 @@ export function requestSendCaptchas() {
   return function wrap(dispatch) {
     return tradeApi.getCodeRequest()
       .then(json => dispatch(successSendCaptcha(json)));
+  };
+}
+
+// 查询交易所机构
+export function successGetMemberList(json) {
+  return {
+    type: ActionTypes.SUCCESS_GET_MEMBER_LIST,
+    data: json,
+  };
+}
+
+export function requestGetMemberList() {
+  return function wrap(dispatch) {
+    return tradeApi.getMemberList()
+      .then(json => dispatch(successGetMemberList(json)));
+  };
+}
+
+// 推送资产信息
+export function successQueryUserInfoGateway(json) {
+  return {
+    type: ActionTypes.SUCCESS_GET_MEMBER_LIST,
+    data: json,
+  };
+}
+
+export function requestQueryUserInfoGateway() {
+  return function wrap(dispatch) {
+    return tradeApi.queryUserInfoGateway()
+      .then(json => dispatch(successQueryUserInfoGateway(json)));
   };
 }

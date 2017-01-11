@@ -109,8 +109,8 @@ class User extends Component {
           <ul>
             {
               renderList[systemType].channel.map((channeLitm) => (
-                <Link to={channeLitm.direction}>
-                  <li key={channeLitm.name} styleName={`channel-${channeLitm.name}`} >
+                <Link key={channeLitm.name} to={channeLitm.direction}>
+                  <li styleName={`channel-${channeLitm.name}`} >
                     <img src="1.png" alt="" /><span>{channeLitm.label}</span>
                   </li>
                 </Link>

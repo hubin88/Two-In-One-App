@@ -2,17 +2,19 @@
  * Created by admin on 2017/1/4.
  */
 import React, { Component, PropTypes } from 'react';
-import { Link } from 'react-router';
+import { Link, browserHistory } from 'react-router';
 import cssModules from 'react-css-modules';
 import styles from './login.scss';
 import Api from '../../server/api/sign-api';
 import { regAccount, regPassword, getQueryString } from '../../server/tools';
+import Tips from './cummon/tips';
 
 @cssModules(styles, { allowMultiple: true, errorWhenNotFound: false })
 export default class Login extends Component {
   static propTypes = {
     orgId: PropTypes.string,
     systemType: PropTypes.string,
+    callback: PropTypes.func,
   };
 
   constructor(props) {
@@ -76,7 +78,12 @@ export default class Login extends Component {
       mobile: this.account.value,
       password: hex_md5(this.password.value),
     };
-    Api.loginSubmit(options, '/');
+    Api.login(options).then((json) => {
+      browserHistory.push('/');
+      if (this.props.callback) this.props.callback(json);
+    }).catch(err => {
+      Tips.show(err.message);
+    });
   };
 
   render() {
