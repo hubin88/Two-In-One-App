@@ -12,70 +12,58 @@ class Hold extends Component {
   static propTypes = {
     dispatch: PropTypes.func,
     holdHeader: PropTypes.array,
-    holdRecoder: PropTypes.array,
+    holdBody: PropTypes.array,
     holdKey: PropTypes.array,
-  }
+  };
 
   onCloseOut = () => {
     CloseOut.show({ dispatch: this.props.dispatch });
-  }
+  };
 
-  // 持仓列表 表头
+  // 表头
   renderHeader() {
     return (
-      <table styleName="header">
-        <tbody>
-          <tr>
-            {this.props.holdHeader.map((header, headerIndex) =>
-              <td key={headerIndex}>{header}</td>
-            )}
-          </tr>
-        </tbody>
-      </table>
+      <tr>
+        {
+          this.props.holdHeader.map(rs =>
+            <th style={rs.style} key={rs.label}>{rs.label}</th>)
+        }
+      </tr>
     );
   }
 
-  // 持仓列表记录
-  renderContent() {
-    if (this.props.holdHeader.length === this.props.holdKey.length) {
-      return (
-        this.props.holdRecoder.map((recoder, recoderIndex) =>
-          <table styleName="content-table" key={recoderIndex}>
-            <tbody>
-              <tr>
-                {this.props.holdKey.map((key, keyIndex) =>
-                  <td key={keyIndex}>{recoder[key]}</td>
-                )}
-              </tr>
-            </tbody>
-          </table>
-        )
-      );
-    }
+  // 列表
+  renderBody() {
+    return this.props.holdBody.map((d, rowIdx) =>
+      <tr key={rowIdx}>
+        {this.renderRow(d)}
+      </tr>);
+  }
+
+  renderRow(data) {
+    const { holdHeader } = this.props;
     return (
-      this.props.holdRecoder.map((recoder, recoderIndex) =>
-        <table styleName="content-table" key={recoderIndex}>
-          <tbody>
-            <tr>
-              {this.props.holdKey.map((key, keyIndex) =>
-                <td key={keyIndex}>{recoder[key]}</td>
-              )}
-              <td><span styleName="close-out" onClick={this.onCloseOut}>平仓</span></td>
-            </tr>
-          </tbody>
-        </table>
-      )
+      holdHeader.map((field, cellIdx) => {
+        let cell = data[field.key];
+        if ('render' in field) {
+          if (typeof field.render === 'function') {
+            cell = field.render(data[field.key], data);
+          }
+        }
+        return <td key={cellIdx}>{cell}</td>;
+      })
     );
   }
 
   render() {
+    console.log(this.props);
     return (
-      <div styleName="hold">
-        {this.renderHeader()}
-        <div styleName="content">
-          {this.renderContent()}
-        </div>
-      </div>
+      this.props.holdBody.length === 0 ? null : (
+        <table styleName="table">
+          <thead styleName="t-head">{this.renderHeader()}</thead>
+          <tbody styleName="t-body">{this.renderBody()}</tbody>
+        </table>
+      )
     );
   }
 }
