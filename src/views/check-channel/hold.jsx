@@ -60,6 +60,7 @@ class Hold extends Component {
     { name: 'allCash', label: '沥青盈亏', nums: '22' },
     { name: 'availableCash', label: '沥青盈亏', nums: '22' },
     { name: 'frozenCash', label: '沥青盈亏', nums: '22' },
+    { name: 'frozenCashs', label: '沥青盈亏', nums: '22' },
   ];
 
 

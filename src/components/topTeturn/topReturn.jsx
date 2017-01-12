@@ -21,7 +21,7 @@ class TopReturn extends Component {
     let tpl = '';
     if (this.props.ifSure) {
       tpl = (
-        <span styleName="sure" onClick={this.props.sureClick}>确定</span>
+        <span styleName="sure" onClick={this.props.sureClick}>保存</span>
       );
     }
     return tpl;

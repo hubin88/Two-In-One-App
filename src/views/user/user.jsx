@@ -17,7 +17,7 @@ const renderList = {
     channel: [
       { name: 'gold', label: '出入金', direction: '/gold' },
       { name: 'userCenter', label: '个人设置', direction: '/userSet' },
-      { name: 'dcpage', label: '点差宝', direction: '/dcpage' },
+      { name: 'dcpage', label: '点差宝', direction: '/dcbPage' },
     ],
   },
   [SYS_DWB]: {
@@ -31,7 +31,7 @@ const renderList = {
       { name: 'hold', label: '当前持仓', direction: '/hold' },
       { name: 'gold', label: '出入金', direction: '/gold' },
       { name: 'userCenter', label: '个人设置', direction: '/userSet' },
-      { name: 'dcpage', label: '点微宝', direction: '/dcpage' },
+      { name: 'dcpage', label: '点微宝', direction: '/dwbPage' },
     ],
   },
 };

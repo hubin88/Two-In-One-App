@@ -28,5 +28,13 @@ module.exports = {
     DCB_BEARISH_LABEL: true,
     DWB_BULLISH_LABEL: true,
     DWB_BEARISH_LABEL: true,
+    PAY_TITLE: true,
+    PAY_URL: true,
+    WITHDRAW_TITLE: true,
+    WITHDRAW_URL: true,
+    DCB_SUGGEST_TITLE: true,
+    DCB_SUGGEST_URL: true,
+    DWB_SUGGEST_TITLE: true,
+    DWB_SUGGEST_URL: true,
   }
 };
