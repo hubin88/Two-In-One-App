@@ -9,11 +9,22 @@ import styles from './topReturn.scss';
 class TopReturn extends Component {
   static propTypes = {
     title: PropTypes.string,
+    ifSure: PropTypes.bool,
     onCloseCallback: PropTypes.func,
+    sureClick: PropTypes.func,
   };
   toUpper = () => {
     if (this.props.onCloseCallback) this.props.onCloseCallback();
     window.history.back();
+  };
+  sure = () => {
+    let tpl = '';
+    if (this.props.ifSure) {
+      tpl = (
+        <span styleName="sure" onClick={this.props.sureClick}>确定</span>
+      );
+    }
+    return tpl;
   };
   render() {
     return (
@@ -21,6 +32,7 @@ class TopReturn extends Component {
         <div styleName="titleName">
           <input type="button" styleName="close" onClick={this.toUpper} />
           <span>{this.props.title}</span>
+          {this.sure()}
         </div>
       </div>
     );

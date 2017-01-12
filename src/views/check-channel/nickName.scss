@@ -1,0 +1,19 @@
+.nickName{
+  background: #f2f2f2;
+  height: 100%;
+}
+.nameCenter{
+  line-height: .5rem;
+  height: .5rem;
+  font-size: .15rem;
+  border-bottom: 1px #d7dada solid;
+  background-color: #fff;
+
+  span{
+    margin: .5rem .3rem;
+  }
+  input{
+    width: 60%;
+    margin-right: .1rem;
+  }
+}

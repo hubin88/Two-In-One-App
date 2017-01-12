@@ -21,6 +21,7 @@ import Gold from './views/check-channel/gold';
 import Hold from './views/check-channel/hold';
 import UserCenter from './views/check-channel/userSet';
 import Dcpage from './views/check-channel/dcpage';
+import NickName from './views/check-channel/nickName';
 
 
 const store = DEBUG ? createStore(
@@ -62,6 +63,7 @@ const StoreWrap = () => (
       <Route path="/track" component={Track} onEnter={checkLogin} />
       <Route path="/userCenter" component={UserCenter} onEnter={checkLogin} />
       <Route path="/broker" component={Broker} onEnter={checkLogin} />
+      <Route path="/nickName" component={NickName} onEnter={checkLogin} />
       <Route path="/" component={App}>
         <IndexRoute component={Home} />
         <Route path="/home" component={Home} />
