@@ -183,8 +183,7 @@ export function appStart(initExchangeData = AppConfig.exchangeData()) {
         const exchangeData = exchangeIdArr.includes(JSON.stringify(initExchangeData.id)) ?
           initExchangeData.id : action.exchangeList[0];
         return dispatch(changeExchange(exchangeData));
-      })
-
+      });
   };
 }
 /* === 程序启动 === */
@@ -218,6 +217,40 @@ export function requestFindUser(obj) {
   };
 }
 
+// 推送资产信息
+export function successQueryUserInfoGateway(json) {
+  return {
+    type: ActionTypes.SUCCESS_GET_MEMBER_LIST,
+    data: json,
+  };
+}
+
+export function requestQueryUserInfoGateway(obj) {
+  return function wrap(dispatch) {
+    return TradeApi.queryUserInfoGateway(obj)
+      .then(json => dispatch(successQueryUserInfoGateway(json)));
+  };
+}
+
+// 获取商品，服务器信息
+export function successGetMerchsAndServers(json) {
+  return {
+    type: ActionTypes.SUCCESS_GET_MERCHS_AND_SERVERS,
+    data: json,
+  };
+}
+
+export function requestGetMerchsAndServers(obj) {
+  return function wrap(dispatch) {
+    return SysApi.getMerchsAndServers(obj)
+      .then(json => {
+        const data = JSON.parse(json.result);
+        dispatch(requestQueryUserInfoGateway(data.SecKey));
+        dispatch(successGetMerchsAndServers(data));
+      });
+  };
+}
+
 /* === 登录 === */
 export function requestLogin() {
   return {
@@ -238,14 +271,17 @@ export function login(obj) {
   return function wrap(dispatch) {
     dispatch(requestLogin());
     return TradeApi.login(obj)
-      .then(() => {
+      .then((res) => {
+        const data = JSON.parse(res.result);
         const objs = {
           orgId: obj.orgId,
           mobile: obj.mobile,
+          sessionId: data.sessionId,
         };
         dispatch(successLogin());
         dispatch(requestGetUseData(objs));
         dispatch(requestFindUser(objs));
+        dispatch(requestGetMerchsAndServers(objs));
       })
       .catch((e) => {
         console.log(e);
@@ -384,7 +420,7 @@ export function successGetSysconfig(json) {
 }
 export function requestGetSysconfig() {
   return function wrap(dispatch) {
-    return SysApi.getMerchsAndServers()
+    return SysApi.getSysConfig()
       .then(json => dispatch(successGetSysconfig(json)));
   };
 }
@@ -442,19 +478,5 @@ export function requestGetMemberList() {
   return function wrap(dispatch) {
     return TradeApi.getMemberList()
       .then(json => dispatch(successGetMemberList(json)));
-  };
-}
-
-// 推送资产信息
-export function successQueryUserInfoGateway(json) {
-  return {
-    type: ActionTypes.SUCCESS_GET_MEMBER_LIST,
-    data: json,
-  };
-}
-export function requestQueryUserInfoGateway() {
-  return function wrap(dispatch) {
-    return TradeApi.queryUserInfoGateway()
-      .then(json => dispatch(successQueryUserInfoGateway(json)));
   };
 }

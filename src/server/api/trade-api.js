@@ -51,7 +51,7 @@ export default class TradeApi {
   }
 
   // 资产推送
-  static queryUserInfoGateway(obj = '444GLD02cFXWCb286da9P0X1Hc1e1ba46262N7e2DJI4bf6CX693LO') {
+  static queryUserInfoGateway(obj = '') {
     return postAsset({
       interFacePos: InterFace.QUERY_USER_INFO_GATEWAY,
       data: obj,
