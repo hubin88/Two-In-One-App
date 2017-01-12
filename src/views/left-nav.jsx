@@ -18,7 +18,7 @@ export default class LeftNav extends Component {
     this.state = {
       exchangeId: 1,
       exchangeName: '海西亚太微交易',
-      logoUrl: '../images/touxiang.jpg',
+      logoUrl: '/src/images/touxiang.jpg',
     };
   }
 
@@ -36,7 +36,6 @@ export default class LeftNav extends Component {
   };
 
   render() {
-    console.log(this.props);
     return (
       <div styleName="left-nav">
         <div styleName="header">
