@@ -33,6 +33,7 @@ class Home extends Component {
     dispatch: PropTypes.func.isRequired,
     exchangeInfo: PropTypes.object,
     marketInfo: PropTypes.object,
+    commodityState: PropTypes.object,
     systemInfo: PropTypes.object,
   };
 
@@ -115,9 +116,12 @@ class Home extends Component {
       dispatch,
       exchangeInfo: { commodityData },
       marketInfo: { commodityPrices },
+      commodityState: {commodityId},
       systemInfo: { systemType, assetInfo, isLogin, avatarURL, checkChannel },
     } = this.props;
+
     const allCash = isLogin && (assetInfo.TotalAssets >= 0) ? assetInfo.TotalAssets : '- -';
+
     return (
       <div styleName="home">
         <div style={{ position: 'fixed', top: '5px', left: '10px' }}>
@@ -143,6 +147,7 @@ class Home extends Component {
           <div styleName="market">
             <Quotes
               dispatch={dispatch}
+              commodityId={commodityId}
               commodityData={commodityData}
               commodityPrices={commodityPrices}
             />
@@ -185,6 +190,7 @@ function mapStateToProps(state) {
   return {
     exchangeInfo: state.exchangeInfo,
     marketInfo: state.marketInfo,
+    commodityState: state.commodityState,
     systemInfo: state.systemInfo,
   };
 }

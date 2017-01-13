@@ -61,9 +61,10 @@ export function getExchangeList() {
 /* === 获取交易所列表 === */
 
 /* === 获取交易所信息 === */
-export function requestGetOneExchangeInfo() {
+export function requestGetOneExchangeInfo(exchangeData) {
   return {
     type: ActionTypes.REQUEST_GET_ONE_EXCHANGE_INFO,
+    exchangeData,
   };
 }
 export function successGetOneExchangeInfo(exchangeInfo) {
@@ -77,15 +78,13 @@ export function errorGetOneExchangeInfo() {
     type: ActionTypes.ERROR_GET_ONE_EXCHANGE_INFO,
   };
 }
-export function getOneExchangeInfo(exchangeData) {
+export function toGetOneExchangeInfo(exchangeData) {
   return function wrap(dispatch) {
-    dispatch(requestGetOneExchangeInfo());
+    dispatch(requestGetOneExchangeInfo(exchangeData));
     return SysApi.getOneExchangeInfo({ exchangeId: exchangeData.id })
     // TODO: 模拟不同交易所返回不同数据
       .then(data => dispatch(successGetOneExchangeInfo(data[exchangeData.id])))
-      .catch((e) => {
-        dispatch(errorGetOneExchangeInfo(e));
-      });
+      .catch(() => dispatch(errorGetOneExchangeInfo()));
   };
 }
 /* === 获取交易所信息 === */
@@ -117,77 +116,115 @@ export function getCommodityAndServers() {
 }
 /* === 获取商品、服务器 === */
 
-/* === 切换系统 === */
-export function requestChangeSystem() {
+/* === 获取行情数据 === */
+export function successGetQuotesInfo(quotes) {
   return {
-    type: ActionTypes.REQUEST_CHANGE_SYSTEM,
+    type: ActionTypes.SUCCESS_GET_QUOTES,
+    quotes,
   };
 }
-export function successChangeSystem(systemType) {
+export function errorGetQuotesInfo() {
   return {
-    type: ActionTypes.SUCCESS_CHANGE_SYSTEM,
+    type: ActionTypes.ERROR_GET_QUOTES,
+  };
+}
+export function toGetQuotesInfo() {
+  return function wrap(dispatch) {
+    SysApi.getQuotesInfo()
+      .then((quotes) => dispatch(successGetQuotesInfo(quotes)))
+      .catch(() => dispatch(errorGetQuotesInfo()));
+  };
+}
+/* === 获取行情数据 === */
+
+/* === 获取用户商品数据 === */
+export function requestGetUserCommodityData() {
+  return {
+    type: ActionTypes.REQUEST_GET_USER_COMMODITY_DATA,
+  };
+}
+export function successGetUserCommodityData(quotes) {
+  return {
+    type: ActionTypes.SUCCESS_GET_USER_COMMODITY_DATA,
+    quotes,
+  };
+}
+export function errorGetUserCommodityData() {
+  return {
+    type: ActionTypes.ERROR_GET_USER_COMMODITY_DATA,
+  };
+}
+export function toGetUserCommodityData(commodityId) {
+  return function wrap(dispatch) {
+    requestGetUserCommodityData(commodityId);
+    SysApi.getQuotesInfo(commodityId)
+      .then((quotes) => dispatch(successGetUserCommodityData(quotes)))
+      .catch(() => dispatch(errorGetUserCommodityData()));
+  };
+}
+/* === 获取用户商品数据 === */
+
+/* === 更改商品 === */
+export function changeCommodityId(commodityId) {
+  return {
+    type: ActionTypes.CHANGE_COMMODITY_ID,
+    commodityId,
+  };
+}
+export function changeCommodity(dispatch, commodityId) {
+  dispatch(changeCommodityId(commodityId));
+  // dispatch(toGetQuotesInfo(commodityId));
+  // dispatch(toGetUserCommodityData(commodityId));
+}
+export function toChangeCommodity(commodityId) {
+  return function wrap(dispatch, getState) {
+    if (commodityId === getState().commodityState.commodityId) return;
+
+    changeCommodity(dispatch, commodityId);
+  };
+}
+/* === 更改商品 === */
+
+/* === 更改系统 === */
+export function changeSystemType(systemType) {
+  return {
+    type: ActionTypes.CHANGE_SYSTEM_TYPE,
     systemType,
   };
 }
-export function errorChangeSystem() {
-  return {
-    type: ActionTypes.ERROR_CHANGE_SYSTEM,
-  };
+export function changeSystem(dispatch, systemType, exchangeData) {
+  // TODO: 现阶段接口不同交易系统商品是分开配置的。后期应该商品只跟交易所有关。
+  dispatch(getCommodityAndServers(exchangeData));
+  dispatch(changeSystemType(systemType));
 }
-export function changeSystem(systemType, exchangeData) {
-  Cookie.setCookie('systemType', systemType);
-  return function wrap(dispatch) {
-    dispatch(requestChangeSystem());
-    return api
-      .then(() => {
-        // TODO: 现阶段接口不同交易系统商品是分开配置的。后期应该商品只跟交易所有关。
-        dispatch(getCommodityAndServers(exchangeData));
-        return dispatch(successChangeSystem(systemType));
-      })
-      .catch(() => dispatch(errorChangeSystem()));
-  };
-}
-export function changeSystemWrap(systemType) {
+export function toChangeSystem(systemType) {
   return function wrap(dispatch) {
     if (!systemType || systemType === Cookie.getCookie('systemType')) return;
     const exchangeData = Cookie.getCookie('exchangeData');
     dispatch(changeSystem(systemType, exchangeData));
   };
 }
-/* === 切换系统 === */
+/* === 更改系统 === */
 
 /* === 更改交易所 === */
-export function successChangeExchange(exchangeData) {
-  return {
-    type: ActionTypes.SUCCESS_CHANGE_EXCHANGE,
-    exchangeData,
-  };
+export function changeExchange(dispatch, exchangeData) {
+  api
+    .then(() => dispatch(toGetOneExchangeInfo(exchangeData)))
+    .then((action) => {
+      const systemType = action.exchangeInfo.system[0].type;
+      // dispatch(getCommodityAndServers(exchangeData));
+      changeSystem(dispatch, systemType, exchangeData);
+    });
 }
-export function changeExchange(exchangeData) {
+export function toChangeExchange(exchangeData) {
   return function wrap(dispatch, getState) {
     // TODO: 添加判断，如果exchangeId未改变，不重复请求
-    if (getState().exchangeInfo.exchangeId === exchangeData.id) return null;
+    if (getState().exchangeInfo.exchangeId === exchangeData.id) return;
 
-    dispatch(successChangeExchange(exchangeData));
-    return dispatch(getOneExchangeInfo(exchangeData))
-      .then((action) => {
-        const systemType = action.exchangeInfo.system[0].type;
-        // dispatch(getCommodityAndServers(exchangeData));
-        return dispatch(changeSystem(systemType, exchangeData));
-      });
+    changeExchange(dispatch, exchangeData);
   };
 }
 /* === 更改交易所=== */
-
-/* === 获取行情数据 === */
-/* === 获取行情数据 === */
-/* === 更改商品 === */
-export function successChangeCommodity() {
-  return {
-    type: ActionTypes.SUCCESS_CHANGE_COMMODITY,
-  };
-}
-/* === 更改商品 === */
 
 /* === 程序启动 === */
 export function appStart(initExchangeData = AppConfig.exchangeData()) {
@@ -198,7 +235,7 @@ export function appStart(initExchangeData = AppConfig.exchangeData()) {
         const exchangeData = (initExchangeData &&
         exchangeIdArr.includes(JSON.stringify(initExchangeData.id))) ?
           initExchangeData.id : action.exchangeList[0];
-        return dispatch(changeExchange(exchangeData));
+        changeExchange(dispatch, exchangeData);
       });
   };
 }

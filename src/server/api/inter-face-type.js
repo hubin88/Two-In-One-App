@@ -30,7 +30,7 @@ export const LOGOUT = 'logout';
 export const GET_EXCHANGE_LIST = 'getExchangeList';
 
 // 获取单个交易所数据
-export const GET_ONE_EXCHANGE_INFO = 'getOneExchangeInfo';
+export const GET_ONE_EXCHANGE_INFO = 'toGetOneExchangeInfo';
 
 // 获取系统配置
 export const GET_SYS_CONFIG = 'getSysconfig';

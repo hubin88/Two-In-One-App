@@ -5,12 +5,14 @@
 import React, { Component, PropTypes } from 'react';
 import cssModules from 'react-css-modules';
 import styles from './quotes.scss';
+import { toChangeCommodity } from '../../../model/action';
 
 class Quotes extends Component {
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
     commodityData: PropTypes.object.isRequired,
     commodityPrices: PropTypes.object.isRequired,
+    commodityId: PropTypes.string,
   };
 
   constructor(props) {
@@ -21,7 +23,7 @@ class Quotes extends Component {
   }
 
   componentDidMount() {
-    const options = {
+    var options = {
       lineWidth: 1,
       barWidth: 4,
       spaceWidth: 5,
@@ -34,6 +36,9 @@ class Quotes extends Component {
     d.drawKLine(window.kLineData.result);
 
     // var dc = new DrawChart('drawChart', {
+    // d.drawKLine(window.kLineData.result);
+
+    // var dc = new drawChart('drawChart', {
     //   paddingLeft: 35,
     //   paddingBottom: 30,
     //   paddingTop: 30,
@@ -46,7 +51,10 @@ class Quotes extends Component {
     //
     // dc.drawChart(data2);
   }
-  chooseCommodity = () => {};
+
+  chooseCommodity = (id) => () => {
+    this.props.dispatch(toChangeCommodity(id));
+  };
 
   renderChart() {
     return (
@@ -59,23 +67,21 @@ class Quotes extends Component {
     );
   }
 
-
   render() {
     const { commodityData, commodityPrices } = this.props;
-    console.log(commodityData);
     return (
       <div styleName="quotes">
         <ul styleName="commodity">
           {
-            Object.keys(commodityData).map((i, idx) => {
+            Object.keys(commodityData).map((i) => {
               const name = commodityData[i].Name;
               const prices = (commodityPrices[i] && commodityPrices[i].value) ?
                 commodityPrices[i].value : '--';
               return (
                 <li
                   key={i}
-                  styleName={`${this.state.commoditySelected === idx ? 'active' : ''}`}
-                  onClick={this.chooseCommodity()}
+                  styleName={`${this.props.commodityId === i ? 'active' : ''}`}
+                  onClick={this.chooseCommodity(i)}
                 >
                   <img src="" alt="" />
                   <span>{name}</span>

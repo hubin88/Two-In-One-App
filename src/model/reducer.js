@@ -46,6 +46,10 @@ const initSystemInfo = {
   ],
 };
 
+const initCommodityState = {
+  commodityId: null,
+};
+
 // 交易所信息
 function exchangeInfo(state = initExchangeInfo, action) {
   switch (action.type) {
@@ -60,7 +64,7 @@ function exchangeInfo(state = initExchangeInfo, action) {
         ...state,
       };
     }
-    case ActionTypes.SUCCESS_CHANGE_EXCHANGE: {
+    case ActionTypes.REQUEST_GET_ONE_EXCHANGE_INFO: {
       const {
         exchangeData: { id: exchangeId, name: exchangeName, logoUrl: exchangeLogoUrl },
       } = action;
@@ -76,7 +80,6 @@ function exchangeInfo(state = initExchangeInfo, action) {
       };
     }
     case ActionTypes.SUCCESS_GET_ONE_EXCHANGE_INFO: {
-      console.log(action);
       const { exchangeInfo: { system: systemList } } = action;
       return {
         ...state,
@@ -100,7 +103,7 @@ function exchangeInfo(state = initExchangeInfo, action) {
 // 系统信息
 function systemInfo(state = initSystemInfo, action) {
   switch (action.type) {
-    case ActionTypes.SUCCESS_CHANGE_SYSTEM: {
+    case ActionTypes.CHANGE_SYSTEM_TYPE: {
       Cookie.setCookie('systemType', action.systemType);
       return {
         ...state,
@@ -135,9 +138,25 @@ function systemInfo(state = initSystemInfo, action) {
   }
 }
 
+// 商品状态
+function commodityState(state = initCommodityState, action) {
+  switch (action.type) {
+    case ActionTypes.CHANGE_COMMODITY_ID: {
+      return {
+        ...state,
+        commodityId: action.commodityId,
+      };
+    }
+    default: {
+      return state;
+    }
+  }
+
+}
 export default combineReducers({
   exchangeInfo,
   marketInfo,
   systemInfo,
+  commodityState,
   routing: routerReducer,
 });
