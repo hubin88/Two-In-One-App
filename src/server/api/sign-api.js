@@ -66,4 +66,13 @@ export default class Api {
     });
   }
 
+  //
+  static resetPhone(obj = {}) {
+    return postJSON({
+      interFacePre: InterFace.TRADE_DIR,
+      interFacePos: InterFace.RESET_PHONE_NUMBER,
+      data: obj,
+      name: Api.resetPhone.name,
+    });
+  }
 }

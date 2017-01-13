@@ -109,11 +109,11 @@ function systemInfo(state = initSystemInfo, action) {
       };
     }
     case ActionTypes.SUCCESS_LOGIN: {
-      console.log(AppConfig.systemType());
+      console.log(action.obj);
       Cookie.setCookie(`${AppConfig.systemType()}-isLogin`, true);
       return {
         ...state,
-        loginData: action.json,
+        loginData: action.obj,
         isLogin: true,
       };
     }

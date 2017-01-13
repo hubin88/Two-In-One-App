@@ -16,7 +16,7 @@ import Broker from './views/broker/broker';
 import Single from './views/single-html/single-html';
 import NickName from './views/check-channel/nickName';
 import Persponal from './views/user/personal';
-import Pay from './views/check-channel/pay';
+// import Pay from './views/check-channel/pay';
 import Withdraw from './views/check-channel/withdraw';
 import Gold from './views/check-channel/gold';
 import Hold from './views/check-channel/hold';
@@ -52,11 +52,11 @@ const StoreWrap = () => (
       <Route path="/login" component={Persponal} />
       <Route path="/register" component={Persponal} />
       <Route path="/reset" component={Persponal} />
-      <Route path="/pay" component={Pay} onEnter={checkLogin} />
+      <Route path="/resetphone" component={Persponal} />
       <Route path="/withdraw" component={Withdraw} onEnter={checkLogin} />
       <Route path="/hold" component={Hold} onEnter={checkLogin} />
       <Route path="/gold" component={Gold} onEnter={checkLogin} />
-      <Route path="/userSet" component={UserCenter} onEnter={checkLogin} />
+      <Route path="/userSet" component={UserCenter} />
       <Route path="/track" component={Track} onEnter={checkLogin} />
       <Route path="/userCenter" component={UserCenter} onEnter={checkLogin} />
       <Route path="/broker" component={Broker} onEnter={checkLogin} />

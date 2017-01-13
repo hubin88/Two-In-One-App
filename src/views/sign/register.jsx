@@ -22,6 +22,9 @@ export default class Register extends Component {
     orgId: PropTypes.string,
     systemType: PropTypes.string,
     registerSuccess: PropTypes.func,
+    type: PropTypes.string,
+    sessionId: PropTypes.string,
+    resetPhoneSuccess: PropTypes.func,
   };
 
   constructor(props) {
@@ -196,28 +199,40 @@ export default class Register extends Component {
       brokerId: this.state.brokerId,
       channelType: 'app',
     };
-    Api.register(options).then((json) => {
-      if (flag) {
-        const url = this.state.downLoadUrl;
-        if (!url) return false;
-        Tips.show(json.message);
-        window.location.href = url;
+    if (this.props.type === 'register') {
+      Api.register(options).then((json) => {
+        if (flag) {
+          const url = this.state.downLoadUrl;
+          if (!url) return false;
+          Tips.show(json.message);
+          window.location.href = url;
+          return false;
+        }
+        resetGetCodeAgain('code-btn', this);
+        resetForm();
+        if (this.props.registerSuccess) {
+          this.props.registerSuccess();
+        }
         return false;
-      }
-      resetGetCodeAgain('code-btn', this);
-      resetForm();
-      if (this.props.registerSuccess) {
-        this.props.registerSuccess();
-      }
-      return false;
-    }).catch(err => Tips.show(err.message));
+      }).catch(err => Tips.show(err.message));
+    } else {
+      Api.resetPhone({ sessionId: this.props.sessionId, ...options }).then(() => {
+        resetGetCodeAgain('code-btn', this);
+        resetForm();
+        if (this.props.resetPhoneSuccess) {
+          this.props.resetPhoneSuccess();
+        }
+        return false;
+      }).catch(err => Tips.show(err.message));
+    }
   };
 
   render() {
     const isSubmit = this.state.isAccountRight && this.state.isPassWordRight && this.state.isCodeRight;
+    console.log(this.props);
     return (
       <div styleName="register-box">
-        <div styleName="title">手机号注册</div>
+        <div styleName="title">{this.props.type === 'register' ? '手机号注册' : '修改手机号'}</div>
         <form styleName="form-register" autoComplete="off">
           {this.showOrgName()}
           <div styleName="account">
@@ -274,8 +289,12 @@ export default class Register extends Component {
             onClick={this.submit}
           />
         </div>
-        <div styleName="agreement">提交注册表示您已阅读并同意<span onClick={this.showAgreement}>《用户协议书》</span>
-        </div>
+        {
+          this.props.type === 'register' ?
+            <div styleName="agreement">
+              提交注册表示您已阅读并同意<span onClick={this.showAgreement}>《用户协议书》</span>
+            </div> : null
+        }
       </div>
     );
   }

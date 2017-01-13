@@ -34,26 +34,32 @@ class Persponal extends Component {
   };
   registerSuc = () => {
     browserHistory.push('/');
-  }
+  };
   resetSuc = () => {
     browserHistory.push('/login');
-  }
+  };
+  resetPhoneSuc = () => {
+    browserHistory.push('/login');
+  };
   childrenComponent = (path) => {
     switch (path) {
       case '/login':
-        return (<Login
-          loginSuccess={this.loginSuc}
-          toRegister={() => { browserHistory.push('/register'); }}
-          toReset={() => { browserHistory.push('/reset'); }}
-          toHome={() => { browserHistory.push('/'); }}
-          orgId={this.props.exchangeInfo.orgId}
-        />);
+        return (
+          <Login
+            loginSuccess={this.loginSuc}
+            toRegister={() => { browserHistory.push('/register'); }}
+            toReset={() => { browserHistory.push('/reset'); }}
+            toHome={() => { browserHistory.push('/'); }}
+            orgId={this.props.exchangeInfo.orgId}
+          />
+        );
       case '/register':
         return (
           <Register
             registerSuccess={this.registerSuc}
             orgId={this.props.exchangeInfo.orgId}
             systemType={this.props.systemInfo.systemType}
+            type="register"
           />
         );
       case '/reset':
@@ -63,6 +69,17 @@ class Persponal extends Component {
             orgId={this.props.exchangeInfo.orgId}
           />
         );
+      case '/resetphone':
+        return (
+          <Register
+            registerSuccess={this.registerSuc}
+            orgId={this.props.exchangeInfo.orgId}
+            systemType={this.props.systemInfo.systemType}
+            sessionId={this.props.systemInfo.loginData.sessionId}
+            resetPhoneSuccess={this.resetPhoneSuc}
+            type="resetphone"
+          />
+        );
       default:
         return null;
     }
@@ -70,7 +87,7 @@ class Persponal extends Component {
 
   render() {
     const { systemInfo, exchangeInfo: { systemList }, route: { path } } = this.props;
-    console.log(this.props);
+    console.log('aaa', this.props);
     let titleName = null;
     Object.values(systemList).forEach((val) => {
       if (val.type === systemInfo.systemType) {

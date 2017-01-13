@@ -5,6 +5,7 @@
 import React, { Component, PropTypes } from 'react';
 import cssModules from 'react-css-modules';
 import { connect } from 'react-redux';
+import { Link } from 'react-router';
 import styles from './userSet.scss';
 import { SYS_DCB, SYS_DWB } from '../../server/define';
 import TopReturn from '../../components/topTeturn/topReturn';
@@ -22,22 +23,20 @@ class Userset extends Component {
     ifSure: PropTypes.bool,
   };
 
-
   setValue = () => {
     let tpl = '';
     if (this.props.systemInfo.systemType === SYS_DCB) {
       tpl = (
         <div styleName="main">
           <ul>
-            <li><span styleName="listLeft">头像</span><span styleName="listRight">22</span></li>
-            <li>
-              <span styleName="listLeft" onClick={this.setNickName}>昵称</span>
-              <span styleName="listRight">22</span>
+            <li><Link to="/"><span styleName="listLeft">头像</span></Link><span styleName="listRight">22</span>
             </li>
-            <li onClick={this.register}>
-              <span styleName="listLeft">验证手机</span><span styleName="listRight">22</span>
+            <li><Link to="/"><span styleName="listLeft">昵称</span></Link><span styleName="listRight">22</span>
             </li>
-            <li onClick={this.reset}><span styleName="listLeft">交易密码</span></li>
+            <li><Link to="/resetphone"><span styleName="listLeft">验证手机</span></Link><span
+              styleName="listRight"
+            >22</span></li>
+            <li><Link to="/"><span styleName="listLeft">交易密码</span></Link></li>
           </ul>
           <div styleName="out" onClick={this.userOut}>退出登录</div>
         </div>
@@ -47,10 +46,14 @@ class Userset extends Component {
       tpl = (
         <div styleName="main">
           <ul>
-            <li><span styleName="listLeft">头像</span><span styleName="listRight">22</span></li>
-            <li><span styleName="listLeft">昵称</span><span styleName="listRight">22</span></li>
-            <li><span styleName="listLeft">验证手机</span><span styleName="listRight">22</span></li>
-            <li><span styleName="listLeft">交易密码</span></li>
+            <li><Link to="/"><span styleName="listLeft">头像</span></Link><span styleName="listRight">22</span>
+            </li>
+            <li><Link to="/"><span styleName="listLeft">昵称</span></Link><span styleName="listRight">22</span>
+            </li>
+            <li><Link to="/resetphone"><span styleName="listLeft">验证手机</span></Link><span
+              styleName="listRight"
+            >22</span></li>
+            <li><Link to="/"><span styleName="listLeft">交易密码</span></Link></li>
           </ul>
           <div styleName="out">退出登录</div>
         </div>
@@ -59,23 +62,22 @@ class Userset extends Component {
     return tpl;
   };
 
-
-  // 设置昵称
-  setNickName = () => {
-    location.href = '/nickName';
-  };
-  // 验证手机
-  register = () => {
-    location.href = '/register';
-  };
-  // 修改密码
-  reset = () => {
-    location.href = '/reset';
-  };
-  // 退出登陆
-  userOut = () => {
-    location.href = '/login';
-  };
+  // // 设置昵称
+  // setNickName = () => {
+  //   location.href = '/nickName';
+  // };
+  // // 验证手机
+  // register = () => {
+  //   location.href = '/resetphone';
+  // };
+  // // 修改密码
+  // reset = () => {
+  //   location.href = '/reset';
+  // };
+  // // 退出登陆
+  // userOut = () => {
+  //   location.href = '/login';
+  // };
 
   render() {
     return (

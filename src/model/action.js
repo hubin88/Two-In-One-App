@@ -273,9 +273,10 @@ export function requestLogin() {
     type: ActionTypes.REQUEST_LOGIN,
   };
 }
-export function successLogin() {
+export function successLogin(obj) {
   return {
     type: ActionTypes.SUCCESS_LOGIN,
+    obj,
   };
 }
 export function errorLogin() {
@@ -291,7 +292,7 @@ export function loginSuccess(obj) {
       mobile: obj.mobile,
       sessionId: obj.sessionId,
     };
-    dispatch(successLogin());
+    dispatch(successLogin(obj));
     dispatch(requestGetUseData(succObj));
     dispatch(requestFindUser(succObj));
     dispatch(requestGetMerchsAndServers(succObj));
