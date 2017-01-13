@@ -7,10 +7,12 @@ import { browserHistory } from 'react-router';
 import Login from '../sign/login';
 import Register from '../sign/register';
 import Reset from '../sign/reset';
-import { login } from '../../model/action';
+import { loginSuccess } from '../../model/action';
 import { getQueryString } from '../../server/tools';
+import { Cookie } from '../../ultils/tools';
+import AppConfig from '../../server/app-config';
 
-import '../../css/main.scss'; // import global css style
+import '../../css/main.scss';
 
 class Persponal extends Component {
   static propTypes = {
@@ -25,45 +27,41 @@ class Persponal extends Component {
     window.history.go(-1);
   };
   loginSuc = (json) => {
-    this.props.dispatch(login(JSON.parse(json.result)).then(() => {
-      const path = getQueryString('source') || '';
-      browserHistory.push(`/${path}`);
-    }));
+    this.props.dispatch(loginSuccess(json));
+    Cookie.setCookie(`${AppConfig.systemType()}-isLogin`, true);
+    const path = getQueryString('source') || '';
+    browserHistory.push(`/${path}`);
   };
-  registerSuccess = () => {
+  registerSuc = () => {
     browserHistory.push('/');
+  }
+  resetSuc = () => {
+    browserHistory.push('/login');
   }
   childrenComponent = (path) => {
     switch (path) {
       case '/login':
         return (<Login
-          loginSuccess={
-            this.loginSuc
-          }
-          toRegister={() => {
-            browserHistory.push('/register');
-          }}
-          toReset={() => {
-            browserHistory.push('/reset');
-          }}
-          toHome={() => {
-            browserHistory.push('/');
-          }}
+          loginSuccess={this.loginSuc}
+          toRegister={() => { browserHistory.push('/register'); }}
+          toReset={() => { browserHistory.push('/reset'); }}
+          toHome={() => { browserHistory.push('/'); }}
           orgId={this.props.exchangeInfo.orgId}
         />);
       case '/register':
         return (
           <Register
-            registerSuccess={
-              this.registerSuccess
-            }
+            registerSuccess={this.registerSuc}
             orgId={this.props.exchangeInfo.orgId}
             systemType={this.props.systemInfo.systemType}
           />
         );
       case '/reset':
         return (
-          <Reset />
+          <Reset
+            resetSuccess={this.resetSuc}
+            orgId={this.props.exchangeInfo.orgId}
+          />
         );
       default:
         return null;

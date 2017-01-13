@@ -4,7 +4,6 @@ import TradeApi from '../server/api/trade-api';
 import SysApi from '../server/api/sys-api';
 import AppConfig from '../server/app-config';
 import { arrayToObject } from '../ultils/helper';
-import Api from '../server/api/sign-api';
 
 const api = new Promise((resolve) => {
   resolve();
@@ -284,32 +283,18 @@ export function errorLogin() {
     type: ActionTypes.ERROR_LOGIN,
   };
 }
-export function login(obj) {
+export function loginSuccess(obj) {
   return function wrap(dispatch) {
-    dispatch(requestLogin());
-    return Api.login(obj)
-      .then((res) => {
-        const data = JSON.parse(res.result);
-        const objs = {
-          orgId: obj.orgId,
-          mobile: obj.mobile,
-          sessionId: data.sessionId,
-        };
-        dispatch(successLogin());
-        dispatch(requestGetUseData(objs));
-        dispatch(requestFindUser(objs));
-        dispatch(requestGetMerchsAndServers(objs));
-      })
-      .catch((e) => {
-        console.log(e);
-        dispatch(errorLogin());
-      });
-  };
-}
-export function loginSuccess(json) {
-  return {
-    type: ActionTypes.LOGIN_SUCCESS,
-    json,
+    // dispatch(requestLogin());
+    const succObj = {
+      orgId: obj.orgId,
+      mobile: obj.mobile,
+      sessionId: obj.sessionId,
+    };
+    dispatch(successLogin());
+    dispatch(requestGetUseData(succObj));
+    dispatch(requestFindUser(succObj));
+    dispatch(requestGetMerchsAndServers(succObj));
   };
 }
 /* === 登录 === */

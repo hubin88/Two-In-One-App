@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from 'react';
 import cssModules from 'react-css-modules';
-import { browserHistory } from 'react-router';
 import styles from './reset.scss';
 import Api from '../../server/api/sign-api';
 import Tips from './cummon/tips';
@@ -19,6 +18,7 @@ export default class Reset extends Component {
   static propTypes = {
     orgId: PropTypes.string,
     systemType: PropTypes.string,
+    resetSuccess: PropTypes.func,
   };
 
   constructor(props) {
@@ -114,7 +114,9 @@ export default class Reset extends Component {
     Api.forgetPassword(options).then(() => {
       resetGetCodeAgain('code-btn', this);
       resetForm();
-      browserHistory.push('/');
+      if (this.props.resetSuccess) {
+        this.props.resetSuccess();
+      }
     }).catch(err => Tips.show(err.message));
   };
 

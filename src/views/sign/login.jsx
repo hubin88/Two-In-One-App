@@ -81,9 +81,15 @@ export default class Login extends Component {
       password: hex_md5(this.password.value),
     };
     Api.login(options).then((json) => {
+      const data = JSON.parse(json.result);
+      const obj = {
+        mobile: this.account.value,
+        orgId: this.props.orgId,
+        ...data,
+      };
       resetForm();
       if (this.props.loginSuccess) {
-        this.props.loginSuccess(json);
+        this.props.loginSuccess(obj);
       }
     }).catch(err => Tips.show(err.message));
   };

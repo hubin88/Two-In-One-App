@@ -113,20 +113,17 @@ function systemInfo(state = initSystemInfo, action) {
       Cookie.setCookie(`${AppConfig.systemType()}-isLogin`, true);
       return {
         ...state,
+        loginData: action.json,
         isLogin: true,
       };
     }
     case ActionTypes.SUCCESS_LOGOUT: {
-      // Cookie.deleteCookie(`${AppConfig.systemType()}-isLogin`);
       return {
         ...state,
         isLogin: false,
       };
     }
-    case ActionTypes.LOGIN_SUCCESS: {
-      Cookie.setCookie(`${AppConfig.systemType()}-isLogin`, true);
-      return { ...state, loginData: action.json, isLogin: true };
-    }
+
     default: {
       return state;
     }
