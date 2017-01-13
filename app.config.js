@@ -11,11 +11,14 @@ const config = {
     {
       title: 'React App',
       links: [
-        // './static/bootstrap_part.min.css',
+        './static/k-line/kline.css',
       ],
       scripts: [
         './config.js',
         './static/md5.js',
+        './static/k-line/drawKC.js',
+        './static/k-line/jsonData.js',
+        './static/k-line/jsonData2.js',
         './static/polyfill.min.js',
         './js/index.entry.js',
       ],
