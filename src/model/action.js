@@ -4,6 +4,7 @@ import TradeApi from '../server/api/trade-api';
 import SysApi from '../server/api/sys-api';
 import AppConfig from '../server/app-config';
 import { arrayToObject } from '../ultils/helper';
+import Api from '../server/api/sign-api';
 
 const api = new Promise((resolve) => {
   resolve();
@@ -270,7 +271,7 @@ export function errorLogin() {
 export function login(obj) {
   return function wrap(dispatch) {
     dispatch(requestLogin());
-    return TradeApi.login(obj)
+    return Api.login(obj)
       .then((res) => {
         const data = JSON.parse(res.result);
         const objs = {

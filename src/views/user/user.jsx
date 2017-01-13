@@ -46,7 +46,7 @@ class User extends Component {
   clickFunc = (type) => () => {
     if (type === 1) {
       const loginObj = {
-        orgId: '81',
+        orgId: '118',
         mobile: '18928488102',
         password: 'e10adc3949ba59abbe56e057f20f883e',
         systemType: 'ios',

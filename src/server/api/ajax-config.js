@@ -7,6 +7,7 @@ const AjaxConfig = {
   [SYS_DCB]: {
     // home
     getUseData: { mobile: 'mobile', orgId: 'orgId' },
+    findUser: { mobile: 'mobile', orgId: 'orgId' },
     getMerchsAndServers: { mobile: 'mobile', orgId: 'orgId' },
     getTradeRecordPage: {
       mobile: 'mobile',
@@ -33,6 +34,7 @@ const AjaxConfig = {
   [SYS_DWB]: {
     // home
     getUseData: { sessionId: 'sessionId' },
+    findUser: { mobile: 'mobile', orgId: 'orgId' },
     getMerchsAndServers: { sessionId: 'sessionId' },
     getTradeRecordPage: {
       sessionId: 'sessionId',
