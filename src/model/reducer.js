@@ -35,10 +35,10 @@ const initSystemInfo = {
     user: { name: 'user', label: '我', direction: '/user' },
   },
   assetInfo: {
-    allCash: '',
-    availableCash: '',
-    frozenCash: '',
-    cashEarnAll: '',
+    // allCash: '',
+    // availableCash: '',
+    // frozenCash: '',
+    // cashEarnAll: '',
   },
   checkChannel: [
     { type: 'pay', label: '充值', direction: '/pay' },
@@ -123,7 +123,12 @@ function systemInfo(state = initSystemInfo, action) {
         isLogin: false,
       };
     }
-
+    case ActionTypes.SUCCESS_QUERY_USER_INFO_GATEWAY: {
+      return {
+        ...state,
+        assetInfo: action.data,
+      };
+    }
     default: {
       return state;
     }

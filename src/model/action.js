@@ -236,7 +236,7 @@ export function requestFindUser(obj) {
 // 推送资产信息
 export function successQueryUserInfoGateway(json) {
   return {
-    type: ActionTypes.SUCCESS_GET_MEMBER_LIST,
+    type: ActionTypes.SUCCESS_QUERY_USER_INFO_GATEWAY,
     data: json,
   };
 }

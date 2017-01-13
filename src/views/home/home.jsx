@@ -117,7 +117,7 @@ class Home extends Component {
       marketInfo: { commodityPrices },
       systemInfo: { systemType, assetInfo, isLogin, avatarURL, checkChannel },
     } = this.props;
-    const allCash = isLogin && assetInfo.allCash ? assetInfo.allCash : '- -';
+    const allCash = isLogin && (assetInfo.TotalAssets >= 0) ? assetInfo.TotalAssets : '- -';
     return (
       <div styleName="home">
         <div style={{ position: 'fixed', top: '5px', left: '10px' }}>
