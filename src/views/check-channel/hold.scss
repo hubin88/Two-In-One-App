@@ -14,12 +14,20 @@
   height: .5rem;
   background-color: #c6e6ff;
   text-align: center;
+  white-space: nowrap;
+  overflow-y: auto;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 
   li{
     display: inline-block;
-    width: 33.3%;
+    width: 33.4%;
     border-right: 1px #bdbdbd solid;
     margin-top: .18rem;
+  }
+  li:last-child{
+    border-right: 0;
   }
 }
 .holdList{

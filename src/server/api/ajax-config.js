@@ -6,7 +6,8 @@ import { SYS_DCB, SYS_DWB } from '../define';
 const AjaxConfig = {
   [SYS_DCB]: {
     // home
-    getUserData: { mobile: 'mobile', orgId: 'orgId' },
+    getUseData: { mobile: 'mobile', orgId: 'orgId' },
+    findUser: { mobile: 'mobile', orgId: 'orgId' },
     getMerchsAndServers: { mobile: 'mobile', orgId: 'orgId' },
     getTradeRecordPage: {
       mobile: 'mobile',
@@ -32,7 +33,8 @@ const AjaxConfig = {
   },
   [SYS_DWB]: {
     // home
-    getUserData: { sessionId: 'sessionId' },
+    getUseData: { sessionId: 'sessionId' },
+    findUser: { mobile: 'mobile', orgId: 'orgId' },
     getMerchsAndServers: { sessionId: 'sessionId' },
     getTradeRecordPage: {
       sessionId: 'sessionId',

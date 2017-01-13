@@ -41,7 +41,6 @@ function ajax(url, obj, systemType, name) {
       // console.log(`%c${postData}`, 'font-style:italic;color:#666');
       // console.groupEnd();
     }
-
     if (parseInt(rs.code, 10) !== 0) {
       console.error(`调用失败! ${JSON.stringify(rs)}`);
       throw new Error(rs.message);

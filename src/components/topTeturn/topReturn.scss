@@ -12,9 +12,15 @@
   margin: 0 auto;
 }
 .close{
+  left: .05rem;
+  width: .3rem;
+  height: .3rem;
   background: url(../../images/back@2x.png) no-repeat;
-  width: 16px;
-  height: 30px;
   float: left;
   margin: 5px 10px;
+  position: absolute;
+}
+.sure{
+  position: absolute;
+  right: .1rem;
 }

@@ -15,3 +15,19 @@ var DCB_BEARISH_LABEL = '买跌';
 
 var DWB_BULLISH_LABEL = '看涨';
 var DWB_BEARISH_LABEL = '看跌';
+
+// H5单页调用
+//  充值
+var PAY_TITLE = '充值';
+var PAY_URL = 'http://120.25.135.199:9003/webstatic/1zjyjy/rule/rule.html';
+//  提现
+var WITHDRAW_TITLE = '提现';
+var WITHDRAW_URL = 'http://www.baidu.com';
+//  点差宝介绍
+var DCB_SUGGEST_TITLE = '点差宝介绍';
+var DCB_SUGGEST_URL = 'http://120.25.135.199:9003/webstatic/1zjyjy/rule/rule.html';
+//  点微宝介绍
+var DWB_SUGGEST_TITLE = '点微宝介绍';
+var DWB_SUGGEST_URL = 'http://www.baidu.com';
+
+

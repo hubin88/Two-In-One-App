@@ -15,12 +15,14 @@ import Personal from './views/sign/personal';
 import Login from './views/sign/login';
 import Register from './views/sign/register';
 import Reset from './views/sign/reset';
-import Pay from './views/check-channel/pay';
-import Withdraw from './views/check-channel/withdraw';
+// import Pay from './views/check-channel/pay';
+// import Withdraw from './views/check-channel/withdraw';
+import Single from './views/single-html/single-html';
 import Gold from './views/check-channel/gold';
 import Hold from './views/check-channel/hold';
 import UserCenter from './views/check-channel/userSet';
-import Dcpage from './views/check-channel/dcpage';
+// import Dcpage from './views/check-channel/dcpage';
+import NickName from './views/check-channel/nickName';
 
 
 const store = DEBUG ? createStore(
@@ -53,15 +55,17 @@ const StoreWrap = () => (
         <Route path="/register" component={Register} />
         <Route path="/reset" component={Reset} />
       </Route>
-      <Route path="/pay" component={Pay} onEnter={checkLogin} />
-      <Route path="/withdraw" component={Withdraw} onEnter={checkLogin} />
+      <Route path="/pay" component={Single} onEnter={checkLogin} />
+      <Route path="/withdraw" component={Single} onEnter={checkLogin} />
+      <Route path="/dcbPage" component={Single} />
+      <Route path="/dwbPage" component={Single} />
       <Route path="/hold" component={Hold} onEnter={checkLogin} />
       <Route path="/gold" component={Gold} onEnter={checkLogin} />
-      <Route path="/dcpage" component={Dcpage} />
       <Route path="/userSet" component={UserCenter} onEnter={checkLogin} />
       <Route path="/track" component={Track} onEnter={checkLogin} />
       <Route path="/userCenter" component={UserCenter} onEnter={checkLogin} />
       <Route path="/broker" component={Broker} onEnter={checkLogin} />
+      <Route path="/nickName" component={NickName} onEnter={checkLogin} />
       <Route path="/" component={App}>
         <IndexRoute component={Home} />
         <Route path="/home" component={Home} />
