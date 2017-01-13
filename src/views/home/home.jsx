@@ -3,9 +3,10 @@ import cssModules from 'react-css-modules';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import Table from '../../components/table/table';
-import Quotes from './quotes';
+import Quotes from './quotes/quotes';
+import OrderBox from './order/order-box';
 import styles from './home.scss';
-import styles2 from './hold-table.scss';
+import holdStyles from './hold-table.scss';
 import { SYS_DCB, SYS_DWB } from '../../server/define';
 import AppConfig from '../../server/app-config';
 
@@ -30,13 +31,19 @@ class Home extends Component {
 
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
+    exchangeInfo: PropTypes.object,
+    marketInfo: PropTypes.object,
     systemInfo: PropTypes.object,
   };
 
-  state = {
-    holdHeight: 0,
-    holdBody: [],
-  };
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      holdHeight: 0,
+      holdBody: [],
+    };
+  }
 
   onCover = (d) => {
     console.log('平仓', d);
@@ -46,6 +53,21 @@ class Home extends Component {
     this.setState({
       holdHeight: 90,
       holdBody: holdRecord[systemType],
+    });
+  };
+
+  confirmBuild() {
+    console.log('下单成功');
+  }
+
+  showOrder = (title, direction, systemType) => {
+    OrderBox.show({
+      dispatch: this.props.dispatch,
+      title,
+      direction,
+      systemType,
+      onConfirm: this.confirmBuild,
+      commodityData: this.props.exchangeInfo.commodityData,
     });
   };
 
@@ -89,10 +111,18 @@ class Home extends Component {
   };
 
   render() {
-    const { dispatch, systemInfo: { systemType, assetInfo, isLogin, avatarURL, checkChannel } } = this.props;
+    const {
+      dispatch,
+      exchangeInfo: { commodityData },
+      marketInfo: { commodityPrices },
+      systemInfo: { systemType, assetInfo, isLogin, avatarURL, checkChannel },
+    } = this.props;
     const allCash = isLogin && assetInfo.allCash ? assetInfo.allCash : '- -';
     return (
       <div styleName="home">
+        <div style={{ position: 'fixed', top: '5px', left: '10px' }}>
+          <button onClick={() => this.haveHold(systemType)}>显示持仓</button>
+        </div>
         <div styleName="user-info">
           <span styleName="avatar">
             <img src={avatarURL} alt="" />
@@ -111,17 +141,25 @@ class Home extends Component {
         </div>
         <div styleName="trade" style={{ bottom: `${this.state.holdHeight}` }}>
           <div styleName="market">
-            <Quotes dispatch={dispatch} />
+            <Quotes
+              dispatch={dispatch}
+              commodityData={commodityData}
+              commodityPrices={commodityPrices}
+            />
           </div>
           <div styleName="building">
-            <span
-              styleName="bullish"
-              onClick={() => this.haveHold(systemType)}
-            >{`${AppConfig.tradeLabel()[systemType].bullish}`}</span>
-            <span
-              styleName="bearish"
-              onClick={() => this.haveHold(systemType)}
-            >{`${AppConfig.tradeLabel()[systemType].bearish}`}</span>
+            {
+              ['bullish', 'bearish'].map((direction, idx) => {
+                const title = `${AppConfig.tradeLabel()[systemType][direction]}`;
+                return (
+                  <span
+                    key={`building-${idx}`}
+                    styleName={direction}
+                    onClick={() => this.showOrder(title, direction, systemType)}
+                  >{title}</span>
+                );
+              })
+            }
           </div>
           <div styleName="tips">
             <span>交易时间:周一至周五08:00-次日04:00 每日04:30-07:00休市结算</span>
@@ -134,7 +172,7 @@ class Home extends Component {
               fields={this.holdHeaderList(systemType)}
               data={this.state.holdBody}
               className="txt-center"
-              styles={styles2}
+              styles={holdStyles}
             />
           }
         </div>
@@ -146,6 +184,7 @@ class Home extends Component {
 function mapStateToProps(state) {
   return {
     exchangeInfo: state.exchangeInfo,
+    marketInfo: state.marketInfo,
     systemInfo: state.systemInfo,
   };
 }

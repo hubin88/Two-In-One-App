@@ -1,7 +1,7 @@
 //@import '../css/var';
 
 .overlay {
-  position: fixed;
+  position: absolute;
   top: 0;
   right: 0;
   left: 0;
@@ -12,58 +12,58 @@
 }
 
 .title {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 0.9rem;
-  font-size: 0.4rem;
-  font-weight: bold;
-  border-bottom: 0.01rem solid #ccc;
   text-align: center;
-  line-height: 0.9rem;
-}
+  height: 36px;
+  line-height: 36px;
+  color: #fff;
+  font-size: 1.2em;
 
-.close {
-  position: absolute;
-  bottom: -0.7rem;
-  width: 100%;
-  .close-btn {
-    display: block;
-    margin: 0 auto;
-    width: 0.5rem;
-    height: 0.5rem;
-    background: url('../../../images/close@2x.png') no-repeat center center;
+  .close {
+    position: absolute;
+    width: 26px;
+    height: 26px;
+    background: url('../../images/close.png') no-repeat;
+    top: 5px;
+    right: 5px;
     border: 0;
     opacity: 0.6;
     filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=60);
+    transition: opacity 0.5s;
+
+    &:hover {
+      opacity: 1;
+      filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
+    }
   }
 }
 
 .content {
-  display: block;
+  color: #494a54;
+  display: table;
+  width: 100%;
   height: 100%;
-  box-sizing: border-box;
-  padding: 1.2rem 0 0.2rem;
+  line-height: 1.8em;
+  padding: 1em;
+
   .cell {
-    height: 100%;
+    display: table-cell;
     vertical-align: middle;
-    padding: 0 0.2rem;
-    color: #606060;
-    font-size: 0.16rem;
-    line-height: 0.3rem;
-    word-break: normal;
-    word-wrap: break-word;
-    overflow: scroll;
-    -webkit-overflow-scrolling: touch;
   }
 }
 
 .dialog {
-  width: 90%;
-  box-shadow: 0 .08rem 0 rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 60px rgba(0, 0, 0, 0.6);
   position: absolute;
-  top: 0.7rem;
-  background: #fff;
-  border-radius: 0.1rem;
+  background-color: #f0f2f9;
+  width: 60%;
+  top: 20%;
+  left: 50%;
+  margin-left: -30%;
+}
+
+@media all and (min-width: 1200px) {
+  .dialog {
+    width: 800px;
+    margin-left: -400px;
+  }
 }

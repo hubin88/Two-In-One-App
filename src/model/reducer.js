@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux';
 import { routerReducer } from 'react-router-redux';
 import * as ActionTypes from './action-types';
+import marketInfo from './market/reducer-market';
 import { Cookie } from '../ultils/tools';
 import { arrayToObject } from '../ultils/helper';
 import { SYS_DCB, SYS_DWB, NONE } from '../server/define';
@@ -18,10 +19,8 @@ const initExchangeInfo = {
   systemList: initSystemList,
   commodity: {},
   orgId: '118',
+  commodityData: {},
 };
-
-// 不同交易所有不同的行情数据
-// const marketInfo = {};
 
 // 切换不同系统，底部导航栏，资金展示方式，个人中心功能点会有所变化
 const initSystemInfo = {
@@ -86,10 +85,10 @@ function exchangeInfo(state = initExchangeInfo, action) {
       };
     }
     case ActionTypes.SUCCESS_GET_COMMODITY_SERVERS: {
-      const { Merchs: commodityInfo = [] } = JSON.parse(action.commodityStr);
+      const { Merchs: commodity = [] } = JSON.parse(action.commodityStr);
       return {
         ...state,
-        commodity: arrayToObject(commodityInfo, 'MerchCode'),
+        commodityData: arrayToObject(commodity, 'MerchCode'),
       };
     }
     default: {
@@ -136,6 +135,7 @@ function systemInfo(state = initSystemInfo, action) {
 
 export default combineReducers({
   exchangeInfo,
+  marketInfo,
   systemInfo,
   routing: routerReducer,
 });

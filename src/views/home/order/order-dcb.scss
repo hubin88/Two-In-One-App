@@ -1,0 +1,217 @@
+$fontSize: 0.12rem;
+$fontColor: #CACACA;
+
+.buttonRed {
+  background-color: #DF2E32;
+  border: 1.5px solid #DF2E32;
+  color: #F7F7F8;
+}
+
+.buttonGreen {
+  background-color: #55CF69;
+  border: 1.5px solid #55CF69;
+  color: #F7F7F8;
+}
+
+.dwb-button-choose {
+  border: 1.5px solid #9DCCF3;
+  color: #9DCCF3;
+}
+
+.not-current {
+  border: 1.5px solid #c0c0c0;
+}
+
+.setting {
+  width: 100%;
+  font-size: $fontSize;
+  .deposit {
+
+  }
+  .range {
+
+  }
+  .amount {
+
+  }
+}
+
+.title {
+  width: 7*$fontSize;
+  height: 100%;
+  vertical-align: top;
+}
+
+.content {
+  width: auto;
+  padding-bottom: .05rem;
+}
+
+.item {
+  display: inline-block;
+  width: 30%;
+  text-align: center;
+  border: solid 1px red;
+  border-radius: 0.02rem;
+  margin: 0 0 2% 2%;
+
+
+}
+
+.dcb-setName {
+  width: 23%;
+  vertical-align: top;
+  display: inline-block;
+  padding-top: .03rem;
+  height: 100%;
+}
+
+.dcb-subscription, .dcb-profit-loss-point, .dcb-amount {
+  margin-top: 3%;
+}
+
+.dcb-subscription-list, .dcb-profit-loss-point-list {
+  display: inline-block;
+  width: 77%;
+}
+
+.dcb-subscription-ul, .dcb-profit-loss-point-ul {
+  display: inline-block;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  li {
+    list-style-type: none;
+    display: inline-block;
+    width: 30%;
+    margin: 0 0 1% 2%;
+    padding: 0.03rem 0;
+    text-align: center;
+    border-radius: 0.02rem;
+  }
+}
+
+.dcb-profit-tip {
+  margin: 5% 0 0 24%;
+  .dcb-amount-tip {
+    color: #c0c0c0;
+    float: right;
+  }
+}
+
+.dcb-button {
+  margin-top: 3%;
+  height: .2rem;
+  .dcb-cancel {
+    float: left;
+    text-align: center;
+    border: 1.5px solid #c0c0c0;
+    border-radius: 0.02rem;
+    padding: 0.05rem 0;
+    width: 40%;
+  }
+  .dcb-ensure {
+    color: #F7F7F8;
+    float: right;
+    text-align: center;
+    border-radius: 0.02rem;
+    padding: 0.05rem 0;
+    width: 55%;
+  }
+}
+
+.dcb-warm-prompt {
+  color: $fontColor;
+  margin-top: 3%;
+  text-align: center;
+  //-webkit-transform: scale(0.75);
+}
+
+.dwb-commodity-price {
+
+}
+
+.dwb-setName {
+  display: inline-block;
+  width: .2rem;
+  margin-right: 5%;
+}
+
+.dwb-monetary, .dwb-profit-loss, .dwb-factorage-tip {
+  margin-top: 3%;
+  color: $fontColor;
+}
+
+//.dwb-monetary,.dwb-profit-loss{
+//  height: 20%;
+//}
+.dwb-monetary-list, .dwb-profit-loss-list {
+  display: inline-block;
+  width: 85%;
+}
+
+.dwb-monetary-ul {
+  display: inline-block;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  li {
+    color: #8D8D8D;
+    list-style-type: none;
+    display: inline-block;
+    width: 30.5%;
+    margin: 0 0 1% 2%;
+    padding: 0.03rem 0;
+    text-align: center;
+    //border: 1px solid #c0c0c0;
+    border-radius: 0.02rem;
+  }
+}
+
+.dwb-profit-loss-ul {
+  display: inline-block;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  li {
+    color: #8D8D8D;
+    list-style-type: none;
+    display: inline-block;
+    width: 13%;
+    margin: 0 0 1% 2%;
+    padding: 0.03rem 0;
+    text-align: center;
+    //border: 1px solid #c0c0c0;
+    border-radius: 0.02rem;
+  }
+}
+
+.dwb-warm-prompt {
+  color: $fontColor;
+  margin-top: 3%;
+  text-align: center;
+}
+
+.dwb-button {
+  margin-top: 3%;
+  .dwb-cancel {
+    float: left;
+    text-align: center;
+    border: 1.5px solid #c0c0c0;
+    border-radius: 0.02rem;
+    padding: 0.05rem 0;
+    width: 40%;
+  }
+  .dwb-ensure {
+    color: #F7F7F8;
+    float: right;
+    text-align: center;
+    border-radius: 0.02rem;
+    padding: 0.05rem 0;
+    width: 55%;
+  }
+}
+
+.annotation {
+  color: $fontColor;
+}

@@ -1,0 +1,47 @@
+@import "../_val-home";
+
+.quotes {
+  height: 100%;
+  width: 100%;
+  position: relative;
+  padding-top: $commodityH+$infoPaddingTop;
+}
+
+.commodity {
+  position: absolute;
+  top: $infoPaddingTop;
+  height: $commodityH;
+  width: 100%;
+  white-space: nowrap;
+  overflow-x: auto;
+  overflow-y: hidden;
+  background-color: #EFEFF4;
+  &::-webkit-scrollbar {
+    display: none
+  }
+  li {
+    list-style-type: none;
+    display: inline-block;
+    text-align: center;
+    height: 100%;
+    min-width: 33.33%;
+
+    span {
+      display: block;
+    }
+  }
+}
+
+.trend-chart {
+  width: 100%;
+  height: 100%;
+}
+
+.quotations-choose {
+  border-top: 1.5px solid #F8812C;
+  background-color: #E0EEFF;
+}
+
+.active {
+  border-top: 1px gray solid;
+}

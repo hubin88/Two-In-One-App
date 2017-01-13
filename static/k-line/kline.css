@@ -1,0 +1,167 @@
+.k-line-container,
+.draw-chart-container {
+    position: relative;
+}
+
+.k-line-container > canvas,
+.draw-chart-container > canvas {
+    font-family: Arial;
+    /*font-size: 16px;*/
+    position: absolute;
+    width: 100%;
+}
+
+.k-line-container > #k-line-tip {
+    position: absolute;
+    opacity: 0.8;
+    line-height: 1.5em;
+    font-size: 9pt;
+    padding: 4px;
+    background-color: white;
+    border: 1px solid gray;
+    /*width: 140px;*/
+    /*height: 150px;*/
+    z-index: -1;
+    display: none;
+}
+
+.k-line-container > #k-line-guide {
+    z-index: 0;
+    /*background: #c4c47d;*/
+    opacity: 0.3;
+}
+
+@keyframes move_eye3 {
+    from {
+        opacity: 0.6;
+        transform: scale(0.25);
+        -webkit-transform: scale(0.25);
+    }
+    to {
+        opacity: 0;
+        transform: scale(0.9);
+        -webkit-transform: scale(0.9);
+    }
+}
+
+@-webkit-keyframes move_eye3 {
+    from {
+        opacity: 0.6;
+        transform: scale(0.25);
+        -webkit-transform: scale(0.25);
+    }
+    to {
+        opacity: 0;
+        transform: scale(0.9);
+        -webkit-transform: scale(0.9);
+    }
+}
+
+@keyframes move_eye2 {
+    from {
+        transform: scale(0.25);
+        -webkit-transform: scale(0.25);
+        opacity: 0.6;
+    }
+    to {
+        opacity: 0;
+        transform: scale(0.5);
+        -webkit-transform: scale(0.5);
+    }
+}
+
+@-webkit-keyframes move_eye2 {
+    from {
+        transform: scale(0.25);
+        -webkit-transform: scale(0.25);
+        opacity: 0.6;
+    }
+    to {
+        opacity: 0;
+        transform: scale(0.5);
+        -webkit-transform: scale(0.5);
+    }
+}
+
+@keyframes move_eye {
+    from {
+        opacity: 1;
+        transform: scale(0.6);
+        -webkit-transform: scale(0.6);
+    }
+    to {
+        opacity: 0.8;
+        transform: scale(1);
+        -webkit-transform: scale(1);
+    }
+}
+
+@-webkit-keyframes move_eye {
+    from {
+        opacity: 1;
+        transform: scale(0.6);
+        -webkit-transform: scale(0.6);
+    }
+    to {
+        opacity: 0.8;
+        transform: scale(1);
+        -webkit-transform: scale(1);
+    }
+}
+
+#chart-ball {
+    position: relative;
+    -webkit-transform-style: preserve-3d;
+    -moz-transform-style: preserve-3d;
+    -ms-transform-style: preserve-3d;
+    -o-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+}
+
+#chart-ball .ball {
+    width: 30px;
+    height: 30px;
+    left: -15px;
+    top: -15px;
+    border-radius: 15px;
+    position: absolute;
+}
+
+#chart-ball .outer {
+    background-color: #ff8d30;
+    animation: move_eye2 0.8s linear 0.2s infinite;
+    -webkit-animation: move_eye2 0.8s linear 0.2s infinite;
+}
+
+#chart-ball .outer2 {
+    background-color: #ffd085;
+    animation: move_eye3 0.8s linear 0s infinite;
+    -webkit-animation: move_eye3 0.8s linear 0s infinite;
+}
+
+#chart-ball .inner {
+    width: 10px;
+    height: 10px;
+    left: -5px;
+    top: -5px;
+    border-radius: 6px;
+    background-color: #ff1b10;
+    animation: move_eye 0.4s ease-in 0s infinite alternate;
+    -webkit-animation: move_eye 0.4s ease-in 0s infinite alternate;
+}
+
+#text-Tips {
+    position: absolute;
+    opacity: 0.8;
+    line-height: 18px;
+    font-size: 12px;
+    padding: 4px;
+    background-color: white;
+    /*background-color: #c5b5b5;*/
+    border: 1px solid gray;
+    z-index: 0;
+    display: none;
+    text-align: center;
+    border-radius: 3px;
+    /*transition: all 0.1s;*/
+}

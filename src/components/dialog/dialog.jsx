@@ -5,7 +5,7 @@
 import React, { PropTypes } from 'react';
 import cssModules from 'react-css-modules';
 import styles from './dialog.scss';
-import { insertComponent, removeComponentByRef } from '../../server/tools';
+import { insertComponent, removeComponentByRef } from '../../ultils/helper';
 
 @cssModules(styles, { errorWhenNotFound: false })
 class DialogWrap extends React.Component {
@@ -16,38 +16,22 @@ class DialogWrap extends React.Component {
     onCloseCallback: PropTypes.func,
   };
 
-  componentDidMount() {
-    this.layout();
-  }
-
   close = () => {
     if (this.props.onCloseCallback) this.props.onCloseCallback();
-    removeComponentByRef(this.wrap);
-  };
-
-  layout = () => {
-    const e = document.documentElement;
-    const rect = { width: e.clientWidth, height: e.clientHeight + document.body.scrollTop };
-    const r = this.box.getBoundingClientRect();
-    const height = rect.height * 0.65;
-    const left = (rect.width - r.width) / 2;
-    const style = `left:${left}px;height:${height}px`;
-    this.box.setAttribute('style', style);
+    removeComponentByRef(this.box);
   };
 
   render() {
     return (
-      <div id="wrap" ref={(ref) => { this.wrap = ref; }}>
-        <div styleName="overlay" style={this.props.style} />
-        <div styleName="dialog" ref={(ref) => { this.box = ref; }}>
+      <div ref={(ref) => { this.box = ref; }}>
+        <div styleName="overlay" onClick={this.close} />
+        <div styleName="dialog" style={this.props.style}>
           <div styleName="title" className="main-nav-bg-color">
             {this.props.title}
+            <input type="button" styleName="close" onClick={this.close} />
           </div>
           <div styleName="content">
-            <div styleName="cell" dangerouslySetInnerHTML={{ __html: this.props.children }} />
-          </div>
-          <div styleName="close">
-            <input type="button" styleName="close-btn" onClick={this.close} />
+            <div styleName="cell">{this.props.children}</div>
           </div>
         </div>
       </div>

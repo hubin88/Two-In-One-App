@@ -1,10 +1,4 @@
-$playColor: ("on":#3b85d9, "off":#899198);
-$avatarH: .4rem;
-$infoPaddingTop: .12rem;
-$infoPaddingBottom: .08rem;
-$infoPaddingLeft: .1rem;
-$tradingH: .6rem;
-$tipsH: .2rem;
+@import "val-home";
 
 .home {
   height: 100%;
@@ -70,14 +64,16 @@ $tipsH: .2rem;
 }
 
 .market {
-  height: 100%;
-  border: solid 1px red;
+  position: absolute;
+  top: 0;
+  bottom: $tipsH + $buildingH;
+  width: 100%;
 }
 
 .building {
   position: absolute;
   bottom: $tipsH;
-  height: .6rem;
+  height: $buildingH;
   width: 100%;
   padding: .08rem .15rem;
   background-color: #FFFFFF;
@@ -89,18 +85,18 @@ $tipsH: .2rem;
   }
   span {
     display: inline-block;
-    width: 49%;
+    width: 48%;
+    margin: 1%;
     padding: .12rem;
     text-align: center;
     border-radius: 3px;
-    color: #FFFFFF;
+    color: #fff;
   }
-  .bullish {
-    background-color: #F84142;
-  }
-  .bearish {
-    background-color: #55CF69;
-    margin-left: 2%;
+}
+
+@each $key, $color in $buildingColor {
+  .#{$key} {
+    background-color: $color;
   }
 }
 

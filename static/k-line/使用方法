@@ -1,0 +1,58 @@
+1，引用drawKc.js,Kline.css
+2,创建一个画布 <canvas id="drawChart"></canvas>，给他一个id，这个画布的宽度跟高度会根据外容器的高度宽度填满，或者指定高度跟宽度
+3，k线方法，首先实例化drawKLine，第一个参数就是画布id，第二个参数就是所需要的参数
+var options = {
+        lineWidth: 1,//k线的宽度
+        barWidth: 4,//蜡炬宽度
+        spaceWidth: 5,//两根k线之间的距离
+        paddingWidth: 40,//就是K线的上左下之间的距离，左边会画成价格，下边会画成时间线
+        horizontalLineCount: 5,//底部水平线的时间数
+        verticalLineCount: 5,//左边垂直线的显示价格数
+        timeType: 1,//1,分钟，2，天
+    }
+
+    实例化后，调用drawKLine方法，参数是数据数组,默认是添加到已有数组数据后边(格式按照原先数据为基准，也就是以，close，open等为名)
+    [{
+      "avgprice": 0,
+      "close": 3404,
+      "high": 3416,
+      "low": 3403,
+      "mktime": 1480964400000,
+      "open": 3416,
+      "prevclose": 0,
+      "price": 0,
+      "time": "2016-12-06 03:00:00",
+      "turnover": 0,
+      "volume": 0
+    }]
+4，分时图方法，实例化drawChart，第一个参数就是画布id，第二个参数就是所需要的参数
+
+var options ={
+        paddingLeft: 35,//左边宽度，也是画的价格
+        paddingBottom: 30,//底部宽度，画的是时间线
+        paddingTop: 30,//顶部宽度
+        timeCount: 5,//底部显示几个时间
+        vLineCount: 5,////左边垂直价格数量
+        chartLineColor: 'rgba(2,100,30,1)',//分时线颜色
+        chartFillColor: 'rgba(2,100,30,.1)',//分时图颜色
+        chartColor: 'black',//画布字体颜色
+    }
+
+    实例化后，调用drawChart方法绘制，，参数是数据数组,默认是添加到已有数组数据后边
+    (格式按照原先数据为基准，也就是以，price，time，mktime为名，这个暂时只用到价格跟时间)
+    [
+      {
+        "avgprice": 37156.386719,
+        "close": 0,
+        "high": 37227,
+        "low": 0,
+        "mktime": 1483578000000,
+        "open": 37140,
+        "prevclose": 37090,
+        "price": 37191,
+        "time": "2017-01-05 09:00:00",
+        "turnover": 0,
+        "volume": -68988
+      }]
+
+5，如果要重新设置画布高度宽度，直接调用resetCanvas，参数第一个是宽度，第二个是高度就可以重新已当前高度宽度绘制

@@ -135,19 +135,24 @@ export function errorChangeSystem() {
     type: ActionTypes.ERROR_CHANGE_SYSTEM,
   };
 }
-export function changeSystem(systemType) {
+export function changeSystem(systemType, exchangeData) {
   Cookie.setCookie('systemType', systemType);
   return function wrap(dispatch) {
     dispatch(requestChangeSystem());
     return api
-      .then(() => dispatch(successChangeSystem(systemType)))
+      .then(() => {
+        // TODO: 现阶段接口不同交易系统商品是分开配置的。后期应该商品只跟交易所有关。
+        dispatch(getCommodityAndServers(exchangeData));
+        return dispatch(successChangeSystem(systemType));
+      })
       .catch(() => dispatch(errorChangeSystem()));
   };
 }
 export function changeSystemWrap(systemType) {
   return function wrap(dispatch) {
     if (!systemType || systemType === Cookie.getCookie('systemType')) return;
-    dispatch(changeSystem(systemType));
+    const exchangeData = Cookie.getCookie('exchangeData');
+    dispatch(changeSystem(systemType, exchangeData));
   };
 }
 /* === 切换系统 === */
@@ -168,12 +173,22 @@ export function changeExchange(exchangeData) {
     return dispatch(getOneExchangeInfo(exchangeData))
       .then((action) => {
         const systemType = action.exchangeInfo.system[0].type;
-        dispatch(getCommodityAndServers(exchangeData));
-        return dispatch(changeSystem(systemType));
+        // dispatch(getCommodityAndServers(exchangeData));
+        return dispatch(changeSystem(systemType, exchangeData));
       });
   };
 }
 /* === 更改交易所=== */
+
+/* === 获取行情数据 === */
+/* === 获取行情数据 === */
+/* === 更改商品 === */
+export function successChangeCommodity() {
+  return {
+    type: ActionTypes.SUCCESS_CHANGE_COMMODITY,
+  };
+}
+/* === 更改商品 === */
 
 /* === 程序启动 === */
 export function appStart(initExchangeData = AppConfig.exchangeData()) {
@@ -181,7 +196,8 @@ export function appStart(initExchangeData = AppConfig.exchangeData()) {
     return dispatch(getExchangeList())
       .then((action) => {
         const exchangeIdArr = Object.keys(arrayToObject(action.exchangeList, 'id'));
-        const exchangeData = exchangeIdArr.includes(JSON.stringify(initExchangeData.id)) ?
+        const exchangeData = (initExchangeData &&
+        exchangeIdArr.includes(JSON.stringify(initExchangeData.id))) ?
           initExchangeData.id : action.exchangeList[0];
         return dispatch(changeExchange(exchangeData));
       });

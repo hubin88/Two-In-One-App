@@ -9,10 +9,9 @@ import styles from './order.scss';
 class Order extends Component {
   static propTypes = {
     dispatch: PropTypes.func,
-    appState: PropTypes.object,
     close: PropTypes.func,
     state: PropTypes.object,
-  }
+  };
 
   constructor(props) {
     super(props);
@@ -29,7 +28,6 @@ class Order extends Component {
     };
   }
 
-
   componentDidMount() {
     const title = document.getElementById('title');
     const orderPanel = document.getElementById('order-panel');
@@ -45,33 +43,34 @@ class Order extends Component {
   }
 
   close = () => {
-    const orderPanel = document.getElementById('order-panel');
-    orderPanel.style.height = '0%';
-    setTimeout(() => {
-      this.props.close();
-    }, 550);
-  }
+    // const orderPanel = document.getElementById('order-panel');
+    // orderPanel.style.height = '0%';
+    // setTimeout(() => {
+    //   this.props.close();
+    // }, 550);
+  };
 
   chooseSubscription = (e) => {
     this.setState({ currentSubscription: e.target.value });
-  }
+  };
   chooseDcbPoint = (e) => {
     this.setState({ currentDcbPoint: e.target.value });
-  }
+  };
   chooseMonetary = (e) => {
     this.setState({ currentMonetary: e.target.value });
-  }
+  };
   chooseDwbProfit = (e) => {
     this.setState({ currentDwbProfit: e.target.value });
-  }
+  };
   chooseDwbLoss = (e) => {
     this.setState({ currentDwbLoss: e.target.value });
-  }
+  };
 
   // 计算利润
   profit() {
     return 1000;
   }
+
   // 计算最大下单数
   maxOrderAmount() {
     return 5;
@@ -89,7 +88,8 @@ class Order extends Component {
             <ul styleName="dcb-subscription-ul">
               {this.state.subscription.map((item, index) =>
                 <li
-                  styleName={this.state.currentSubscription === index ? `${buttonColor}` : 'not-current'} key={index}
+                  styleName={this.state.currentSubscription === index ? `${buttonColor}` : 'not-current'}
+                  key={index}
                   value={index}
                   onClick={this.chooseSubscription}
                 >
@@ -100,12 +100,13 @@ class Order extends Component {
           </div>
         </div>
         <div styleName="dcb-profit-loss-point">
-          <div styleName="dcb-setName" ><span>止盈/止损点:</span></div>
+          <div styleName="dcb-setName"><span>止盈/止损点:</span></div>
           <div id="dcb-profit-loss-point-list" styleName="dcb-profit-loss-point-list">
             <ul styleName="dcb-profit-loss-point-ul">
               {this.state.dcbPoint.map((item, index) =>
                 <li
-                  styleName={this.state.currentDcbPoint === index ? `${buttonColor}` : 'not-current'} key={index}
+                  styleName={this.state.currentDcbPoint === index ? `${buttonColor}` : 'not-current'}
+                  key={index}
                   value={index}
                   onClick={this.chooseDcbPoint}
                 >
@@ -116,7 +117,7 @@ class Order extends Component {
           </div>
         </div>
         <div styleName="dcb-amount">
-          <div styleName="dcb-setName" >数量:</div>
+          <div styleName="dcb-setName">数量:</div>
           <span>拖动条</span>
         </div>
         <div styleName="dcb-profit-tip">
@@ -135,6 +136,7 @@ class Order extends Component {
       </div>
     );
   }
+
   // 点微宝下单界面
   renderDwb() {
     const fontColor = `${this.props.state.type === '看涨' ? 'fontRed' : 'fontGreen'}`;
@@ -152,7 +154,8 @@ class Order extends Component {
             <ul styleName="dwb-monetary-ul">
               {this.state.monetary.map((item, index) =>
                 <li
-                  styleName={this.state.currentMonetary === index ? 'dwb-button-choose' : 'not-current'} key={index}
+                  styleName={this.state.currentMonetary === index ? 'dwb-button-choose' : 'not-current'}
+                  key={index}
                   value={index}
                   onClick={this.chooseMonetary}
                 >
@@ -176,7 +179,8 @@ class Order extends Component {
             <ul styleName="dwb-profit-loss-ul">
               {this.state.dwbPoint.map((item, index) =>
                 <li
-                  styleName={this.state.currentDwbLoss === index ? 'dwb-button-choose' : 'not-current'} key={index}
+                  styleName={this.state.currentDwbLoss === index ? 'dwb-button-choose' : 'not-current'}
+                  key={index}
                   value={index}
                   onClick={this.chooseDwbLoss}
                 >
@@ -190,7 +194,8 @@ class Order extends Component {
             <ul styleName="dwb-profit-loss-ul">
               {this.state.dwbPoint.map((item, index) =>
                 <li
-                  styleName={this.state.currentDwbProfit === index ? 'dwb-button-choose' : 'not-current'} key={index}
+                  styleName={this.state.currentDwbProfit === index ? 'dwb-button-choose' : 'not-current'}
+                  key={index}
                   value={index}
                   onClick={this.chooseDwbProfit}
                 >
@@ -214,9 +219,9 @@ class Order extends Component {
 
   renderSetting() {
     const product = this.props.state.product;
-    if (product === 'dcb') {
+    if (product === 'DCB') {
       return this.renderDcb();
-    } else if (product === 'dwb') {
+    } else if (product === 'DWB') {
       return this.renderDwb();
     }
     return null;
@@ -227,7 +232,9 @@ class Order extends Component {
       <div styleName="order">
         <div styleName="close" onClick={() => this.close()}>{}</div>
         <div id="order-panel" styleName="order-panel">
-          <div id="title" styleName="title"><sapn>{this.props.state.type}</sapn></div>
+          <div id="title" styleName="title">
+            <sapn>{this.props.state.type}</sapn>
+          </div>
           <hr styleName="line" />
           {this.renderSetting()}
         </div>
@@ -235,6 +242,5 @@ class Order extends Component {
     );
   }
 }
-
 
 export default cssModules(Order, styles, { allowMultiple: true, errorWhenNotFound: false });
