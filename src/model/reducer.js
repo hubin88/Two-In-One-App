@@ -17,6 +17,7 @@ const initExchangeInfo = {
   isSingleSystem: false, // 只有一个系统
   systemList: initSystemList,
   commodity: {},
+  orgId: '118',
 };
 
 // 不同交易所有不同的行情数据
@@ -117,11 +118,15 @@ function systemInfo(state = initSystemInfo, action) {
       };
     }
     case ActionTypes.SUCCESS_LOGOUT: {
-      Cookie.deleteCookie(`${AppConfig.systemType()}-isLogin`);
+      // Cookie.deleteCookie(`${AppConfig.systemType()}-isLogin`);
       return {
         ...state,
         isLogin: false,
       };
+    }
+    case ActionTypes.LOGIN_SUCCESS: {
+      Cookie.setCookie(`${AppConfig.systemType()}-isLogin`, true);
+      return { ...state, loginData: action.json, isLogin: true };
     }
     default: {
       return state;
@@ -129,19 +134,8 @@ function systemInfo(state = initSystemInfo, action) {
   }
 }
 
-const initState = {
-  orgId: null,
-};
-
-function appState(state = initState, action) {
-  switch (action.type) {
-    default:
-      return state;
-  }
-}
 export default combineReducers({
   exchangeInfo,
   systemInfo,
-  appState,
   routing: routerReducer,
 });

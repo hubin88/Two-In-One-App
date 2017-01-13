@@ -2,7 +2,6 @@
  * Created by admin on 2017/1/4.
  */
 import React, { Component, PropTypes } from 'react';
-import { Link, browserHistory } from 'react-router';
 import cssModules from 'react-css-modules';
 import styles from './login.scss';
 import Api from '../../server/api/sign-api';
@@ -13,8 +12,10 @@ import Tips from './cummon/tips';
 export default class Login extends Component {
   static propTypes = {
     orgId: PropTypes.string,
-    systemType: PropTypes.string,
-    callback: PropTypes.func,
+    loginSuccess: PropTypes.func,
+    toRegister: PropTypes.func,
+    toReset: PropTypes.func,
+    toHome: PropTypes.func,
   };
 
   constructor(props) {
@@ -24,7 +25,6 @@ export default class Login extends Component {
       isAccountRight: false, // 账号是否正确
       isPassWordRight: false, // 密码是否正确
       orgId: this.props.orgId || getQueryString('organization'),
-      systemType: this.props.systemType,
     };
   }
 
@@ -35,6 +35,7 @@ export default class Login extends Component {
       isShowPassword: !this.state.isShowPassword,
     });
   };
+
   check = (e) => {
     e.stopPropagation();
     e.preventDefault();
@@ -68,6 +69,7 @@ export default class Login extends Component {
     }
     return false;
   };
+
   submit = (e) => {
     e.stopPropagation();
     e.preventDefault();
@@ -80,11 +82,26 @@ export default class Login extends Component {
     };
     Api.login(options).then((json) => {
       resetForm();
-      browserHistory.push('/');
-      if (this.props.callback) {
-        this.props.callback(json);
+      if (this.props.loginSuccess) {
+        this.props.loginSuccess(json);
       }
     }).catch(err => Tips.show(err.message));
+  };
+
+  toReset = () => {
+    if (this.props.toReset) {
+      this.props.toReset();
+    }
+  };
+  toRegister = () => {
+    if (this.props.toRegister) {
+      this.props.toRegister();
+    }
+  };
+  toHome = () => {
+    if (this.props.toHome) {
+      this.props.toHome();
+    }
   };
 
   render() {
@@ -131,18 +148,16 @@ export default class Login extends Component {
         <div styleName="forget">
           <div styleName="tr">
             <div styleName="td">
-              <Link to="/reset"><input type="button" value="忘记密码？" /></Link>
+              <input type="button" value="忘记密码？" onClick={this.toReset} />
             </div>
             <div styleName="td">
-              <Link to="/"><input type="button" value="随便看看" /></Link>
+              <input type="button" value="随便看看" onClick={this.toHome} />
             </div>
           </div>
         </div>
-        <Link to="/register">
-          <div styleName="register">
-            <input type="button" value="没有账号？请注册" />
-          </div>
-        </Link>
+        <div styleName="register">
+          <input type="button" value="没有账号？请注册" onClick={this.toRegister} />
+        </div>
       </div>
     );
   }

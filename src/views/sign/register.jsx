@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from 'react';
 import cssModules from 'react-css-modules';
-import { browserHistory } from 'react-router';
 import styles from './register.scss';
 import Dialog from './cummon/dialog';
 import Tips from './cummon/tips';
@@ -22,6 +21,7 @@ export default class Register extends Component {
   static propTypes = {
     orgId: PropTypes.string,
     systemType: PropTypes.string,
+    registerSuccess: PropTypes.func,
   };
 
   constructor(props) {
@@ -206,7 +206,9 @@ export default class Register extends Component {
       }
       resetGetCodeAgain('code-btn', this);
       resetForm();
-      browserHistory.push('/');
+      if (this.props.registerSuccess) {
+        this.props.registerSuccess();
+      }
       return false;
     }).catch(err => Tips.show(err.message));
   };

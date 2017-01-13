@@ -44,7 +44,9 @@ class DialogWrap extends React.Component {
             {this.props.title}
           </div>
           <div styleName="content">
-            <div styleName="cell" dangerouslySetInnerHTML={{ __html: this.props.children }} />
+            <div styleName="cell">
+              {this.props.children}
+            </div>
           </div>
           <div styleName="close">
             <input type="button" styleName="close-btn" onClick={this.close} />

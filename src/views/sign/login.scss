@@ -74,17 +74,16 @@ form.form-login {
     display: table-row;
     width: 100%;
   }
-  .td{
+  .td {
     display: table-cell;
     width: 50%;
   }
-  a {
-    display: inline-block;
+
+  input {
     line-height: 0.3rem;
-    input {
-      color: #FF8E30;
-    }
+    color: #FF8E30;
   }
+
   .td:last-child {
     text-align: right;
   }

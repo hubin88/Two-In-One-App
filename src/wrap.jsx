@@ -1,7 +1,7 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware, compose } from 'redux';
-import { Router, IndexRoute, Route, browserHistory, IndexRedirect } from 'react-router';
+import { Router, IndexRoute, Route, browserHistory } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
 import thunkMiddleware from 'redux-thunk';
 import rootReducer from './model/reducer';
@@ -11,19 +11,18 @@ import Track from './views/user/track';
 import Rule from './views/rule/rule';
 import User from './views/user/user';
 import Broker from './views/broker/broker';
-import Personal from './views/sign/personal';
-import Login from './views/sign/login';
-import Register from './views/sign/register';
-import Reset from './views/sign/reset';
 // import Pay from './views/check-channel/pay';
 // import Withdraw from './views/check-channel/withdraw';
 import Single from './views/single-html/single-html';
+import NickName from './views/check-channel/nickName';
+import Persponal from './views/user/personal';
+import Pay from './views/check-channel/pay';
+import Withdraw from './views/check-channel/withdraw';
 import Gold from './views/check-channel/gold';
 import Hold from './views/check-channel/hold';
 import UserCenter from './views/check-channel/userSet';
 // import Dcpage from './views/check-channel/dcpage';
-import NickName from './views/check-channel/nickName';
-
+import { Cookie } from './ultils/tools';
 
 const store = DEBUG ? createStore(
   rootReducer,
@@ -36,9 +35,10 @@ const store = DEBUG ? createStore(
 const history = syncHistoryWithStore(browserHistory, store);
 
 const checkLogin = (nextState, replace) => {
-  // alert('定义未登录时的钩子');
-  const i = 0;
-  if (i !== 0) {
+  const systemType = Cookie.getCookie('systemType');
+  const isLogin = Cookie.getCookie(`${systemType}-isLogin`) === true;
+  console.log('aa', isLogin);
+  if (!isLogin) {
     replace({ pathname: '/login', search: `?source=${nextState.location.pathname.slice(1)}` });
   }
 };
@@ -46,19 +46,15 @@ const checkLogin = (nextState, replace) => {
 const StoreWrap = () => (
   <Provider store={store}>
     <Router history={history}>
-      {/* <Route path="/login" component={Login} />*/}
-      {/* <Route path="/register" component={Register} />*/}
-      {/* <Route path="/reset" component={Reset} />*/}
-      <Route path="/personal" component={Personal}>
-        <IndexRedirect to="/login" />
-        <Route path="/login" component={Login} />
-        <Route path="/register" component={Register} />
-        <Route path="/reset" component={Reset} />
-      </Route>
       <Route path="/pay" component={Single} onEnter={checkLogin} />
       <Route path="/withdraw" component={Single} onEnter={checkLogin} />
       <Route path="/dcbPage" component={Single} />
       <Route path="/dwbPage" component={Single} />
+      <Route path="/login" component={Persponal} />
+      <Route path="/register" component={Persponal} />
+      <Route path="/reset" component={Persponal} />
+      <Route path="/pay" component={Pay} onEnter={checkLogin} />
+      <Route path="/withdraw" component={Withdraw} onEnter={checkLogin} />
       <Route path="/hold" component={Hold} onEnter={checkLogin} />
       <Route path="/gold" component={Gold} onEnter={checkLogin} />
       <Route path="/userSet" component={UserCenter} onEnter={checkLogin} />

@@ -290,6 +290,12 @@ export function login(obj) {
       });
   };
 }
+export function loginSuccess(json) {
+  return {
+    type: ActionTypes.LOGIN_SUCCESS,
+    json,
+  };
+}
 /* === 登录 === */
 
 /* ===注册=== */

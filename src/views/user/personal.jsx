@@ -25,10 +25,10 @@ class Persponal extends Component {
     window.history.go(-1);
   };
   loginSuc = (json) => {
-    this.props.dispatch(login(JSON.parse(json.result)).then(()=>{
+    this.props.dispatch(login(JSON.parse(json.result)).then(() => {
       const path = getQueryString('source') || '';
       browserHistory.push(`/${path}`);
-    }))
+    }));
   };
   registerSuccess = () => {
     browserHistory.push('/');
