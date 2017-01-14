@@ -5,7 +5,7 @@ import SysApi from '../server/api/sys-api';
 import AppConfig from '../server/app-config';
 import { arrayToObject } from '../ultils/helper';
 
-const api = new Promise((resolve) => {
+const promise = new Promise((resolve) => {
   resolve();
 });
 
@@ -192,28 +192,37 @@ export function changeSystemType(systemType) {
     systemType,
   };
 }
-export function changeSystem(dispatch, systemType, exchangeData) {
-  // TODO: 现阶段接口不同交易系统商品是分开配置的。后期应该商品只跟交易所有关。
-  dispatch(getCommodityAndServers(exchangeData));
-  dispatch(changeSystemType(systemType));
+export function changeSystem(dispatch, getState, systemType, exchangeData) {
+  promise
+    .then(() => {
+      dispatch(changeSystemType(systemType));
+      // TODO: 现阶段接口不同交易系统商品是分开配置的。后期应该商品只跟交易所有关。
+      return dispatch(getCommodityAndServers(exchangeData));
+    })
+    .then(() => {
+      const commodityId = Object.keys(getState().exchangeInfo.commodityData)[0];
+      changeCommodity(dispatch, commodityId);
+    });
 }
 export function toChangeSystem(systemType) {
-  return function wrap(dispatch) {
+  return function wrap(dispatch, getState) {
     if (!systemType || systemType === Cookie.getCookie('systemType')) return;
     const exchangeData = Cookie.getCookie('exchangeData');
-    changeSystem(dispatch, systemType, exchangeData);
-  };
+
+    changeSystem(dispatch, getState, systemType, exchangeData);
+  }
+    ;
 }
 /* === 更改系统 === */
 
 /* === 更改交易所 === */
-export function changeExchange(dispatch, exchangeData) {
-  api
+export function changeExchange(dispatch, getState, exchangeData) {
+  promise
     .then(() => dispatch(toGetOneExchangeInfo(exchangeData)))
-    .then((action) => {
-      const systemType = action.exchangeInfo.system[0].type;
+    .then(() => {
+      const systemType = getState().exchangeInfo.systemList[0].type;
       // dispatch(getCommodityAndServers(exchangeData));
-      changeSystem(dispatch, systemType, exchangeData);
+      changeSystem(dispatch, getState, systemType, exchangeData);
     });
 }
 export function toChangeExchange(exchangeData) {
@@ -221,21 +230,21 @@ export function toChangeExchange(exchangeData) {
     // TODO: 添加判断，如果exchangeId未改变，不重复请求
     if (getState().exchangeInfo.exchangeId === exchangeData.id) return;
 
-    changeExchange(dispatch, exchangeData);
+    changeExchange(dispatch, getState, exchangeData);
   };
 }
 /* === 更改交易所=== */
 
 /* === 程序启动 === */
 export function appStart(initExchangeData = AppConfig.exchangeData()) {
-  return function wrap(dispatch) {
+  return function wrap(dispatch, getState) {
     return dispatch(getExchangeList())
       .then((action) => {
         const exchangeIdArr = Object.keys(arrayToObject(action.exchangeList, 'id'));
         const exchangeData = (initExchangeData &&
         exchangeIdArr.includes(JSON.stringify(initExchangeData.id))) ?
           initExchangeData.id : action.exchangeList[0];
-        changeExchange(dispatch, exchangeData);
+        changeExchange(dispatch, getState, exchangeData);
       });
   };
 }
@@ -356,7 +365,7 @@ export function errorRegister() {
 export function register() {
   return function wrap(dispatch) {
     dispatch(requestRegister());
-    return api
+    return promise
       .then(() => dispatch(successRegister()))
       .catch(() => dispatch(errorRegister()));
   };
@@ -382,7 +391,7 @@ export function errorReset() {
 export function reset() {
   return function wrap(dispatch) {
     dispatch(requestReset());
-    return api
+    return promise
       .then(() => dispatch(successReset()))
       .catch(() => dispatch(errorReset()));
   };
@@ -408,7 +417,7 @@ export function errorLogout() {
 export function logout() {
   return function wrap(dispatch) {
     dispatch(requestLogout());
-    return api
+    return promise
       .then(() => dispatch(successLogout()))
       .catch(() => dispatch(errorLogout()));
   };

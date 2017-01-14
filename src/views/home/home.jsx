@@ -37,7 +37,6 @@ class Home extends Component {
     systemInfo: PropTypes.object,
   };
 
-
   constructor(props) {
     super(props);
     this.state = {
@@ -57,18 +56,24 @@ class Home extends Component {
     });
   };
 
-  confirmBuild() {
-    console.log('下单成功');
+  confirmBuild(settingData) {
+    console.log('下单成功', settingData);
   }
 
   showOrder = (title, direction, systemType) => {
+    const {
+      exchangeInfo: { commodityData },
+      commodityState: { commodityId },
+
+    } = this.props;
     OrderBox.show({
       dispatch: this.props.dispatch,
       title,
       direction,
       systemType,
       onConfirm: this.confirmBuild,
-      commodityData: this.props.exchangeInfo.commodityData,
+      commodityData,
+      commodityId,
     });
   };
 

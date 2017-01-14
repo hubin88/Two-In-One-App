@@ -13,11 +13,10 @@ const localExchangeData = Cookie.getCookie('exchangeData') || {};
 const initExchangeInfo = {
   exchangeList: [],
   exchangeId: parseInt(localExchangeData.id || NONE, 10),
-  exChangeName: localExchangeData.name || '',
+  exchangeName: localExchangeData.name || '',
   exchangeLogoUrl: localExchangeData.logoUrl || '',
   isSingleSystem: false, // 只有一个系统
   systemList: initSystemList,
-  commodity: {},
   orgId: '118',
   commodityData: {},
 };
