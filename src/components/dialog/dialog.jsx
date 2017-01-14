@@ -10,7 +10,7 @@ import { insertComponent, removeComponentByRef } from '../../ultils/helper';
 @cssModules(styles, { errorWhenNotFound: false })
 class DialogWrap extends React.Component {
   static propTypes = {
-    title: PropTypes.string.isRequired,
+    title: PropTypes.any.isRequired,
     children: PropTypes.any,
     style: PropTypes.object,
     onCloseCallback: PropTypes.func,

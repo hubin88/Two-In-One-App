@@ -6,7 +6,7 @@ import LeftNav from './views/left-nav';
 import Mask from './views/mask';
 
 import './css/main.scss'; // import global css style
-import { appStart, changeExchange } from './model/action';
+import { appStart, toChangeExchange } from './model/action';
 
 class App extends Component {
   static defaultProps = {};
@@ -29,7 +29,7 @@ class App extends Component {
   }
 
   selectExchange(exchangeData) {
-    this.props.dispatch(changeExchange(exchangeData));
+    this.props.dispatch(toChangeExchange(exchangeData));
   }
 
   showLeftNav = () => {
