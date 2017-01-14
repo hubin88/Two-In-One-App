@@ -151,7 +151,6 @@ function commodityState(state = initCommodityState, action) {
       return state;
     }
   }
-
 }
 export default combineReducers({
   exchangeInfo,

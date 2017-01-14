@@ -201,7 +201,7 @@ export function toChangeSystem(systemType) {
   return function wrap(dispatch) {
     if (!systemType || systemType === Cookie.getCookie('systemType')) return;
     const exchangeData = Cookie.getCookie('exchangeData');
-    dispatch(changeSystem(systemType, exchangeData));
+    changeSystem(dispatch, systemType, exchangeData);
   };
 }
 /* === 更改系统 === */

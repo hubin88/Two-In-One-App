@@ -23,7 +23,7 @@ class Quotes extends Component {
   }
 
   componentDidMount() {
-    var options = {
+    const options = {
       lineWidth: 1,
       barWidth: 4,
       spaceWidth: 5,

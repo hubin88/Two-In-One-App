@@ -116,7 +116,7 @@ class Home extends Component {
       dispatch,
       exchangeInfo: { commodityData },
       marketInfo: { commodityPrices },
-      commodityState: {commodityId},
+      commodityState: { commodityId },
       systemInfo: { systemType, assetInfo, isLogin, avatarURL, checkChannel },
     } = this.props;
 

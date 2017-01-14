@@ -76,4 +76,4 @@ export default class OrderBox extends OrderBoxWrap {
       />
     );
   };
-};
+}
