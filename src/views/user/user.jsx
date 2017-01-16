@@ -3,8 +3,6 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import cssModules from 'react-css-modules';
 import styles from './user.scss';
-import { logout } from '../../model/action';
-import SysApi from '../../server/api/sys-api';
 import { SYS_DCB, SYS_DWB } from '../../server/define';
 
 const renderList = {
@@ -38,16 +36,10 @@ const renderList = {
 
 @cssModules(styles, { allowMultiple: true, errorWhenNotFound: false })
 class User extends Component {
+  static defaultProps = {};
   static propTypes = {
-    dispatch: PropTypes.func.isRequired,
-    systemInfo: PropTypes.object.isRequired,
-  };
-
-  clickFunc = (type) => () => {
-    if (type === 1) {
-      SysApi.getSysConfig();
-    }
-    if (type === 2) this.props.dispatch(logout());
+    dispatch: PropTypes.func,
+    systemInfo: PropTypes.object,
   };
 
   render() {
@@ -59,10 +51,6 @@ class User extends Component {
     return (
       <div styleName="user">
         <div styleName="info">
-          <div style={{ position: 'fixed', top: '10px', left: '10px' }}>
-            <b onClick={this.clickFunc(1)}><span>登录</span></b>
-            <b onClick={this.clickFunc(2)}><span>登出</span></b>
-          </div>
           <div styleName="avatar">
             <img src={avatarURL} alt="" />
           </div>
@@ -107,7 +95,7 @@ class User extends Component {
             {
               renderList[systemType].channel.map((channeLitm) => (
                 <Link key={channeLitm.name} to={channeLitm.direction}>
-                  <li styleName={`channel-${channeLitm.name}`} >
+                  <li styleName={`channel-${channeLitm.name}`}>
                     <img src="1.png" alt="" /><span>{channeLitm.label}</span>
                   </li>
                 </Link>

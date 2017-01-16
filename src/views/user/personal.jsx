@@ -44,7 +44,7 @@ class Persponal extends Component {
   };
   resetPasswordSuc = () => {
     browserHistory.push('/login');
-  }
+  };
   childrenComponent = (path) => {
     switch (path) {
       case '/login':

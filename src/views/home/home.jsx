@@ -33,9 +33,9 @@ class Home extends Component {
     dispatch: PropTypes.func.isRequired,
     exchangeInfo: PropTypes.object,
     marketInfo: PropTypes.object,
-    commodityState: PropTypes.object,
     systemInfo: PropTypes.object,
   };
+
 
   constructor(props) {
     super(props);
@@ -56,24 +56,18 @@ class Home extends Component {
     });
   };
 
-  confirmBuild(settingData) {
-    console.log('下单成功', settingData);
+  confirmBuild() {
+    console.log('下单成功');
   }
 
   showOrder = (title, direction, systemType) => {
-    const {
-      exchangeInfo: { commodityData },
-      commodityState: { commodityId },
-
-    } = this.props;
     OrderBox.show({
       dispatch: this.props.dispatch,
       title,
       direction,
       systemType,
       onConfirm: this.confirmBuild,
-      commodityData,
-      commodityId,
+      commodityData: this.props.exchangeInfo.commodityData,
     });
   };
 
@@ -121,12 +115,10 @@ class Home extends Component {
       dispatch,
       exchangeInfo: { commodityData },
       marketInfo: { commodityPrices },
-      commodityState: { commodityId },
       systemInfo: { systemType, assetInfo, isLogin, avatarURL, checkChannel },
     } = this.props;
-
-    const allCash = isLogin && (assetInfo.TotalAssets >= 0) ? assetInfo.TotalAssets : '- -';
-
+    const allCash = isLogin && assetInfo.allCash ? assetInfo.allCash : '- -';
+    console.log(this.props);
     return (
       <div styleName="home">
         <div style={{ position: 'fixed', top: '5px', left: '10px' }}>
@@ -152,7 +144,6 @@ class Home extends Component {
           <div styleName="market">
             <Quotes
               dispatch={dispatch}
-              commodityId={commodityId}
               commodityData={commodityData}
               commodityPrices={commodityPrices}
             />
@@ -195,7 +186,6 @@ function mapStateToProps(state) {
   return {
     exchangeInfo: state.exchangeInfo,
     marketInfo: state.marketInfo,
-    commodityState: state.commodityState,
     systemInfo: state.systemInfo,
   };
 }
