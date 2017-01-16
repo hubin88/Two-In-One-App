@@ -23,33 +23,33 @@ class Quotes extends Component {
   }
 
   componentDidMount() {
-    const options = {
-      lineWidth: 1,
-      barWidth: 4,
-      spaceWidth: 5,
-      paddingWidth: 40,
-      horizontalLineCount: 5,
-      verticalLineCount: 5,
-      timeType: 1,
-    };
-    const d = new window.DrawKLine('kLine', options);
-    d.drawKLine(window.kLineData.result);
+    // const options = {
+    //   lineWidth: .5,
+    //   barWidth: 3,
+    //   spaceWidth: 3,
+    //   paddingWidth: 40,
+    //   horizontalLineCount: 5,
+    //   verticalLineCount: 5,
+    //   timeType: 1,
+    // };
+    // setTimeout(function () {
+    //   const d = new window.DrawKLine('kLine', options);
+    //   d.drawKLine(window.kLineData.result);
+    // },500)
 
-    // var dc = new DrawChart('drawChart', {
-    // d.drawKLine(window.kLineData.result);
 
-    // var dc = new drawChart('drawChart', {
-    //   paddingLeft: 35,
-    //   paddingBottom: 30,
-    //   paddingTop: 30,
-    //   timeCount: 5,
-    //   vLineCount: 5,
-    //   chartLineColor: 'rgba(2,100,30,1)',
-    //   chartFillColor: 'rgba(2,100,30,.1)',
-    //   chartColor: 'black',
-    // });
-    //
-    // dc.drawChart(data2);
+    const dc = new window.DrawChart('kLine', {
+      paddingLeft: 35,
+      paddingBottom: 30,
+      paddingTop: 30,
+      timeCount: 5,
+      vLineCount: 5,
+      chartLineColor: 'rgba(2,100,30,1)',
+      chartFillColor: 'rgba(2,100,30,.1)',
+      chartColor: 'black',
+    });
+
+    dc.drawChart(window.data2);
   }
 
   chooseCommodity = (id) => () => {

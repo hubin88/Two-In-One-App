@@ -114,6 +114,8 @@ function DrawKLine(canvasId, options) {
     },
     drawTimeId: 0,
     isShowGuide: false,
+    isMove: false,
+    isMoveTimeId: 0,
   };
   this.init();
 }
@@ -156,7 +158,7 @@ DrawKLine.prototype = {
     this.guide.height = this.canvas.height;
     this.guide.style.width = this.defaultOpts.width + 'px';
     this.guide.style.height = this.defaultOpts.height + 'px';
-    this.guide.style.borderBottom = 'solid rgb(77, 77, 68) 1px';
+    // this.guide.style.borderBottom = 'solid rgb(77, 77, 68) 1px';
     this.guide.getContext('2d').scale(this.viewRatio, this.viewRatio);
   },
   //加工k线数据
@@ -271,6 +273,9 @@ DrawKLine.prototype = {
     var position = this.getCurrentPosition(x);
     this.setKLineTips(x, y, position);
     var pos = this.kLine.getCurrentPosData(position.posIndex);
+    if (!pos) {
+      return;
+    }
     var ay = (this.guide.height / this.viewRatio) / (this.canvas.height / this.viewRatio);
     var ax = (this.guide.width / this.viewRatio) / (this.canvas.width / this.viewRatio);
     y = ay * pos.y + this.defaultOpts.paddingWidth * ay;
@@ -334,11 +339,20 @@ DrawKLine.prototype = {
         var secondPos = this.getTouchSecondPos(event, this.guide);
         this.eventStatus.distance = this.getDistance(nowPos.x, nowPos.y, secondPos.x, secondPos.y);
         this.hideKLineTips();
+      } else {
+        this.eventStatus.isMoveTimeId = setInterval(function () {
+          if (this.eventStatus.isMove === false) {
+            clearInterval(this.eventStatus.isMoveTimeId);
+            this.eventStatus.isShowGuide = true;
+            this.drawGuide(ctx, nowPos.x, nowPos.y, ww, wh);
+          }
+        }.bind(this), 1000)
       }
     }.bind(this);
 
     var touchMoveEvent = function (event) {
       var nowPos = baseDraw.getPos(event, this.guide);
+      this.eventStatus.isMove = true;
       if (this.isMoreTouch(event)) {
 
         if (this.eventStatus.isRedrawing === true) {
@@ -381,6 +395,9 @@ DrawKLine.prototype = {
     var touchEndEvent = function (event) {
       this.eventStatus.isChange = false;
       this.eventStatus.isShowGuide = false;
+      this.eventStatus.isMove = false;
+      clearInterval(this.eventStatus.isMoveTimeId);
+
       ctx.clearRect(0, 0, ww, wh);
       ctx.save();
       this.hideKLineTips();
@@ -604,7 +621,6 @@ kLine.prototype = {
   },
   //绘制文本
   drawText: function (ctx) {
-    ctx.font='.12rem  helvetica, arial, sans-serif';
     var
       cHeight = this.getCanvasHeight(),
       pWidth = this.kLineWidth.paddingWidth,
@@ -631,6 +647,9 @@ kLine.prototype = {
       count = hLineCount > this.dataInfo.count ? this.dataInfo.count : hLineCount,
       nTime = Math.floor(length / count + 1) - 1,//计算每一个距离有多少条数据
       nT = 0;//计算每一个距离相对应的数据index
+    if (length === 0) {
+      return;
+    }
     var times = this.getDateTime(this.dataInfo.newData[0].time),
       timeWidth = ctx.measureText(times).width,
       totalWidth = this.dataInfo.newData.length * this.dataInfo.blockWidth,
@@ -655,7 +674,8 @@ kLine.prototype = {
         kWidth = 0;
       }
 
-      ctx.fillText(time, kWidth, kHeight + pWidth / 2);
+      ctx.fillText(time, kWidth, kHeight + pWidth - 5);
+      // ctx.fillText(time, kWidth, kHeight + pWidth / 2);
     }
   },
   getDateTime: function (dateString) {
