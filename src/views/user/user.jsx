@@ -3,16 +3,16 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import cssModules from 'react-css-modules';
 import styles from './user.scss';
-import { login, logout } from '../../model/action';
+import { logout } from '../../model/action';
 import SysApi from '../../server/api/sys-api';
 import { SYS_DCB, SYS_DWB } from '../../server/define';
 
 const renderList = {
   [SYS_DCB]: {
     asset: [
-      { name: 'allCash', label: '总资产' },
-      { name: 'availableCash', label: '可用资金' },
-      { name: 'frozenCash', label: '占用合约定金' },
+      { name: 'TotalAssets', label: '总资产' },
+      { name: 'ValidAssets', label: '可用资金' },
+      { name: 'TotalUsed', label: '占用合约定金' },
     ],
     channel: [
       { name: 'gold', label: '出入金', direction: '/gold' },
@@ -22,9 +22,9 @@ const renderList = {
   },
   [SYS_DWB]: {
     asset: [
-      { name: 'allCash', label: '总资产' },
-      { name: 'availableCash', label: '可用资金' },
-      { name: 'frozenCash', label: '占用合约定金' },
+      { name: 'TotalAssets', label: '总资产' },
+      { name: 'ValidAssets', label: '可用资金' },
+      { name: 'TotalUsed', label: '占用合约定金' },
       { name: 'cashEarnAll', label: '持仓盈亏' },
     ],
     channel: [
@@ -45,16 +45,7 @@ class User extends Component {
 
   clickFunc = (type) => () => {
     if (type === 1) {
-      const loginObj = {
-        orgId: '118',
-        mobile: '18928488102',
-        password: 'e10adc3949ba59abbe56e057f20f883e',
-        systemType: 'ios',
-      };
-      this.props.dispatch(login(loginObj));
-      // SysApi.getUserData({ userID: '2222222', ttt: '33333', ddd: 'ccc' });
       SysApi.getSysConfig();
-      // SysApi.getSysConfig();
     }
     if (type === 2) this.props.dispatch(logout());
   };
@@ -88,7 +79,7 @@ class User extends Component {
           <ol className="table" styleName="asset">
             {
               renderList[systemType].asset.map((assetItem) => {
-                const amount = isLogin && assetInfo[assetItem.name] ?
+                const amount = isLogin && (assetInfo[assetItem.name] >= 0) ?
                   assetInfo[assetItem.name] : '- -';
                 return (
                   <li key={assetItem.name} className="td" styleName="asset-item">

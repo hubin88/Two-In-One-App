@@ -46,5 +46,10 @@ export default class SysApi {
     return postWithTrade(InterFace.GET_MERCHS_AND_SERVERS, obj, SysApi.getMerchsAndServers.name);
   }
 
+  // 获取行情数据
+  static getQuotesInfo(obj = {}) {
+    return postWithTrade(InterFace.GET_MERCHS_AND_SERVERS, obj, SysApi.getQuotesInfo.name);
+  }
+
 }
 

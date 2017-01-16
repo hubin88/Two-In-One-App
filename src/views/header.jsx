@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import cssModules from 'react-css-modules';
-import { changeSystemWrap } from '../model/action';
+import { toChangeSystem } from '../model/action';
 import styles from './header.scss';
 import { SYS_DCB, SYS_DWB } from '../server/define';
 
@@ -18,10 +18,10 @@ export default class Header extends Component {
   toChangeSystem = (type) => () => {
     switch (type) {
       case SYS_DCB:
-        this.props.dispatch(changeSystemWrap(SYS_DCB));
+        this.props.dispatch(toChangeSystem(SYS_DCB));
         break;
       case SYS_DWB:
-        this.props.dispatch(changeSystemWrap(SYS_DWB));
+        this.props.dispatch(toChangeSystem(SYS_DWB));
         break;
       default:
         console.log('err');
@@ -30,7 +30,6 @@ export default class Header extends Component {
 
   render() {
     const { isSingleSystem, systemList, systemType } = this.props;
-    console.log(systemList);
     return (
       <div styleName="head-nav">
         <span styleName="left-nav-btn" onClick={this.props.showLeftNav} />
