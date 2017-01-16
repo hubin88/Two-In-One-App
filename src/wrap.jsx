@@ -53,10 +53,11 @@ const StoreWrap = () => (
       <Route path="/register" component={Persponal} />
       <Route path="/reset" component={Persponal} />
       <Route path="/resetphone" component={Persponal} />
+      <Route path="/resetpwd" component={Persponal} />
       <Route path="/withdraw" component={Withdraw} onEnter={checkLogin} />
       <Route path="/hold" component={Hold} onEnter={checkLogin} />
       <Route path="/gold" component={Gold} onEnter={checkLogin} />
-      <Route path="/userSet" component={UserCenter} />
+      <Route path="/userSet" component={UserCenter} onEnter={checkLogin} />
       <Route path="/track" component={Track} onEnter={checkLogin} />
       <Route path="/userCenter" component={UserCenter} onEnter={checkLogin} />
       <Route path="/broker" component={Broker} onEnter={checkLogin} />

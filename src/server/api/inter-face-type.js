@@ -68,9 +68,16 @@ export const GET_ORGS = 'getOrgs';
 // 修改用户
 export const UPDATE_USER = 'updateUser';
 
+// 修改密码
+export const RESET_PASSWORD = 'upadtePwd';
+
+// 退出登录
+export const LOGIN_OUT='logout';
+
 // 查询用户
 export const FIND_USER = 'findUser';
 
+// 重设手机号码
 export const RESET_PHONE_NUMBER = 'updateMobile';
 
 // 系统设置是否注册，版本升级

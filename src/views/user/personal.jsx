@@ -7,6 +7,7 @@ import { browserHistory } from 'react-router';
 import Login from '../sign/login';
 import Register from '../sign/register';
 import Reset from '../sign/reset';
+import ResetPwd from '../reset-password';
 import { loginSuccess } from '../../model/action';
 import { getQueryString } from '../../server/tools';
 import { Cookie } from '../../ultils/tools';
@@ -41,6 +42,9 @@ class Persponal extends Component {
   resetPhoneSuc = () => {
     browserHistory.push('/login');
   };
+  resetPasswordSuc = ()=> {
+    browserHistory.push('/login');
+  }
   childrenComponent = (path) => {
     switch (path) {
       case '/login':
@@ -72,12 +76,18 @@ class Persponal extends Component {
       case '/resetphone':
         return (
           <Register
-            registerSuccess={this.registerSuc}
+            resetPhoneSuccess={this.resetPhoneSuc}
             orgId={this.props.exchangeInfo.orgId}
             systemType={this.props.systemInfo.systemType}
             sessionId={this.props.systemInfo.loginData.sessionId}
-            resetPhoneSuccess={this.resetPhoneSuc}
             type="resetphone"
+          />
+        );
+      case '/resetpwd':
+        return (
+          <ResetPwd
+            resetPasswordSuccess={this.resetPasswordSuc}
+            sessionId={this.props.systemInfo.loginData.sessionId}
           />
         );
       default:
@@ -87,7 +97,6 @@ class Persponal extends Component {
 
   render() {
     const { systemInfo, exchangeInfo: { systemList }, route: { path } } = this.props;
-    console.log('aaa', this.props);
     let titleName = null;
     Object.values(systemList).forEach((val) => {
       if (val.type === systemInfo.systemType) {

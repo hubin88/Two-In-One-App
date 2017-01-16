@@ -66,13 +66,33 @@ export default class Api {
     });
   }
 
-  //
+  //重设手机号码
   static resetPhone(obj = {}) {
     return postJSON({
       interFacePre: InterFace.TRADE_DIR,
       interFacePos: InterFace.RESET_PHONE_NUMBER,
       data: obj,
       name: Api.resetPhone.name,
+    });
+  }
+
+  //重设密码
+  static resetPassword(obj = {}){
+    return postJSON({
+      interFacePre: InterFace.TRADE_DIR,
+      interFacePos: InterFace.RESET_PASSWORD,
+      data: obj,
+      name: Api.resetPassword.name,
+    });
+  }
+
+  //退出登录
+  static loginOut(obj = {}){
+    return postJSON({
+      interFacePre: InterFace.TRADE_DIR,
+      interFacePos: InterFace.LOGIN_OUT,
+      data: obj,
+      name: Api.loginOut.name,
     });
   }
 }
