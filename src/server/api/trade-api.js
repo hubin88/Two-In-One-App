@@ -47,7 +47,7 @@ export default class TradeApi {
 
   // 交易记录
   static getTradeRecordPage(obj = {}) {
-    return postJSON(InterFace.TRADE_DIR, InterFace.CLOSE_USER_ORDER, obj, TradeApi.getTradeRecordPage.name);
+    return postJSON(InterFace.TRADE_DIR, InterFace.GET_TRADE_RECORD, obj, TradeApi.getTradeRecordPage.name);
   }
 
   // 资产推送

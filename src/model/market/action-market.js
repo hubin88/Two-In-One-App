@@ -1,7 +1,7 @@
 /**
  * Created by Amg on 2016/12/26.
  */
-import * as ActionTypes from '../action-types';
+import * as ActionTypes from '../market/action-type-market';
 import QuotationApi from '../../server/api/quotation-api';
 // 获取交易日，交易时间
 export function successQueryNormalday(json) {

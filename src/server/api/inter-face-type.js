@@ -88,3 +88,23 @@ export const GET_TRADE_RECORD = {
 // 资产推送
 export const QUERY_USER_INFO_GATEWAY = 'QueryUserInfoGateway.jsp';
 
+// 获取交易日，交易时间
+export const QUERY_NORMAL_DAY = 'lineinfo_api/query_normalday';
+
+// 获取分时K线
+export const QUERY_TIME_SHARE = 'lineinfo_api/query_timeshare';
+
+// 获取分钟K线
+export const QUERY_MINUTE_LINE = 'lineinfo_api/query_minuteline';
+
+// 获取日K线,周K,月K线
+export const QUERY_DAY_LINE = 'lineinfo_api/query_dayline';
+
+// 获取配置K线周期
+export const QUEYR_PERIOD = 'lineinfo_api/query_period';
+
+// 获取个股行情
+export const GET_QUOT = 'mktinfo_api/get_quot';
+
+// 订阅
+export const SUBSCRIBE = 'mktinfo_api/subscribe';
