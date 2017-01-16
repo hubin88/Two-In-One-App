@@ -66,7 +66,7 @@ export default class Api {
     });
   }
 
-  //重设手机号码
+  // 重设手机号码
   static resetPhone(obj = {}) {
     return postJSON({
       interFacePre: InterFace.TRADE_DIR,
@@ -76,8 +76,8 @@ export default class Api {
     });
   }
 
-  //重设密码
-  static resetPassword(obj = {}){
+  // 重设密码
+  static resetPassword(obj = {}) {
     return postJSON({
       interFacePre: InterFace.TRADE_DIR,
       interFacePos: InterFace.RESET_PASSWORD,
@@ -86,8 +86,8 @@ export default class Api {
     });
   }
 
-  //退出登录
-  static loginOut(obj = {}){
+  // 退出登录
+  static loginOut(obj = {}) {
     return postJSON({
       interFacePre: InterFace.TRADE_DIR,
       interFacePos: InterFace.LOGIN_OUT,

@@ -106,8 +106,8 @@ class Userset extends Component {
   userOut = () => {
     Api.loginOut({
       sessionId: this.props.systemInfo.loginData.sessionId,
-    }).then(()=> {
-      browserHistory.push('/login')
+    }).then(() => {
+      browserHistory.push('/login');
     });
   };
 

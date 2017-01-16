@@ -14,7 +14,7 @@ import {
 
 class ResetPwd extends Component {
   static propTypes = {
-    resetPasswordSuccess:PropTypes.func,
+    resetPasswordSuccess: PropTypes.func,
     sessionId: PropTypes.string,
   };
 
@@ -56,7 +56,7 @@ class ResetPwd extends Component {
         }
         break;
       case 'again-password':
-        if(regPassword.test(text)){
+        if (regPassword.test(text)) {
           if (text === this.password.value) {
             this.setState({
               isAgainPwdRight: true,
@@ -65,7 +65,7 @@ class ResetPwd extends Component {
             this.setState({
               isAgainPwdRight: false,
             });
-            Tips.show("新密码两次输入不一致");
+            Tips.show('新密码两次输入不一致');
           }
         }
         break;

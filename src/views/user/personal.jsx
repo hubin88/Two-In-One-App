@@ -42,7 +42,7 @@ class Persponal extends Component {
   resetPhoneSuc = () => {
     browserHistory.push('/login');
   };
-  resetPasswordSuc = ()=> {
+  resetPasswordSuc = () => {
     browserHistory.push('/login');
   }
   childrenComponent = (path) => {

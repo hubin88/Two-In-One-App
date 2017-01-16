@@ -72,7 +72,7 @@ export const UPDATE_USER = 'updateUser';
 export const RESET_PASSWORD = 'upadtePwd';
 
 // 退出登录
-export const LOGIN_OUT='logout';
+export const LOGIN_OUT = 'logout';
 
 // 查询用户
 export const FIND_USER = 'findUser';
