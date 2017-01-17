@@ -36,8 +36,8 @@ export default class AppConfig {
 const screenH = document.documentElement.clientHeight;
 const screenW = document.documentElement.clientWidth;
 const headerH = AppConfig.isApp ? 0 : 50;
-const footerH = AppConfig.isApp ? 0 : 35;
-const userInfoH = 60;
+const footerH = AppConfig.isApp ? 0 : 60;
+const userInfoH = 70;
 const buildingH = 60;
 const tipsH = 20;
 const holdH = 90;

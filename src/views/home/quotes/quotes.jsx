@@ -29,7 +29,6 @@ const chartOptions = {
   chartColor: 'black',
 };
 
-
 class Quotes extends Component {
   static propTypes = {
     dispatch: PropTypes.func.isRequired,

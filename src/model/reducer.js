@@ -25,8 +25,9 @@ const initExchangeInfo = {
 const initSystemInfo = {
   systemType: SYS_DCB,
   isLogin: false,
+  loginData: {},
   avatarURL: require('../images/me_image_avator@3x.png'),
-  nickName: 'user nickname',
+  nickName: '',
   navList: {
     home: { name: 'home', label: '首页', direction: '/home' },
     track: { name: 'broker', label: '经纪人', direction: '/broker' },
@@ -112,10 +113,11 @@ function systemInfo(state = initSystemInfo, action) {
       };
     }
     case ActionTypes.SUCCESS_GET_LOGIN_INFO: {
-      console.log(action.obj);
+      Cookie.setCookie(`${AppConfig.systemType()}-isLogin`, true);
+      Cookie.setCookie('loginData', action.data);
       return {
         ...state,
-        loginData: action.obj,
+        loginData: action.data,
         isLogin: true,
       };
     }
@@ -130,6 +132,15 @@ function systemInfo(state = initSystemInfo, action) {
       return {
         ...state,
         assetInfo: action.data,
+      };
+    }
+    case ActionTypes.SUCCESS_FIND_USER: {
+      const { headImg: avatarURL, nikeName: nickName, mobile } = action.data;
+      return {
+        ...state,
+        avatarURL: `data:image/png;base64,${avatarURL}`,
+        nickName,
+        mobile,
       };
     }
     default: {

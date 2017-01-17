@@ -216,8 +216,7 @@ export function toChangeSystem(systemType) {
     const exchangeData = Cookie.getCookie('exchangeData');
 
     changeSystem(dispatch, getState, systemType, exchangeData);
-  }
-    ;
+  };
 }
 /* === 更改系统 === */
 
@@ -258,6 +257,8 @@ export function appStart(initExchangeData = AppConfig.exchangeData()) {
 
 /* 获取用户数据 */
 export function successGetUseData(json) {
+  console.log('getuser', json);
+
   return {
     type: ActionTypes.SUCCESS_GET_USE_DATA,
     data: json,
@@ -271,13 +272,13 @@ export function toGetUseData(obj) {
 }
 
 /* 查询用户 */
-export function successFindUser(json) {
+export function successFindUser(data) {
+  console.log('findUser', data);
   return {
     type: ActionTypes.SUCCESS_FIND_USER,
-    data: json,
+    data: data.result,
   };
 }
-
 export function toFindUser(obj) {
   return function wrap(dispatch) {
     return TradeApi.findUser(obj)
@@ -292,7 +293,6 @@ export function successQueryUserInfoGateway(json) {
     data: json,
   };
 }
-
 export function toQueryUserInfoGateway(obj) {
   return function wrap(dispatch, getState) {
     // TODO: 通过获取商品接口获取seckey
@@ -307,13 +307,13 @@ export function toQueryUserInfoGateway(obj) {
 /* === 推送资产信息（轮询） === */
 
 /* === 登录成功 === */
-export function successGetLoginInfo(obj) {
+export function successGetLoginInfo(data) {
   return {
     type: ActionTypes.SUCCESS_GET_LOGIN_INFO,
-    obj,
+    data,
   };
 }
-export function successLogin(obj) {
+export function successLogin(obj, callBack) {
   return function wrap(dispatch) {
     const sucObj = {
       orgId: obj.orgId,
@@ -324,6 +324,7 @@ export function successLogin(obj) {
     dispatch(toGetUseData(sucObj));
     dispatch(toFindUser(sucObj));
     dispatch(toQueryUserInfoGateway(sucObj));
+    if (callBack) callBack();
   };
 }
 /* === 登录成功 === */
@@ -399,6 +400,33 @@ export function loginOut(obj) {
   };
 }
 /* === 登出 === */
+
+/* === 下单建仓 === */
+export function requestCreateUserOrder() {
+  return {
+    type: ActionTypes.REQUEST_CREATE_USER_ORDER,
+  };
+}
+export function successCreateUserOrder() {
+  return {
+    type: ActionTypes.SUCCESS_CREATE_USER_ORDER,
+  };
+}
+export function errorCreateUserOrder() {
+  return {
+    type: ActionTypes.ERROR_CREATE_USER_ORDER,
+  };
+}
+export function toCreateUserOrder(obj) {
+  return function wrap(dispatch) {
+    dispatch(requestCreateUserOrder());
+    return TradeApi.createUserOrder(obj)
+      .then((data) => dispatch(successCreateUserOrder(data)))
+      .catch(() => dispatch(errorCreateUserOrder()));
+  };
+}
+/* === 下单建仓 === */
+
 
 /* 检查是否注册 */
 export function successQueryRegistInfo(json) {
