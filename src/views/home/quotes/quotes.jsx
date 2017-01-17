@@ -33,7 +33,7 @@ class Quotes extends Component {
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
     commodityData: PropTypes.object.isRequired,
-    commodityPrices: PropTypes.object.isRequired,
+    commodityPrices: PropTypes.any.isRequired,
     commodityId: PropTypes.string,
     holdHeight: PropTypes.number,
     normalday: PropTypes.object,
@@ -101,14 +101,19 @@ class Quotes extends Component {
 
   render() {
     const { commodityData, commodityPrices } = this.props;
+    console.log(this.props);
     return (
       <div styleName="quotes">
         <ul styleName="commodity" style={{ height: styleConfig.commodityH }}>
           {
             Object.keys(commodityData).map((i) => {
               const name = commodityData[i].Name;
-              const prices = (commodityPrices[i] && commodityPrices[i].value) ?
-                commodityPrices[i].value : '--';
+              let prices = 0;
+              commodityPrices.forEach((item) => {
+                if (item[0] === i) {
+                  prices = item[2];
+                }
+              });
               return (
                 <li
                   key={i}
