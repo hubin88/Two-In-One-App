@@ -15,6 +15,7 @@ class OrderDCB extends Component {
 
   constructor(props) {
     super(props);
+    console.log(props);
     const { commodity: { Margin: deposit, Point: range } } = props;
     this.depositArr = deposit.split(',') || [];
     this.rangeArr = range.split('|').map(r => r.split(','));

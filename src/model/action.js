@@ -108,10 +108,10 @@ export function errorGetCommodityAndServers() {
     type: ActionTypes.ERROR_GET_COMMODITY_SERVERS,
   };
 }
-export function getCommodityAndServers() {
+export function getCommodityAndServers(obj = {}) {
   return function wrap(dispatch) {
     dispatch(requestGetCommodityAndServers());
-    return SysApi.getMerchsAndServers()
+    return SysApi.getMerchsAndServers(obj)
       .then(data => {
         dispatch(successGetCommodityAndServers(data));
         dispatch(requestQueryNormalday(data));
@@ -262,7 +262,7 @@ export function successGetUseData(json) {
     data: json,
   };
 }
-export function requestGetUseData(obj) {
+export function toGetUseData(obj) {
   return function wrap(dispatch) {
     return SysApi.getUseData(obj)
       .then(json => dispatch(successGetUseData(json)));
@@ -277,14 +277,14 @@ export function successFindUser(json) {
   };
 }
 
-export function requestFindUser(obj) {
+export function toFindUser(obj) {
   return function wrap(dispatch) {
     return TradeApi.findUser(obj)
       .then(json => dispatch(successFindUser(json)));
   };
 }
 
-// 推送资产信息
+/* === 推送资产信息（轮询） === */
 export function successQueryUserInfoGateway(json) {
   return {
     type: ActionTypes.SUCCESS_QUERY_USER_INFO_GATEWAY,
@@ -292,63 +292,40 @@ export function successQueryUserInfoGateway(json) {
   };
 }
 
-export function requestQueryUserInfoGateway(obj) {
-  return function wrap(dispatch) {
-    return TradeApi.queryUserInfoGateway(obj)
-      .then(json => dispatch(successQueryUserInfoGateway(json)));
-  };
-}
-
-// 获取商品，服务器信息
-export function successGetMerchsAndServers(json) {
-  return {
-    type: ActionTypes.SUCCESS_GET_MERCHS_AND_SERVERS,
-    data: json,
-  };
-}
-
-export function requestGetMerchsAndServers(obj) {
-  return function wrap(dispatch) {
-    return SysApi.getMerchsAndServers(obj)
-      .then(json => {
-        const data = JSON.parse(json.result);
-        dispatch(requestQueryUserInfoGateway(data.SecKey));
-        dispatch(successGetMerchsAndServers(data));
+export function toQueryUserInfoGateway(obj) {
+  return function wrap(dispatch, getState) {
+    // TODO: 通过获取商品接口获取seckey
+    dispatch(getCommodityAndServers(obj))
+      .then(() => {
+        const { exchangeInfo: { secKey } } = getState();
+        return TradeApi.queryUserInfoGateway(secKey)
+          .then(json => dispatch(successQueryUserInfoGateway(json)));
       });
   };
 }
+/* === 推送资产信息（轮询） === */
 
-/* === 登录 === */
-export function requestLogin() {
+/* === 登录成功 === */
+export function successGetLoginInfo(obj) {
   return {
-    type: ActionTypes.REQUEST_LOGIN,
-  };
-}
-export function successLogin(obj) {
-  return {
-    type: ActionTypes.SUCCESS_LOGIN,
+    type: ActionTypes.SUCCESS_GET_LOGIN_INFO,
     obj,
   };
 }
-export function errorLogin() {
-  return {
-    type: ActionTypes.ERROR_LOGIN,
-  };
-}
-export function loginSuccess(obj) {
+export function successLogin(obj) {
   return function wrap(dispatch) {
-    const succObj = {
+    const sucObj = {
       orgId: obj.orgId,
       mobile: obj.mobile,
       sessionId: obj.sessionId,
     };
-    dispatch(successLogin(obj));
-    dispatch(requestGetUseData(succObj));
-    dispatch(requestFindUser(succObj));
-    dispatch(requestGetMerchsAndServers(succObj));
+    dispatch(successGetLoginInfo(obj));
+    dispatch(toGetUseData(sucObj));
+    dispatch(toFindUser(sucObj));
+    dispatch(toQueryUserInfoGateway(sucObj));
   };
 }
-/* === 登录 === */
+/* === 登录成功 === */
 
 /* ===注册=== */
 export function requestRegister() {

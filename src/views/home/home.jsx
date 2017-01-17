@@ -37,11 +37,9 @@ class Home extends Component {
     commodityState: PropTypes.object,
   };
 
-
   constructor(props) {
     super(props);
     this.state = {
-      holdHeight: 0,
       holdBody: [],
     };
   }
@@ -52,7 +50,6 @@ class Home extends Component {
 
   haveHold = (systemType) => {
     this.setState({
-      holdHeight: styleConfig.holdH,
       holdBody: holdRecord[systemType],
     }, () => { this.quotes.redrawCanvas(); });
   };
@@ -62,13 +59,19 @@ class Home extends Component {
   }
 
   showOrder = (title, direction, systemType) => {
+    const {
+      exchangeInfo: { commodityData },
+      commodityState: { commodityId },
+
+    } = this.props;
     OrderBox.show({
       dispatch: this.props.dispatch,
       title,
       direction,
       systemType,
       onConfirm: this.confirmBuild,
-      commodityData: this.props.exchangeInfo.commodityData,
+      commodityData,
+      commodityId,
     });
   };
 
@@ -116,10 +119,18 @@ class Home extends Component {
       dispatch,
       exchangeInfo: { commodityData },
       marketInfo: { commodityPrices, normalday },
-      // commodityState: { commodityId },
-      systemInfo: { systemType, assetInfo, isLogin, avatarURL, checkChannel },
+      systemInfo: {
+        systemType,
+        assetInfo: { TotalAssets: allCash, vec: holdArr },
+        isLogin,
+        avatarURL,
+        checkChannel,
+      },
+      commodityState: { commodityId },
     } = this.props;
-    const allCash = isLogin && (assetInfo.TotalAssets >= 0) ? assetInfo.TotalAssets : '- -';
+    const allCashNum = isLogin ? allCash : '- -';
+    const hasHold = holdArr && holdArr.length !== 0;
+    const holdHeight = hasHold ? styleConfig.holdH : 0;
     return (
       <div styleName="home">
         <div style={{ position: 'fixed', top: '5px', left: '10px' }}>
@@ -130,7 +141,7 @@ class Home extends Component {
             <img src={avatarURL} alt="" />
           </span>
           <span styleName="asset">
-            总资产<b>{allCash}</b>元
+            总资产<b>{allCashNum}</b>元
           </span>
           <span className="fr">
             {
@@ -150,7 +161,7 @@ class Home extends Component {
               dispatch={dispatch}
               commodityData={commodityData}
               commodityPrices={commodityPrices}
-              holdHeight={this.state.holdHeight}
+              holdHeight={holdHeight}
               normalday={normalday}
             />
           </div>
@@ -175,16 +186,14 @@ class Home extends Component {
             <span>交易时间:周一至周五08:00-次日04:00 每日04:30-07:00休市结算</span>
           </div>
         </div>
-        <div styleName="hold" style={{ height: this.state.holdHeight }}>
+        <div styleName="hold" style={{ height: holdHeight }}>
           {
-            this.state.holdHeight === 0 ? null :
-            <Table
+            hasHold ? <Table
               ref={(ref) => { this.table = ref; }}
               fields={this.holdHeaderList(systemType)}
-              data={this.state.holdBody}
-              className="txt-center"
+              data={holdArr.filter((i) => JSON.stringify(i.MerchCode) === commodityId)}
               styles={holdStyles}
-            />
+            /> : null
           }
         </div>
       </div>

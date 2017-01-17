@@ -8,7 +8,7 @@ import Login from '../sign/login';
 import Register from '../sign/register';
 import Reset from '../sign/reset';
 import ResetPwd from '../reset-password';
-import { loginSuccess } from '../../model/action';
+import { successLogin } from '../../model/action';
 import { getQueryString } from '../../server/tools';
 import { Cookie } from '../../ultils/tools';
 import AppConfig from '../../server/app-config';
@@ -28,7 +28,7 @@ class Persponal extends Component {
     window.history.go(-1);
   };
   loginSuc = (json) => {
-    this.props.dispatch(loginSuccess(json));
+    this.props.dispatch(successLogin(json));
     Cookie.setCookie(`${AppConfig.systemType()}-isLogin`, true);
     const path = getQueryString('source') || '';
     browserHistory.push(`/${path}`);

@@ -87,10 +87,11 @@ function exchangeInfo(state = initExchangeInfo, action) {
       };
     }
     case ActionTypes.SUCCESS_GET_COMMODITY_SERVERS: {
-      const { Merchs: commodity = [] } = JSON.parse(action.commodityStr);
+      const { Merchs: commodity = [], SecKey: secKey = null } = JSON.parse(action.commodityStr);
       return {
         ...state,
         commodityData: arrayToObject(commodity, 'AssetId'),
+        secKey,
       };
     }
     default: {
@@ -110,7 +111,7 @@ function systemInfo(state = initSystemInfo, action) {
         isLogin: Cookie.getCookie(`${AppConfig.systemType()}-isLogin`) || false,
       };
     }
-    case ActionTypes.SUCCESS_LOGIN: {
+    case ActionTypes.SUCCESS_GET_LOGIN_INFO: {
       console.log(action.obj);
       return {
         ...state,
