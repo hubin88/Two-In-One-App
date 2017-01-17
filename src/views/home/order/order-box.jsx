@@ -9,6 +9,8 @@ import dialogStyles from './order-dialog.scss';
 import Dialog from '../../../components/dialog/dialog';
 import { insertComponent } from '../../../ultils/helper';
 import OrderDCB from './order-dcb';
+import OrderDWB from './order-dwb';
+import { SYS_DCB, SYS_DWB } from '../../../server/define';
 
 @cssModules(styles, { allowMultiple: true, errorWhenNotFound: false })
 class OrderBoxWrap extends Component {
@@ -35,6 +37,23 @@ class OrderBoxWrap extends Component {
     this.dialog.close();
   };
 
+  renderSetting() {
+    const { systemType, direction, commodityData, commodityId } = this.props;
+    const o = {
+      [SYS_DCB]: <OrderDCB
+        ref={(ref) => { this.order = ref; }}
+        direction={direction}
+        commodity={commodityData[commodityId]}
+      />,
+      [SYS_DWB]: <OrderDWB
+        ref={(ref) => { this.order = ref; }}
+        direction={direction}
+        commodity={commodityData[commodityId]}
+      />,
+    };
+    return o[systemType];
+  }
+
   renderButtons() {
     if (this.props.onConfirm) {
       return (<div className="table" styleName="buttons">
@@ -59,19 +78,13 @@ class OrderBoxWrap extends Component {
   }
 
   render() {
-    console.log(this.props);
-    const { direction, commodityData, commodityId } = this.props;
     return (
       <Dialog
         ref={(ref) => { this.dialog = ref; }}
         title={this.renderTitle()}
         styles={dialogStyles}
       >
-        <OrderDCB
-          ref={(ref) => { this.order = ref; }}
-          direction={direction}
-          commodity={commodityData[commodityId]}
-        />
+        {this.renderSetting()}
         {this.renderButtons()}
         <span styleName="prompt">
           温馨提示: 收盘时对于未成交订单将自动平成，合约定金全额返还

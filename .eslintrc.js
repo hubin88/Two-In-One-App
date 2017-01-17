@@ -28,6 +28,7 @@ module.exports = {
     DCB_BEARISH_LABEL: true,
     DWB_BULLISH_LABEL: true,
     DWB_BEARISH_LABEL: true,
+    RANGE_LIST: true,
     PAY_TITLE: true,
     PAY_URL: true,
     WITHDRAW_TITLE: true,

@@ -14,7 +14,7 @@
   border-bottom: .01rem #c0c0c0 solid;
   background-color: #FFFFFF;
   span {
-    height: $avatarH;
+    height: 100%;
     line-height: $avatarH;
     display: inline-block;
     vertical-align: middle;
@@ -58,22 +58,13 @@
 .trade {
   //height: 100%;
   width: 100%;
-  position: absolute;
-  top: $avatarH+$infoPaddingTop+$infoPaddingBottom;
-  bottom: 0;
 }
 
 .market {
-  position: absolute;
-  top: 0;
-  bottom: $tipsH + $buildingH;
   width: 100%;
 }
 
 .building {
-  position: absolute;
-  bottom: $tipsH;
-  height: $buildingH;
   width: 100%;
   padding: .08rem .15rem;
   background-color: #FFFFFF;
@@ -101,31 +92,18 @@
 }
 
 .tips {
-  position: absolute;
-  bottom: 0;
-  height: $tipsH;
-  line-height: $tipsH;
   width: 100%;
   background-color: #EFEFF4;
   border-top: .01rem #c0c0c0 solid;
   text-align: center;
-  img {
-    width: 0;
-    height: 100%;
-    vertical-align: middle;
-    opacity: 0;
-  }
   span {
     color: #CACACE;
     font-size: .1rem;
   }
 }
 
-.hold {
-  position: absolute;
-  bottom: 0;
+.hold > div {
+  height: 100%;
   width: 100%;
-  & > div {
-    height: 100%;
-  }
 }
+

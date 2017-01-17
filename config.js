@@ -17,6 +17,9 @@ var DCB_BEARISH_LABEL = '买跌';
 var DWB_BULLISH_LABEL = '看涨';
 var DWB_BEARISH_LABEL = '看跌';
 
+// 点微宝止损止盈点配置(0默认为100%)
+var RANGE_LIST = [0, 0.1, 0.2, 0.3, 0.4, 0.5];
+
 // H5单页调用
 //  充值
 var PAY_TITLE = '充值';
@@ -30,5 +33,4 @@ var DCB_SUGGEST_URL = 'http://120.25.135.199:9003/webstatic/1zjyjy/rule/rule.htm
 //  点微宝介绍
 var DWB_SUGGEST_TITLE = '点微宝介绍';
 var DWB_SUGGEST_URL = 'http://www.baidu.com';
-
 

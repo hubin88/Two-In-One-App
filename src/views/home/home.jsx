@@ -8,7 +8,7 @@ import OrderBox from './order/order-box';
 import styles from './home.scss';
 import holdStyles from './hold-table.scss';
 import { SYS_DCB, SYS_DWB } from '../../server/define';
-import AppConfig from '../../server/app-config';
+import AppConfig, { styleConfig } from '../../server/app-config';
 
 const holdRecord = {
   [SYS_DCB]: [
@@ -51,9 +51,9 @@ class Home extends Component {
 
   haveHold = (systemType) => {
     this.setState({
-      holdHeight: 90,
+      holdHeight: styleConfig.holdH,
       holdBody: holdRecord[systemType],
-    });
+    }, () => { this.quotes.redrawCanvas(); });
   };
 
   confirmBuild() {
@@ -124,7 +124,7 @@ class Home extends Component {
         <div style={{ position: 'fixed', top: '5px', left: '10px' }}>
           <button onClick={() => this.haveHold(systemType)}>显示持仓</button>
         </div>
-        <div styleName="user-info">
+        <div styleName="user-info" style={{ height: styleConfig.userInfoH }}>
           <span styleName="avatar">
             <img src={avatarURL} alt="" />
           </span>
@@ -140,15 +140,22 @@ class Home extends Component {
             }
           </span>
         </div>
-        <div styleName="trade" style={{ bottom: `${this.state.holdHeight}` }}>
+        <div
+          styleName="trade"
+        >
           <div styleName="market">
             <Quotes
+              ref={(ref) => { this.quotes = ref; }}
               dispatch={dispatch}
               commodityData={commodityData}
               commodityPrices={commodityPrices}
+              holdHeight={this.state.holdHeight}
             />
           </div>
-          <div styleName="building">
+          <div
+            styleName="building"
+            style={{ height: styleConfig.buildingH }}
+          >
             {
               ['bullish', 'bearish'].map((direction, idx) => {
                 const title = `${AppConfig.tradeLabel()[systemType][direction]}`;
@@ -162,12 +169,13 @@ class Home extends Component {
               })
             }
           </div>
-          <div styleName="tips">
+          <div styleName="tips" style={{ height: styleConfig.tipsH }}>
             <span>交易时间:周一至周五08:00-次日04:00 每日04:30-07:00休市结算</span>
           </div>
         </div>
-        <div styleName="hold" style={{ height: `${this.state.holdHeight}` }}>
+        <div styleName="hold" style={{ height: this.state.holdHeight }}>
           {
+            this.state.holdHeight === 0 ? null :
             <Table
               ref={(ref) => { this.table = ref; }}
               fields={this.holdHeaderList(systemType)}

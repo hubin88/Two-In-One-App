@@ -6,6 +6,27 @@ import React, { Component, PropTypes } from 'react';
 import cssModules from 'react-css-modules';
 import styles from './quotes.scss';
 import { toChangeCommodity } from '../../../model/action';
+import { styleConfig } from '../../../server/app-config';
+
+const options = {
+  lineWidth: 1,
+  barWidth: 4,
+  spaceWidth: 5,
+  paddingWidth: 40,
+  horizontalLineCount: 5,
+  verticalLineCount: 5,
+  timeType: 1,
+};
+const chartOptions = {
+  paddingLeft: 35,
+  paddingBottom: 30,
+  paddingTop: 30,
+  timeCount: 5,
+  vLineCount: 5,
+  chartLineColor: 'rgba(2,100,30,1)',
+  chartFillColor: 'rgba(2,100,30,.1)',
+  chartColor: 'black',
+};
 
 class Quotes extends Component {
   static propTypes = {
@@ -13,6 +34,7 @@ class Quotes extends Component {
     commodityData: PropTypes.object.isRequired,
     commodityPrices: PropTypes.object.isRequired,
     commodityId: PropTypes.string,
+    holdHeight: PropTypes.number,
   };
 
   constructor(props) {
@@ -23,33 +45,17 @@ class Quotes extends Component {
   }
 
   componentDidMount() {
-    // const options = {
-    //   lineWidth: .5,
-    //   barWidth: 3,
-    //   spaceWidth: 3,
-    //   paddingWidth: 40,
-    //   horizontalLineCount: 5,
-    //   verticalLineCount: 5,
-    //   timeType: 1,
-    // };
-    // setTimeout(function () {
-    //   const d = new window.DrawKLine('kLine', options);
-    //   d.drawKLine(window.kLineData.result);
-    // },500)
+    this.kLine = new window.DrawKLine('kLine', options);
+    this.chart = new window.DrawChart('chart', chartOptions);
+    this.kLine.drawKLine(window.kLineData.result);
+    // this.chart.drawChart(window.data2);
+  }
 
-
-    const dc = new window.DrawChart('kLine', {
-      paddingLeft: 35,
-      paddingBottom: 30,
-      paddingTop: 30,
-      timeCount: 5,
-      vLineCount: 5,
-      chartLineColor: 'rgba(2,100,30,1)',
-      chartFillColor: 'rgba(2,100,30,.1)',
-      chartColor: 'black',
-    });
-
-    dc.drawChart(window.data2);
+  redrawCanvas({ w, h } = {
+    w: styleConfig.screenW,
+    h: styleConfig.canvasH - this.props.holdHeight,
+  }) {
+    this.kLine.resetCanvas(w, h);
   }
 
   chooseCommodity = (id) => () => {
@@ -57,11 +63,22 @@ class Quotes extends Component {
   };
 
   renderChart() {
+    const canvasH = styleConfig.canvasH - this.props.holdHeight;
     return (
-      <div styleName="trend-chart">
-        <div styleName="chart-header">今开等数据</div>
-        <div styleName="canvas">
+      <div
+        styleName="trend-chart"
+      >
+        <div style={{ height: styleConfig.quotesTipsH }}>
+          今开等数据
+        </div>
+        <div style={{ height: canvasH }}>
           <canvas id="kLine" />
+          <div style={{ display: 'none' }}>
+            <canvas id="chart" />
+          </div>
+        </div>
+        <div style={{ height: 2 * styleConfig.quotesTipsH }}>
+          图形导航
         </div>
       </div>
     );
@@ -71,7 +88,7 @@ class Quotes extends Component {
     const { commodityData, commodityPrices } = this.props;
     return (
       <div styleName="quotes">
-        <ul styleName="commodity">
+        <ul styleName="commodity" style={{ height: styleConfig.commodityH }}>
           {
             Object.keys(commodityData).map((i) => {
               const name = commodityData[i].Name;

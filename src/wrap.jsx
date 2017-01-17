@@ -7,6 +7,7 @@ import thunkMiddleware from 'redux-thunk';
 import rootReducer from './model/reducer';
 import App from './app';
 import Home from './views/home/home';
+import MainBox from './views/main-box';
 import Track from './views/user/track';
 import Rule from './views/rule/rule';
 import User from './views/user/user';
@@ -45,28 +46,31 @@ const checkLogin = (nextState, replace) => {
 const StoreWrap = () => (
   <Provider store={store}>
     <Router history={history}>
-      <Route path="/pay" component={Single} onEnter={checkLogin} />
-      <Route path="/withdraw" component={Single} onEnter={checkLogin} />
-      <Route path="/dcbPage" component={Single} />
-      <Route path="/dwbPage" component={Single} />
-      <Route path="/login" component={Persponal} />
-      <Route path="/register" component={Persponal} />
-      <Route path="/reset" component={Persponal} />
-      <Route path="/resetphone" component={Persponal} />
-      <Route path="/resetpwd" component={Persponal} />
-      <Route path="/withdraw" component={Withdraw} onEnter={checkLogin} />
-      <Route path="/hold" component={Hold} onEnter={checkLogin} />
-      <Route path="/gold" component={Gold} onEnter={checkLogin} />
-      <Route path="/userSet" component={UserCenter} onEnter={checkLogin} />
-      <Route path="/track" component={Track} onEnter={checkLogin} />
-      <Route path="/userCenter" component={UserCenter} onEnter={checkLogin} />
-      <Route path="/broker" component={Broker} onEnter={checkLogin} />
-      <Route path="/nickName" component={NickName} onEnter={checkLogin} />
       <Route path="/" component={App}>
-        <IndexRoute component={Home} />
-        <Route path="/home" component={Home} />
-        <Route path="/rule" component={Rule} />
-        <Route path="/user" component={User} />
+        <Route component={MainBox}>
+          <IndexRoute component={Home} />
+          <Route path="/home" component={Home} />
+          <Route path="/rule" component={Rule} />
+          <Route path="/user" component={User} />
+        </Route>
+
+        <Route path="/login" component={Persponal} />
+        <Route path="/register" component={Persponal} />
+        <Route path="/reset" component={Persponal} />
+        <Route path="/resetphone" component={Persponal} />
+
+        <Route path="/pay" component={Single} onEnter={checkLogin} />
+        <Route path="/withdraw" component={Single} onEnter={checkLogin} />
+        <Route path="/dcbPage" component={Single} />
+        <Route path="/dwbPage" component={Single} />
+        <Route path="/withdraw" component={Withdraw} onEnter={checkLogin} />
+        <Route path="/hold" component={Hold} onEnter={checkLogin} />
+        <Route path="/gold" component={Gold} onEnter={checkLogin} />
+        <Route path="/userSet" component={UserCenter} onEnter={checkLogin} />
+        <Route path="/track" component={Track} onEnter={checkLogin} />
+        <Route path="/userCenter" component={UserCenter} onEnter={checkLogin} />
+        <Route path="/broker" component={Broker} onEnter={checkLogin} />
+        <Route path="/nickName" component={NickName} onEnter={checkLogin} />
       </Route>
     </Router>
   </Provider>
