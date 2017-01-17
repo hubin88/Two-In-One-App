@@ -97,6 +97,7 @@ class Persponal extends Component {
 
   render() {
     const { systemInfo, exchangeInfo: { systemList }, route: { path } } = this.props;
+    console.log(this.props);
     let titleName = null;
     Object.values(systemList).forEach((val) => {
       if (val.type === systemInfo.systemType) {

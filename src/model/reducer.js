@@ -112,7 +112,6 @@ function systemInfo(state = initSystemInfo, action) {
     }
     case ActionTypes.SUCCESS_LOGIN: {
       console.log(action.obj);
-      Cookie.setCookie(`${AppConfig.systemType()}-isLogin`, true);
       return {
         ...state,
         loginData: action.obj,
@@ -120,6 +119,7 @@ function systemInfo(state = initSystemInfo, action) {
       };
     }
     case ActionTypes.SUCCESS_LOGOUT: {
+      Cookie.setCookie(`${AppConfig.systemType()}-isLogin`, false);
       return {
         ...state,
         isLogin: false,
