@@ -10,10 +10,14 @@ export function successQueryTimeShare(json) {
     data: json,
   };
 }
-export function requestQueryTimeShare(obj) {
+export function requestQueryTimeShare(obj, o) {
   return function wrap(dispatch) {
     return QuotationApi.queryTimeShare(obj)
-      .then(json => dispatch(successQueryTimeShare(json)));
+      .then(json => {
+        console.log(json.result);
+        dispatch(successQueryTimeShare(json));
+        o.chart.drawChart(json.result);
+      });
   };
 }
 // 获取分钟K线
@@ -24,10 +28,13 @@ export function successQueryMinuteLine(json) {
   };
 }
 
-export function requestQueryMinuteLine() {
+export function requestQueryMinuteLine(obj, o) {
   return function wrap(dispatch) {
-    return QuotationApi.queryMinuteLine()
-      .then(json => dispatch(successQueryMinuteLine(json)));
+    return QuotationApi.queryMinuteLine(obj)
+      .then(json => {
+        o.kLine.drawKLine(json.result);
+        dispatch(successQueryMinuteLine(json));
+      });
   };
 }
 // 获取交易日，交易时间
