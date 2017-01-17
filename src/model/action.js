@@ -4,6 +4,7 @@ import TradeApi from '../server/api/trade-api';
 import SysApi from '../server/api/sys-api';
 import AppConfig from '../server/app-config';
 import { arrayToObject } from '../ultils/helper';
+import Api from '../server/api/sign-api';
 
 const promise = new Promise((resolve) => {
   resolve();
@@ -332,7 +333,6 @@ export function errorLogin() {
 }
 export function loginSuccess(obj) {
   return function wrap(dispatch) {
-    // dispatch(requestLogin());
     const succObj = {
       orgId: obj.orgId,
       mobile: obj.mobile,
@@ -399,11 +399,6 @@ export function reset() {
 /* ===重置密码=== */
 
 /* === 登出 === */
-export function requestLogout() {
-  return {
-    type: ActionTypes.REQUEST_LOGOUT,
-  };
-}
 export function successLogout() {
   return {
     type: ActionTypes.SUCCESS_LOGOUT,
@@ -414,12 +409,11 @@ export function errorLogout() {
     type: ActionTypes.ERROR_LOGOUT,
   };
 }
-export function logout() {
+export function loginOut(obj) {
   return function wrap(dispatch) {
-    dispatch(requestLogout());
-    return promise
-      .then(() => dispatch(successLogout()))
-      .catch(() => dispatch(errorLogout()));
+    return Api.loginOut(obj).then(() => {
+      dispatch(successLogout());
+    });
   };
 }
 /* === 登出 === */

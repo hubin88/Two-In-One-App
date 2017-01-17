@@ -9,7 +9,7 @@ import { browserHistory, Link } from 'react-router';
 import styles from './userSet.scss';
 import { SYS_DCB, SYS_DWB } from '../../server/define';
 import TopReturn from '../../components/topTeturn/topReturn';
-import Api from '../../server/api/sign-api';
+import { loginOut, errorLogout } from '../../model/action';
 
 @cssModules(styles, { allowMultiple: true, errorWhenNotFound: false })
 class Userset extends Component {
@@ -19,19 +19,15 @@ class Userset extends Component {
   };
 
   static propTypes = {
+    dispatch: PropTypes.func,
     systemInfo: PropTypes.object.isRequired,
     exchangeInfo: PropTypes.object,
     onCloseCallback: PropTypes.func,
     title: PropTypes.string,
     ifSure: PropTypes.bool,
-    dispatch: PropTypes.func,
     children: PropTypes.any,
     route: PropTypes.object,
   };
-
-  componentDidMount() {
-
-  }
 
   setValue = () => {
     let tpl = '';
@@ -104,11 +100,10 @@ class Userset extends Component {
 
   // 退出登陆
   userOut = () => {
-    Api.loginOut({
-      sessionId: this.props.systemInfo.loginData.sessionId,
-    }).then(() => {
+    const obj = { sessionId: this.props.systemInfo.loginData.sessionId };
+    this.props.dispatch(loginOut(obj)).then(() => {
       browserHistory.push('/login');
-    });
+    }).catch(() => this.props.dispatch(errorLogout()));
   };
 
   render() {
