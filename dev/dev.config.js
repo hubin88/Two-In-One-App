@@ -75,7 +75,9 @@ module.exports = function ({ isRouter, isIE8, isPrd }) {
   };
 
   const devConfig = {
-    devtool: 'source-map',
+    // devtool: 'source-map',
+    // devtool: 'cheap-module-source-map',
+    devtool: 'eval',
     entry: createDevModeEntry(config.entry),
     module: {
       rules: commonConfig.module.rules.concat([

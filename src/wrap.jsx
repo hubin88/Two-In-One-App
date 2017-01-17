@@ -38,11 +38,7 @@ const history = syncHistoryWithStore(browserHistory, store);
 const checkLogin = (nextState, replace) => {
   const systemType = Cookie.getCookie('systemType');
   const isLogin = Cookie.getCookie(`${systemType}-isLogin`);
-  // if (!isLogin) {
-  //   replace({ pathname: '/login', search: `?source=${nextState.location.pathname.slice(1)}` });
-  // }
-  const i = 0;
-  if (i !== 0) {
+  if (!isLogin) {
     replace({ pathname: '/login', search: `?source=${nextState.location.pathname.slice(1)}` });
   }
 };

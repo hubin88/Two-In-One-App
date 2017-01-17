@@ -90,9 +90,9 @@ export function successGetQuot(json) {
     data: json,
   };
 }
-export function requestGetQuot() {
+export function requestGetQuot(obj) {
   return function wrap(dispatch) {
-    return QuotationApi.getQuot()
+    return QuotationApi.getQuot(obj)
       .then(json => dispatch(successGetQuot(json)));
   };
 }

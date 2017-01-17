@@ -5,12 +5,17 @@ import postJSON from '../helper';
 import * as InterFace from './inter-face-type';
 
 export default class QuotationApi {
-  // 获取交易日，交易时间
-  static queryNormalDay(obj = {}) {
+
+  static formartData(obj = {}) {
     const jsonObj = JSON.parse(obj.result);
     const assetIdsArr = [];
     jsonObj.Merchs.forEach((item) => assetIdsArr.push(item.AssetId));
-    const assetIdObj = { assetIds: assetIdsArr };
+    return assetIdsArr;
+  };
+
+  // 获取交易日，交易时间
+  static queryNormalDay(obj = {}) {
+    const assetIdObj = { assetIds: this.formartData(obj) };
     return postJSON({
       interFacePos: InterFace.QUERY_NORMAL_DAY,
       serverType: 'QUOTATION',
@@ -61,10 +66,14 @@ export default class QuotationApi {
 
   // 获取个股行情
   static getQuot(obj = {}) {
+    const assetIdObj = {
+      fields: '0|2|3|4|5|6|',
+      assetIds: this.formartData(obj),
+    };
     return postJSON({
       interFacePos: InterFace.GET_QUOT,
       serverType: 'QUOTATION',
-      data: obj,
+      data: assetIdObj,
       name: QuotationApi.getQuot.name,
     });
   }
