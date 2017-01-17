@@ -260,13 +260,13 @@ export function appStart(initExchangeData = AppConfig.exchangeData()) {
 export function successGetUseData(json) {
   return {
     type: ActionTypes.SUCCESS_GET_USE_DATA,
-    data: json,
+    json,
   };
 }
 export function toGetUseData(obj) {
   return function wrap(dispatch) {
     return SysApi.getUseData(obj)
-      .then(json => dispatch(successGetUseData(json)));
+      .then(json => dispatch(successGetUseData(JSON.parse(json.result))));
   };
 }
 

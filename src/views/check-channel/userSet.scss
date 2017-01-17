@@ -1,32 +1,58 @@
-.userSet{
+.userSet {
   background: #f2f2f2;
   height: 100%;
 }
 
-.main{
-  li{
-    padding: 0 .2rem;
-    line-height: .4rem;
-    height: .4rem;
-    background-color: #fff;
-    border: 1px #f5f5f5 solid;
+.main {
+  width: 100%;
+  ul {
+    width: 100%;
+    a {
+      display: table;
+      width: 100%;
+      li {
+        display: table-row;
+        line-height: .4rem;
+        height: .4rem;
+        background-color: #fff;
+        border: 1px #f5f5f5 solid;
+        & > * {
+          display: table-cell;
+          width: 50%;
+          height: 100%;
+          position: relative;
+          &:first-child {
+            padding-left: .2rem;
+          }
+          &:last-child {
+            padding-right: .2rem;
+          }
+          img {
+            position: absolute;
+            right: .4rem;
+            top: .02rem;
+            display: block;
+            height: .36rem;
+          }
+        }
+      }
+    }
   }
 
-  li span{
-    display: inline-block;
-    width: 49%;
-  }
-
-  .listLeft{
+  .listLeft {
     font-weight: bold;
   }
   .listRight {
     text-align: right;
-    padding-right: .2rem;
-    background: url('../../images/icon_more@2x.png') no-repeat right;
+    background: url("../../images/icon_more@2x.png") no-repeat right center;
+    background-size: .1rem 50%;
+    background-origin: content-box;
+    .text {
+      margin-right: .2rem;
+    }
   }
 
-  .out{
+  .out {
     line-height: .4rem;
     height: .4rem;
     background-color: #fff;

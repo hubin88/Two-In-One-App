@@ -25,6 +25,7 @@ const initExchangeInfo = {
 const initSystemInfo = {
   systemType: SYS_DCB,
   isLogin: false,
+  mobile: '13528716210',
   avatarURL: require('../images/me_image_avator@3x.png'),
   nickName: 'user nickname',
   navList: {
