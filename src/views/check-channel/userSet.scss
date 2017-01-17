@@ -14,7 +14,7 @@
 
   li span{
     display: inline-block;
-    width: 47%;
+    width: 49%;
   }
 
   .listLeft{
@@ -22,7 +22,8 @@
   }
   .listRight {
     text-align: right;
-    margin-right: .2rem;
+    padding-right: .2rem;
+    background: url('../../images/icon_more@2x.png') no-repeat right;
   }
 
   .out{

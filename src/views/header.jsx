@@ -28,11 +28,20 @@ export default class Header extends Component {
     }
   };
 
+  showNav = () => {
+    const url = location.href;
+    let tpl = '';
+    if (url.indexOf('home') > 1) {
+      tpl = (<span styleName="left-nav-btn" onClick={this.props.showLeftNav} />);
+    }
+    return tpl;
+  };
+
   render() {
     const { isSingleSystem, systemList, systemType } = this.props;
     return (
       <div styleName="head-nav">
-        <span styleName="left-nav-btn" onClick={this.props.showLeftNav} />
+        {this.showNav()}
         <div styleName="header">
           {
             systemList.sort((a, b) => (a.sort - b.sort)).map((sysItem) => {

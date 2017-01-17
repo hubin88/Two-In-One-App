@@ -13,9 +13,9 @@ const renderList = {
       { name: 'TotalUsed', label: '占用合约定金' },
     ],
     channel: [
-      { name: 'gold', label: '出入金', direction: '/gold' },
-      { name: 'userCenter', label: '个人设置', direction: '/userSet' },
-      { name: 'dcpage', label: '点差宝', direction: '/dcbPage' },
+      { name: 'gold', label: '出入金', direction: '/gold', images: 'me_icon_record@2x.png' },
+      { name: 'userCenter', label: '个人设置', direction: '/userSet', images: 'me_icon_set@2x.png' },
+      { name: 'dcpage', label: '点差宝', direction: '/dcbPage', images: 'me_icon_rules@2x.png' },
     ],
   },
   [SYS_DWB]: {
@@ -26,10 +26,10 @@ const renderList = {
       { name: 'cashEarnAll', label: '持仓盈亏' },
     ],
     channel: [
-      { name: 'hold', label: '当前持仓', direction: '/hold' },
-      { name: 'gold', label: '出入金', direction: '/gold' },
-      { name: 'userCenter', label: '个人设置', direction: '/userSet' },
-      { name: 'dcpage', label: '点微宝', direction: '/dwbPage' },
+      { name: 'hold', label: '当前持仓', direction: '/hold', images: 'me_icon_cz@2x.png' },
+      { name: 'gold', label: '出入金', direction: '/gold', images: 'me_icon_record@2x.png' },
+      { name: 'userCenter', label: '个人设置', direction: '/userSet', images: 'me_icon_set@2x.png' },
+      { name: 'dcpage', label: '点微宝', direction: '/dwbPage', images: 'me_icon_rules@2x.png' },
     ],
   },
 };
@@ -96,7 +96,7 @@ class User extends Component {
               renderList[systemType].channel.map((channeLitm) => (
                 <Link key={channeLitm.name} to={channeLitm.direction}>
                   <li styleName={`channel-${channeLitm.name}`}>
-                    <img src="1.png" alt="" /><span>{channeLitm.label}</span>
+                    <img src={require(`../../images/${channeLitm.images}`)} alt="" /><span>{channeLitm.label}</span>
                   </li>
                 </Link>
               ))
