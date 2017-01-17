@@ -58,6 +58,7 @@ const StoreWrap = () => (
         <Route path="/register" component={Persponal} />
         <Route path="/reset" component={Persponal} />
         <Route path="/resetphone" component={Persponal} />
+        <Route path="/resetpwd" component={Persponal} />
 
         <Route path="/pay" component={Single} onEnter={checkLogin} />
         <Route path="/withdraw" component={Single} onEnter={checkLogin} />
