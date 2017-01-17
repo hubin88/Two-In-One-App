@@ -15,6 +15,12 @@ export default function marketInfo(state = initMarketInfo, action) {
         normalday: action.data.result,
       };
     }
+    case ActionQuoteTypes.SUCCESS_QUERY_TIME_SHARE: {
+      return {
+        ...state,
+        timeShare: action.data.result,
+      };
+    }
     default:
       return state;
   }

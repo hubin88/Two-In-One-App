@@ -7,7 +7,7 @@ import cssModules from 'react-css-modules';
 import styles from './quotes.scss';
 import { toChangeCommodity } from '../../../model/action';
 import { styleConfig } from '../../../server/app-config';
-import { requestQueryTimeShare } from '../../../model/market/action-market';
+import { requestQueryMinuteLine } from '../../../model/market/action-market';
 
 const options = {
   lineWidth: 1,
@@ -50,7 +50,7 @@ class Quotes extends Component {
   componentDidMount() {
     this.kLine = new window.DrawKLine('kLine', options);
     this.chart = new window.DrawChart('chart', chartOptions);
-    this.kLine.drawKLine(window.kLineData.result);
+    // this.kLine.drawKLine(window.kLineData.result);
     // this.chart.drawChart(window.data2);
   }
 
@@ -68,10 +68,11 @@ class Quotes extends Component {
         const obj = {
           assetid: id,
           timevalue1: item.opentime,
-          timetype: 1,
-          timevalue2: item.closetime,
+          timetype: 3,
+          timevalue2: 100,
+          minutetype: 'fifteenMinute',
         };
-        dispatch(requestQueryTimeShare(obj));
+        dispatch(requestQueryMinuteLine(obj, this));
       }
     });
     dispatch(toChangeCommodity(id));
