@@ -90,7 +90,7 @@ function exchangeInfo(state = initExchangeInfo, action) {
       const { Merchs: commodity = [] } = JSON.parse(action.commodityStr);
       return {
         ...state,
-        commodityData: arrayToObject(commodity, 'MerchCode'),
+        commodityData: arrayToObject(commodity, 'AssetId'),
       };
     }
     default: {

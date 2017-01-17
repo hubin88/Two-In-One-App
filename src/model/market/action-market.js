@@ -3,20 +3,6 @@
  */
 import * as ActionTypes from '../market/action-type-market';
 import QuotationApi from '../../server/api/quotation-api';
-// 获取交易日，交易时间
-export function successQueryNormalday(json) {
-  return {
-    type: ActionTypes.SUCCESS_QUERY_NORMAL_DAY,
-    data: json,
-  };
-}
-export function requestQueryNormalday() {
-  return function wrap(dispatch) {
-    return QuotationApi.queryNormalDay()
-      .then(json => dispatch(successQueryNormalday(json)));
-  };
-}
-
 // 获取分时K线
 export function successQueryTimeShare(json) {
   return {
@@ -24,13 +10,12 @@ export function successQueryTimeShare(json) {
     data: json,
   };
 }
-export function requestQueryTimeShare() {
+export function requestQueryTimeShare(obj) {
   return function wrap(dispatch) {
-    return QuotationApi.queryTimeShare()
+    return QuotationApi.queryTimeShare(obj)
       .then(json => dispatch(successQueryTimeShare(json)));
   };
 }
-
 // 获取分钟K线
 export function successQueryMinuteLine(json) {
   return {
@@ -38,10 +23,28 @@ export function successQueryMinuteLine(json) {
     data: json,
   };
 }
+
 export function requestQueryMinuteLine() {
   return function wrap(dispatch) {
     return QuotationApi.queryMinuteLine()
       .then(json => dispatch(successQueryMinuteLine(json)));
+  };
+}
+// 获取交易日，交易时间
+export function successQueryNormalday(json) {
+  return {
+    type: ActionTypes.SUCCESS_QUERY_NORMAL_DAY,
+    data: json,
+  };
+}
+
+export function requestQueryNormalday(obj) {
+  return function wrap(dispatch) {
+    return QuotationApi.queryNormalDay(obj)
+      .then(json => {
+        dispatch(successQueryNormalday(json));
+        // dispatch(requestQueryTimeShare(json));
+      });
   };
 }
 

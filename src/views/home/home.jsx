@@ -34,6 +34,7 @@ class Home extends Component {
     exchangeInfo: PropTypes.object,
     marketInfo: PropTypes.object,
     systemInfo: PropTypes.object,
+    commodityState: PropTypes.object,
   };
 
 
@@ -114,11 +115,11 @@ class Home extends Component {
     const {
       dispatch,
       exchangeInfo: { commodityData },
-      marketInfo: { commodityPrices },
+      marketInfo: { commodityPrices, normalday },
+      // commodityState: { commodityId },
       systemInfo: { systemType, assetInfo, isLogin, avatarURL, checkChannel },
     } = this.props;
-    const allCash = isLogin && assetInfo.allCash ? assetInfo.allCash : '- -';
-    console.log(this.props);
+    const allCash = isLogin && (assetInfo.TotalAssets >= 0) ? assetInfo.TotalAssets : '- -';
     return (
       <div styleName="home">
         <div style={{ position: 'fixed', top: '5px', left: '10px' }}>
@@ -150,6 +151,7 @@ class Home extends Component {
               commodityData={commodityData}
               commodityPrices={commodityPrices}
               holdHeight={this.state.holdHeight}
+              normalday={normalday}
             />
           </div>
           <div
@@ -195,6 +197,7 @@ function mapStateToProps(state) {
     exchangeInfo: state.exchangeInfo,
     marketInfo: state.marketInfo,
     systemInfo: state.systemInfo,
+    commodityState: state.commodityState,
   };
 }
 

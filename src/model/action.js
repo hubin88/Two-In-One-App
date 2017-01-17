@@ -5,6 +5,7 @@ import SysApi from '../server/api/sys-api';
 import AppConfig from '../server/app-config';
 import { arrayToObject } from '../ultils/helper';
 import Api from '../server/api/sign-api';
+import { requestQueryNormalday } from './market/action-market';
 
 const promise = new Promise((resolve) => {
   resolve();
@@ -111,7 +112,10 @@ export function getCommodityAndServers() {
   return function wrap(dispatch) {
     dispatch(requestGetCommodityAndServers());
     return SysApi.getMerchsAndServers()
-      .then(data => dispatch(successGetCommodityAndServers(data)))
+      .then(data => {
+        dispatch(successGetCommodityAndServers(data));
+        dispatch(requestQueryNormalday(data));
+      })
       .catch(() => dispatch(errorGetCommodityAndServers()));
   };
 }

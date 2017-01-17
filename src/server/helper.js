@@ -27,13 +27,15 @@ const postDataFormat = (systemType) => {
 
 function ajax(url, obj, systemType, name) {
   const postData = (typeof obj === 'object') ? JSON.stringify(obj) : obj;
-  return fetch(`${url}?${name}(${systemType})`, {
+  let postUrl = '';
+  postUrl = (systemType === 'QUOTATION') ? `${url}` : `${url}?${name}(${systemType})`;
+  return fetch(postUrl, {
     method: 'post',
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
     },
-    body: `{params:${postData}}`,
+    body: `{"params":${postData}}`,
   }).then(res => res.json()).then((rs) => {
     if (DEBUG) {
       // 输出网络记录

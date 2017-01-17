@@ -7,6 +7,7 @@ import cssModules from 'react-css-modules';
 import styles from './quotes.scss';
 import { toChangeCommodity } from '../../../model/action';
 import { styleConfig } from '../../../server/app-config';
+import { requestQueryTimeShare } from '../../../model/market/action-market';
 
 const options = {
   lineWidth: 1,
@@ -28,6 +29,7 @@ const chartOptions = {
   chartColor: 'black',
 };
 
+
 class Quotes extends Component {
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
@@ -35,6 +37,7 @@ class Quotes extends Component {
     commodityPrices: PropTypes.object.isRequired,
     commodityId: PropTypes.string,
     holdHeight: PropTypes.number,
+    normalday: PropTypes.object,
   };
 
   constructor(props) {
@@ -59,7 +62,19 @@ class Quotes extends Component {
   }
 
   chooseCommodity = (id) => () => {
-    this.props.dispatch(toChangeCommodity(id));
+    const { dispatch, normalday } = this.props;
+    normalday.assetinfo.forEach((item) => {
+      if (item.assetid === id) {
+        const obj = {
+          assetid: id,
+          timevalue1: item.opentime,
+          timetype: 1,
+          timevalue2: item.closetime,
+        };
+        dispatch(requestQueryTimeShare(obj));
+      }
+    });
+    dispatch(toChangeCommodity(id));
   };
 
   renderChart() {
