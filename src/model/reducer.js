@@ -4,7 +4,7 @@ import * as ActionTypes from './action-types';
 import marketInfo from './market/reducer-market';
 import { Cookie } from '../ultils/tools';
 import { arrayToObject } from '../ultils/helper';
-import { SYS_DCB, SYS_DWB, NONE } from '../server/define';
+import { SYS_DCB, SYS_DWB, NONE, ORG_ID } from '../server/define';
 import AppConfig from '../server/app-config';
 
 const initSystemList = [];
@@ -17,7 +17,7 @@ const initExchangeInfo = {
   exchangeLogoUrl: localExchangeData.logoUrl || '',
   isSingleSystem: false, // 只有一个系统
   systemList: initSystemList,
-  orgId: '118',
+  orgId: NONE,
   commodityData: {},
 };
 
@@ -25,9 +25,10 @@ const initExchangeInfo = {
 const initSystemInfo = {
   systemType: SYS_DCB,
   isLogin: false,
-  mobile: '13528716210',
+  loginData: {},
   avatarURL: require('../images/me_image_avator@3x.png'),
-  nickName: 'user nickname',
+  nickName: '',
+  mobile: null,
   navList: {
     home: { name: 'home', label: '首页', direction: '/home' },
     track: { name: 'broker', label: '经纪人', direction: '/broker' },
@@ -80,6 +81,7 @@ function exchangeInfo(state = initExchangeInfo, action) {
       };
     }
     case ActionTypes.SUCCESS_GET_ONE_EXCHANGE_INFO: {
+      // TODO: 特殊处理，现在的接口对于不同系统是不同的orgId
       const { exchangeInfo: { system: systemList } } = action;
       return {
         ...state,
@@ -93,6 +95,12 @@ function exchangeInfo(state = initExchangeInfo, action) {
         ...state,
         commodityData: arrayToObject(commodity, 'AssetId'),
         secKey,
+      };
+    }
+    case ActionTypes.CHANGE_SYSTEM_TYPE: {
+      return {
+        ...state,
+        orgId: ORG_ID[action.systemType],
       };
     }
     default: {
@@ -113,10 +121,11 @@ function systemInfo(state = initSystemInfo, action) {
       };
     }
     case ActionTypes.SUCCESS_GET_LOGIN_INFO: {
-      console.log(action.obj);
+      Cookie.setCookie(`${AppConfig.systemType()}-isLogin`, true);
+      Cookie.setCookie('loginData', action.data);
       return {
         ...state,
-        loginData: action.obj,
+        loginData: action.data,
         isLogin: true,
       };
     }
@@ -131,6 +140,15 @@ function systemInfo(state = initSystemInfo, action) {
       return {
         ...state,
         assetInfo: action.data,
+      };
+    }
+    case ActionTypes.SUCCESS_FIND_USER: {
+      const { headImg: avatarURL, nikeName: nickName, mobile } = action.data;
+      return {
+        ...state,
+        avatarURL: `data:image/png;base64,${avatarURL}`,
+        nickName,
+        mobile,
       };
     }
     default: {

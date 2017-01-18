@@ -1,0 +1,36 @@
+/**
+ * Created by Amg on 2017/1/12.
+ */
+@import '../val-home';
+
+.buttons {
+  width: 100%;
+}
+
+.button {
+  padding: 0.5em 1em;
+  border-radius: 2px;
+  background-color: #fff;
+}
+
+.close {
+  width: 42%;
+  margin-right: 3%;
+  border: 1px solid #ccc;
+}
+
+.confirm {
+  width: 55%;
+}
+
+@each $key, $color in $buildingColor {
+  .#{$key} {
+    background-color: $color;
+  }
+}
+
+.prompt {
+  font-size: .11rem;
+}
+
+

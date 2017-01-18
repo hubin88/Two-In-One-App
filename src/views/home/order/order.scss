@@ -32,6 +32,8 @@
   border: solid .01rem gray;
   border-radius: 0.02rem;
   margin: 2% 0 0 2%;
+  height: 0.3rem;
+  line-height: 0.3rem;
 }
 
 .item-line {
@@ -43,6 +45,7 @@
     .active {
       border-color: $color;
       background-color: $color;
+      color: #fff;
     }
   }
 }

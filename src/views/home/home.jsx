@@ -9,10 +9,19 @@ import styles from './home.scss';
 import holdStyles from './hold-table.scss';
 import { SYS_DCB, SYS_DWB } from '../../server/define';
 import AppConfig, { styleConfig } from '../../server/app-config';
+import { toCreateUserOrder } from '../../model/action';
+
 
 const holdRecord = {
   [SYS_DCB]: [
-    { name: '亚太银', mount: '2', openPrice: '3732', earnest: '10.00', range: '5' },
+    {
+      name: '亚太银',
+      mount: '2',
+      openPrice: '3732',
+      earnest: '10.00',
+      range: '5',
+      MerchCode: 'BU.QHDW',
+    },
     { name: '亚银', mount: '2', openPrice: '3732', earnest: '10.00', range: '5' },
     { name: '亚太银', mount: '2', openPrice: '3732', earnest: '10.00', range: '5' },
     { name: '亚太银', mount: '2', openPrice: '3732', earnest: '10.00', range: '5' },
@@ -48,15 +57,39 @@ class Home extends Component {
     console.log('平仓', d);
   };
 
+  clickAvatar = () => {
+    console.log('点击头像，跳转user');
+  };
+
+
   haveHold = (systemType) => {
     this.setState({
       holdBody: holdRecord[systemType],
     }, () => { this.quotes.redrawCanvas(); });
   };
+  confirmBuild = (data) => {
+    const orderData = {
+      sessionId: '',
+      marketId: '',
+      symbolId: '',
+      direction: '',
+      volume: '',
+      bsType: '',   // DWB 订单类型 1 现金2 金币，默认现金
+      stopWin: '',  // DWB
+      stopLoss: '', // DWB
+      margin: '',   // DCB
+      point: '',    // DCB
+    };
+    // TODO: 未完成，开发调试用
+    const i = 0;
+    if (i === 0) {
+      this.haveHold(this.props.systemInfo.systemType);
+    } else {
+      this.props.dispatch(toCreateUserOrder(orderData));
+    }
+    console.log('下单成功', data);
+  };
 
-  confirmBuild() {
-    console.log('下单成功');
-  }
 
   showOrder = (title, direction, systemType) => {
     const {
@@ -64,6 +97,7 @@ class Home extends Component {
       commodityState: { commodityId },
 
     } = this.props;
+
     OrderBox.show({
       dispatch: this.props.dispatch,
       title,
@@ -121,23 +155,25 @@ class Home extends Component {
       marketInfo: { commodityPrices, normalday },
       systemInfo: {
         systemType,
-        assetInfo: { TotalAssets: allCash, vec: holdArr },
+        assetInfo: { TotalAssets: allCash, vec: holdArr2 },
         isLogin,
         avatarURL,
         checkChannel,
       },
       commodityState: { commodityId },
     } = this.props;
+    console.log(holdArr2);
+    const holdArr = this.state.holdBody;
     const allCashNum = isLogin ? allCash : '- -';
     const hasHold = holdArr && holdArr.length !== 0;
     const holdHeight = hasHold ? styleConfig.holdH : 0;
     return (
       <div styleName="home">
-        <div style={{ position: 'fixed', top: '5px', left: '10px' }}>
-          <button onClick={() => this.haveHold(systemType)}>显示持仓</button>
-        </div>
-        <div styleName="user-info" style={{ height: styleConfig.userInfoH }}>
-          <span styleName="avatar">
+        <div
+          styleName="user-info"
+          style={{ height: styleConfig.userInfoH, lineHeight: `${styleConfig.userInfoH}px` }}
+        >
+          <span styleName="avatar" onClick={this.clickAvatar}>
             <img src={avatarURL} alt="" />
           </span>
           <span styleName="asset">
@@ -191,7 +227,7 @@ class Home extends Component {
             hasHold ? <Table
               ref={(ref) => { this.table = ref; }}
               fields={this.holdHeaderList(systemType)}
-              data={holdArr.filter((i) => JSON.stringify(i.MerchCode) === commodityId)}
+              data={holdArr.filter((i) => i.MerchCode === commodityId)}
               styles={holdStyles}
             /> : null
           }

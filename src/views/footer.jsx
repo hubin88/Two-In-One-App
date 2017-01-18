@@ -8,27 +8,31 @@ export default class Footer extends Component {
   static propTypes = {
     navList: PropTypes.object,
   };
+
   constructor(props) {
     super(props);
-    this.state = {
-    };
+    this.state = {};
   }
+
   render() {
     const { navList } = this.props;
     return (
-      <div>
-        <div styleName="footer">
-          <ol className="table">
-            {
-              Object.keys(navList).map((navItem) => (
-                <li key={navList[navItem].name} className="td" styleName="nav-item">
-                  <Link to={navList[navItem].direction}><span>{navList[navItem].label}</span></Link>
-                </li>
-              ))
-            }
-          </ol>
-        </div>
-      </div>
+      <ol className="table" styleName="footer">
+        {
+          Object.keys(navList).map((navItem) => (
+            <li
+              key={navList[navItem].name}
+              className="td" styleName={`nav-item ${navList[navItem].name}`}
+            >
+              <Link to={navList[navItem].direction}>
+                <b />
+                <span>{navList[navItem].label}</span>
+              </Link>
+            </li>
+          ))
+        }
+      </ol>
+
     );
   }
 }

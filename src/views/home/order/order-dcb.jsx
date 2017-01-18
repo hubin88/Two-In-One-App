@@ -69,7 +69,9 @@ class OrderDCB extends Component {
             </div>
           </div>
           <div className="tr" styleName="range">
-            <div className="td" styleName="title-dcb"><span>止盈/止损点:</span></div>
+            <div className="td" styleName="title-dcb">
+              <span styleName="color-gray">止盈/止损点:</span>
+            </div>
             <div className="td" styleName="content">
               {
                 this.rangeArr.map((item, index) =>
@@ -85,7 +87,9 @@ class OrderDCB extends Component {
             </div>
           </div>
           <div className="tr" styleName="amount">
-            <div className="td" styleName="title-dcb">数量:</div>
+            <div className="td" styleName="title-dcb">
+              <span styleName="color-gray">数量:</span>
+            </div>
             <div className="td" styleName="content"><span>拖动条</span></div>
           </div>
         </div>

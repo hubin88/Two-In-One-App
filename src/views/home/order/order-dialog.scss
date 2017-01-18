@@ -72,9 +72,32 @@
   box-shadow: 0 0 60px rgba(0, 0, 0, 0.6);
   position: absolute;
   background-color: #f0f2f9;
+  //width: 80%;
+  //top: 30%;
+  //left: 50%;
+  //margin-left: -40%;
+  top: 100%;
   width: 100%;
-  bottom: 0;
+  animation: show-mask 0.5s cubic-bezier(0.65, 0.05, 0.36, 1) forwards;
 }
+
+@keyframes show-mask {
+  0% {
+    transform: translate(0, 0);
+  }
+  100% {
+    transform: translate(0, -100%);
+  }
+}
+
+//@keyframes hide-mask {
+//  0% {
+//    transform: translate(0, -100%);
+//  }
+//  100% {
+//    transform: translate(0, 0);
+//  }
+//}
 
 @media all and (min-width: 1200px) {
   .dialog {

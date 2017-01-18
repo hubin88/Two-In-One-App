@@ -10,21 +10,21 @@
 .user-info {
   //height: 0.7rem;
   width: 100%;
-  padding: $infoPaddingTop $infoPaddingLeft $infoPaddingBottom;
+  padding: 0 $infoPaddingLeft;
   border-bottom: .01rem #c0c0c0 solid;
   background-color: #FFFFFF;
   span {
     height: 100%;
-    line-height: $avatarH;
     display: inline-block;
-    vertical-align: middle;
+    vertical-align: top;
   }
 }
 
 .avatar {
   font-size: 0;
   img {
-    height: 100%;
+    width: $avatarH;
+    height: $avatarH;
     vertical-align: middle;
     border-radius: 0.1*$avatarH;
   }
@@ -79,6 +79,8 @@
     width: 48%;
     margin: 1%;
     padding: .12rem;
+    font-size: 0.14rem;
+    font-weight: bold;
     text-align: center;
     border-radius: 3px;
     color: #fff;

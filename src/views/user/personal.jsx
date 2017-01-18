@@ -10,8 +10,6 @@ import Reset from '../sign/reset';
 import ResetPwd from '../reset-password';
 import { successLogin } from '../../model/action';
 import { getQueryString } from '../../server/tools';
-import { Cookie } from '../../ultils/tools';
-import AppConfig from '../../server/app-config';
 
 import '../../css/main.scss';
 
@@ -28,10 +26,10 @@ class Persponal extends Component {
     window.history.go(-1);
   };
   loginSuc = (json) => {
-    this.props.dispatch(successLogin(json));
-    Cookie.setCookie(`${AppConfig.systemType()}-isLogin`, true);
-    const path = getQueryString('source') || '';
-    browserHistory.push(`/${path}`);
+    this.props.dispatch(successLogin(json, () => {
+      const path = getQueryString('source') || '';
+      browserHistory.push(`/${path}`);
+    }));
   };
   registerSuc = () => {
     browserHistory.push('/');

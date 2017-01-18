@@ -1,14 +1,34 @@
+$navList: 'home', 'broker', 'rule', 'user';
 .footer {
   height: 100%;
   width: 100%;
-  ol{
+  ol {
     width: 100%;
   }
 }
-
 .nav-item {
-  height: 30px;
+  height: 100%;
   text-align: center;
   vertical-align: middle;
+  a {
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    b{
+      display: block;
+      width: .1rem;
+      height: .1rem;
+    }
+  }
 }
+
+
+@each $nav in $navList {
+  .#{$nav} {
+    b {
+      //background-image: url("../images/#{$nav}");
+    }
+  }
+}
+
 

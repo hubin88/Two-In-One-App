@@ -16,6 +16,11 @@ export const SYS_DWB = 'DWB';
 
 export const NONE = -1;
 
+export const ORG_ID = {
+  [SYS_DCB]: 118,
+  [SYS_DWB]: 81,
+};
+
 export const STATUS = {
   fetching: 0,
   success: 1,
