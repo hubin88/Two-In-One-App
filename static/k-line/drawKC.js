@@ -84,20 +84,28 @@ function DrawKLine(canvasId, options) {
   this.canvas = document.getElementById(canvasId);
   this.ctx = this.canvas.getContext('2d');
   this.viewRatio = baseDraw.getPixelRatio(this.ctx);
+  this.heightRatio = 0.15;
+  var cHeight = this.canvas.parentNode.offsetHeight,
+    cWidth = this.canvas.parentNode.offsetWidth;
   var kLineOpts = {
     viewRatio: this.viewRatio,
     lineWidth: options.lineWidth || 1,//上影线，下影线宽度
     barWidth: options.barWidth || 4,//阳线，阴线宽度
     spaceWidth: options.spaceWidth || 3,//阳线阴线之间的宽度，
-    paddingWidth: options.paddingWidth || 30,//K线图内边距,上，左，下
     horizontalLineCount: options.horizontalLineCount || 5,//底部水平线的时间数
     verticalLineCount: options.verticalLineCount || 5,//左边垂直线的显示价格数
     timeType: options.timeType || 1,//1,分钟，2，天
+    paddingTop: options.paddingTop || 10,
+    paddingLeft: options.paddingLeft || 30,
+    paddingBottom: options.paddingBottom || cHeight * this.heightRatio,
   };
+
   this.defaultOpts = {
-    width: options.width || this.canvas.parentNode.offsetWidth,
-    height: options.height || this.canvas.parentNode.offsetHeight,
-    paddingWidth: kLineOpts.paddingWidth,
+    width: options.width || cWidth,
+    height: options.height || cHeight,
+    paddingLeft: kLineOpts.paddingLeft,
+    paddingTop: kLineOpts.paddingTop,
+    paddingBottom: kLineOpts.paddingBottom,
   };
   this.kLine = new kLine(kLineOpts);
   this.eventStatus = {
@@ -191,7 +199,10 @@ DrawKLine.prototype = {
     this.kLine.init(this.canvas.width, this.canvas.height);
     this.redrawKLine();
   },
-  drawKLine: function (data) {
+  drawKLine: function (data, isSwitch) {
+    if (isSwitch) {
+      this.data.length = 0;
+    }
     this.setData(data);
     if (data) {
       this.redrawKLine();
@@ -241,8 +252,8 @@ DrawKLine.prototype = {
     var kLine = this.kLine,
       info = kLine.getBaseInfo(),
       ratio = this.getCanvasWidthRatio(),
-      newPos = x - info.paddingWidth * ratio,
-      canvasWidth = this.guide.offsetWidth - info.paddingWidth * ratio,
+      newPos = x - info.paddingLeft * ratio,
+      canvasWidth = this.guide.offsetWidth - info.paddingLeft * ratio,
       blockWidth = canvasWidth / info.count;
     return {
       posIndex: Math.floor(newPos / blockWidth),
@@ -278,8 +289,8 @@ DrawKLine.prototype = {
     }
     var ay = (this.guide.height / this.viewRatio) / (this.canvas.height / this.viewRatio);
     var ax = (this.guide.width / this.viewRatio) / (this.canvas.width / this.viewRatio);
-    y = ay * pos.y + this.defaultOpts.paddingWidth * ay;
-    x = ax * pos.x + this.defaultOpts.paddingWidth * ax;
+    y = ay * pos.y + this.defaultOpts.paddingTop * ay;
+    x = ax * pos.x + this.defaultOpts.paddingLeft * ax;
     ctx.clearRect(0, 0, canvasWidth, canvasHeight);
     ctx.save();
     baseDraw.drawGuideLine.call(this, ctx, x, y, canvasWidth, canvasHeight);
@@ -427,7 +438,9 @@ function kLine(options) {
     lineWidth: options.lineWidth,//上影线，下影线宽度
     barWidth: options.barWidth,//阳线，阴线宽度
     spaceWidth: options.spaceWidth,//阳线阴线之间的宽度，
-    paddingWidth: options.paddingWidth,//K线图内边距,上，左，下
+    paddingLeft: options.paddingLeft,
+    paddingTop: options.paddingTop,
+    paddingBottom: options.paddingBottom,
   }
   this.kLineCount = {
     horizontalLineCount: options.horizontalLineCount,//底部水平线的时间数
@@ -475,9 +488,13 @@ kLine.prototype = {
   setSpaceWidth: function (canvasWidth, count) {
     return (canvasWidth - (count * this.kLineWidth.barWidth)) / count;
   },
+
+  getKLineBottom: function () {
+    return this.kLineWidth.paddingBottom;
+  },
   //计算一个画布上显示多少条k线
   setKLineCount: function (totalCount) {
-    var canvasWidth = this.getCanvasWidth() - this.kLineWidth.paddingWidth;
+    var canvasWidth = this.getCanvasWidth() - this.kLineWidth.paddingLeft;
     //计算一个k线的宽度跟间隙
     var width = this.kLineWidth.barWidth + this.kLineWidth.spaceWidth;
     var count = Math.floor(canvasWidth / width);
@@ -497,7 +514,7 @@ kLine.prototype = {
   //获取实际参数与画布的比例
   getRatio: function () {
     var height = this.dataInfo.high - this.dataInfo.low,
-      ratio = (this.getCanvasHeight() - this.kLineWidth.paddingWidth * 2) / height;
+      ratio = (this.getCanvasHeight() - (this.kLineWidth.paddingTop + this.getKLineBottom())) / height;
     return ratio;
   },
   setCurrentDataLastIndex: function (length) {
@@ -542,8 +559,10 @@ kLine.prototype = {
       maxHigh = Math.max(d.high, maxHigh);
       minLow = Math.min(d.low, minLow);
     });
-    this.dataInfo.high = maxHigh;
-    this.dataInfo.low = minLow;
+    // this.dataInfo.high = maxHigh;
+    // this.dataInfo.low = minLow;
+    this.dataInfo.high = maxHigh + 5;
+    this.dataInfo.low = minLow - 5;
     this.dataInfo.currentDataLength = newData.length;
     this.dataInfo.ratio = this.getRatio();
     this.dataInfo.newData = newData;
@@ -579,7 +598,7 @@ kLine.prototype = {
     ctx.clearRect(0, 0, this.canvasSize.width, this.canvasSize.height);
     ctx.save();
     //移动原点
-    ctx.translate(this.kLineWidth.paddingWidth, this.kLineWidth.paddingWidth);
+    ctx.translate(this.kLineWidth.paddingLeft, this.kLineWidth.paddingTop);
     this.drawText(ctx);
     var nWidth = this.dataInfo.blockWidth;
     this.posData = [];
@@ -623,8 +642,10 @@ kLine.prototype = {
   drawText: function (ctx) {
     var
       cHeight = this.getCanvasHeight(),
-      pWidth = this.kLineWidth.paddingWidth,
-      kHeight = ( cHeight - pWidth * 2),//画k线区域高度
+      pLeft = this.kLineWidth.paddingLeft,
+      pTop = this.kLineWidth.paddingTop,
+      pBottom = this.kLineWidth.paddingBottom,
+      kHeight = ( cHeight - pTop - this.getKLineBottom()),//画k线区域高度
       vLineCount = this.kLineCount.verticalLineCount - 1,
       hLineCount = this.kLineCount.horizontalLineCount - 1;
     //画价格线
@@ -638,7 +659,7 @@ kLine.prototype = {
       if (n === vLineCount) {//最底部直接显示最低价
         high = this.dataInfo.low;
       }
-      ctx.fillText(high + '', -pWidth, posY);
+      ctx.fillText(high + '', -pLeft, posY);
     }
 
     //画时间线
@@ -653,7 +674,8 @@ kLine.prototype = {
     var times = this.getDateTime(this.dataInfo.newData[0].time),
       timeWidth = ctx.measureText(times).width,
       totalWidth = this.dataInfo.newData.length * this.dataInfo.blockWidth,
-      totalCount = Math.floor(totalWidth / timeWidth);
+      totalCount = Math.floor(totalWidth / timeWidth),
+      timeH = cHeight - 10;
     count = totalCount > count ? count : totalCount - 1;
     for (var i = 0; i <= count; i++) {
       nT = nT + nTime;
@@ -674,7 +696,7 @@ kLine.prototype = {
         kWidth = 0;
       }
 
-      ctx.fillText(time, kWidth, kHeight + pWidth - 5);
+      ctx.fillText(time, kWidth, timeH);
       // ctx.fillText(time, kWidth, kHeight + pWidth / 2);
     }
   },
@@ -734,7 +756,7 @@ kLine.prototype = {
   //提供一些基础数据
   getBaseInfo: function () {
     return {
-      paddingWidth: this.kLineWidth.paddingWidth,
+      paddingLeft: this.kLineWidth.paddingLeft,
       barWidth: this.kLineWidth.barWidth,
       spaceWidth: this.kLineWidth.spaceWidth,
       blockWidth: this.dataInfo.blockWidth,
@@ -887,7 +909,10 @@ DrawChart.prototype = {
       this.min = Math.min(d.price, this.min);
     }.bind(this));
   },
-  drawChart: function (data) {
+  drawChart: function (data, isSwitch) {
+    if (isSwitch) {
+      this.data.length = 0;
+    }
     this.setData(data);
     this.getRelativeRatio();
     this.drawTimeChart();
