@@ -86,45 +86,46 @@ $padding: .1rem;
   width: 100%;
   background: #fff;
   li {
+    height: 100%;
     text-align: center;
     vertical-align: middle;
+    line-height: .4rem;
+    color: #000;
   }
 }
+
 .links {
   margin-top: .05rem;
 
-  li{
+  li {
     line-height: .4rem;
     background-color: #fff;
     border: 1px #f3f3f3 solid;
     padding: 0 .25rem;
     //background: url("../1.png") no-repeat right ;
   }
-  a:last-child li{
+  a:last-child li {
     margin-top: .2rem;
   }
-  .itemName{
+  .itemName {
     margin-top: .1rem;
   }
-  span{
+  span {
     margin-left: .1rem;
     color: #000;
   }
-  li img{
+  li img {
     width: 10%;
     vertical-align: middle;
   }
 }
-
-
-
 
 @mixin bg-image($names,$ratio:1) {
   @each $cls, $name in $names {
     $ratioString: if($ratio != 1, "@#{$ratio}x", "");
     @if $name {
       #{$cls} {
-        background-image: url(#{$name}#{$ratioString}.png) ;
+        background-image: url(#{$name}#{$ratioString}.png);
         background-repeat: no-repeat;
       }
     } @else {

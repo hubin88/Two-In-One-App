@@ -1,4 +1,4 @@
-.titleName{
+.titleName {
   text-align: center;
   background-color: #fe8228;
   height: .4rem;
@@ -7,20 +7,24 @@
   line-height: .4rem;
   font-size: .2rem;
 }
-.titleName span{
+
+.titleName span {
   display: inline-block;
   margin: 0 auto;
+  font-weight: bold;
 }
-.close{
+
+.close {
   left: .05rem;
   width: .3rem;
   height: .3rem;
-  background: url(../../images/back@2x.png) no-repeat;
+  background: url(../../images/back@2x.png) no-repeat center center/auto 80%;
   float: left;
-  margin: 5px 10px;
+  margin: 5px 0;
   position: absolute;
 }
-.sure{
+
+.sure {
   position: absolute;
   right: .1rem;
 }

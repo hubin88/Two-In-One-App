@@ -83,9 +83,11 @@ class User extends Component {
           isLogin ? (<ol className="table" styleName="check-channel">
             {
               checkChannel.map((channel) => (
-                <li key={channel.type} className="td" styleName={`channel-${channel.type}`}>
-                  <Link to={channel.direction}>{channel.label}</Link>
-                </li>
+                <Link to={channel.direction} key={channel.type} className="td">
+                  <li styleName={`channel-${channel.type}`}>
+                    {channel.label}
+                  </li>
+                </Link>
               ))
             }
           </ol>) : null
@@ -96,7 +98,8 @@ class User extends Component {
               renderList[systemType].channel.map((channeLitm) => (
                 <Link key={channeLitm.name} to={channeLitm.direction}>
                   <li styleName={`channel-${channeLitm.name}`}>
-                    <img src={require(`../../images/${channeLitm.images}`)} alt="" /><span>{channeLitm.label}</span>
+                    <img src={require(`../../images/${channeLitm.images}`)}
+                         alt="" /><span>{channeLitm.label}</span>
                   </li>
                 </Link>
               ))
