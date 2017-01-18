@@ -11,7 +11,7 @@ import Tips from './cummon/tips';
 @cssModules(styles, { allowMultiple: true, errorWhenNotFound: false })
 export default class Login extends Component {
   static propTypes = {
-    orgId: PropTypes.string,
+    orgId: PropTypes.number,
     loginSuccess: PropTypes.func,
     toRegister: PropTypes.func,
     toReset: PropTypes.func,

@@ -19,7 +19,7 @@ import {
 @cssModules(styles, { allowMultiple: true, errorWhenNotFound: false })
 export default class Register extends Component {
   static propTypes = {
-    orgId: PropTypes.string,
+    orgId: PropTypes.number,
     systemType: PropTypes.string,
     registerSuccess: PropTypes.func,
     type: PropTypes.string,

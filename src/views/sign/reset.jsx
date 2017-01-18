@@ -16,7 +16,7 @@ import {
 @cssModules(styles, { allowMultiple: true, errorWhenNotFound: false })
 export default class Reset extends Component {
   static propTypes = {
-    orgId: PropTypes.string,
+    orgId: PropTypes.number,
     systemType: PropTypes.string,
     resetSuccess: PropTypes.func,
   };

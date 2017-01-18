@@ -98,10 +98,8 @@ class User extends Component {
               renderList[systemType].channel.map((channeLitm) => (
                 <Link key={channeLitm.name} to={channeLitm.direction}>
                   <li styleName={`channel-${channeLitm.name}`}>
-                    <img
-                      src={require(`../../images/${channeLitm.images}`)}
-                      alt=""
-                    /><span>{channeLitm.label}</span>
+                    <img src={require(`../../images/${channeLitm.images}`)} alt="" />
+                    <span>{channeLitm.label}</span>
                   </li>
                 </Link>
               ))
