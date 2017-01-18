@@ -10,13 +10,12 @@ export function successQueryTimeShare(json) {
     data: json,
   };
 }
-export function requestQueryTimeShare(obj, o) {
+export function requestQueryTimeShare(obj, t) {
   return function wrap(dispatch) {
     return QuotationApi.queryTimeShare(obj)
       .then(json => {
-        console.log(json.result);
         dispatch(successQueryTimeShare(json));
-        o.chart.drawChart(json.result);
+        t.chart.drawChart(json.result);
       });
   };
 }
@@ -28,11 +27,11 @@ export function successQueryMinuteLine(json) {
   };
 }
 
-export function requestQueryMinuteLine(obj, o) {
+export function requestQueryMinuteLine(obj, t) {
   return function wrap(dispatch) {
     return QuotationApi.queryMinuteLine(obj)
       .then(json => {
-        o.kLine.drawKLine(json.result);
+        t.kLine.drawKLine(json.result);
         dispatch(successQueryMinuteLine(json));
       });
   };

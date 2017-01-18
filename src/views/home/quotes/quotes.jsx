@@ -7,7 +7,7 @@ import cssModules from 'react-css-modules';
 import styles from './quotes.scss';
 import { toChangeCommodity } from '../../../model/action';
 import { styleConfig } from '../../../server/app-config';
-import { requestQueryMinuteLine } from '../../../model/market/action-market';
+import { requestQueryTimeShare } from '../../../model/market/action-market';
 
 const options = {
   lineWidth: 1,
@@ -45,7 +45,7 @@ class Quotes extends Component {
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
     commodityData: PropTypes.object.isRequired,
-    commodityPrices: PropTypes.any.isRequired,
+    commodityPrices: PropTypes.array.isRequired,
     commodityId: PropTypes.string,
     holdHeight: PropTypes.number,
     normalday: PropTypes.object,
@@ -61,6 +61,9 @@ class Quotes extends Component {
   componentDidMount() {
     this.kLine = new window.DrawKLine('kLine', options);
     this.chart = new window.DrawChart('chart', chartOptions);
+    setTimeout(() => {
+      this.drawFS();
+    }, 1000)
     // this.kLine.drawKLine(window.kLineData.result);
     // this.chart.drawChart(window.data2);
   }
@@ -74,20 +77,41 @@ class Quotes extends Component {
     this.kLine.resetCanvas(w, h);
   }
 
-  chooseCommodity = (id) => () => {
-    const { dispatch, normalday } = this.props;
+  drawFS = (id) => {
+    const { dispatch, normalday, commodityId } = this.props;
+    const paramsId = id || commodityId;
     normalday.assetinfo.forEach((item) => {
-      if (item.assetid === id) {
+      if (item.assetid === paramsId) {
         const obj = {
-          assetid: id,
+          assetid: paramsId,
           timevalue1: item.opentime,
-          timetype: 3,
-          timevalue2: 100,
-          minutetype: 'fifteenMinute',
+          timetype: 1,
+          timevalue2: item.closetime,
+          // minutetype: 'fifteenMinute',
         };
-        dispatch(requestQueryMinuteLine(obj, this));
+        dispatch(requestQueryTimeShare(obj, this));
+        // dispatch(requestQueryMinuteLine(obj, this));
       }
     });
+  }
+
+  chooseCommodity = (id) => () => {
+    const { dispatch } = this.props;
+    this.drawFS(id);
+    // const { dispatch, normalday } = this.props;
+    // normalday.assetinfo.forEach((item) => {
+    //   if (item.assetid === id) {
+    //     const obj = {
+    //       assetid: id,
+    //       timevalue1: item.opentime,
+    //       timetype: 1,
+    //       timevalue2: item.closetime,
+    //       // minutetype: 'fifteenMinute',
+    //     };
+    //     dispatch(requestQueryTimeShare(obj, this));
+    //     // dispatch(requestQueryMinuteLine(obj, this));
+    //   }
+    // });
     dispatch(toChangeCommodity(id));
   };
 
@@ -123,9 +147,11 @@ class Quotes extends Component {
         <div style={{ height: styleConfig.quotesTipsH }}>
           <ul styleName="quotesInfo">{this.quoteLi()}</ul>
         </div>
-        <div style={{ height: canvasH }}>
-          <canvas id="kLine" />
-          <div style={{ display: 'none' }}>
+        <div>
+          <div style={{ height: canvasH, display: 'none' }}>
+            <canvas id="kLine" />
+          </div>
+          <div style={{ height: canvasH }}>
             <canvas id="chart" />
           </div>
         </div>

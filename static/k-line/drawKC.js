@@ -908,6 +908,11 @@ DrawChart.prototype = {
       this.max = Math.max(d.price, this.max);
       this.min = Math.min(d.price, this.min);
     }.bind(this));
+    if(this.max===this.min){
+      this.max+=10;
+      this.min-=10;
+    }
+
   },
   drawChart: function (data, isSwitch) {
     if (isSwitch) {
