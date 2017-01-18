@@ -11,7 +11,7 @@ export default class QuotationApi {
     const assetIdsArr = [];
     jsonObj.Merchs.forEach((item) => assetIdsArr.push(item.AssetId));
     return assetIdsArr;
-  };
+  }
 
   // 获取交易日，交易时间
   static queryNormalDay(obj = {}) {
@@ -67,7 +67,7 @@ export default class QuotationApi {
   // 获取个股行情
   static getQuot(obj = {}) {
     const assetIdObj = {
-      fields: '0|2|3|4|5|6|',
+      fields: '0|2|6|5|3|4|',
       assetIds: this.formartData(obj),
     };
     return postJSON({

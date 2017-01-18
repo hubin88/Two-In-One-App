@@ -429,7 +429,6 @@ export function toCreateUserOrder(obj) {
 /* === 下单建仓 === */
 
 
-
 /* 检查是否注册 */
 export function successQueryRegistInfo(json) {
   return {

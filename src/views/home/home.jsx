@@ -199,6 +199,7 @@ class Home extends Component {
               commodityPrices={commodityPrices}
               holdHeight={holdHeight}
               normalday={normalday}
+              commodityId={commodityId}
             />
           </div>
           <div
