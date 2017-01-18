@@ -239,7 +239,7 @@ export default class Register extends Component {
             <label htmlFor="account">
               <input
                 type="text" id="account" placeholder="请输入手机号码" maxLength="11"
-                ref={(ref) => { this.account = ref; }} onKeyUp={this.check}
+                ref={(ref) => { this.account = ref; }} onChange={this.check}
                 autoFocus="autofocus"
                 autoComplete="off"
               />
@@ -252,7 +252,7 @@ export default class Register extends Component {
             <label htmlFor="code">
               <input
                 type="text" id="code" placeholder="请输入短信验证码" maxLength="4"
-                ref={(ref) => { this.code = ref; }} onKeyUp={this.check}
+                ref={(ref) => { this.code = ref; }} onChange={this.check}
                 autoComplete="off"
               />
             </label>
@@ -273,7 +273,7 @@ export default class Register extends Component {
                 type={this.state.isShowPassword ? 'text' : 'password'} id="password"
                 placeholder="请输入6位交易密码"
                 maxLength="6"
-                ref={(ref) => { this.password = ref; }} onKeyUp={this.check}
+                ref={(ref) => { this.password = ref; }} onChange={this.check}
                 autoComplete="off"
               />
             </label>

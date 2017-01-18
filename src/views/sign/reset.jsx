@@ -131,7 +131,7 @@ export default class Reset extends Component {
               <input
                 type="text" id="account" placeholder="请输入手机号码" maxLength="11"
                 autoFocus="autofocus"
-                ref={(ref) => { this.account = ref; }} onKeyUp={this.check}
+                ref={(ref) => { this.account = ref; }} onChange={this.check}
               />
             </label>
             <span
@@ -143,7 +143,7 @@ export default class Reset extends Component {
               <input
                 type="text" id="code" placeholder="请输入短信验证码"
                 ref={(ref) => { this.code = ref; }}
-                onKeyUp={this.check}
+                onChange={this.check}
               />
             </label>
             <span styleName="icon" />
@@ -163,7 +163,7 @@ export default class Reset extends Component {
                 type={this.state.isShowPassword ? 'text' : 'password'} id="password"
                 placeholder="请输入新的交易密码"
                 maxLength="6"
-                ref={(ref) => { this.password = ref; }} onKeyUp={this.check}
+                ref={(ref) => { this.password = ref; }} onChange={this.check}
               />
             </label>
             <span

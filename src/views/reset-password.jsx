@@ -103,7 +103,7 @@ class ResetPwd extends Component {
               type="password" id="old-password" placeholder="请输入原密码" maxLength="6"
               autoFocus="autofocus"
               ref={(ref) => { this.oldPassword = ref; }}
-              onKeyUp={this.check}
+              onChange={this.check}
             />
           </div>
           <div styleName="password">
@@ -111,7 +111,7 @@ class ResetPwd extends Component {
               type="password" id="new-password"
               placeholder="请设置6位密码"
               maxLength="6"
-              ref={(ref) => { this.password = ref; }} onKeyUp={this.check}
+              ref={(ref) => { this.password = ref; }} onChange={this.check}
             />
           </div>
           <div styleName="password">

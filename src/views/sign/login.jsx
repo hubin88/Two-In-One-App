@@ -121,7 +121,7 @@ export default class Login extends Component {
               <span>账号</span>
               <input
                 type="text" id="account" placeholder="请输入手机号码" maxLength="11"
-                ref={(ref) => { this.account = ref; }} onKeyUp={this.check}
+                ref={(ref) => { this.account = ref; }} onChange={this.check}
                 autoFocus="autofocus"
               />
             </label>
@@ -136,7 +136,7 @@ export default class Login extends Component {
                 type={this.state.isShowPassword ? 'text' : 'password'} id="password"
                 placeholder="请输入6位密码"
                 maxLength="6"
-                ref={(ref) => { this.password = ref; }} onKeyUp={this.check}
+                ref={(ref) => { this.password = ref; }} onChange={this.check}
               />
             </label>
             <span
