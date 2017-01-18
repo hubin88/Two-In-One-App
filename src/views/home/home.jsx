@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import cssModules from 'react-css-modules';
 import { connect } from 'react-redux';
-import { Link } from 'react-router';
+import { Link, browserHistory } from 'react-router';
 import Table from '../../components/table/table';
 import Quotes from './quotes/quotes';
 import OrderBox from './order/order-box';
@@ -10,7 +10,6 @@ import holdStyles from './hold-table.scss';
 import { SYS_DCB, SYS_DWB } from '../../server/define';
 import AppConfig, { styleConfig } from '../../server/app-config';
 import { toCreateUserOrder } from '../../model/action';
-
 
 const holdRecord = {
   [SYS_DCB]: [
@@ -58,9 +57,12 @@ class Home extends Component {
   };
 
   clickAvatar = () => {
-    console.log('点击头像，跳转user');
+    if (this.props.systemInfo.isLogin) {
+      browserHistory.push('/user');
+    } else {
+      browserHistory.push('/login?source=user');
+    }
   };
-
 
   haveHold = (systemType) => {
     this.setState({
@@ -89,7 +91,6 @@ class Home extends Component {
     }
     console.log('下单成功', data);
   };
-
 
   showOrder = (title, direction, systemType) => {
     const {
