@@ -11,7 +11,7 @@ export default class QuotationApi {
     const assetIdsArr = [];
     jsonObj.Merchs.forEach((item) => assetIdsArr.push(item.AssetId));
     return assetIdsArr;
-  }
+  };
 
   // 获取交易日，交易时间
   static queryNormalDay(obj = {}) {

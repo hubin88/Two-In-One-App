@@ -7,6 +7,7 @@ import cssModules from 'react-css-modules';
 import { connect } from 'react-redux';
 import { browserHistory, Link } from 'react-router';
 import styles from './userSet.scss';
+import { SYS_DCB, SYS_DWB } from '../../server/define';
 import TopReturn from '../../components/topTeturn/topReturn';
 import { loginOut, errorLogout } from '../../model/action';
 
@@ -29,50 +30,74 @@ class Userset extends Component {
   };
 
   setValue = () => {
-    const { mobile, avatarURL, nickName } = this.props.systemInfo;
-    const tpl = (
-      <div styleName="main">
-        <ul>
-          <a onClick={this.showImg}>
+    let tpl = '';
+    if (this.props.systemInfo.systemType === SYS_DCB) {
+      tpl = (
+        <div styleName="main">
+          <ul>
             <li>
-              <span styleName="listLeft">头像</span>
-              <span styleName="listRight">
-                <span styleName="text">
-                  <img src={avatarURL} alt="" />
-                </span>
-              </span>
+              <Link to="/">
+                <span styleName="listLeft">头像</span>
+              </Link>
+              <span styleName="listRight">22</span>
             </li>
-          </a>
-          <Link to="/nickName">
             <li>
-              <span styleName="listLeft">昵称</span>
-              <span styleName="listRight">
-                <span styleName="text">{nickName}</span>
-              </span>
+              <Link to="/">
+                <span styleName="listLeft">昵称</span>
+              </Link>
+              <span styleName="listRight">22</span>
             </li>
-          </Link>
-          <Link to="/resetphone">
             <li>
-              <span styleName="listLeft">验证手机</span>
-              <span styleName="listRight">
-                <span styleName="text">{mobile}</span>
-              </span>
+              <Link to="/resetphone">
+                <span styleName="listLeft">验证手机</span>
+              </Link>
+              <span styleName="listRight">22</span>
             </li>
-          </Link>
-          <Link to="/resetpwd">
             <li>
-              <span styleName="listLeft">交易密码</span>
-              <span styleName="listRight" />
+              <Link to="/resetpwd">
+                <span styleName="listLeft">交易密码</span>
+              </Link>
             </li>
-          </Link>
-        </ul>
-        <div styleName="out" onClick={this.userOut}>退出登录</div>
-      </div>
-    );
+          </ul>
+          <div styleName="out" onClick={this.userOut}>退出登录</div>
+        </div>
+      );
+    }
+    if (this.props.systemInfo.systemType === SYS_DWB) {
+      tpl = (
+        <div styleName="main">
+          <ul>
+            <li>
+              <Link to="/">
+                <span styleName="listLeft">头像</span>
+              </Link>
+              <span styleName="listRight">22</span>
+            </li>
+            <li>
+              <Link to="/">
+                <span styleName="listLeft">昵称</span>
+              </Link>
+              <span styleName="listRight">22</span>
+            </li>
+            <li>
+              <Link to="/resetphone">
+                <span styleName="listLeft">验证手机</span>
+              </Link>
+              <span styleName="listRight">22</span>
+            </li>
+            <li>
+              <Link to="/resetpwd">
+                <span styleName="listLeft">交易密码</span>
+              </Link>
+            </li>
+          </ul>
+          <div styleName="out" onClick={this.userOut}>退出登录</div>
+        </div>
+      );
+    }
     return tpl;
   };
 
-  showImg = () => {};
   // 退出登陆
   userOut = () => {
     const obj = { sessionId: this.props.systemInfo.loginData.sessionId };
