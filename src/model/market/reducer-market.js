@@ -5,7 +5,8 @@ import * as ActionQuoteTypes from './action-type-market';
 
 const initMarketInfo = {
   normalday: {},
-  commodityPrices: {},
+  commodityPrices: [],
+  // quotInfo: {},
 };
 export default function marketInfo(state = initMarketInfo, action) {
   switch (action.type) {
@@ -19,6 +20,12 @@ export default function marketInfo(state = initMarketInfo, action) {
       return {
         ...state,
         timeShare: action.data.result,
+      };
+    }
+    case ActionQuoteTypes.SUCCESS_GET_QUOT: {
+      return {
+        ...state,
+        commodityPrices: action.data.result,
       };
     }
     default:
