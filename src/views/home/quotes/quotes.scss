@@ -45,3 +45,30 @@
 .canvas{
   height: 70%;
 }
+.timeList {
+  height: .4rem;
+  background-color: #f1e9e9;
+  text-align: center;
+  white-space: nowrap;
+  overflow-y: auto;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  li{
+    display: inline-block;
+    width: 20%;
+    border-right: 1px #ced4d4 solid;
+    margin: .12rem 0 0 2px;
+    font-size: .18rem;
+  }
+
+  //li:last-child{
+  //  border-right: 0;
+  //}
+}
+.action{
+  color: #FF8212;
+  border: 1px #ff8212 solid;
+  padding: .1rem;
+}

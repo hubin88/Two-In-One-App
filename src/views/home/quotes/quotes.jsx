@@ -29,6 +29,17 @@ const chartOptions = {
   chartColor: 'black',
 };
 
+const timeList = [
+  { name: 'fenTime', label: '分时' },
+  { name: 'oneMin', label: '1分' },
+  { name: 'fiveMin', label: '5分' },
+  { name: 'fifteenMin', label: '15分' },
+  { name: 'thirtyMin', label: '30分' },
+  { name: 'sixtyMin', label: '60分' },
+  { name: 'oneK', label: '日K' },
+  { name: 'weekK', label: '周K' },
+  { name: 'monthK', label: '月K' },
+];
 
 class Quotes extends Component {
   static propTypes = {
@@ -38,6 +49,7 @@ class Quotes extends Component {
     commodityId: PropTypes.string,
     holdHeight: PropTypes.number,
     normalday: PropTypes.object,
+    timeLists: PropTypes.array,
   };
 
   constructor(props) {
@@ -78,8 +90,19 @@ class Quotes extends Component {
     dispatch(toChangeCommodity(id));
   };
 
+  selectTime = (e) => {
+    const value = e.currentTarget.getElementsByTagName('span')[0];
+    const len = this.timeList.children.length;
+    // ;
+    for (let i = 0; i < len; i += 1) {
+      this.timeList.childNodes[i].firstChild.style.cssText = '';
+    }
+    value.style.cssText = 'color:#FF8212;border: 1px #ff8212 solid;padding: 2px; 0';
+  };
+
   renderChart() {
     const canvasH = styleConfig.canvasH - this.props.holdHeight;
+    this.timeList = timeList;
     return (
       <div
         styleName="trend-chart"
@@ -94,7 +117,16 @@ class Quotes extends Component {
           </div>
         </div>
         <div style={{ height: 2 * styleConfig.quotesTipsH }}>
-          图形导航
+          <ul styleName="timeList" ref={(ref) => { this.timeList = ref; }}>
+            {
+              this.timeList.map((time, i) => (
+                <li
+                  key={i}
+                  onClick={this.selectTime}
+                ><span>{time.label}</span></li>
+              ))
+            }
+          </ul>
         </div>
       </div>
     );
