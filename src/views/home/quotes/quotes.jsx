@@ -63,7 +63,7 @@ class Quotes extends Component {
     this.chart = new window.DrawChart('chart', chartOptions);
     setTimeout(() => {
       this.drawFS();
-    }, 1000)
+    }, 1000);
     // this.kLine.drawKLine(window.kLineData.result);
     // this.chart.drawChart(window.data2);
   }
