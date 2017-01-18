@@ -58,13 +58,14 @@ class Quotes extends Component {
       commoditySelected: 0,
     };
   }
-
   componentDidMount() {
     this.kLine = new window.DrawKLine('kLine', options);
     this.chart = new window.DrawChart('chart', chartOptions);
     // this.kLine.drawKLine(window.kLineData.result);
     // this.chart.drawChart(window.data2);
   }
+
+  quotesName = ['昨收：', '今开：', '最高：', '最低：'];
 
   redrawCanvas({ w, h } = {
     w: styleConfig.screenW,
@@ -99,6 +100,18 @@ class Quotes extends Component {
     }
     value.style.cssText = 'color:#FF8212;border: 1px #ff8212 solid;padding: 2px; 0';
   };
+  quoteLi = () => {
+    const { commodityId, commodityPrices } = this.props;
+    const tpl = [];
+    commodityPrices.forEach((item) => {
+      if (commodityId === item[0]) {
+        this.quotesName.forEach((itemName, idx) => {
+          tpl.push(<li key={idx}>{itemName}{Number.parseInt([...item][idx + 2], 10)}</li>);
+        });
+      }
+    });
+    return tpl;
+  }
 
   renderChart() {
     const canvasH = styleConfig.canvasH - this.props.holdHeight;
@@ -108,7 +121,7 @@ class Quotes extends Component {
         styleName="trend-chart"
       >
         <div style={{ height: styleConfig.quotesTipsH }}>
-          今开等数据
+          <ul styleName="quotesInfo">{this.quoteLi()}</ul>
         </div>
         <div style={{ height: canvasH }}>
           <canvas id="kLine" />
@@ -134,7 +147,6 @@ class Quotes extends Component {
 
   render() {
     const { commodityData, commodityPrices } = this.props;
-    console.log(this.props);
     return (
       <div styleName="quotes">
         <ul styleName="commodity" style={{ height: styleConfig.commodityH }}>

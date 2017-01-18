@@ -67,8 +67,15 @@
   //  border-right: 0;
   //}
 }
-.action{
+.action {
   color: #FF8212;
   border: 1px #ff8212 solid;
   padding: .1rem;
+}
+.quotesInfo {
+  li {
+    width: 25%;
+    display: inline-block;
+    text-align: center;
+  }
 }
