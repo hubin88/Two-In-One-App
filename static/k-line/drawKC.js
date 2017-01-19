@@ -80,6 +80,28 @@ var baseDraw = {
   getPaddingBottom: function (height) {
     return 0.15 * height;
   },
+  getDateTime: function (dateString, timeType) {
+    var date = new Date(dateString.replace(/-/g, "/"));
+    switch (timeType) {
+      case this.kLineTimeType.minute:
+        var minutes = date.getMinutes();
+        return date.getHours() + ':' + (minutes === 0 ? '00' : minutes);
+      case this.kLineTimeType.year:
+      case this.kLineTimeType.week:
+      case this.kLineTimeType.day:
+      case this.kLineTimeType.mouth:
+        return date.getFullYear() + ' ' + (date.getMonth() + 1) + '/' + date.getDate();
+      default:
+        break;
+    }
+  },
+  kLineTimeType: {
+    minute: 1,
+    day: 2,
+    week: 3,
+    year: 4,
+    mouth: 5
+  }
 };
 
 function DrawKLine(canvasId, options) {
@@ -101,7 +123,7 @@ DrawKLine.prototype = {
       spaceWidth: options.spaceWidth || 3,//阳线阴线之间的宽度，
       horizontalLineCount: options.horizontalLineCount || 5,//底部水平线的时间数
       verticalLineCount: options.verticalLineCount || 5,//左边垂直线的显示价格数
-      timeType: options.timeType || 1,//1,分钟，2，天
+      timeType: options.timeType || baseDraw.kLineTimeType.minute,
       paddingTop: options.paddingTop || 10,
       paddingLeft: options.paddingLeft || 30,
       paddingBottom: options.paddingBottom || baseDraw.getPaddingBottom(cHeight),
@@ -135,7 +157,10 @@ DrawKLine.prototype = {
   },
   init: function () {
     this.setCanvas();
-    this.kLine.init(this.canvas.width, this.canvas.height);
+    this.kLine.setBaseData({
+      canvasWidth: this.canvas.width,
+      canvasHeight: this.canvas.height,
+    });
   },
   createCanvas: function () {
     var parentElement = this.canvas.parentNode,
@@ -196,22 +221,30 @@ DrawKLine.prototype = {
     }
   },
 
-  resetCanvas: function (width, height) {
-    this.defaultOpts.width = width || this.defaultOpts.width;
-    this.defaultOpts.height = height || this.defaultOpts.height;
+  resetCanvas: function (opts) {
+    this.defaultOpts.width = opts && opts.width || this.defaultOpts.width;
+    this.defaultOpts.height = opts && opts.height || this.defaultOpts.height;
     this.initKLineCanvas();
     this.initGuideCanvas();
     var pBottom = baseDraw.getPaddingBottom(this.defaultOpts.height);
     this.defaultOpts.paddingBottom = pBottom;
-    this.kLine.init(this.canvas.width, this.canvas.height, pBottom);
+    this.kLine.setBaseData({
+      canvasWidth: this.canvas.width,
+      canvasHeight: this.canvas.height,
+      paddingBottom: pBottom,
+    });
     this.redrawKLine();
   },
-  drawKLine: function (data, isSwitch) {
-    if (isSwitch) {
-      this.data.length = 0;
+  drawKLine: function (opts) {
+    if (opts && opts.timeType) {
+      this.kLine.setBaseData({
+        timeType: opts.timeType,
+      });
     }
-    this.setData(data);
-    if (data) {
+    if (opts && opts.data) {
+      this.setData(opts.data);
+    }
+    if (opts && opts.data) {
       this.redrawKLine();
     }
   },
@@ -344,8 +377,8 @@ DrawKLine.prototype = {
   },
   addEvent: function () {
     var ctx = this.guide.getContext('2d'),
-      ww = this.guide.width,
-      wh = this.guide.height,
+      // ww = this.guide.width,
+      // wh = this.guide.height,
       eventType = baseDraw.getEventType();
     var touchStartEvent = function (event) {
       this.eventStatus.isChange = true;
@@ -362,7 +395,8 @@ DrawKLine.prototype = {
           if (this.eventStatus.isMove === false) {
             clearInterval(this.eventStatus.isMoveTimeId);
             this.eventStatus.isShowGuide = true;
-            this.drawGuide(ctx, nowPos.x, nowPos.y, ww, wh);
+
+            this.drawGuide(ctx, nowPos.x, nowPos.y, this.guide.width, this.guide.height);
           }
         }.bind(this), 1000)
       }
@@ -404,7 +438,7 @@ DrawKLine.prototype = {
           this.moveKLine(nowPos.x);
         }
         if (this.eventStatus.isShowGuide) {
-          this.drawGuide(ctx, nowPos.x, nowPos.y, ww, wh);
+          this.drawGuide(ctx, nowPos.x, nowPos.y, this.guide.width, this.guide.height);
         }
 
       }
@@ -416,7 +450,7 @@ DrawKLine.prototype = {
       this.eventStatus.isMove = false;
       clearInterval(this.eventStatus.isMoveTimeId);
 
-      ctx.clearRect(0, 0, ww, wh);
+      ctx.clearRect(0, 0, this.guide.width, this.guide.height);
       ctx.save();
       this.hideKLineTips();
       if (event.preventDefault) {
@@ -479,11 +513,19 @@ function kLine(options) {
 };
 
 kLine.prototype = {
-  init: function (canvasWidth, canvasHeight, paddingBottom) {
-    this.canvasSize.height = canvasHeight;
-    this.canvasSize.width = canvasWidth;
-    if (paddingBottom) {
-      this.kLineWidth.paddingBottom = paddingBottom;
+  setBaseData: function (opts) {
+    if (opts.canvasHeight) {
+      this.canvasSize.height = opts.canvasHeight;
+    }
+    if (opts.canvasWidth) {
+      this.canvasSize.width = opts.canvasWidth;
+    }
+
+    if (opts.paddingBottom) {
+      this.kLineWidth.paddingBottom = opts.paddingBottom;
+    }
+    if (opts.timeType) {
+      this.timeType = opts.timeType;
     }
   },
   //获取画布的高度
@@ -681,7 +723,7 @@ kLine.prototype = {
     if (length === 0) {
       return;
     }
-    var times = this.getDateTime(this.dataInfo.newData[0].time),
+    var times = baseDraw.getDateTime(this.dataInfo.newData[0].time, this.timeType),
       timeWidth = ctx.measureText(times).width,
       totalWidth = this.dataInfo.newData.length * this.dataInfo.blockWidth,
       totalCount = Math.floor(totalWidth / timeWidth),
@@ -695,7 +737,7 @@ kLine.prototype = {
         nT = 0;
       }
       var kWidth = (nT + 1) * this.dataInfo.blockWidth - this.dataInfo.blockWidth / 2,
-        time = this.getDateTime(this.dataInfo.newData[nT].time),
+        time = baseDraw.getDateTime(this.dataInfo.newData[nT].time, this.timeType),
         txtWidth = ctx.measureText(time).width;
 
       if (i === count) {//最后一条直接显示
@@ -710,16 +752,7 @@ kLine.prototype = {
       // ctx.fillText(time, kWidth, kHeight + pWidth / 2);
     }
   },
-  getDateTime: function (dateString) {
-    var date = new Date(dateString.replace(/-/g, "/"));
-    if (this.timeType === 1) {
-      var minutes = date.getMinutes();
-      return date.getHours() + ':' + (minutes === 0 ? '00' : minutes);
-    } else {
-      return date.getFullYear() + ' ' + (date.getMonth() + 1) + '/' + date.getDate();
-    }
 
-  },
   //根据上一日收盘价与当前价对比设置颜色
   getPriceColor: function (kData, price) {
     if (price > kData.prevclose) {
@@ -867,9 +900,9 @@ DrawChart.prototype = {
     this.chart.style.width = this.tips.style.width = this.layer.style.width = this.options.width + 'px';
     this.chart.style.height = this.tips.style.height = this.layer.style.height = this.options.height + 'px';
   },
-  resetCanvas: function (width, height) {
-    this.options.width = width || this.options.width;
-    this.options.height = height || this.options.height;
+  resetCanvas: function (opts) {
+    this.options.width = opts && opts.width || this.options.width;
+    this.options.height = opts && opts.height || this.options.height;
     this.options.paddingBottom = baseDraw.getPaddingBottom(this.options.height);
     this.setCanvas();
     this.setCanvasScale();
@@ -930,10 +963,11 @@ DrawChart.prototype = {
     }
 
   },
-  drawChart: function (data, isSwitch) {
+  drawChart: function (data) {
     // if (isSwitch) {
-      this.data.length = 0;
+    this.data.length = 0;
     // }
+
     this.setData(data);
     this.getRelativeRatio();
     this.drawTimeChart();

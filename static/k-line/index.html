@@ -45,123 +45,32 @@
         verticalLineCount: 5,
         timeType: 1,
     }
-    var d = new drawKLine('kLine', options);
-    d.drawKLine(window.kLineData.result);
-
-    setTimeout(function () {
-        d.resetCanvas(400,200);
-    },1000);
-
-//        setInterval(function () {
-//            d.drawKLine([
-//                {
-//                    "avgprice": 0,
-//                    "close": 3411,
-//                    "high": 3418,
-//                    "low": 3403,
-//                    "mktime": 1480965300000,
-//                    "open": 3404,
-//                    "prevclose": 0,
-//                    "price": 0,
-//                    "time": "2016-12-06 03:15:00",
-//                    "turnover": 0,
-//                    "volume": 0
-//                }, {
-//                    "avgprice": 0,
-//                    "close": 3387,
-//                    "high": 3413,
-//                    "low": 3384,
-//                    "mktime": 1480966200000,
-//                    "open": 3411,
-//                    "prevclose": 0,
-//                    "price": 0,
-//                    "time": "2016-12-06 03:30:00",
-//                    "turnover": 0,
-//                    "volume": 0
-//                }, {
-//                    "avgprice": 0,
-//                    "close": 3374,
-//                    "high": 3391,
-//                    "low": 3374,
-//                    "mktime": 1480967100000,
-//                    "open": 3387,
-//                    "prevclose": 0,
-//                    "price": 0,
-//                    "time": "2016-12-06 03:45:00",
-//                    "turnover": 0,
-//                    "volume": 0
-//                }, {
-//                    "avgprice": 0,
-//                    "close": 3378,
-//                    "high": 3378,
-//                    "low": 3374,
-//                    "mktime": 1480988700000,
-//                    "open": 3375,
-//                    "prevclose": 0,
-//                    "price": 0,
-//                    "time": "2016-12-06 09:45:00",
-//                    "turnover": 0,
-//                    "volume": 0
-//                }, {
-//                    "avgprice": 0,
-//                    "close": 3376,
-//                    "high": 3377,
-//                    "low": 3370,
-//                    "mktime": 1480989600000,
-//                    "open": 3378,
-//                    "prevclose": 0,
-//                    "price": 0,
-//                    "time": "2016-12-06 10:00:00",
-//                    "turnover": 0,
-//                    "volume": 0
-//                }, {
-//                    "avgprice": 0,
-//                    "close": 3374,
-//                    "high": 3374,
-//                    "low": 3372,
-//                    "mktime": 1480990500000,
-//                    "open": 3376,
-//                    "prevclose": 0,
-//                    "price": 0,
-//                    "time": "2016-12-06 10:15:00",
-//                    "turnover": 0,
-//                    "volume": 0
-//                },
-//            ]);
-//        }, 5000)
-
-    var dc = new drawChart('drawChart', {
-        paddingLeft: 35,
-        paddingBottom: 30,
-        paddingTop: 30,
-        timeCount: 5,
-        vLineCount: 5,
-        chartLineColor: 'rgba(2,100,30,1)',
-        chartFillColor: 'rgba(2,100,30,.1)',
-        chartColor: 'black',
+    var d = new DrawKLine('kLine', options);
+    d.drawKLine({
+        data: window.kLineData.result,
+        timeType: 1
+    });
+    d.resetCanvas({
+        width: 300,
+        height: 200,
     });
 
-    setTimeout(function () {
-        dc.resetCanvas();
-    },1000);
-//
-    dc.drawChart(data2);
+        var dc = new DrawChart('drawChart', {
+            paddingLeft: 35,
+            paddingBottom: 30,
+            paddingTop: 30,
+            timeCount: 5,
+            vLineCount: 5,
+            chartLineColor: 'rgba(2,100,30,1)',
+            chartFillColor: 'rgba(2,100,30,.1)',
+            chartColor: 'black',
+        });
+
+        setTimeout(function () {
+            dc.resetCanvas();
+        },1000);
     //
-    //        setTimeout(function () {
-    //            dc.drawChart([{
-    //                "avgprice": 37156.386719,
-    //                "close": 0,
-    //                "high": 37227,
-    //                "low": 0,
-    //                "mktime": 1483578000000,
-    //                "open": 37140,
-    //                "prevclose": 37090,
-    //                "price": 37191,
-    //                "time": "2017-01-05 09:00:00",
-    //                "turnover": 0,
-    //                "volume": -68988
-    //            }]);
-    //        }, 10000)
+        dc.drawChart(data2);
 
 </script>
 </body>
