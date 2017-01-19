@@ -7,7 +7,7 @@ import cssModules from 'react-css-modules';
 import styles from './quotes.scss';
 import { toChangeCommodity } from '../../../model/action';
 import { styleConfig } from '../../../server/app-config';
-import { requestQueryTimeShare } from '../../../model/market/action-market';
+import { requestQueryTimeShare, requestQueryMinuteLine } from '../../../model/market/action-market';
 
 const options = {
   lineWidth: 1,
@@ -31,11 +31,11 @@ const chartOptions = {
 
 const timeList = [
   { name: 'fenTime', label: '分时' },
-  { name: 'oneMin', label: '1分' },
-  { name: 'fiveMin', label: '5分' },
-  { name: 'fifteenMin', label: '15分' },
-  { name: 'thirtyMin', label: '30分' },
-  { name: 'sixtyMin', label: '60分' },
+  { name: 'oneMinute', label: '1分' },
+  { name: 'fiveMinute', label: '5分' },
+  { name: 'fifteenMinute', label: '15分' },
+  { name: 'thirtyMinute', label: '30分' },
+  { name: 'sixtyMinute', label: '60分' },
   { name: 'oneK', label: '日K' },
   { name: 'weekK', label: '周K' },
   { name: 'monthK', label: '月K' },
@@ -64,19 +64,21 @@ class Quotes extends Component {
     setTimeout(() => {
       this.drawFS();
     }, 1000);
+    const selectDefault = this.timeList.children[0].getElementsByTagName('span')[0];
+    selectDefault.style.cssText = 'color:#FF8212;border: 1px #ff8212 solid;padding: 2px; 0';
     // this.kLine.drawKLine(window.kLineData.result);
     // this.chart.drawChart(window.data2);
   }
 
   quotesName = ['昨收：', '今开：', '最高：', '最低：'];
 
-  redrawCanvas({ w, h } = {
-    w: styleConfig.screenW,
-    h: styleConfig.canvasH - this.props.holdHeight,
-  }) {
-    this.kLine.resetCanvas(w, h);
+  redrawCanvas(drawType = 'chart') {
+    const w = styleConfig.screenW;
+    const h = styleConfig.canvasH - this.props.holdHeight;
+    this[drawType].resetCanvas(w, h);
   }
 
+  // 绘制分时图
   drawFS = (id) => {
     const { dispatch, normalday, commodityId } = this.props;
     const paramsId = id || commodityId;
@@ -95,30 +97,37 @@ class Quotes extends Component {
     });
   }
 
+  // 切换分时与K线图
+  drawCanvas = (name) => {
+    const { dispatch, normalday, commodityId } = this.props;
+    document.getElementById('drawLine').style.display = 'block';
+    document.getElementById('drawChart').style.display = 'none';
+    this.redrawCanvas('kLine');
+    normalday.assetinfo.forEach((item) => {
+      if (item.assetid === commodityId) {
+        const obj = {
+          assetid: commodityId,
+          timevalue1: item.opentime,
+          timetype: 3,
+          timevalue2: 100,
+          minutetype: name,
+        };
+        // dispatch(requestQueryTimeShare(obj, this));
+        dispatch(requestQueryMinuteLine(obj, this));
+      }
+    });
+  };
+
   chooseCommodity = (id) => () => {
     const { dispatch } = this.props;
     this.drawFS(id);
-    // const { dispatch, normalday } = this.props;
-    // normalday.assetinfo.forEach((item) => {
-    //   if (item.assetid === id) {
-    //     const obj = {
-    //       assetid: id,
-    //       timevalue1: item.opentime,
-    //       timetype: 1,
-    //       timevalue2: item.closetime,
-    //       // minutetype: 'fifteenMinute',
-    //     };
-    //     dispatch(requestQueryTimeShare(obj, this));
-    //     // dispatch(requestQueryMinuteLine(obj, this));
-    //   }
-    // });
     dispatch(toChangeCommodity(id));
   };
 
-  selectTime = (e) => {
+  selectTime = (e, name) => {
+    this.drawCanvas(name);
     const value = e.currentTarget.getElementsByTagName('span')[0];
     const len = this.timeList.children.length;
-    // ;
     for (let i = 0; i < len; i += 1) {
       this.timeList.childNodes[i].firstChild.style.cssText = '';
     }
@@ -148,21 +157,21 @@ class Quotes extends Component {
           <ul styleName="quotesInfo">{this.quoteLi()}</ul>
         </div>
         <div>
-          <div style={{ height: canvasH, display: 'none' }}>
+          <div id="drawLine" style={{ height: canvasH, display: 'none' }}>
             <canvas id="kLine" />
           </div>
-          <div style={{ height: canvasH }}>
+          <div id="drawChart" style={{ height: canvasH }}>
             <canvas id="chart" />
           </div>
         </div>
         <div style={{ height: 2 * styleConfig.quotesTipsH }}>
           <ul styleName="timeList" ref={(ref) => { this.timeList = ref; }}>
             {
-              this.timeList.map((time, i) => (
+              this.timeList.map((item, i) => (
                 <li
                   key={i}
-                  onClick={this.selectTime}
-                ><span>{time.label}</span></li>
+                  onClick={(e) => { this.selectTime(e, item.name); }}
+                ><span>{item.label}</span></li>
               ))
             }
           </ul>

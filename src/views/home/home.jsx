@@ -67,7 +67,7 @@ class Home extends Component {
   haveHold = (systemType) => {
     this.setState({
       holdBody: holdRecord[systemType],
-    }, () => { this.quotes.redrawCanvas(); });
+    });
   };
   confirmBuild = (data) => {
     const orderData = {
