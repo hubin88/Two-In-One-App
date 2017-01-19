@@ -7,7 +7,11 @@ import cssModules from 'react-css-modules';
 import styles from './quotes.scss';
 import { toChangeCommodity } from '../../../model/action';
 import { styleConfig } from '../../../server/app-config';
-import { requestQueryTimeShare, requestQueryMinuteLine } from '../../../model/market/action-market';
+import {
+  requestQueryTimeShare,
+  requestQueryMinuteLine,
+  requestQueryDayLine,
+} from '../../../model/market/action-market';
 
 const options = {
   lineWidth: 1,
@@ -89,10 +93,8 @@ class Quotes extends Component {
           timevalue1: item.opentime,
           timetype: 1,
           timevalue2: item.closetime,
-          // minutetype: 'fifteenMinute',
         };
         dispatch(requestQueryTimeShare(obj, this));
-        // dispatch(requestQueryMinuteLine(obj, this));
       }
     });
   };
@@ -108,15 +110,17 @@ class Quotes extends Component {
           timevalue2: 100,
           minutetype: name,
         };
-        // dispatch(requestQueryTimeShare(obj, this));
-        dispatch(requestQueryMinuteLine(obj, this));
+        if (name === 'oneK' || name === 'weekK' || name === 'monthK') {
+          dispatch(requestQueryDayLine(obj, this));
+        } else {
+          dispatch(requestQueryMinuteLine(obj, this));
+        }
       }
     });
-  }
+  };
 
   // 切换分时与K线图
   drawCanvas = (name) => {
-    // const { dispatch, normalday, commodityId } = this.props;
     if (name === 'fenTime') {
       this.drawFS();
       document.getElementById('drawLine').style.display = 'none';
@@ -203,7 +207,7 @@ class Quotes extends Component {
               let prices = 0;
               commodityPrices.forEach((item) => {
                 if (item[0] === i) {
-                  prices = item[2];
+                  prices = Number.parseInt(item[1], 10);
                 }
               });
               return (

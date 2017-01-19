@@ -10,7 +10,7 @@ class Rule extends Component {
   };
 
   getRule = () => {
-    const { systemInfo:{ systemType } } = this.props;
+    const { systemInfo: { systemType } } = this.props;
     return <iframe src={HTML_PAGE[systemType]} />;
   };
 
