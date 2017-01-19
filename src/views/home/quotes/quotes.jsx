@@ -95,14 +95,10 @@ class Quotes extends Component {
         // dispatch(requestQueryMinuteLine(obj, this));
       }
     });
-  }
+  };
 
-  // 切换分时与K线图
-  drawCanvas = (name) => {
+  drawKX = (name) => {
     const { dispatch, normalday, commodityId } = this.props;
-    document.getElementById('drawLine').style.display = 'block';
-    document.getElementById('drawChart').style.display = 'none';
-    this.redrawCanvas('kLine');
     normalday.assetinfo.forEach((item) => {
       if (item.assetid === commodityId) {
         const obj = {
@@ -116,6 +112,22 @@ class Quotes extends Component {
         dispatch(requestQueryMinuteLine(obj, this));
       }
     });
+  }
+
+  // 切换分时与K线图
+  drawCanvas = (name) => {
+    // const { dispatch, normalday, commodityId } = this.props;
+    if (name === 'fenTime') {
+      this.drawFS();
+      document.getElementById('drawLine').style.display = 'none';
+      document.getElementById('drawChart').style.display = 'block';
+      this.redrawCanvas('chart');
+    } else {
+      this.drawKX(name);
+      document.getElementById('drawLine').style.display = 'block';
+      document.getElementById('drawChart').style.display = 'none';
+      this.redrawCanvas('kLine');
+    }
   };
 
   chooseCommodity = (id) => () => {
@@ -144,7 +156,7 @@ class Quotes extends Component {
       }
     });
     return tpl;
-  }
+  };
 
   renderChart() {
     const canvasH = styleConfig.canvasH - this.props.holdHeight;
