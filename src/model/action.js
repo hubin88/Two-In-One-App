@@ -173,92 +173,6 @@ export function toGetUserCommodityData(commodityId) {
 }
 /* === 获取用户商品数据 === */
 
-/* === 更改商品 === */
-export function changeCommodityId(commodityId) {
-  return {
-    type: ActionTypes.CHANGE_COMMODITY_ID,
-    commodityId,
-  };
-}
-export function changeCommodity(dispatch, commodityId) {
-  dispatch(changeCommodityId(commodityId));
-  // dispatch(toGetQuotesInfo(commodityId));
-  // dispatch(toGetUserCommodityData(commodityId));
-}
-export function toChangeCommodity(commodityId) {
-  return function wrap(dispatch, getState) {
-    if (commodityId === getState().commodityState.commodityId) return;
-
-    changeCommodity(dispatch, commodityId);
-  };
-}
-/* === 更改商品 === */
-
-/* === 更改系统 === */
-export function changeSystemType(systemType) {
-  return {
-    type: ActionTypes.CHANGE_SYSTEM_TYPE,
-    systemType,
-  };
-}
-export function changeSystem(dispatch, getState, systemType, exchangeData) {
-  promise
-    .then(() => {
-      dispatch(changeSystemType(systemType));
-      // TODO: 现阶段接口不同交易系统商品是分开配置的。后期应该商品只跟交易所有关。
-      return dispatch(getCommodityAndServers(exchangeData));
-    })
-    .then(() => {
-      const commodityId = Object.keys(getState().exchangeInfo.commodityData)[0];
-      changeCommodity(dispatch, commodityId);
-    });
-}
-export function toChangeSystem(systemType) {
-  return function wrap(dispatch, getState) {
-    if (!systemType || systemType === Cookie.getCookie('systemType')) return;
-    const exchangeData = Cookie.getCookie('exchangeData');
-
-    changeSystem(dispatch, getState, systemType, exchangeData);
-  }
-    ;
-}
-/* === 更改系统 === */
-
-/* === 更改交易所 === */
-export function changeExchange(dispatch, getState, exchangeData) {
-  promise
-    .then(() => dispatch(toGetOneExchangeInfo(exchangeData)))
-    .then(() => {
-      const systemType = getState().exchangeInfo.systemList[0].type;
-      // dispatch(getCommodityAndServers(exchangeData));
-      changeSystem(dispatch, getState, systemType, exchangeData);
-    });
-}
-export function toChangeExchange(exchangeData) {
-  return function wrap(dispatch, getState) {
-    // TODO: 添加判断，如果exchangeId未改变，不重复请求
-    if (getState().exchangeInfo.exchangeId === exchangeData.id) return;
-
-    changeExchange(dispatch, getState, exchangeData);
-  };
-}
-/* === 更改交易所=== */
-
-/* === 程序启动 === */
-export function appStart(initExchangeData = AppConfig.exchangeData()) {
-  return function wrap(dispatch, getState) {
-    return dispatch(getExchangeList())
-      .then((action) => {
-        const exchangeIdArr = Object.keys(arrayToObject(action.exchangeList, 'id'));
-        const exchangeData = (initExchangeData &&
-        exchangeIdArr.includes(JSON.stringify(initExchangeData.id))) ?
-          initExchangeData.id : action.exchangeList[0];
-        changeExchange(dispatch, getState, exchangeData);
-      });
-  };
-}
-/* === 程序启动 === */
-
 /* 获取用户数据 */
 export function successGetUseData(json) {
   return {
@@ -310,28 +224,44 @@ export function toQueryUserInfoGateway(obj) {
 }
 /* === 推送资产信息（轮询） === */
 
-/* === 登录成功 === */
-export function successGetLoginInfo(data) {
+/* === 重置用户 === */
+export function resetUserData(data) {
   return {
-    type: ActionTypes.SUCCESS_GET_LOGIN_INFO,
+    type: ActionTypes.RESET_USER_DATA,
     data,
   };
 }
-export function successLogin(obj, callBack) {
+export function resetUser(dispatch, userData, loginStatus) {
+  const systemType = AppConfig.systemType();
+  const isLogin = loginStatus || Cookie.getCookie(`${systemType}-isLogin`);
+  dispatch(resetUserData(userData));
+  if (isLogin) {
+    dispatch(toGetUseData(userData));
+    dispatch(toFindUser(userData));
+    dispatch(toQueryUserInfoGateway(userData));
+  }
+}
+/* === 重置用户 === */
+
+/* === 完成登录 === */
+export function changeLoginStatus() {
+  return {
+    type: ActionTypes.CHANGE_LOGIN_STATUS,
+  };
+}
+export function afterLogin(obj, callBack) {
   return function wrap(dispatch) {
-    const sucObj = {
+    const userData = {
       orgId: obj.orgId,
       mobile: obj.mobile,
       sessionId: obj.sessionId,
     };
-    dispatch(successGetLoginInfo(obj));
-    dispatch(toGetUseData(sucObj));
-    dispatch(toFindUser(sucObj));
-    dispatch(toQueryUserInfoGateway(sucObj));
+    dispatch(changeLoginStatus());
+    resetUser(dispatch, userData, true);
     if (callBack) callBack();
   };
 }
-/* === 登录成功 === */
+/* === 完成登录 === */
 
 /* ===注册=== */
 export function requestRegister() {
@@ -404,6 +334,93 @@ export function loginOut(obj) {
   };
 }
 /* === 登出 === */
+
+/* === 更改商品 === */
+export function changeCommodityId(commodityId) {
+  return {
+    type: ActionTypes.CHANGE_COMMODITY_ID,
+    commodityId,
+  };
+}
+export function changeCommodity(dispatch, commodityId) {
+  dispatch(changeCommodityId(commodityId));
+  // dispatch(toGetQuotesInfo(commodityId));
+  // dispatch(toGetUserCommodityData(commodityId));
+}
+export function toChangeCommodity(commodityId) {
+  return function wrap(dispatch, getState) {
+    if (commodityId === getState().commodityState.commodityId) return;
+
+    changeCommodity(dispatch, commodityId);
+  };
+}
+/* === 更改商品 === */
+
+/* === 更改系统 === */
+export function changeSystemType(systemType) {
+  return {
+    type: ActionTypes.CHANGE_SYSTEM_TYPE,
+    systemType,
+  };
+}
+export function changeSystem(dispatch, getState, systemType, exchangeData) {
+  promise
+    .then(() => {
+      dispatch(changeSystemType(systemType));
+      // TODO: 现阶段接口不同交易系统商品是分开配置的。后期应该商品只跟交易所有关。
+      return dispatch(getCommodityAndServers(exchangeData));
+    })
+    .then(() => {
+      const commodityId = Object.keys(getState().exchangeInfo.commodityData)[0];
+      resetUser(dispatch, AppConfig.userData());
+      changeCommodity(dispatch, commodityId);
+    });
+}
+export function toChangeSystem(systemType) {
+  return function wrap(dispatch, getState) {
+    if (!systemType || systemType === Cookie.getCookie('systemType')) return;
+    const exchangeData = Cookie.getCookie('exchangeData');
+
+    changeSystem(dispatch, getState, systemType, exchangeData);
+  }
+    ;
+}
+/* === 更改系统 === */
+
+/* === 更改交易所 === */
+export function changeExchange(dispatch, getState, exchangeData) {
+  promise
+    .then(() => dispatch(toGetOneExchangeInfo(exchangeData)))
+    .then(() => {
+      const systemType = getState().exchangeInfo.systemList[0].type;
+      // dispatch(getCommodityAndServers(exchangeData));
+      changeSystem(dispatch, getState, systemType, exchangeData);
+    });
+}
+export function toChangeExchange(exchangeData) {
+  return function wrap(dispatch, getState) {
+    // TODO: 添加判断，如果exchangeId未改变，不重复请求
+    if (getState().exchangeInfo.exchangeId === exchangeData.id) return;
+
+    changeExchange(dispatch, getState, exchangeData);
+  };
+}
+/* === 更改交易所=== */
+
+/* === 程序启动 === */
+export function appStart(initExchangeData = AppConfig.exchangeData()) {
+  return function wrap(dispatch, getState) {
+    return dispatch(getExchangeList())
+      .then((action) => {
+        const exchangeIdArr = Object.keys(arrayToObject(action.exchangeList, 'id'));
+        const exchangeData = (initExchangeData &&
+        exchangeIdArr.includes(JSON.stringify(initExchangeData.id))) ?
+          initExchangeData.id : action.exchangeList[0];
+        changeExchange(dispatch, getState, exchangeData);
+      });
+  };
+}
+/* === 程序启动 === */
 
 /* === 下单建仓 === */
 export function requestCreateUserOrder() {

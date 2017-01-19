@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import cssModules from 'react-css-modules';
 import styles from './track.scss';
-import { SYS_DCB, SYS_DWB } from '../../server/define';
+import { SYS_DCB, SYS_DWB } from '../../../server/define';
 
 @cssModules(styles, { allowMultiple: true, errorWhenNotFound: false })
 

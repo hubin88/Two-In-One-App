@@ -5,8 +5,8 @@ import React, { Component, PropTypes } from 'react';
 import cssModules from 'react-css-modules';
 import { connect } from 'react-redux';
 import styles from './gold.scss';
-import SingleHtml from '../single-html/single-html';
-import { SYS_DCB, SYS_DWB } from '../../server/define';
+import SingleHtml from '../../single-html/single-html';
+import { SYS_DCB, SYS_DWB } from '../../../server/define';
 
 @cssModules(styles, { allowMultiple: true, errorWhenNotFound: false })
 class Dcpage extends Component {

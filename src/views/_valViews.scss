@@ -1,6 +1,36 @@
-
 /**
  * Created by Amg on 2016/12/23.
  */
 
 $bgColor: #FF8212;
+$channelH: .4rem;
+$channelF: .14rem;
+
+@mixin bg-image($names,$ratio:1) {
+  @each $cls, $name in $names {
+    $ratioString: if($ratio != 1, "@#{$ratio}x", "");
+    @if $name {
+      #{$cls} {
+        background-image: url('../../images/#{$name}#{$ratioString}.png');
+      }
+    } @else {
+      background-image: url('../../images/#{$cls}#{$ratioString}.png');
+    }
+  }
+}
+
+@mixin retina-image($names,$ratios) {
+  @each $r in $ratios {
+    @if $r != 1 {
+      @media only screen and (-webkit-min-device-pixel-ratio: $r) {
+        @include bg-image($names, $r);
+      }
+    } @else {
+      @include bg-image($names);
+    }
+  }
+}
+
+@mixin retina-images($names) {
+  @include retina-image($names, (2, 3));
+}

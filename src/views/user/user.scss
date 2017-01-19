@@ -10,12 +10,15 @@ $padding: .1rem;
 
 .info {
   width: 100%;
-  background-color: $bgColor;
+  background-size: 100%;
+  background-repeat: no-repeat;
+  background-position: top;
+  //background-color: $bgColor;
 }
 
 .avatar {
   text-align: center;
-  padding-top: $padding;
+  //padding-top: $padding;
   font-size: 0;
 
   img {
@@ -25,7 +28,7 @@ $padding: .1rem;
 
 .middle {
   width: 100%;
-  padding: $padding 25% 0;
+  padding: 1.5*$padding 25% 0;
   font-size: .15rem;
   font-weight: bold;
 
@@ -38,14 +41,13 @@ $padding: .1rem;
   button {
     display: inline-block;
     width: 42%;
-    height: .3rem;
+    height: .32rem;
     max-height: 100%;
     margin: 0 4%;
     color: inherit;
     background: transparent;
-    box-shadow: -0.01rem -0.01rem #e6cece,
-    0.01rem 0.01rem #ab8d8d;
-    border-radius: 0.05rem/.1rem;
+    border: solid .01rem #fff;
+    border-radius: 0.03rem;
   }
 
   span {
@@ -55,6 +57,7 @@ $padding: .1rem;
     text-align: center;
     line-height: .3rem;
   }
+
   a {
     color: inherit;
     display: inline-block;
@@ -62,7 +65,7 @@ $padding: .1rem;
 }
 
 .asset {
-  padding: 2*$padding 0;
+  padding: $padding 0;
   width: 100%;
 }
 
@@ -76,92 +79,93 @@ $padding: .1rem;
   }
 }
 
+.asset-item:nth-child(2) {
+  position: relative;
+  &:before, &:after {
+    content: '';
+    position: absolute;
+    top: 15px;
+    display: inline-block;
+    bottom: 5px;
+    width: 1px;
+    border-left: solid 1px #dddddd;
+  }
+  &:before {
+    left: 0;
+  }
+  &:after {
+    right: 0;
+  }
+
+}
+
 .asset-amount {
   font-size: .14rem;
-  font-weight: bold;
+  //font-weight: bold;
 }
 
 .check-channel {
-  height: .4rem;
   width: 100%;
   background: #fff;
+
+  a:first-child li {
+    border-right: solid 0.01rem #f3f3f3;
+  }
   li {
-    height: 100%;
     text-align: center;
     vertical-align: middle;
-    line-height: .4rem;
     color: #000;
+
+    span {
+      display: inline-block;
+      height: $channelH;
+      line-height: $channelH;
+      font-size: $channelF;
+      color: $bgColor;
+      padding-left: 2*$channelF;
+      background-repeat: no-repeat;
+      background-size: .22rem;
+      background-position: left center;
+
+    }
   }
+
 }
 
 .links {
   margin-top: .05rem;
 
   li {
-    line-height: .4rem;
     background-color: #fff;
-    border: 1px #f3f3f3 solid;
+    border-top: 0.01rem #f3f3f3 solid;
     padding: 0 .25rem;
-    //background: url("../1.png") no-repeat right ;
-  }
-  a:last-child li {
-    margin-top: .2rem;
-  }
-  .itemName {
-    margin-top: .1rem;
-  }
-  span {
-    margin-left: .1rem;
-    color: #000;
-  }
-  li img {
-    width: 10%;
-    vertical-align: middle;
-  }
-}
-
-@mixin bg-image($names,$ratio:1) {
-  @each $cls, $name in $names {
-    $ratioString: if($ratio != 1, "@#{$ratio}x", "");
-    @if $name {
-      #{$cls} {
-        background-image: url(#{$name}#{$ratioString}.png);
-        background-repeat: no-repeat;
-      }
-    } @else {
-      background-image: url(#{$cls}#{$ratioString}.png);
+    span {
+      display: inline-block;
+      height: $channelH;
+      line-height: $channelH;
+      font-size: $channelF;
+      color: #000;
+      padding-left: 2*$channelF;
       background-repeat: no-repeat;
+      background-size: .22rem;
+      background-position: left center;
     }
   }
-}
-
-@mixin channel-image($names,$ratios) {
-  @each $r in $ratios {
-    @if $r != 1 {
-      @media only screen and (-webkit-min-device-pixel-ratio: $r) {
-        @include bg-image($names, $r);
-      }
-    } @else {
-      @include bg-image($names);
-    }
-  }
-}
-
-@mixin channel-images($names) {
-  @include channel-image($names, (2, 3));
-}
-
-@each $ddd in 'pay', 'withdraw' {
-  .channel-#{$ddd} {
-
+  a:nth-last-child(2) li {
+    margin-top: .1rem;
   }
 
 }
 
 // sample 1
-@include channel-images((
-        '.channel-pay': '../../images/me_icon_pay',
-        '.channel-withdraw': '../../images/me_icon_withdraw'
+@include retina-images((
+        '.info': 'me_bg_log',
+        '.channel-pay': 'me_icon_pay',
+        '.channel-withdraw': 'me_icon_withdraw',
+        '.link-gold': 'me_icon_gold',
+        '.link-rule': 'me_icon_rule',
+        '.link-set': 'me_icon_set',
+        '.link-intro': 'me_icon_intro',
 ));
 
 

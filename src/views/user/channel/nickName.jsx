@@ -6,8 +6,8 @@ import React, { Component, PropTypes } from 'react';
 import cssModules from 'react-css-modules';
 import { connect } from 'react-redux';
 import styles from './nickName.scss';
-import { SYS_DCB, SYS_DWB } from '../../server/define';
-import TopReturn from '../../components/topTeturn/topReturn';
+import { SYS_DCB, SYS_DWB } from '../../../server/define';
+import TopReturn from '../../../components/topTeturn/topReturn';
 
 @cssModules(styles, { allowMultiple: true, errorWhenNotFound: false })
 class NickName extends Component {

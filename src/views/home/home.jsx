@@ -112,17 +112,22 @@ class Home extends Component {
 
   // 持仓记录头部
   holdHeaderList = (systemType) => {
+    const {
+      exchangeInfo: { commodityData },
+      commodityState: { commodityId },
+    } = this.props;
+
     const obj = {
       [SYS_DCB]: [
         {
           key: 'name',
           label: '名称',
-          render: (keyData, d) => (
-            <span><img src="" alt="" />{d.name}</span>
+          render: () => (
+            <span><img src="" alt="" />{commodityData[commodityId].Name}</span>
           ),
         },
-        { key: 'mount', label: '数量' },
-        { key: 'openPrice', label: '建仓价' },
+        { key: 'Margin', label: '数量' },
+        { key: 'Price', label: '建仓价' },
         { key: 'earnest', label: '定金' },
         { key: 'range', label: '止盈止损' },
       ],
@@ -130,12 +135,12 @@ class Home extends Component {
         {
           key: 'name',
           label: '名称',
-          render: (keyData, d) => (
-            <span><img src="" alt="" />{d.name}</span>
+          render: () => (
+            <span><img src="" alt="" />{commodityData[commodityId].Name}</span>
           ),
         },
-        { key: 'mount', label: '数量' },
-        { key: 'openPrice', label: '建仓价' },
+        { key: 'Margin', label: '数量' },
+        { key: 'Price', label: '建仓价' },
         { key: 'float', label: '盈亏' },
         {
           key: '',
@@ -156,15 +161,15 @@ class Home extends Component {
       marketInfo: { commodityPrices, normalday },
       systemInfo: {
         systemType,
-        assetInfo: { TotalAssets: allCash, vec: holdArr2 },
+        assetInfo: { TotalAssets: allCash, vec = [] },
         isLogin,
         avatarURL,
         checkChannel,
       },
       commodityState: { commodityId },
     } = this.props;
-    console.log(holdArr2);
-    const holdArr = this.state.holdBody;
+    const commodityCode = commodityData[commodityId] ? commodityData[commodityId].MerchCode : null;
+    const holdArr = vec.filter((i) => i.MerchCode === commodityCode);
     const allCashNum = isLogin ? allCash : '- -';
     const hasHold = holdArr && holdArr.length !== 0;
     const holdHeight = hasHold ? styleConfig.holdH : 0;
@@ -205,13 +210,20 @@ class Home extends Component {
           </div>
           <div
             styleName="building"
-            style={{ height: styleConfig.buildingH }}
+            style={{
+              height: styleConfig.buildingH,
+              padding: styleConfig.buildingPadding,
+            }}
           >
             {
               ['bullish', 'bearish'].map((direction, idx) => {
                 const title = `${AppConfig.tradeLabel()[systemType][direction]}`;
                 return (
                   <span
+                    style={{
+                      height: styleConfig.buildingH - (2 * styleConfig.buildingPadding),
+                      lineHeight: `${styleConfig.buildingH - (2 * styleConfig.buildingPadding)}px`,
+                    }}
                     key={`building-${idx}`}
                     styleName={direction}
                     onClick={() => this.showOrder(title, direction, systemType)}
@@ -220,16 +232,19 @@ class Home extends Component {
               })
             }
           </div>
-          <div styleName="tips" style={{ height: styleConfig.tipsH }}>
-            <span>交易时间:周一至周五08:00-次日04:00 每日04:30-07:00休市结算</span>
-          </div>
+          <span
+            styleName="tips"
+            style={{ height: styleConfig.tipsH, lineHeight: `${styleConfig.tipsH}px` }}
+          >
+            交易时间:周一至周五08:00-次日04:00 每日04:30-07:00休市结算
+          </span>
         </div>
         <div styleName="hold" style={{ height: holdHeight }}>
           {
             hasHold ? <Table
               ref={(ref) => { this.table = ref; }}
               fields={this.holdHeaderList(systemType)}
-              data={holdArr.filter((i) => i.MerchCode === commodityId)}
+              data={holdArr}
               styles={holdStyles}
             /> : null
           }

@@ -9,6 +9,8 @@ import { safeGetParameter } from '../ultils/helper';
 import imitateData from './imitateData';
 import * as InterFace from './api/inter-face-type';
 
+const wrapWithUserData = (d) => ({ ...AppConfig.userData(), ...d });
+
 const postDataFormat = (systemType) => {
   const formatConfig = AjaxConfig[systemType];
   return (obj, interFace) => {
@@ -27,8 +29,7 @@ const postDataFormat = (systemType) => {
 
 function ajax(url, obj, systemType, name) {
   const postData = (typeof obj === 'object') ? JSON.stringify(obj) : obj;
-  let postUrl = '';
-  postUrl = (systemType === 'QUOTATION') ? `${url}` : `${url}?${name}(${systemType})`;
+  const postUrl = (systemType === 'QUOTATION') ? `${url}` : `${url}?${name}(${systemType})`;
   return fetch(postUrl, {
     method: 'post',
     headers: {
@@ -123,15 +124,10 @@ export function postAsset(param) {
   const baseServerType = AppConfig.systemType();
   const pre = param.interFacePre ? safeGetParameter(param.interFacePre, baseServerType) : '';
   const pos = param.interFacePos ? safeGetParameter(param.interFacePos, baseServerType) : '';
-  let assetUrl;
-  if (baseServerType === 'DCB') {
-    assetUrl = 'DCBASSET';
-  } else {
-    assetUrl = 'DWBASSET';
-  }
+  const assetUrl = `${baseServerType}_ASSET`;
   const url = `${BASE_SERVER[assetUrl]}${pre}${pos}`;
   const postData = postDataFormat(baseServerType)(param.data, param.name);
   return ajaxAsset(url, postData, baseServerType, param.name);
 }
 export default postJSON;
-export { postWithTrade, postJSONImitate };
+export { postWithTrade, postJSONImitate, wrapWithUserData };

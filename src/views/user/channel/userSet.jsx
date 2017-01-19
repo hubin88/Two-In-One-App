@@ -7,11 +7,11 @@ import cssModules from 'react-css-modules';
 import { connect } from 'react-redux';
 import { browserHistory, Link } from 'react-router';
 import styles from './userSet.scss';
-import TopReturn from '../../components/topTeturn/topReturn';
-import { loginOut, errorLogout } from '../../model/action';
+import TopReturn from '../../../components/topTeturn/topReturn';
+import { loginOut, errorLogout } from '../../../model/action';
 
 @cssModules(styles, { allowMultiple: true, errorWhenNotFound: false })
-class Userset extends Component {
+class UserSet extends Component {
   static defaultProps = {
     title: '个人设置',
     ifSure: false,
@@ -98,5 +98,5 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(Userset);
+export default connect(mapStateToProps)(UserSet);
 

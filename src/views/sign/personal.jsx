@@ -4,11 +4,11 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { browserHistory } from 'react-router';
-import Login from '../sign/login';
-import Register from '../sign/register';
-import Reset from '../sign/reset';
+import Login from './login';
+import Register from './register';
+import Reset from './reset';
 import ResetPwd from '../reset-password';
-import { successLogin } from '../../model/action';
+import { afterLogin } from '../../model/action';
 import { getQueryString } from '../../server/tools';
 
 import '../../css/main.scss';
@@ -26,7 +26,7 @@ class Persponal extends Component {
     window.history.go(-1);
   };
   loginSuc = (json) => {
-    this.props.dispatch(successLogin(json, () => {
+    this.props.dispatch(afterLogin(json, () => {
       const path = getQueryString('source') || '';
       browserHistory.push(`/${path}`);
     }));

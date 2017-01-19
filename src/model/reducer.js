@@ -21,18 +21,22 @@ const initExchangeInfo = {
   commodityData: {},
 };
 
+const initAvatarURL = require('../images/me_image_avator@3x.png');
+
 // 切换不同系统，底部导航栏，资金展示方式，个人中心功能点会有所变化
 const initSystemInfo = {
   systemType: SYS_DCB,
   isLogin: false,
   loginData: {},
-  avatarURL: require('../images/me_image_avator@3x.png'),
+  avatarURL: initAvatarURL,
   nickName: '',
+  sessionId: null,
   mobile: null,
+  orgId: NONE,
   navList: {
     home: { name: 'home', label: '首页', direction: '/home' },
     track: { name: 'broker', label: '经纪人', direction: '/broker' },
-    rule: { name: 'rule', label: '规则', direction: '/rule' },
+    // rule: { name: 'rule', label: '规则', direction: '/rule' },
     user: { name: 'user', label: '我', direction: '/user' },
   },
   assetInfo: {
@@ -81,6 +85,9 @@ function exchangeInfo(state = initExchangeInfo, action) {
       };
     }
     case ActionTypes.SUCCESS_GET_ONE_EXCHANGE_INFO: {
+      Cookie.deleteCookie(`${SYS_DCB}-userData`);
+      Cookie.deleteCookie(`${SYS_DWB}-userData`);
+
       // TODO: 特殊处理，现在的接口对于不同系统是不同的orgId
       const { exchangeInfo: { system: systemList } } = action;
       return {
@@ -114,19 +121,29 @@ function systemInfo(state = initSystemInfo, action) {
   switch (action.type) {
     case ActionTypes.CHANGE_SYSTEM_TYPE: {
       Cookie.setCookie('systemType', action.systemType);
+      const userData = JSON.parse(Cookie.getCookie(`${action.systemType}-userData`)) || {};
       return {
         ...state,
+        ...initSystemInfo,
+        ...userData,
         systemType: action.systemType,
-        isLogin: Cookie.getCookie(`${AppConfig.systemType()}-isLogin`) || false,
+        orgId: ORG_ID[action.systemType],
+        isLogin: Cookie.getCookie(`${action.systemType}-isLogin`) || false,
       };
     }
-    case ActionTypes.SUCCESS_GET_LOGIN_INFO: {
+    case ActionTypes.CHANGE_LOGIN_STATUS: {
       Cookie.setCookie(`${AppConfig.systemType()}-isLogin`, true);
-      Cookie.setCookie('loginData', action.data);
+      return {
+        ...state,
+        isLogin: true,
+      };
+    }
+    case ActionTypes.RESET_USER_DATA: {
+      Cookie.setCookie(`${AppConfig.systemType()}-userData`, action.data);
+      console.log(action.data);
       return {
         ...state,
         loginData: action.data,
-        isLogin: true,
       };
     }
     case ActionTypes.SUCCESS_LOGOUT: {
@@ -143,10 +160,10 @@ function systemInfo(state = initSystemInfo, action) {
       };
     }
     case ActionTypes.SUCCESS_FIND_USER: {
-      const { headImg: avatarURL, nikeName: nickName, mobile } = action.data;
+      const { headImg, nikeName: nickName, mobile } = action.data;
       return {
         ...state,
-        avatarURL: `data:image/png;base64,${avatarURL}`,
+        avatarURL: `data:image/png;base64,${headImg}`,
         nickName,
         mobile,
       };

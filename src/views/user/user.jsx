@@ -13,9 +13,11 @@ const renderList = {
       { name: 'TotalUsed', label: '占用合约定金' },
     ],
     channel: [
-      { name: 'gold', label: '出入金', direction: '/gold', images: 'me_icon_record@2x.png' },
-      { name: 'userCenter', label: '个人设置', direction: '/userSet', images: 'me_icon_set@2x.png' },
-      { name: 'dcpage', label: '点差宝', direction: '/dcbPage', images: 'me_icon_rules@2x.png' },
+      { name: 'track', label: '交易轨迹', direction: '/track' },
+      { name: 'gold', label: '出入金记录', direction: '/gold' },
+      { name: 'set', label: '个人设置', direction: '/userSet' },
+      { name: 'rule', label: '规则', direction: '/rule' },
+      { name: 'intro', label: '点差宝介绍', direction: '/dcbPage' },
     ],
   },
   [SYS_DWB]: {
@@ -26,10 +28,12 @@ const renderList = {
       { name: 'cashEarnAll', label: '持仓盈亏' },
     ],
     channel: [
-      { name: 'hold', label: '当前持仓', direction: '/hold', images: 'me_icon_cz@2x.png' },
-      { name: 'gold', label: '出入金', direction: '/gold', images: 'me_icon_record@2x.png' },
-      { name: 'userCenter', label: '个人设置', direction: '/userSet', images: 'me_icon_set@2x.png' },
-      { name: 'dcpage', label: '点微宝', direction: '/dwbPage', images: 'me_icon_rules@2x.png' },
+      { name: 'hold', label: '当前持仓', direction: '/hold' },
+      { name: 'track', label: '交易轨迹', direction: '/track' },
+      { name: 'gold', label: '出入金记录', direction: '/gold' },
+      { name: 'set', label: '个人设置', direction: '/userSet' },
+      { name: 'rule', label: '规则', direction: '/rule' },
+      { name: 'intro', label: '点微宝介绍', direction: '/dwbPage' },
     ],
   },
 };
@@ -59,8 +63,8 @@ class User extends Component {
               isLogin ?
                 <div><span>{nickName}</span></div> :
                 <div>
-                  <button><Link to="/register"><span>注册</span></Link></button>
-                  <button><Link to="/login"><span>登录</span></Link></button>
+                  <button><Link to="/register">注册</Link></button>
+                  <button><Link to="/login">登录</Link></button>
                 </div>
             }
           </div>
@@ -84,8 +88,8 @@ class User extends Component {
             {
               checkChannel.map((channel) => (
                 <Link to={channel.direction} key={channel.type} className="td">
-                  <li styleName={`channel-${channel.type}`}>
-                    {channel.label}
+                  <li>
+                    <span styleName={`channel-${channel.type}`}>{channel.label}</span>
                   </li>
                 </Link>
               ))
@@ -95,11 +99,10 @@ class User extends Component {
         <div styleName="links">
           <ul>
             {
-              renderList[systemType].channel.map((channeLitm) => (
-                <Link key={channeLitm.name} to={channeLitm.direction}>
-                  <li styleName={`channel-${channeLitm.name}`}>
-                    <img src={require(`../../images/${channeLitm.images}`)} alt="" />
-                    <span>{channeLitm.label}</span>
+              renderList[systemType].channel.map((link) => (
+                <Link key={link.name} to={link.direction}>
+                  <li>
+                    <span styleName={`link-${link.name}`}>{link.label}</span>
                   </li>
                 </Link>
               ))

@@ -1,7 +1,7 @@
 /**
  * Created by admin on 2016/12/29.
  */
-import postJSON, { postWithTrade, postAsset } from '../helper';
+import postJSON, { postWithTrade, postAsset, wrapWithUserData } from '../helper';
 import * as InterFace from './inter-face-type';
 
 export default class TradeApi {
@@ -38,7 +38,7 @@ export default class TradeApi {
 
   // 查询用户
   static findUser(obj = {}) {
-    return postWithTrade(InterFace.FIND_USER, obj, TradeApi.findUser.name);
+    return postWithTrade(InterFace.FIND_USER, wrapWithUserData(obj), TradeApi.findUser.name);
   }
 
   static getMemberList(obj = {}) {

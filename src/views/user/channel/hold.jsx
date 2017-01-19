@@ -6,9 +6,9 @@ import React, { Component, PropTypes } from 'react';
 import cssModules from 'react-css-modules';
 import { connect } from 'react-redux';
 import styles from './hold.scss';
-import styles2 from '../home/hold-table.scss';
-import Table from '../../components/table/table';
-import TopReturn from '../../components/topTeturn/topReturn';
+import styles2 from '../../home/hold-table.scss';
+import Table from '../../../components/table/table';
+import TopReturn from '../../../components/topTeturn/topReturn';
 
 @cssModules(styles, { allowMultiple: true, errorWhenNotFound: false })
 class Hold extends Component {
