@@ -1,7 +1,7 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware, compose } from 'redux';
-import { Router, IndexRoute, Route, browserHistory } from 'react-router';
+import { Router, IndexRedirect, Route, browserHistory } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
 import thunkMiddleware from 'redux-thunk';
 import rootReducer from './model/reducer';
@@ -43,7 +43,7 @@ const StoreWrap = () => (
     <Router history={history}>
       <Route path="/" component={App}>
         <Route component={MainBox}>
-          <IndexRoute component={Home} />
+          <IndexRedirect to="/home" />
           <Route path="/home" component={Home} />
           <Route path="/rule" component={Rule} />
           <Route path="/user" component={User} />

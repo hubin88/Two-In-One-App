@@ -15,7 +15,7 @@ export default class Header extends Component {
     systemType: PropTypes.string.isRequired,
   };
 
-  toChangeSystem = (type) => () => {
+  changeSystem = (type) => () => {
     switch (type) {
       case SYS_DCB:
         this.props.dispatch(toChangeSystem(SYS_DCB));
@@ -28,14 +28,9 @@ export default class Header extends Component {
     }
   };
 
-  showNav = () => {
-    const url = location.href;
-    let tpl = '';
-    if (url.indexOf('home') > 1) {
-      tpl = (<span styleName="left-nav-btn" onClick={this.props.showLeftNav} />);
-    }
-    return tpl;
-  };
+  showNav = () => (location.href.includes('home') ?
+      <span styleName="left-nav-btn" onClick={this.props.showLeftNav} /> : null
+  );
 
   render() {
     const { isSingleSystem, systemList, systemType } = this.props;
@@ -50,7 +45,7 @@ export default class Header extends Component {
               return (<button
                 styleName={`btn ${btnBorder} ${btnBg}`}
                 key={sysItem.type}
-                onClick={this.toChangeSystem(sysItem.type)}
+                onClick={this.changeSystem(sysItem.type)}
               >
                 {sysItem.label}
               </button>);
