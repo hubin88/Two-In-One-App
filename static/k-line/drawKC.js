@@ -77,6 +77,9 @@ var baseDraw = {
   isArray: function (data) {
     return Object.prototype.toString.call(data) === '[object Array]';
   },
+  getPaddingBottom: function (height) {
+    return 0.15 * height;
+  },
 };
 
 function DrawKLine(canvasId, options) {
@@ -84,12 +87,11 @@ function DrawKLine(canvasId, options) {
   this.canvas = document.getElementById(canvasId);
   this.ctx = this.canvas.getContext('2d');
   this.viewRatio = baseDraw.getPixelRatio(this.ctx);
- this.setOptions(options);
+  this.setOptions(options);
   this.init();
 }
 DrawKLine.prototype = {
-  setOptions:function (options) {
-    this.heightRatio = 0.15;
+  setOptions: function (options) {
     var cHeight = this.canvas.parentNode.offsetHeight,
       cWidth = this.canvas.parentNode.offsetWidth;
     var kLineOpts = {
@@ -102,7 +104,7 @@ DrawKLine.prototype = {
       timeType: options.timeType || 1,//1,分钟，2，天
       paddingTop: options.paddingTop || 10,
       paddingLeft: options.paddingLeft || 30,
-      paddingBottom: options.paddingBottom || this.getPaddingBottom(cHeight),
+      paddingBottom: options.paddingBottom || baseDraw.getPaddingBottom(cHeight),
     };
 
     this.defaultOpts = {
@@ -169,7 +171,6 @@ DrawKLine.prototype = {
     this.guide.height = this.canvas.height;
     this.guide.style.width = this.defaultOpts.width + 'px';
     this.guide.style.height = this.defaultOpts.height + 'px';
-    // this.guide.style.borderBottom = 'solid rgb(77, 77, 68) 1px';
     this.guide.getContext('2d').scale(this.viewRatio, this.viewRatio);
   },
   //加工k线数据
@@ -194,15 +195,13 @@ DrawKLine.prototype = {
       }
     }
   },
-  getPaddingBottom: function (height) {
-    return this.heightRatio * height;
-  },
+
   resetCanvas: function (width, height) {
     this.defaultOpts.width = width || this.defaultOpts.width;
     this.defaultOpts.height = height || this.defaultOpts.height;
     this.initKLineCanvas();
     this.initGuideCanvas();
-    var pBottom = this.getPaddingBottom(this.defaultOpts.height);
+    var pBottom = baseDraw.getPaddingBottom(this.defaultOpts.height);
     this.defaultOpts.paddingBottom = pBottom;
     this.kLine.init(this.canvas.width, this.canvas.height, pBottom);
     this.redrawKLine();
@@ -800,22 +799,27 @@ function DrawChart(canvasId, options) {
   this.ratio = 1;
   this.chart = document.getElementById(canvasId);
   this.chartCtx = this.chart.getContext('2d');
-  this.options = {
-    width: options.width || this.chart.parentNode.offsetWidth,
-    height: options.height || this.chart.parentNode.offsetHeight,
-    paddingLeft: options.paddingLeft || 35,
-    paddingBottom: options.paddingBottom || 30,
-    paddingTop: options.paddingTop || 30,
-    timeCount: options.timeCount - 1 || 5,
-    vLineCount: options.vLineCount - 1 || 4,//左边垂直价格数量
-    chartLineColor: options.chartLineColor || 'rgba(2,100,30,1)',
-    chartFillColor: options.chartFillColor || 'rgba(2,100,30,.1)',
-    chartColor: options.chartColor || 'black',
-  };
+  this.setOptions(options);
   this.createCanvas();
   this.init();
 }
 DrawChart.prototype = {
+  setOptions: function (options) {
+    var cHeight = this.chart.parentNode.offsetHeight,
+      cWidth = this.chart.parentNode.offsetWidth;
+    this.options = {
+      width: options.width || cWidth,
+      height: options.height || cHeight,
+      paddingLeft: options.paddingLeft || 35,
+      paddingBottom: options.paddingBottom || baseDraw.getPaddingBottom(cHeight),
+      paddingTop: options.paddingTop || 10,
+      timeCount: options.timeCount - 1 || 5,
+      vLineCount: options.vLineCount - 1 || 4,//左边垂直价格数量
+      chartLineColor: options.chartLineColor || 'rgba(2,100,30,1)',
+      chartFillColor: options.chartFillColor || 'rgba(2,100,30,.1)',
+      chartColor: options.chartColor || 'black',
+    };
+  },
   createCanvas: function () {
     var parentElement = this.chart.parentNode,
       container = document.createElement('div'),
@@ -866,6 +870,7 @@ DrawChart.prototype = {
   resetCanvas: function (width, height) {
     this.options.width = width || this.options.width;
     this.options.height = height || this.options.height;
+    this.options.paddingBottom = baseDraw.getPaddingBottom(this.options.height);
     this.setCanvas();
     this.setCanvasScale();
     this.drawChart();
@@ -898,7 +903,7 @@ DrawChart.prototype = {
 
     var spliceDataCount = Math.ceil(this.data.length / 60);
     var startCount = 0;
-    this.newData.length = 0;
+    this.newData = [];
     if (this.options.timeCount < spliceDataCount) {
       startCount = spliceDataCount - this.options.timeCount;
       this.data.map(function (d, index) {
@@ -926,9 +931,9 @@ DrawChart.prototype = {
 
   },
   drawChart: function (data, isSwitch) {
-    if (isSwitch) {
+    // if (isSwitch) {
       this.data.length = 0;
-    }
+    // }
     this.setData(data);
     this.getRelativeRatio();
     this.drawTimeChart();
@@ -944,6 +949,9 @@ DrawChart.prototype = {
     this.ball.setAttribute('style', '-webkit-' + ss + ';' + ss);
 
   },
+  getDateTime: function (time) {
+    return new Date(time.replace(/-/g, "/")).getHours();
+  },
   drawTimeChart: function () {
     var layerHeight = this.layer.height / this.viewRatio;
     this.chartCtx.clearRect(0, 0, this.chart.width, this.chart.height);
@@ -957,7 +965,7 @@ DrawChart.prototype = {
     this.chartCtx.strokeStyle = this.options.chartLineColor;
     this.layerCtx.beginPath();
     this.layerCtx.moveTo(0, layerHeight);
-    var startTime = 0;
+
     for (var n = 0; n < this.minute; n++) {
       if (n >= this.newData.length) {
         break;
@@ -966,7 +974,6 @@ DrawChart.prototype = {
       var posX = n * this.blockWidth;
       var posY = (this.max - d.price) * this.ratio;
       if (n === 0) {
-        startTime = new Date(d.time.replace(/-/g, "/")).getHours();
         this.chartCtx.moveTo(posX, posY);
       } else {
         this.chartCtx.lineTo(posX, posY);
@@ -981,9 +988,15 @@ DrawChart.prototype = {
     this.layerCtx.fillStyle = this.options.chartColor;
     var layerH = layerHeight - this.options.paddingTop;
     //画时间线
+    var startTime = 0;
     for (var i = 0; i <= this.options.timeCount; i++) {
-      var layerPosX = i * 60 * this.blockWidth;
-      if (i !== 0) {
+      var t = i * 60;
+      var layerPosX = t * this.blockWidth;
+      var dd = this.newData[t];
+      if (dd) {
+        startTime = this.getDateTime(dd.time);
+      }
+      else {
         startTime += 1;
       }
       var txtTime = startTime + ':00';
@@ -996,6 +1009,7 @@ DrawChart.prototype = {
       }
       this.layerCtx.fillText(txtTime, layerPosX, layerH);
     }
+
     //画价格文本
     var priceHeight = layerHeight - this.options.paddingTop - this.options.paddingBottom;
 
