@@ -11,10 +11,10 @@ $channelF: .14rem;
     $ratioString: if($ratio != 1, "@#{$ratio}x", "");
     @if $name {
       #{$cls} {
-        background-image: url('../../images/#{$name}#{$ratioString}.png');
+        background-image: url('#{$name}#{$ratioString}.png');
       }
     } @else {
-      background-image: url('../../images/#{$cls}#{$ratioString}.png');
+      background-image: url('#{$cls}#{$ratioString}.png');
     }
   }
 }

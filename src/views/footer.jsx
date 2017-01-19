@@ -9,27 +9,32 @@ export default class Footer extends Component {
     navList: PropTypes.object,
   };
 
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
+  state = {
+    navNum: 0,
+  };
+
+  changeNav = (idx) => () => {
+    this.setState({ navNum: idx });
+  };
 
   render() {
     const { navList } = this.props;
+    console.log(this.props);
     return (
       <ol className="table" styleName="footer">
         {
-          Object.keys(navList).map((navItem) => (
-            <li
-              key={navList[navItem].name}
-              className="td" styleName={`nav-item ${navList[navItem].name}`}
-            >
-              <Link to={navList[navItem].direction}>
-                <b />
-                <span>{navList[navItem].label}</span>
-              </Link>
-            </li>
-          ))
+          Object.keys(navList).map((navItem, idx) => {
+            const navClass = `${idx === this.state.navNum ? 'active' : ''}`;
+            return (
+              <li key={navList[navItem].name} className="td" styleName="nav-item">
+                <Link to={navList[navItem].direction} onClick={this.changeNav(idx)}>
+                  <span styleName={`${navList[navItem].name} ${navClass}`}>
+                    {navList[navItem].label}
+                  </span>
+                </Link>
+              </li>
+            );
+          })
         }
       </ol>
 

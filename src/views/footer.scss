@@ -1,4 +1,6 @@
-$navList: 'home', 'broker', 'rule', 'user';
+@import "./valViews";
+
+$navList: 'home', 'broker', 'user';
 .footer {
   height: 100%;
   width: 100%;
@@ -6,6 +8,7 @@ $navList: 'home', 'broker', 'rule', 'user';
     width: 100%;
   }
 }
+
 .nav-item {
   height: 100%;
   text-align: center;
@@ -14,14 +17,20 @@ $navList: 'home', 'broker', 'rule', 'user';
     display: inline-block;
     width: 100%;
     height: 100%;
-    b{
-      display: block;
-      width: .1rem;
-      height: .1rem;
+    span {
+      display: inline-block;
+      height: 100%;
+      background-position: center .05rem;
+      background-size: .22rem;
+      background-repeat: no-repeat;
+      padding-top: .3rem;
     }
   }
 }
 
+.active {
+  color: $bgColor;
+}
 
 @each $nav in $navList {
   .#{$nav} {
@@ -30,5 +39,15 @@ $navList: 'home', 'broker', 'rule', 'user';
     }
   }
 }
+
+// sample 1
+@include retina-images((
+        '.home':'../images/transaction_normal',
+        '.broker':'../images/broker_normal',
+        '.user':'../images/user_normal',
+        '.active.home':'../images/transaction_press',
+        '.active.broker':'../images/broker_press',
+        '.active.user':'../images/user_press',
+));
 
 

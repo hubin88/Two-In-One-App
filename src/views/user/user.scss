@@ -159,13 +159,13 @@ $padding: .1rem;
 
 // sample 1
 @include retina-images((
-        '.info': 'me_bg_log',
-        '.channel-pay': 'me_icon_pay',
-        '.channel-withdraw': 'me_icon_withdraw',
-        '.link-gold': 'me_icon_gold',
-        '.link-rule': 'me_icon_rule',
-        '.link-set': 'me_icon_set',
-        '.link-intro': 'me_icon_intro',
+        '.info': '../../images/me_bg_log',
+        '.channel-pay': '../../images/me_icon_pay',
+        '.channel-withdraw': '../../images/me_icon_withdraw',
+        '.link-gold': '../../images/me_icon_gold',
+        '.link-rule': '../../images/me_icon_rule',
+        '.link-set': '../../images/me_icon_set',
+        '.link-intro': '../../images/me_icon_intro',
 ));
 
 
