@@ -37,5 +37,6 @@ module.exports = {
     DCB_SUGGEST_URL: true,
     DWB_SUGGEST_TITLE: true,
     DWB_SUGGEST_URL: true,
+    HTML_PAGE:true,
   }
 };

@@ -34,3 +34,8 @@ var DCB_SUGGEST_URL = 'http://120.25.135.199:9003/webstatic/1zjyjy/rule/rule.htm
 var DWB_SUGGEST_TITLE = '点微宝介绍';
 var DWB_SUGGEST_URL = 'http://www.baidu.com';
 
+//规则内嵌页面地址
+var HTML_PAGE = {
+  DCB: 'http://120.25.135.199:9003/webstatic/1zjyjy/rule/rule.html',
+  DWB: 'http://www.baidu.com',
+};
