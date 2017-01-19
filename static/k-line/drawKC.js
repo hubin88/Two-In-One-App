@@ -84,50 +84,53 @@ function DrawKLine(canvasId, options) {
   this.canvas = document.getElementById(canvasId);
   this.ctx = this.canvas.getContext('2d');
   this.viewRatio = baseDraw.getPixelRatio(this.ctx);
-  this.heightRatio = 0.15;
-  var cHeight = this.canvas.parentNode.offsetHeight,
-    cWidth = this.canvas.parentNode.offsetWidth;
-  var kLineOpts = {
-    viewRatio: this.viewRatio,
-    lineWidth: options.lineWidth || 1,//上影线，下影线宽度
-    barWidth: options.barWidth || 4,//阳线，阴线宽度
-    spaceWidth: options.spaceWidth || 3,//阳线阴线之间的宽度，
-    horizontalLineCount: options.horizontalLineCount || 5,//底部水平线的时间数
-    verticalLineCount: options.verticalLineCount || 5,//左边垂直线的显示价格数
-    timeType: options.timeType || 1,//1,分钟，2，天
-    paddingTop: options.paddingTop || 10,
-    paddingLeft: options.paddingLeft || 30,
-    paddingBottom: options.paddingBottom || cHeight * this.heightRatio,
-  };
-
-  this.defaultOpts = {
-    width: options.width || cWidth,
-    height: options.height || cHeight,
-    paddingLeft: kLineOpts.paddingLeft,
-    paddingTop: kLineOpts.paddingTop,
-    paddingBottom: kLineOpts.paddingBottom,
-  };
-  this.kLine = new kLine(kLineOpts);
-  this.eventStatus = {
-    isChange: false,
-    dir: 'right',
-    isRedrawing: true,
-    prevX: 0,
-    distance: 0,
-    ratio: 1,
-    startPos: {
-      x: 0,
-      y: 0,
-      time: new Date()
-    },
-    drawTimeId: 0,
-    isShowGuide: false,
-    isMove: false,
-    isMoveTimeId: 0,
-  };
+ this.setOptions(options);
   this.init();
 }
 DrawKLine.prototype = {
+  setOptions:function (options) {
+    this.heightRatio = 0.15;
+    var cHeight = this.canvas.parentNode.offsetHeight,
+      cWidth = this.canvas.parentNode.offsetWidth;
+    var kLineOpts = {
+      viewRatio: this.viewRatio,
+      lineWidth: options.lineWidth || 1,//上影线，下影线宽度
+      barWidth: options.barWidth || 4,//阳线，阴线宽度
+      spaceWidth: options.spaceWidth || 3,//阳线阴线之间的宽度，
+      horizontalLineCount: options.horizontalLineCount || 5,//底部水平线的时间数
+      verticalLineCount: options.verticalLineCount || 5,//左边垂直线的显示价格数
+      timeType: options.timeType || 1,//1,分钟，2，天
+      paddingTop: options.paddingTop || 10,
+      paddingLeft: options.paddingLeft || 30,
+      paddingBottom: options.paddingBottom || this.getPaddingBottom(cHeight),
+    };
+
+    this.defaultOpts = {
+      width: options.width || cWidth,
+      height: options.height || cHeight,
+      paddingLeft: kLineOpts.paddingLeft,
+      paddingTop: kLineOpts.paddingTop,
+      paddingBottom: kLineOpts.paddingBottom,
+    };
+    this.kLine = new kLine(kLineOpts);
+    this.eventStatus = {
+      isChange: false,
+      dir: 'right',
+      isRedrawing: true,
+      prevX: 0,
+      distance: 0,
+      ratio: 1,
+      startPos: {
+        x: 0,
+        y: 0,
+        time: new Date()
+      },
+      drawTimeId: 0,
+      isShowGuide: false,
+      isMove: false,
+      isMoveTimeId: 0,
+    };
+  },
   init: function () {
     this.setCanvas();
     this.kLine.init(this.canvas.width, this.canvas.height);
@@ -191,12 +194,17 @@ DrawKLine.prototype = {
       }
     }
   },
+  getPaddingBottom: function (height) {
+    return this.heightRatio * height;
+  },
   resetCanvas: function (width, height) {
     this.defaultOpts.width = width || this.defaultOpts.width;
     this.defaultOpts.height = height || this.defaultOpts.height;
     this.initKLineCanvas();
     this.initGuideCanvas();
-    this.kLine.init(this.canvas.width, this.canvas.height);
+    var pBottom = this.getPaddingBottom(this.defaultOpts.height);
+    this.defaultOpts.paddingBottom = pBottom;
+    this.kLine.init(this.canvas.width, this.canvas.height, pBottom);
     this.redrawKLine();
   },
   drawKLine: function (data, isSwitch) {
@@ -472,9 +480,12 @@ function kLine(options) {
 };
 
 kLine.prototype = {
-  init: function (canvasWidth, canvasHeight) {
+  init: function (canvasWidth, canvasHeight, paddingBottom) {
     this.canvasSize.height = canvasHeight;
     this.canvasSize.width = canvasWidth;
+    if (paddingBottom) {
+      this.kLineWidth.paddingBottom = paddingBottom;
+    }
   },
   //获取画布的高度
   getCanvasHeight: function () {
@@ -908,9 +919,9 @@ DrawChart.prototype = {
       this.max = Math.max(d.price, this.max);
       this.min = Math.min(d.price, this.min);
     }.bind(this));
-    if(this.max===this.min){
-      this.max+=10;
-      this.min-=10;
+    if (this.max === this.min) {
+      this.max += 10;
+      this.min -= 10;
     }
 
   },
