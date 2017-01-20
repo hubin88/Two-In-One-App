@@ -19,12 +19,11 @@ export default class Footer extends Component {
 
   render() {
     const { navList } = this.props;
-    console.log(this.props);
     return (
       <ol className="table" styleName="footer">
         {
           Object.keys(navList).map((navItem, idx) => {
-            const navClass = `${idx === this.state.navNum ? 'active' : ''}`;
+            const navClass = `${idx === this.state.navNum ? 'actives' : ''}`;
             return (
               <li key={navList[navItem].name} className="td" styleName="nav-item">
                 <Link to={navList[navItem].direction} onClick={this.changeNav(idx)}>

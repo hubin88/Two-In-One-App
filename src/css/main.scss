@@ -69,14 +69,15 @@ li {
   display: table-cell;
 }
 
-input {
+input, button {
   border: none;
   background: transparent;
   outline: none;
+  color: inherit;
 }
 
 #root > div:first-child {
-  position: absolute;
+  position: relative;
   height: 100%;
   width: 100%;
   min-height: 5.5rem;

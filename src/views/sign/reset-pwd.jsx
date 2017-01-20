@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import cssModules from 'react-css-modules';
-import styles from './reset.scss';
+import styles from './reset-pwd.scss';
 import Api from '../../server/api/sign-api';
 import Tips from './cummon/tips';
 import {
@@ -14,7 +14,7 @@ import {
 } from '../../server/tools';
 
 @cssModules(styles, { allowMultiple: true, errorWhenNotFound: false })
-export default class Reset extends Component {
+export default class ResetPwd extends Component {
   static propTypes = {
     orgId: PropTypes.number,
     systemType: PropTypes.string,

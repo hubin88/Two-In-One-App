@@ -5,12 +5,13 @@
 import React, { Component, PropTypes } from 'react';
 import cssModules from 'react-css-modules';
 import { connect } from 'react-redux';
-import styles from './nickName.scss';
-import { SYS_DCB, SYS_DWB } from '../../../server/define';
-import TopReturn from '../../../components/topTeturn/topReturn';
+import { browserHistory } from 'react-router';
+import styles from './modify-name.scss';
+import { SYS_DCB, SYS_DWB } from '../../../../server/define';
+import Header from '../../../../components/header/header';
 
 @cssModules(styles, { allowMultiple: true, errorWhenNotFound: false })
-class NickName extends Component {
+class resetName extends Component {
   static defaultProps = {
     title: '昵称修改',
     ifSure: true,
@@ -25,12 +26,10 @@ class NickName extends Component {
     value: PropTypes.string,
   };
 
-  sureFun = () => {
-    alert(1111);
-  };
   clearName = () => {
     this.nameValue.value = '';
   };
+
   nameCenter = () => {
     let tpl = '';
     if (this.props.systemInfo.systemType === SYS_DCB) {
@@ -57,10 +56,22 @@ class NickName extends Component {
     return tpl;
   };
 
+  back() {
+    browserHistory.push('/userSet');
+  }
+
+  submitFuc() {
+    alert('111');
+  }
+
   render() {
     return (
       <div styleName="nickName">
-        <TopReturn title={this.props.title} ifSure={this.props.ifSure} sureClick={this.sureFun} />
+        <Header
+          title={this.props.title}
+          leftBtnCallBack={this.back}
+          rightBtnCallBack={this.submitFuc}
+        />
         {this.nameCenter()}
       </div>
     );
@@ -74,5 +85,5 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(NickName);
+export default connect(mapStateToProps)(resetName);
 

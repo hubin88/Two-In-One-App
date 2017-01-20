@@ -27,7 +27,7 @@ class LoginWrap extends Component {
       <Login
         loginSuccess={this.loginSuc}
         toRegister={() => { browserHistory.push('/register'); }}
-        toReset={() => { browserHistory.push('/reset'); }}
+        toReset={() => { browserHistory.push('/resetPwd'); }}
         toHome={() => { browserHistory.push('/'); }}
         orgId={this.props.exchangeInfo.orgId}
       />

@@ -7,7 +7,6 @@ import cssModules from 'react-css-modules';
 import { connect } from 'react-redux';
 import styles from './gold.scss';
 import { SYS_DCB, SYS_DWB } from '../../../server/define';
-import TopReturn from '../../../components/topTeturn/topReturn';
 
 @cssModules(styles, { allowMultiple: true, errorWhenNotFound: false })
 class Gold extends Component {
@@ -53,10 +52,10 @@ class Gold extends Component {
     }
     return tab;
   };
+
   render() {
     return (
       <div styleName="gold">
-        <TopReturn title={this.props.title} />
         {this.setValue()}
       </div>
     );

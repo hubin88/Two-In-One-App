@@ -7,7 +7,6 @@ import cssModules from 'react-css-modules';
 import { connect } from 'react-redux';
 import { browserHistory, Link } from 'react-router';
 import styles from './userSet.scss';
-import TopReturn from '../../../components/topTeturn/topReturn';
 import { loginOut, errorLogout } from '../../../model/action';
 
 @cssModules(styles, { allowMultiple: true, errorWhenNotFound: false })
@@ -43,7 +42,7 @@ class UserSet extends Component {
               </span>
             </li>
           </a>
-          <Link to="/nickName">
+          <Link to="/modifyName">
             <li>
               <span styleName="listLeft">昵称</span>
               <span styleName="listRight">
@@ -51,7 +50,7 @@ class UserSet extends Component {
               </span>
             </li>
           </Link>
-          <Link to="/resetphone">
+          <Link to="/modifyPhone">
             <li>
               <span styleName="listLeft">验证手机</span>
               <span styleName="listRight">
@@ -59,7 +58,7 @@ class UserSet extends Component {
               </span>
             </li>
           </Link>
-          <Link to="/resetpwd">
+          <Link to="/modifyPwd">
             <li>
               <span styleName="listLeft">交易密码</span>
               <span styleName="listRight" />
@@ -84,7 +83,6 @@ class UserSet extends Component {
   render() {
     return (
       <div styleName="userSet">
-        <TopReturn title={this.props.title} ifSure={this.props.ifSure} />
         {this.setValue()}
       </div>
     );

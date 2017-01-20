@@ -6,12 +6,13 @@ import React, { Component, PropTypes } from 'react';
 import cssModules from 'react-css-modules';
 import { connect } from 'react-redux';
 import Footer from './footer';
-import Header from './header';
+import Header from '../components/header/header';
 import LeftNav from './left-nav';
 import Mask from './mask';
 import styles from './main-box.scss';
 import { styleConfig } from '../server/app-config';
-import { toChangeExchange } from '../model/action';
+import { toChangeExchange, toChangeSystem } from '../model/action';
+import { SYS_DCB, SYS_DWB } from '../server/define';
 
 @cssModules(styles, { allowMultiple: true, errorWhenNotFound: false })
 class MainBox extends Component {
@@ -30,11 +31,26 @@ class MainBox extends Component {
     this.props.dispatch(toChangeExchange(exchangeData));
   }
 
-  showLeftNav = () => {
-    this.setState({
-      isShowLeftNav: true,
-    }, () => { Mask.show(this.hideLeftNav); });
+  changeSystem = (type) => {
+    switch (type) {
+      case SYS_DCB:
+        this.props.dispatch(toChangeSystem(SYS_DCB));
+        break;
+      case SYS_DWB:
+        this.props.dispatch(toChangeSystem(SYS_DWB));
+        break;
+      default:
+        console.log('err');
+    }
   };
+
+  showLeftNav = () => (location.href.includes('home') ?
+    () => {
+      console.log('显示左侧导航栏');
+      this.setState({
+        isShowLeftNav: true,
+      }, () => { Mask.show(this.hideLeftNav); });
+    } : null);
 
   hideLeftNav = () => {
     this.selectExchange(this.leftNav.getExchangeData());
@@ -46,9 +62,10 @@ class MainBox extends Component {
   render() {
     const {
       dispatch,
-      exchangeInfo: { exchangeList, systemList, isSingleSystem },
-      systemInfo: { systemType, navList },
+      exchangeInfo: { exchangeList, systemList },
+      systemInfo: { navList },
     } = this.props;
+    const title = systemList.sort((a, b) => (a.sort - b.sort));
     return (
       <div
         className={`main-box ${this.state.isShowLeftNav ? 'show-left-nav' : 'hide-left-nav'}`}
@@ -61,11 +78,11 @@ class MainBox extends Component {
         />
         <header style={{ height: styleConfig.headerH }}>
           <Header
-            dispatch={dispatch}
-            isSingleSystem={isSingleSystem}
-            systemList={systemList}
-            systemType={systemType}
-            showLeftNav={this.showLeftNav}
+            title={title}
+            titleCallBack={this.changeSystem}
+            leftBtnCallBack={this.showLeftNav()}
+            leftBtnTxt={<span className="left-nav-btn" />}
+            hasLeftBtnIcon={false}
           />
         </header>
         <section id="section">

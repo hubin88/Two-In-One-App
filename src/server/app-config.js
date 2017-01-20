@@ -21,23 +21,33 @@ export default class AppConfig {
 
   static singleHtml = () => ({
     pay: {
-      title: PAY_TITLE, url: PAY_URL,
+      title: PAY_TITLE, url: PAY_URL, backDirect: '',
     },
     withdraw: {
-      title: WITHDRAW_TITLE, url: WITHDRAW_URL,
+      title: WITHDRAW_TITLE, url: WITHDRAW_URL, backDirect: '',
     },
     dcbPage: {
-      title: DCB_SUGGEST_TITLE, url: DCB_SUGGEST_URL,
+      title: DCB_SUGGEST_TITLE, url: DCB_SUGGEST_URL, backDirect: '/user',
     },
     dwbPage: {
-      title: DWB_SUGGEST_TITLE, url: DWB_SUGGEST_URL,
+      title: DWB_SUGGEST_TITLE, url: DWB_SUGGEST_URL, backDirect: '/user',
     },
+  });
+
+  static userChannel = () => ({
+    rule: { title: '交易规则' },
+    dcbPage: { title: '点差宝介绍' },
+    dwbPage: { title: '点微宝介绍' },
+    hold: { title: '当前持仓' },
+    gold: { title: '出入金记录' },
+    userSet: { title: '用户设置' },
+    track: { title: '交易记录' },
   });
 }
 
 const screenH = document.documentElement.clientHeight;
 const screenW = document.documentElement.clientWidth;
-const headerH = AppConfig.isApp ? 0 : 50;
+const headerH = AppConfig.isApp ? 0 : 66;
 const footerH = AppConfig.isApp ? 0 : 50;
 const userInfoH = 60;
 const buildingH = 60;

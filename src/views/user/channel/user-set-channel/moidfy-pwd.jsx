@@ -4,15 +4,15 @@
 
 import React, { Component, PropTypes } from 'react';
 import cssModules from 'react-css-modules';
-import styles from './reset-password.scss';
-import Api from '../server/api/sign-api';
-import Tips from './sign/cummon/tips';
+import styles from './modify-pwd.scss';
+import Api from '../../../../server/api/sign-api';
+import Tips from '../../../sign/cummon/tips';
 import {
   regPassword,
   resetForm,
-} from '../server/tools';
+} from '../../../../server/tools';
 
-class ResetPwd extends Component {
+class ModifyPwd extends Component {
   static propTypes = {
     resetPasswordSuccess: PropTypes.func,
     sessionId: PropTypes.string,
@@ -95,7 +95,7 @@ class ResetPwd extends Component {
   render() {
     const isSubmit = this.state.isOldPwdRight && this.state.isNewPwdRight && this.state.isAgainPwdRight;
     return (
-      <div styleName="reset-password">
+      <div styleName="modify-password">
         <div styleName="title">修改交易密码</div>
         <form styleName="reset-password" autoComplete="off">
           <div styleName="password">
@@ -132,4 +132,4 @@ class ResetPwd extends Component {
   }
 }
 
-export default cssModules(ResetPwd, styles, { allowMultiple: true, errorWhenNotFound: false });
+export default cssModules(ModifyPwd, styles, { allowMultiple: true, errorWhenNotFound: false });

@@ -21,6 +21,12 @@ export const ORG_ID = {
   [SYS_DWB]: 80,
 };
 
+export const DIRECTS = {
+  pay: 'ZF',
+  withdraw: 'TX',
+  gold: 'CRJ',
+};
+
 export const STATUS = {
   fetching: 0,
   success: 1,

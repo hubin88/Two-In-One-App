@@ -8,18 +8,12 @@ import { connect } from 'react-redux';
 import styles from './hold.scss';
 import styles2 from '../../home/hold-table.scss';
 import Table from '../../../components/table/table';
-import TopReturn from '../../../components/topTeturn/topReturn';
 
 @cssModules(styles, { allowMultiple: true, errorWhenNotFound: false })
 class Hold extends Component {
-  static defaultProps = {
-    title: '当前持仓',
-  };
   static propTypes = {
     value: '',
-    onCloseCallback: PropTypes.func,
     systemInfo: PropTypes.object,
-    title: PropTypes.string,
   };
 
   state = {
@@ -63,11 +57,9 @@ class Hold extends Component {
     { name: 'frozenCashs', label: '沥青盈亏', nums: '22' },
   ];
 
-
   render() {
     return (
       <div styleName="hold">
-        <TopReturn title={this.props.title} />
         <div styleName="holdValue">
           <span>持仓总盈亏(元)</span>
           <p styleName="profit">{this.props.value}</p>

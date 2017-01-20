@@ -1,8 +1,10 @@
-@import "./sign/var";
+@import "../../../sign/_var";
 
-.reset-password {
+.modify-password {
+  padding: 0.66rem 4.83% 0;
   padding-top: 0.7rem !important;
-  box-sizing: border-box;
+  height: 100%;
+  font-size: 0.14rem;
   .title {
     font-size: 0.35rem;
     text-align: center;

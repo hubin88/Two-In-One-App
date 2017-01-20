@@ -1,0 +1,73 @@
+$headerBgColor: #FF9D45;
+$headerColor: #fff;
+.header {
+  background-color: $headerBgColor;
+}
+
+.top {
+  height: 22px;
+  width: 100%;
+}
+
+.title-box {
+  position: relative;
+  text-align: center;
+  height: 44px;
+  line-height: 44px;
+  width: 100%;
+  color: $headerColor;
+  font-size: 14px;
+}
+
+.title {
+  display: inline-block;
+  //margin: 0 auto;
+  text-align: center;
+}
+
+//.title > span {
+//  display: inline-block;
+//  margin: 0 auto;
+//  //font-weight: bold;
+//}
+
+.left-btn {
+  position: absolute;
+  left: .1rem;
+  height: 100%;
+}
+
+.left-btn-icon {
+  min-width: .3rem;
+  background-image: url(http://localhost:8000/images/back@2x.png);
+  background-position: center;
+  background-size: .08rem .15rem;
+  background-repeat: no-repeat;
+}
+
+.right-btn {
+  position: absolute;
+  right: .1rem;
+  font-size: 12px;
+  color: #fff;
+}
+
+.title-btn-box {
+  display: inline-block;
+  height: 28px;
+  line-height: 28px;
+  border-radius: 3px;
+  border: solid 1px $headerColor;
+  button {
+    height: 100%;
+    padding: 0 10px;
+    &:not(:first-child) {
+      border-left: solid 1px $headerColor;
+    }
+  }
+}
+
+.active {
+  color: $headerBgColor;
+  background-color: $headerColor;
+}

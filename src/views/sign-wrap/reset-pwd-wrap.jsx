@@ -5,35 +5,30 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { browserHistory } from 'react-router';
-import Register from '../sign/register';
+import Reset from '../sign/reset-pwd';
 
-class ResetphoneWrap extends Component {
+class ResetPwdWrap extends Component {
   static propTypes = {
     dispatch: PropTypes.func,
-    systemInfo: PropTypes.object,
     exchangeInfo: PropTypes.object,
   };
-  resetPhoneSuc = () => {
+  resetSuc = () => {
     browserHistory.push('/login');
   };
 
   render() {
     return (
-      <Register
-        resetPhoneSuccess={this.resetPhoneSuc}
+      <Reset
+        resetSuccess={this.resetSuc}
         orgId={this.props.exchangeInfo.orgId}
-        systemType={this.props.systemInfo.systemType}
-        sessionId={this.props.systemInfo.loginData.sessionId}
-        type="resetphone"
       />
     );
   }
 }
 function mapStateToProps(state) {
   return {
-    systemInfo: state.systemInfo,
     exchangeInfo: state.exchangeInfo,
   };
 }
 
-export default connect(mapStateToProps)(ResetphoneWrap);
+export default connect(mapStateToProps)(ResetPwdWrap);

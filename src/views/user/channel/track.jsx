@@ -10,6 +10,10 @@ class Track extends Component {
   static propTypes = {
     value: PropTypes.string,
     systemInfo: PropTypes.object.isRequired,
+    title: PropTypes.string,
+  };
+  static defaultProps = {
+    title: '交易轨迹',
   };
 
   constructor(props) {

@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 
 import '../../css/main.scss';
 
-class Personal extends Component {
+class SignWrap extends Component {
   static propTypes = {
     systemInfo: PropTypes.object,
     exchangeInfo: PropTypes.object,
@@ -45,4 +45,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(Personal);
+export default connect(mapStateToProps)(SignWrap);
