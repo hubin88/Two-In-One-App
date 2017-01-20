@@ -60,6 +60,9 @@ class Quotes extends Component {
   componentDidMount() {
     this.kLine = new window.DrawKLine('kLine', options);
     this.chart = new window.DrawChart('chart', chartOptions);
+    setTimeout(() => {
+      this.drawFS();
+    }, 1000);
     this.time = setInterval(() => {
       this.drawFS();
     }, 60000);
@@ -207,7 +210,7 @@ class Quotes extends Component {
   }
   render() {
     const { commodityData, commodityPrices } = this.props;
-    this.drawFS();
+    // this.drawFS();
     return (
       <div styleName="quotes">
         <ul styleName="commodity" style={{ height: styleConfig.commodityH }}>
