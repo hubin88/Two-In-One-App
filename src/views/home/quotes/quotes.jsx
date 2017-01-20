@@ -12,7 +12,7 @@ import {
   requestQueryMinuteLine,
   requestQueryDayLine,
   successQueryDayLine,
-  successQueryTimeShare,
+  successQueryTimeShare
 } from '../../../model/market/action-market';
 
 const options = {
@@ -64,6 +64,7 @@ class Quotes extends Component {
       commoditySelected: 0,
     };
   }
+
   componentDidMount() {
     this.kLine = new window.DrawKLine('kLine', options);
     this.chart = new window.DrawChart('chart', chartOptions);
@@ -77,6 +78,10 @@ class Quotes extends Component {
     selectDefault.style.cssText = 'color:#FF8212;border: 1px #ff8212 solid;padding: 2px; 0';
     // this.kLine.drawKLine(window.kLineData.result);
     // this.chart.drawChart(window.data2);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.time);
   }
 
   quotesName = ['昨收：', '今开：', '最高：', '最低：'];

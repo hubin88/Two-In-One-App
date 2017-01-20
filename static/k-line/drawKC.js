@@ -243,10 +243,9 @@ DrawKLine.prototype = {
     }
     if (opts && opts.data) {
       this.setData(opts.data);
-    }
-    if (opts && opts.data) {
       this.redrawKLine();
     }
+ 
   },
   //重绘k线
   redrawKLine: function () {
