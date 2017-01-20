@@ -12,7 +12,7 @@ import {
   requestQueryMinuteLine,
   requestQueryDayLine,
   successQueryDayLine,
-  successQueryTimeShare
+  successQueryTimeShare,
 } from '../../../model/market/action-market';
 
 const options = {

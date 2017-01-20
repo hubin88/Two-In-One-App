@@ -576,9 +576,9 @@ export function successGetDirect(json) {
   };
 }
 
-export function requestGetDirect() {
+export function requestGetDirect(obj) {
   return function wrap(dispatch) {
-    return TradeApi.getDirect()
-      .then(json => dispatch(successGetDirect(json)));
+    return TradeApi.getDirect(obj)
+      .then(json => dispatch(successGetDirect(JSON.parse(json.result))));
   };
 }

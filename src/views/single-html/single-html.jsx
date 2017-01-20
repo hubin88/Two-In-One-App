@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 import cssModules from 'react-css-modules';
 import styles from './single-html.scss';
 import AppConfig from '../../server/app-config';
+import { requestGetDirect } from '../../model/action';
 
 
 @cssModules(styles, { allowMultiple: true, errorWhenNotFound: false })
@@ -17,31 +18,55 @@ class SingleHtml extends Component {
     onCloseCallback: PropTypes.func,
     location: PropTypes.object,
     systemInfo: PropTypes.object,
+    dispatch: PropTypes.any,
   };
+  componentWillMount() {
+    const { dispatch, systemInfo } = this.props;
+    const pathName = this.props.location.pathname;
+    const singleHtml = AppConfig.singleHtml();
+    const checkChannel = this.props.systemInfo.checkChannel;
+    this.htmlInfo = {};
+    let ops = '';
+    if (singleHtml[pathName.substring(1, singleHtml.length)]) {
+      this.htmlInfo = singleHtml[pathName.substring(1, singleHtml.length)];
+      ops = 'ZF';
+    } else {
+      this.htmlInfo = checkChannel.direction.substring(1, checkChannel.direction.length);
+      ops = 'TX';
+    }
+    const obj = {
+      sessionId: systemInfo.sessionId,
+      op: ops,
+      terminalType: 'app',
+    };
+    dispatch(requestGetDirect(obj));
+  }
+
   toUpper = () => {
     if (this.props.onCloseCallback) this.props.onCloseCallback();
     window.history.back();
   };
   render() {
-    const pathName = this.props.location.pathname;
-    const singleHtml = AppConfig.singleHtml();
-    const checkChannel = this.props.systemInfo.checkChannel;
-    let htmlInfo = {};
-    if (singleHtml[pathName.substring(1, singleHtml.length)]) {
-      htmlInfo = singleHtml[pathName.substring(1, singleHtml.length)];
-    } else {
-      htmlInfo = checkChannel.direction.substring(1, checkChannel.direction.length);
-      console.log(htmlInfo);
-    }
-    const title = htmlInfo.title || '';
-    const url = htmlInfo.url || '';
+    // const pathName = this.props.location.pathname;
+    // const singleHtml = AppConfig.singleHtml();
+    // console.log('singleHtml', singleHtml);
+    // const checkChannel = this.props.systemInfo.checkChannel;
+    // let htmlInfo = {};
+    // if (singleHtml[pathName.substring(1, singleHtml.length)]) {
+    //   htmlInfo = singleHtml[pathName.substring(1, singleHtml.length)];
+    // } else {
+    //   htmlInfo = checkChannel.direction.substring(1, checkChannel.direction.length);
+    //   console.log(htmlInfo);
+    // }
+    const title = this.htmlInfo.title || '';
+    const { systemInfo: { directUrl } } = this.props;
     return (
       <div styleName="single-html">
         <div styleName="titleName">
           <input type="button" styleName="close" onClick={this.toUpper} />
           <span>{title}</span>
         </div>
-        <iframe src={url} />
+        <iframe src={directUrl} />
       </div>
     );
   }
