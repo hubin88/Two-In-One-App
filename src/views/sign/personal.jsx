@@ -3,98 +3,22 @@
  */
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { browserHistory } from 'react-router';
-import Login from './login';
-import Register from './register';
-import Reset from './reset';
-import ResetPwd from '../reset-password';
-import { afterLogin } from '../../model/action';
-import { getQueryString } from '../../server/tools';
 
 import '../../css/main.scss';
 
 class Persponal extends Component {
   static propTypes = {
-    dispatch: PropTypes.func,
     systemInfo: PropTypes.object,
     exchangeInfo: PropTypes.object,
     children: PropTypes.any,
-    route: PropTypes.object,
   };
 
   back = () => {
     window.history.go(-1);
   };
-  loginSuc = (json) => {
-    this.props.dispatch(afterLogin(json, () => {
-      const path = getQueryString('source') || '';
-      browserHistory.push(`/${path}`);
-    }));
-  };
-  registerSuc = () => {
-    browserHistory.push('/');
-  };
-  resetSuc = () => {
-    browserHistory.push('/login');
-  };
-  resetPhoneSuc = () => {
-    browserHistory.push('/login');
-  };
-  resetPasswordSuc = () => {
-    browserHistory.push('/login');
-  };
-  childrenComponent = (path) => {
-    switch (path) {
-      case '/login':
-        return (
-          <Login
-            loginSuccess={this.loginSuc}
-            toRegister={() => { browserHistory.push('/register'); }}
-            toReset={() => { browserHistory.push('/reset'); }}
-            toHome={() => { browserHistory.push('/'); }}
-            orgId={this.props.exchangeInfo.orgId}
-          />
-        );
-      case '/register':
-        return (
-          <Register
-            registerSuccess={this.registerSuc}
-            orgId={this.props.exchangeInfo.orgId}
-            systemType={this.props.systemInfo.systemType}
-            type="register"
-          />
-        );
-      case '/reset':
-        return (
-          <Reset
-            resetSuccess={this.resetSuc}
-            orgId={this.props.exchangeInfo.orgId}
-          />
-        );
-      case '/resetphone':
-        return (
-          <Register
-            resetPhoneSuccess={this.resetPhoneSuc}
-            orgId={this.props.exchangeInfo.orgId}
-            systemType={this.props.systemInfo.systemType}
-            sessionId={this.props.systemInfo.loginData.sessionId}
-            type="resetphone"
-          />
-        );
-      case '/resetpwd':
-        return (
-          <ResetPwd
-            resetPasswordSuccess={this.resetPasswordSuc}
-            sessionId={this.props.systemInfo.loginData.sessionId}
-          />
-        );
-      default:
-        return null;
-    }
-  };
 
   render() {
-    const { systemInfo, exchangeInfo: { systemList }, route: { path } } = this.props;
+    const { systemInfo, exchangeInfo: { systemList } } = this.props;
     let titleName = null;
     systemList.forEach((val) => {
       if (val.type === systemInfo.systemType) {
@@ -108,7 +32,7 @@ class Persponal extends Component {
           <input type="button" className="back" onClick={() => { this.back(); }} />
           {titleName}
         </div>
-        {this.childrenComponent(path)}
+        {this.props.children}
       </div>
     );
   }

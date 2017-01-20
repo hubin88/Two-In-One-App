@@ -1,7 +1,3 @@
-/**
- * Created by yjzhme on 2016/12/29.
- */
-
 import React, { Component, PropTypes } from 'react';
 import cssModules from 'react-css-modules';
 import styles from './quotes.scss';
@@ -34,7 +30,6 @@ const chartOptions = {
   chartFillColor: 'rgba(2,100,30,.1)',
   chartColor: 'black',
 };
-
 const timeList = [
   { name: 'fenTime', label: '分时' },
   { name: 'oneMinute', label: '1分' },
@@ -46,7 +41,6 @@ const timeList = [
   { name: 'weekK', label: '周K' },
   { name: 'monthK', label: '月K' },
 ];
-
 class Quotes extends Component {
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
@@ -57,14 +51,12 @@ class Quotes extends Component {
     normalday: PropTypes.object,
     timeLists: PropTypes.array,
   };
-
   constructor(props) {
     super(props);
     this.state = {
       commoditySelected: 0,
     };
   }
-
   componentDidMount() {
     this.kLine = new window.DrawKLine('kLine', options);
     this.chart = new window.DrawChart('chart', chartOptions);
@@ -79,24 +71,19 @@ class Quotes extends Component {
     // this.kLine.drawKLine(window.kLineData.result);
     // this.chart.drawChart(window.data2);
   }
-
   componentWillUnmount() {
     clearInterval(this.time);
   }
-
   quotesName = ['昨收：', '今开：', '最高：', '最低：'];
-
   redrawCanvas(drawType = 'chart') {
     const w = styleConfig.screenW;
     const h = styleConfig.canvasH - this.props.holdHeight;
     this[drawType].resetCanvas({ width: w, height: h });
   }
-
   FScallBack = (dispatch, json) => {
     this.chart.drawChart(json.result);
     dispatch(successQueryTimeShare(json));
   };
-
   // 绘制分时图
   drawFS = (id) => {
     const { dispatch, normalday, commodityId } = this.props;
@@ -113,17 +100,14 @@ class Quotes extends Component {
       }
     });
   };
-
   KXFcallBack = (dispatch, json) => {
     this.kLine.drawKLine({ data: json.result, timetype: 1 });
     dispatch(successQueryDayLine(json));
   };
-
   KXRcallBack = (dispatch, json) => {
     this.kLine.drawKLine({ data: json.result, timetype: 2 });
     dispatch(successQueryDayLine(json));
   };
-
   drawKX = (name) => {
     const { dispatch, normalday, commodityId } = this.props;
     normalday.assetinfo.forEach((item) => {
@@ -143,7 +127,6 @@ class Quotes extends Component {
       }
     });
   };
-
   // 切换分时与K线图
   drawCanvas = (name) => {
     clearInterval(this.time);
@@ -165,13 +148,11 @@ class Quotes extends Component {
       this.redrawCanvas('kLine');
     }
   };
-
   chooseCommodity = (id) => () => {
     const { dispatch } = this.props;
     this.drawFS(id);
     dispatch(toChangeCommodity(id));
   };
-
   selectTime = (e, name) => {
     this.drawCanvas(name);
     const value = e.currentTarget.getElementsByTagName('span')[0];
@@ -193,7 +174,6 @@ class Quotes extends Component {
     });
     return tpl;
   };
-
   renderChart() {
     const canvasH = styleConfig.canvasH - this.props.holdHeight;
     this.timeList = timeList;
@@ -227,7 +207,6 @@ class Quotes extends Component {
       </div>
     );
   }
-
   render() {
     const { commodityData, commodityPrices } = this.props;
     return (
@@ -261,5 +240,4 @@ class Quotes extends Component {
     );
   }
 }
-
 export default cssModules(Quotes, styles, { allowMultiple: true, errorWhenNotFound: false });

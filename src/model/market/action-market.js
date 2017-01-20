@@ -1,6 +1,3 @@
-/**
- * Created by Amg on 2016/12/26.
- */
 import * as ActionTypes from '../market/action-type-market';
 import QuotationApi from '../../server/api/quotation-api';
 // 获取分时K线
@@ -25,7 +22,6 @@ export function successQueryMinuteLine(json) {
     data: json,
   };
 }
-
 export function requestQueryMinuteLine(obj, callBack) {
   return function wrap(dispatch) {
     return QuotationApi.queryMinuteLine(obj)
@@ -41,7 +37,6 @@ export function successQueryNormalday(json) {
     data: json,
   };
 }
-
 export function requestQueryNormalday(obj) {
   return function wrap(dispatch) {
     return QuotationApi.queryNormalDay(obj)
@@ -51,7 +46,6 @@ export function requestQueryNormalday(obj) {
       });
   };
 }
-
 // 获取日K线,周K,月K线
 export function successQueryDayLine(json) {
   return {
@@ -67,7 +61,6 @@ export function requestQueryDayLine(obj, callBack) {
       });
   };
 }
-
 // 获取配置K线周期
 export function successQueryPeriod(json) {
   return {
@@ -81,7 +74,6 @@ export function requestQueryPeriod() {
       .then(json => dispatch(successQueryPeriod(json)));
   };
 }
-
 // 获取个股行情
 export function successGetQuot(json) {
   return {
@@ -95,7 +87,6 @@ export function requestGetQuot(obj) {
       .then(json => dispatch(successGetQuot(json)));
   };
 }
-
 // 订阅
 export function successSubscribe(json) {
   return {

@@ -58,10 +58,8 @@ export default class TradeApi {
       name: TradeApi.queryUserInfoGateway.name,
     });
   }
-
   // 获取支付中心地址
   static getDirect(obj = {}) {
     return postWithTrade(InterFace.DIRECT, obj, TradeApi.getDirect.name);
   }
-
 }

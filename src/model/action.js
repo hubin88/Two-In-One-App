@@ -222,13 +222,6 @@ export function toQueryUserInfoGateway(obj) {
       });
   };
 }
-
-export function queryUserInfoGatewayReapt(obj) {
-  return function wrap(dispatch) {
-    return TradeApi.queryUserInfoGateway(obj)
-      .then(json => dispatch(successQueryUserInfoGateway(json)));
-  };
-}
 /* === 推送资产信息（轮询） === */
 
 /* === 重置用户 === */
@@ -575,7 +568,6 @@ export function successGetDirect(json) {
     data: json,
   };
 }
-
 export function requestGetDirect(obj) {
   return function wrap(dispatch) {
     return TradeApi.getDirect(obj)

@@ -32,11 +32,9 @@ const holdRecord = {
     { name: '亚太银', mount: '2', openPrice: '3732', float: '-5' },
   ],
 };
-
 @cssModules(styles, { allowMultiple: true, errorWhenNotFound: false })
 class Home extends Component {
   static defaultProps = {};
-
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
     exchangeInfo: PropTypes.object,
@@ -44,18 +42,15 @@ class Home extends Component {
     systemInfo: PropTypes.object,
     commodityState: PropTypes.object,
   };
-
   constructor(props) {
     super(props);
     this.state = {
       holdBody: [],
     };
   }
-
   onCover = (d) => {
     console.log('平仓', d);
   };
-
   clickAvatar = () => {
     if (this.props.systemInfo.isLogin) {
       browserHistory.push('/user');
@@ -63,7 +58,6 @@ class Home extends Component {
       browserHistory.push('/login?source=user');
     }
   };
-
   haveHold = (systemType) => {
     this.setState({
       holdBody: holdRecord[systemType],
@@ -91,14 +85,11 @@ class Home extends Component {
     }
     console.log('下单成功', data);
   };
-
   showOrder = (title, direction, systemType) => {
     const {
       exchangeInfo: { commodityData },
       commodityState: { commodityId },
-
     } = this.props;
-
     OrderBox.show({
       dispatch: this.props.dispatch,
       title,
@@ -109,14 +100,12 @@ class Home extends Component {
       commodityId,
     });
   };
-
   // 持仓记录头部
   holdHeaderList = (systemType) => {
     const {
       exchangeInfo: { commodityData },
       commodityState: { commodityId },
     } = this.props;
-
     const obj = {
       [SYS_DCB]: [
         {
@@ -153,7 +142,6 @@ class Home extends Component {
     };
     return obj[systemType];
   };
-
   render() {
     const {
       dispatch,
@@ -259,7 +247,6 @@ class Home extends Component {
     );
   }
 }
-
 function mapStateToProps(state) {
   return {
     exchangeInfo: state.exchangeInfo,
@@ -268,6 +255,4 @@ function mapStateToProps(state) {
     commodityState: state.commodityState,
   };
 }
-
 export default connect(mapStateToProps)(Home);
-

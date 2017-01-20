@@ -19,6 +19,11 @@ import Gold from './views/user/channel/gold';
 import Hold from './views/user/channel/hold';
 import UserCenter from './views/user/channel/userSet';
 import { Cookie } from './ultils/tools';
+import LoginWrap from './views/sign-wrap/login-wrap';
+import RegisterWrap from './views/sign-wrap/register-wrap';
+import ResetWrap from './views/sign-wrap/reset-wrap';
+import ResetphoneWrap from './views/sign-wrap/resetphone-wrap';
+import ResetPwdWrap from './views/sign-wrap/resetpwd-wrap';
 
 const store = DEBUG ? createStore(
   rootReducer,
@@ -48,15 +53,14 @@ const StoreWrap = () => (
           <Route path="/rule" component={Rule} />
           <Route path="/user" component={User} />
         </Route>
-
-        <Route path="/login" component={Persponal} />
-        <Route path="/register" component={Persponal} />
-        <Route path="/reset" component={Persponal} />
-        <Route path="/resetphone" component={Persponal} />
-        <Route path="/resetpwd" component={Persponal} />
-
+        <Route component={Persponal}>
+          <Route path="/login" component={LoginWrap} />
+          <Route path="/register" component={RegisterWrap} />
+          <Route path="/reset" component={ResetWrap} />
+          <Route path="/resetphone" component={ResetphoneWrap} />
+          <Route path="/resetpwd" component={ResetPwdWrap} />
+        </Route>
         <Route path="/broker" component={Broker} onEnter={checkLogin} />
-
         <Route path="/pay" component={Single} onEnter={checkLogin} />
         <Route path="/withdraw" component={Single} onEnter={checkLogin} />
         <Route path="/dcbPage" component={Single} />

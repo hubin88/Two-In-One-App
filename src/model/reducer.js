@@ -27,6 +27,7 @@ const initAvatarURL = require('../images/me_image_avator@3x.png');
 const initSystemInfo = {
   systemType: SYS_DCB,
   isLogin: false,
+  loginData: {},
   avatarURL: initAvatarURL,
   nickName: '',
   sessionId: null,
@@ -143,9 +144,7 @@ function systemInfo(state = initSystemInfo, action) {
       console.log(action.data);
       return {
         ...state,
-        sessionId: action.data.sessionId,
-        mobile: action.data.mobile,
-        orgId: action.data.orgId,
+        loginData: action.data,
       };
     }
     case ActionTypes.SUCCESS_LOGOUT: {

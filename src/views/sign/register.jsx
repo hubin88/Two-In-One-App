@@ -232,7 +232,7 @@ export default class Register extends Component {
     console.log(this.props);
     return (
       <div styleName="register-box">
-        <div styleName="title">{this.props.type === 'register' ? '手机号注册' : '修改手机号'}</div>
+        <div styleName="title">{this.props.type === 'resetphone' ? '修改手机号' : '手机号注册'}</div>
         <form styleName="form-register" autoComplete="off">
           {this.showOrgName()}
           <div styleName="account">
@@ -243,10 +243,10 @@ export default class Register extends Component {
                 autoFocus="autofocus"
                 autoComplete="off"
               />
+              <span
+                styleName={this.state.isAccountRight ? 'icon account-right' : 'icon'}
+              />
             </label>
-            <span
-              styleName={this.state.isAccountRight ? 'icon account-right' : 'icon'}
-            />
           </div>
           <div styleName="code">
             <label htmlFor="code">
@@ -256,7 +256,6 @@ export default class Register extends Component {
                 autoComplete="off"
               />
             </label>
-            <span styleName="icon" />
             <div styleName="code-btn">
               <input
                 type="button"
@@ -276,11 +275,11 @@ export default class Register extends Component {
                 ref={(ref) => { this.password = ref; }} onChange={this.check}
                 autoComplete="off"
               />
+              <span
+                styleName={this.state.isShowPassword ? ('icon show-password') : ('icon hide-password')}
+                onClick={this.changePasswordState}
+              />
             </label>
-            <span
-              styleName={this.state.isShowPassword ? ('icon show-password') : ('icon hide-password')}
-              onClick={this.changePasswordState}
-            />
           </div>
         </form>
         <div styleName="submit">
