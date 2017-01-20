@@ -129,7 +129,7 @@ export default class Reset extends Component {
       }
     }).catch(err => Tips.show(err.message));
   };
-  clearAccount = ()=> {
+  clearAccount = () => {
     if (this.state.isAccountRight) return;
     this.account.value = '';
     this.setState({
@@ -151,10 +151,10 @@ export default class Reset extends Component {
                 ref={(ref) => { this.account = ref; }} onChange={this.check}
               />
               {this.state.isAccountEmpty ? null :
-                <span
-                  onClick={this.clearAccount}
-                  styleName={this.state.isAccountRight ? 'icon account-right' : 'icon account-error'}
-                />
+              <span
+                onClick={this.clearAccount}
+                styleName={this.state.isAccountRight ? 'icon account-right' : 'icon account-error'}
+              />
               }
             </label>
           </div>

@@ -119,7 +119,7 @@ export default class Login extends Component {
       this.props.toHome();
     }
   };
-  clearAccount = ()=> {
+  clearAccount = () => {
     if (this.state.isAccountRight) return;
     this.account.value = '';
     this.setState({
@@ -142,10 +142,10 @@ export default class Login extends Component {
                 autoFocus="autofocus"
               />
               {this.state.isAccountEmpty ? null :
-                <span
-                  onClick={this.clearAccount}
-                  styleName={this.state.isAccountRight ? 'icon account-right' : 'icon account-error'}
-                />
+              <span
+                onClick={this.clearAccount}
+                styleName={this.state.isAccountRight ? 'icon account-right' : 'icon account-error'}
+              />
               }
             </label>
           </div>

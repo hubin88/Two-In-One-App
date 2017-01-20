@@ -236,7 +236,7 @@ export default class Register extends Component {
       }).catch(err => Tips.show(err.message));
     }
   };
-  clearAccount = ()=> {
+  clearAccount = () => {
     if (this.state.isAccountRight) return;
     this.account.value = '';
     this.setState({
@@ -260,10 +260,10 @@ export default class Register extends Component {
                 autoComplete="off"
               />
               {this.state.isAccountEmpty ? null :
-                <span
-                  onClick={this.clearAccount}
-                  styleName={this.state.isAccountRight ? 'icon account-right' : 'icon account-error'}
-                />
+              <span
+                onClick={this.clearAccount}
+                styleName={this.state.isAccountRight ? 'icon account-right' : 'icon account-error'}
+              />
               }
             </label>
           </div>
