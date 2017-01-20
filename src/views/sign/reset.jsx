@@ -133,10 +133,10 @@ export default class Reset extends Component {
                 autoFocus="autofocus"
                 ref={(ref) => { this.account = ref; }} onChange={this.check}
               />
+              <span
+                styleName={this.state.isAccountRight ? 'icon account-right' : 'icon'}
+              />
             </label>
-            <span
-              styleName={this.state.isAccountRight ? 'icon account-right' : 'icon'}
-            />
           </div>
           <div styleName="code">
             <label htmlFor="code">
@@ -146,7 +146,6 @@ export default class Reset extends Component {
                 onChange={this.check}
               />
             </label>
-            <span styleName="icon" />
             <div styleName="code-btn">
               <input
                 type="button"
@@ -165,11 +164,11 @@ export default class Reset extends Component {
                 maxLength="6"
                 ref={(ref) => { this.password = ref; }} onChange={this.check}
               />
+              <span
+                styleName={this.state.isShowPassword ? 'icon show-password' : 'icon hide-password'}
+                onClick={this.changePasswordState}
+              />
             </label>
-            <span
-              styleName={this.state.isShowPassword ? 'icon show-password' : 'icon hide-password'}
-              onClick={this.changePasswordState}
-            />
           </div>
         </form>
         <div styleName="submit">

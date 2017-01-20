@@ -84,7 +84,7 @@ input {
 }
 
 .content > div:last-child {
-  padding: 0.42rem 4.83% 0;
+  padding: 0.66rem 4.83% 0;
   height: 100%;
   font-size: 0.14rem;
 }
@@ -92,10 +92,10 @@ input {
 .header {
   position: absolute;
   width: 100%;
-  height: 0.4rem;
-  padding: 0.05rem 0;
+  height: 0.66rem;
+  padding: 0.22rem 0 0 0;
   text-align: center;
-  line-height: 0.3rem;
+  line-height: 0.44rem;
   color: #fff;
   background: rgb(254, 130, 40);
   font-weight: bold;
@@ -105,6 +105,7 @@ input {
   .back {
     position: absolute;
     left: 0.05rem;
+    bottom:0.08rem;
     width: 0.3rem;
     height: 0.3rem;
     background: url('../images/back@2x.png') no-repeat center center/auto 80%;

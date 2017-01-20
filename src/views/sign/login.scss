@@ -6,27 +6,33 @@
 }
 
 form.form-login {
-  display: table;
   width: 100%;
   div {
-    height: 0.45rem;
+    height: $inputHeight;
     width: 100%;
-    display: table-row;
     margin: 0.1rem 0;
     box-sizing: border-box;
     position: relative;
-    label {
-      display: table-cell;
-      height: 100%;
+    input {
+      display: block;
+      width: 100%;
+      height: $inputHeight;
+      padding-left: .35rem;
       border-bottom: 0.01rem solid $borderBottomColor;
-      input {
-        height: 0.45rem;
-        margin-left: 0.2rem;
+      &:focus {
+        border-bottom-color: $focusBorderColor;
       }
     }
+    span {
+      position: absolute;
+      display: block;
+      height: $spanHeight;
+      line-height: $spanHeight;
+    }
     .icon {
-      display: table-cell;
-      width: 0.3rem;
+      right: 0;
+      top: 0;
+      width: 0.35rem;
       border-bottom: 0.01rem solid $borderBottomColor;
     }
     .account-right {
@@ -66,9 +72,9 @@ form.form-login {
 }
 
 .forget {
+  display: table;
   height: 0.3rem;
   font-size: 0.14rem;
-  display: table;
   width: 100%;
   .tr {
     display: table-row;
