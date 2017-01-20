@@ -13,15 +13,16 @@
   overflow-x: auto;
   overflow-y: hidden;
   background-color: #EFEFF4;
+  display: table;
+  table-layout: fixed;
   &::-webkit-scrollbar {
     display: none
   }
   li {
     list-style-type: none;
-    display: inline-block;
-    text-align: center;
+    padding: .09rem;
     height: 100%;
-    min-width: 33.33%;
+    display: table-cell;
 
     span {
       display: block;
@@ -40,6 +41,8 @@
 
 .active {
   border-top: 1px gray solid;
+  background-color: #96c7e8;
+  color: #000;
 }
 
 .canvas{
