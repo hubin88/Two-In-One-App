@@ -124,10 +124,10 @@ export default class Login extends Component {
                 ref={(ref) => { this.account = ref; }} onChange={this.check}
                 autoFocus="autofocus"
               />
-              <span
-                styleName={this.state.isAccountRight ? 'icon account-right' : 'icon'}
-              />
             </label>
+            <span
+              styleName={this.state.isAccountRight ? 'icon account-right' : 'icon'}
+            />
           </div>
           <div styleName="password">
             <label htmlFor="password">
@@ -138,11 +138,11 @@ export default class Login extends Component {
                 maxLength="6"
                 ref={(ref) => { this.password = ref; }} onChange={this.check}
               />
-              <span
-                styleName={this.state.isShowPassword ? 'icon show-password' : 'icon hide-password'}
-                onClick={this.changePasswordState}
-              />
             </label>
+            <span
+              styleName={this.state.isShowPassword ? 'icon show-password' : 'icon hide-password'}
+              onClick={this.changePasswordState}
+            />
           </div>
         </form>
         <div styleName="login">

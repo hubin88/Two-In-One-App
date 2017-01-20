@@ -1,3 +1,4 @@
+
 @import "./var";
 
 .forget-password-box {
@@ -11,39 +12,37 @@
 
 form.form-forget-password {
   margin-top: 0.3rem;
+  display: table;
   width: 100%;
   position: relative;
+  .organization{
+    line-height: 0.45rem;
+  }
   div {
-    height:$inputHeight;
+    display: table-row;
+    height: 0.45rem;
     width: 100%;
     margin: 0;
     position: relative;
-    input {
-      width: 100%;
-      height: $inputHeight;
+    & > * {
+      display: table-cell;
       border-bottom: 0.01rem solid $borderBottomColor;
-      &:focus {
-        border-bottom-color: $focusBorderColor;
+      input {
+        width: 100%;
+        height: 0.45rem;
       }
-    }
-    span {
-      position: absolute;
-      right: 0;
-      top: 0;
-      height: $spanHeight;
-      line-height: $spanHeight;
     }
     .code-btn {
       position: absolute;
       right: 0;
-      top: 0;
+      top: 0.45rem;
       width: 1.2rem;
       padding: 0.05rem 0;
       border: none;
       height: 0.45rem;
       box-sizing: border-box;
-      input {
-        height: 0.35rem;
+      input{
+        height:0.35rem;
         padding: 0 0.1rem;
         border-radius: 0.05rem;
         font-size: 0.14rem;
@@ -76,7 +75,6 @@ form.form-forget-password {
     }
   }
 }
-
 .submit {
   border: none;
   height: 0.5rem;
@@ -85,7 +83,7 @@ form.form-forget-password {
   input {
     display: block;
     width: 100%;
-    height: 100%;
+    height:100%;
     border-radius: 0.05rem;
     margin: 0;
   }
