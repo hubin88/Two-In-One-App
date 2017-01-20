@@ -222,6 +222,13 @@ export function toQueryUserInfoGateway(obj) {
       });
   };
 }
+
+export function queryUserInfoGatewayReapt(obj) {
+  return function wrap(dispatch) {
+    return TradeApi.queryUserInfoGateway(obj)
+      .then(json => dispatch(successQueryUserInfoGateway(json)));
+  };
+}
 /* === 推送资产信息（轮询） === */
 
 /* === 重置用户 === */
@@ -558,5 +565,20 @@ export function requestGetMemberList() {
   return function wrap(dispatch) {
     return TradeApi.getMemberList()
       .then(json => dispatch(successGetMemberList(json)));
+  };
+}
+
+// 获取支付中心地址
+export function successGetDirect(json) {
+  return {
+    type: ActionTypes.SUCCESS_DIRECT,
+    data: json,
+  };
+}
+
+export function requestGetDirect() {
+  return function wrap(dispatch) {
+    return TradeApi.getDirect()
+      .then(json => dispatch(successGetDirect(json)));
   };
 }

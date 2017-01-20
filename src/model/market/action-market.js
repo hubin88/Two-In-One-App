@@ -10,12 +10,11 @@ export function successQueryTimeShare(json) {
     data: json,
   };
 }
-export function requestQueryTimeShare(obj, t) {
+export function requestQueryTimeShare(obj, callBack) {
   return function wrap(dispatch) {
     return QuotationApi.queryTimeShare(obj)
       .then(json => {
-        dispatch(successQueryTimeShare(json));
-        t.chart.drawChart(json.result);
+        if (callBack) callBack(dispatch, json);
       });
   };
 }
@@ -27,12 +26,11 @@ export function successQueryMinuteLine(json) {
   };
 }
 
-export function requestQueryMinuteLine(obj, t) {
+export function requestQueryMinuteLine(obj, callBack) {
   return function wrap(dispatch) {
     return QuotationApi.queryMinuteLine(obj)
       .then(json => {
-        t.kLine.drawKLine(json.result);
-        dispatch(successQueryMinuteLine(json));
+        if (callBack) callBack(dispatch, json);
       });
   };
 }
@@ -61,10 +59,12 @@ export function successQueryDayLine(json) {
     data: json,
   };
 }
-export function requestQueryDayLine() {
+export function requestQueryDayLine(obj, callBack) {
   return function wrap(dispatch) {
-    return QuotationApi.queryDayLine()
-      .then(json => dispatch(successQueryDayLine(json)));
+    return QuotationApi.queryDayLine(obj)
+      .then(json => {
+        if (callBack) callBack(dispatch, json);
+      });
   };
 }
 
