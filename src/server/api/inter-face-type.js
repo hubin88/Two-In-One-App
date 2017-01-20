@@ -115,3 +115,6 @@ export const GET_QUOT = 'mktinfo_api/get_quot';
 
 // 订阅
 export const SUBSCRIBE = 'mktinfo_api/subscribe';
+
+// 获取支付中心地址
+export const DIRECT = 'direct';

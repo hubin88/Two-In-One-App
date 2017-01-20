@@ -9,7 +9,7 @@ import styles from './home.scss';
 import holdStyles from './hold-table.scss';
 import { SYS_DCB, SYS_DWB } from '../../server/define';
 import AppConfig, { styleConfig } from '../../server/app-config';
-import { toCreateUserOrder } from '../../model/action';
+import { toCreateUserOrder, queryUserInfoGatewayReapt } from '../../model/action';
 
 const holdRecord = {
   [SYS_DCB]: [
@@ -157,7 +157,7 @@ class Home extends Component {
   render() {
     const {
       dispatch,
-      exchangeInfo: { commodityData },
+      exchangeInfo: { commodityData, secKey },
       marketInfo: { commodityPrices, normalday },
       systemInfo: {
         systemType,
@@ -173,6 +173,12 @@ class Home extends Component {
     const allCashNum = isLogin ? allCash : '- -';
     const hasHold = holdArr && holdArr.length !== 0;
     const holdHeight = hasHold ? styleConfig.holdH : 0;
+    if (isLogin) {
+      clearInterval(this.time);
+      this.time = setInterval(() => {
+        dispatch(queryUserInfoGatewayReapt(secKey));
+      }, 60000);
+    }
     return (
       <div styleName="home">
         <div

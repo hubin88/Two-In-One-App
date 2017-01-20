@@ -11,6 +11,8 @@ import {
   requestQueryTimeShare,
   requestQueryMinuteLine,
   requestQueryDayLine,
+  successQueryDayLine,
+  successQueryTimeShare
 } from '../../../model/market/action-market';
 
 const options = {
@@ -62,16 +64,24 @@ class Quotes extends Component {
       commoditySelected: 0,
     };
   }
+
   componentDidMount() {
     this.kLine = new window.DrawKLine('kLine', options);
     this.chart = new window.DrawChart('chart', chartOptions);
     setTimeout(() => {
       this.drawFS();
     }, 1000);
+    this.time = setInterval(() => {
+      this.drawFS();
+    }, 60000);
     const selectDefault = this.timeList.children[0].getElementsByTagName('span')[0];
     selectDefault.style.cssText = 'color:#FF8212;border: 1px #ff8212 solid;padding: 2px; 0';
     // this.kLine.drawKLine(window.kLineData.result);
     // this.chart.drawChart(window.data2);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.time);
   }
 
   quotesName = ['昨收：', '今开：', '最高：', '最低：'];
@@ -79,8 +89,13 @@ class Quotes extends Component {
   redrawCanvas(drawType = 'chart') {
     const w = styleConfig.screenW;
     const h = styleConfig.canvasH - this.props.holdHeight;
-    this[drawType].resetCanvas(w, h);
+    this[drawType].resetCanvas({ width: w, height: h });
   }
+
+  FScallBack = (dispatch, json) => {
+    this.chart.drawChart(json.result);
+    dispatch(successQueryTimeShare(json));
+  };
 
   // 绘制分时图
   drawFS = (id) => {
@@ -94,9 +109,19 @@ class Quotes extends Component {
           timetype: 1,
           timevalue2: item.closetime,
         };
-        dispatch(requestQueryTimeShare(obj, this));
+        dispatch(requestQueryTimeShare(obj, this.FScallBack));
       }
     });
+  };
+
+  KXFcallBack = (dispatch, json) => {
+    this.kLine.drawKLine({ data: json.result, timetype: 1 });
+    dispatch(successQueryDayLine(json));
+  };
+
+  KXRcallBack = (dispatch, json) => {
+    this.kLine.drawKLine({ data: json.result, timetype: 2 });
+    dispatch(successQueryDayLine(json));
   };
 
   drawKX = (name) => {
@@ -111,9 +136,9 @@ class Quotes extends Component {
           minutetype: name,
         };
         if (name === 'oneK' || name === 'weekK' || name === 'monthK') {
-          dispatch(requestQueryDayLine(obj, this));
+          dispatch(requestQueryDayLine(obj, this.KXRcallBack));
         } else {
-          dispatch(requestQueryMinuteLine(obj, this));
+          dispatch(requestQueryMinuteLine(obj, this.KXFcallBack));
         }
       }
     });
@@ -121,13 +146,20 @@ class Quotes extends Component {
 
   // 切换分时与K线图
   drawCanvas = (name) => {
+    clearInterval(this.time);
     if (name === 'fenTime') {
       this.drawFS();
+      this.time = setInterval(() => {
+        this.drawFS();
+      }, 60000);
       document.getElementById('drawLine').style.display = 'none';
       document.getElementById('drawChart').style.display = 'block';
       this.redrawCanvas('chart');
     } else {
       this.drawKX(name);
+      this.time = setInterval(() => {
+        this.drawKX(name);
+      }, 60000);
       document.getElementById('drawLine').style.display = 'block';
       document.getElementById('drawChart').style.display = 'none';
       this.redrawCanvas('kLine');
