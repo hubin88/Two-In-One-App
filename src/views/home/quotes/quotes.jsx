@@ -109,8 +109,13 @@ class Quotes extends Component {
     });
   };
 
-  KXcallBack = (dispatch, json) => {
-    this.kLine.drawKLine(json.result);
+  KXFcallBack = (dispatch, json) => {
+    this.kLine.drawKLine({ data: json.result, timetype: 1 });
+    dispatch(successQueryDayLine(json));
+  };
+
+  KXRcallBack = (dispatch, json) => {
+    this.kLine.drawKLine({ data: json.result, timetype: 2 });
     dispatch(successQueryDayLine(json));
   };
 
@@ -126,9 +131,9 @@ class Quotes extends Component {
           minutetype: name,
         };
         if (name === 'oneK' || name === 'weekK' || name === 'monthK') {
-          dispatch(requestQueryDayLine(obj, this.KXcallBack));
+          dispatch(requestQueryDayLine(obj, this.KXRcallBack));
         } else {
-          dispatch(requestQueryMinuteLine(obj, this.KXcallBack));
+          dispatch(requestQueryMinuteLine(obj, this.KXFcallBack));
         }
       }
     });
