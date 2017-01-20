@@ -32,6 +32,7 @@ const initSystemInfo = {
   sessionId: null,
   mobile: null,
   orgId: NONE,
+  directUrl: null,
   navList: {
     home: { name: 'home', label: '首页', direction: '/home' },
     track: { name: 'broker', label: '经纪人', direction: '/broker' },
@@ -167,6 +168,12 @@ function systemInfo(state = initSystemInfo, action) {
         avatarURL: `data:image/png;base64,${headImg}`,
         nickName,
         mobile,
+      };
+    }
+    case ActionTypes.SUCCESS_DIRECT: {
+      return {
+        ...state,
+        directUrl: action.data.url,
       };
     }
     default: {
