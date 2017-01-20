@@ -14,7 +14,7 @@ import User from './views/user/user';
 import Broker from './views/broker/broker';
 import Single from './views/single-html/single-html';
 import NickName from './views/user/channel/nickName';
-import Persponal from './views/sign/personal';
+import Personal from './views/sign/personal';
 import Gold from './views/user/channel/gold';
 import Hold from './views/user/channel/hold';
 import UserCenter from './views/user/channel/userSet';
@@ -53,7 +53,7 @@ const StoreWrap = () => (
           <Route path="/rule" component={Rule} />
           <Route path="/user" component={User} />
         </Route>
-        <Route component={Persponal}>
+        <Route component={Personal}>
           <Route path="/login" component={LoginWrap} />
           <Route path="/register" component={RegisterWrap} />
           <Route path="/reset" component={ResetWrap} />

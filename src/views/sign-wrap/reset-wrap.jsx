@@ -13,7 +13,7 @@ class ResetWrap extends Component {
     exchangeInfo: PropTypes.object,
   };
   resetSuc = () => {
-    browserHistory.push('/');
+    browserHistory.push('/login');
   };
 
   render() {
