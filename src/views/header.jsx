@@ -29,7 +29,7 @@ export default class Header extends Component {
   };
 
   showNav = () => (location.href.includes('home') ?
-      <span styleName="left-nav-btn" onClick={this.props.showLeftNav} /> : null
+    <span styleName="left-nav-btn" onClick={this.props.showLeftNav} /> : null
   );
 
   render() {
