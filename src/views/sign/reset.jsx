@@ -29,6 +29,7 @@ export default class Reset extends Component {
       isPassWordRight: false, // 密码是否正确
       isCodeRequest: false, // 验证码按钮是否可以点击
       isCodeRight: false, // 验证码是否正确
+      isAccountEmpty: true, // 账号是否是空
       codeBtnValue: '获取短信验证码',
       orgId: this.props.orgId || getQueryString('organization'),
       systemType: this.props.systemType || getQueryString('systemType'),
@@ -45,11 +46,11 @@ export default class Reset extends Component {
   check = (e) => {
     e.stopPropagation();
     e.preventDefault();
-    const text = e.target.value;
+    const val = e.target.value;
     const id = e.target.getAttribute('id');
     switch (id) {
       case 'account':
-        if (regAccount.test(text)) {
+        if (regAccount.test(val)) {
           this.setState({
             isAccountRight: true,
             isCodeRequest: true,
@@ -60,9 +61,18 @@ export default class Reset extends Component {
             isCodeRequest: false,
           });
         }
+        if (val === '') {
+          this.setState({
+            isAccountEmpty: true,
+          });
+        } else {
+          this.setState({
+            isAccountEmpty: false,
+          });
+        }
         break;
       case 'password':
-        if (regPassword.test(text)) {
+        if (regPassword.test(val)) {
           this.setState({
             isPassWordRight: true,
           });
@@ -73,7 +83,7 @@ export default class Reset extends Component {
         }
         break;
       case 'code':
-        if (regCode.test(text)) {
+        if (regCode.test(val)) {
           this.setState({
             isCodeRight: true,
           });
@@ -119,6 +129,13 @@ export default class Reset extends Component {
       }
     }).catch(err => Tips.show(err.message));
   };
+  clearAccount = ()=> {
+    if (this.state.isAccountRight) return;
+    this.account.value = '';
+    this.setState({
+      isAccountEmpty: true,
+    });
+  };
 
   render() {
     const isSubmit = this.state.isAccountRight && this.state.isPassWordRight && this.state.isCodeRight;
@@ -133,9 +150,12 @@ export default class Reset extends Component {
                 autoFocus="autofocus"
                 ref={(ref) => { this.account = ref; }} onChange={this.check}
               />
-              <span
-                styleName={this.state.isAccountRight ? 'icon account-right' : 'icon'}
-              />
+              {this.state.isAccountEmpty ? null :
+                <span
+                  onClick={this.clearAccount}
+                  styleName={this.state.isAccountRight ? 'icon account-right' : 'icon account-error'}
+                />
+              }
             </label>
           </div>
           <div styleName="code">

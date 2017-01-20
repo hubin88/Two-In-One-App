@@ -35,6 +35,7 @@ export default class Register extends Component {
       isPassWordRight: false, // 密码是否正确
       isCodeRequest: false, // 验证码按钮是否可以点击
       isCodeRight: false, // 验证码是否正确
+      isAccountEmpty: true, // 账号是否是空
       codeBtnValue: '获取短信验证码',
       brokerId: getQueryString('brokerId'),
       orgId: this.props.orgId || getQueryString('organization'),
@@ -114,6 +115,15 @@ export default class Register extends Component {
           this.setState({
             isAccountRight: false,
             isCodeRequest: false,
+          });
+        }
+        if (val === '') {
+          this.setState({
+            isAccountEmpty: true,
+          });
+        } else {
+          this.setState({
+            isAccountEmpty: false,
           });
         }
         break;
@@ -226,10 +236,16 @@ export default class Register extends Component {
       }).catch(err => Tips.show(err.message));
     }
   };
+  clearAccount = ()=> {
+    if (this.state.isAccountRight) return;
+    this.account.value = '';
+    this.setState({
+      isAccountEmpty: true,
+    });
+  };
 
   render() {
     const isSubmit = this.state.isAccountRight && this.state.isPassWordRight && this.state.isCodeRight;
-    console.log(this.props);
     return (
       <div styleName="register-box">
         <div styleName="title">{this.props.type === 'resetphone' ? '修改手机号' : '手机号注册'}</div>
@@ -243,9 +259,12 @@ export default class Register extends Component {
                 autoFocus="autofocus"
                 autoComplete="off"
               />
-              <span
-                styleName={this.state.isAccountRight ? 'icon account-right' : 'icon'}
-              />
+              {this.state.isAccountEmpty ? null :
+                <span
+                  onClick={this.clearAccount}
+                  styleName={this.state.isAccountRight ? 'icon account-right' : 'icon account-error'}
+                />
+              }
             </label>
           </div>
           <div styleName="code">

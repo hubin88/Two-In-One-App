@@ -24,6 +24,7 @@ export default class Login extends Component {
       isShowPassword: false, // 是否显示密码
       isAccountRight: false, // 账号是否正确
       isPassWordRight: false, // 密码是否正确
+      isAccountEmpty: true, // 账号是否是空
       orgId: this.props.orgId || getQueryString('organization'),
     };
   }
@@ -39,11 +40,11 @@ export default class Login extends Component {
   check = (e) => {
     e.stopPropagation();
     e.preventDefault();
-    const text = e.target.value;
+    const val = e.target.value;
     const id = e.target.getAttribute('id');
     switch (id) {
       case 'account':
-        if (regAccount.test(text)) {
+        if (regAccount.test(val)) {
           this.setState({
             isAccountRight: true,
           });
@@ -52,9 +53,18 @@ export default class Login extends Component {
             isAccountRight: false,
           });
         }
+        if (val === '') {
+          this.setState({
+            isAccountEmpty: true,
+          });
+        } else {
+          this.setState({
+            isAccountEmpty: false,
+          });
+        }
         break;
       case 'password':
-        if (regPassword.test(text)) {
+        if (regPassword.test(val)) {
           this.setState({
             isPassWordRight: true,
           });
@@ -109,6 +119,13 @@ export default class Login extends Component {
       this.props.toHome();
     }
   };
+  clearAccount = ()=> {
+    if (this.state.isAccountRight) return;
+    this.account.value = '';
+    this.setState({
+      isAccountEmpty: true,
+    });
+  };
 
   render() {
     const isSubmit = this.state.isAccountRight && this.state.isPassWordRight;
@@ -124,9 +141,12 @@ export default class Login extends Component {
                 ref={(ref) => { this.account = ref; }} onChange={this.check}
                 autoFocus="autofocus"
               />
-              <span
-                styleName={this.state.isAccountRight ? 'icon account-right' : 'icon'}
-              />
+              {this.state.isAccountEmpty ? null :
+                <span
+                  onClick={this.clearAccount}
+                  styleName={this.state.isAccountRight ? 'icon account-right' : 'icon account-error'}
+                />
+              }
             </label>
           </div>
           <div styleName="password">
