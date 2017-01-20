@@ -3,7 +3,7 @@
  */
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-
+import Header from '../../components/header/header';
 import '../../css/main.scss';
 
 class SignWrap extends Component {
@@ -28,10 +28,7 @@ class SignWrap extends Component {
     });
     return (
       <div className="content" ref={(ref) => { this.content = ref; }}>
-        <div className="header">
-          <input type="button" className="back" onClick={() => { this.back(); }} />
-          {titleName}
-        </div>
+        <Header title={titleName} leftBtnCallBack={this.back} />
         {this.props.children}
       </div>
     );

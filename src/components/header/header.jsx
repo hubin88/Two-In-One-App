@@ -11,7 +11,7 @@ class Header extends Component {
     title: PropTypes.any,
     hasTop: PropTypes.bool,
     hasLeftBtnIcon: PropTypes.bool,
-    leftBtnTxt: PropTypes.string,
+    leftBtnTxt: PropTypes.any,
     rightBtnTxt: PropTypes.string,
     titleCallBack: PropTypes.func,
     leftBtnCallBack: PropTypes.func,
