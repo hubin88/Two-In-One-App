@@ -1,6 +1,6 @@
 const config = {
   server: {
-    host: '192.168.1.186', // IP 地址
+    host: 'localhost', // IP 地址
     port: 8000, // 端口号
   },
   copyFile: [
