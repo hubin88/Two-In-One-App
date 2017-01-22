@@ -89,7 +89,7 @@ class Quotes extends Component {
   // 绘制分时图
   drawFS = (id) => {
     const { dispatch, normalday: { assetinfo }, commodityId } = this.props;
-    console.log('commodityId',commodityId);
+    console.log('commodityId', commodityId);
     const paramsId = id || commodityId;
     const info = assetinfo || [];
     info.forEach((item) => {
