@@ -27,11 +27,17 @@ const postDataFormat = (systemType) => {
   };
 };
 
-function ajax(url, obj, systemType, name) {
+const codeUrl = (url) => `http://192.168.0.74/get/${encodeURIComponent(url)}`;
+
+function ajax(url, obj) {
+// function ajax(url, obj, systemType, name) {
   const postData = (typeof obj === 'object') ? JSON.stringify(obj) : obj;
-  const postUrl = (systemType === 'QUOTATION') ? `${url}` : `${url}?${name}(${systemType})`;
-  return fetch(postUrl, {
+  // const postUrl = (systemType === 'QUOTATION') ? `${url}` : `${url}?${name}(${systemType})`;
+  const postUrl = `${url}`;
+  // return fetch(u(postUrl), {
+  return fetch(codeUrl(postUrl), {
     method: 'post',
+    mode: 'cors',
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',

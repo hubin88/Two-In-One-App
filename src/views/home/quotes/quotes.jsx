@@ -62,7 +62,7 @@ class Quotes extends Component {
     this.chart = new window.DrawChart('chart', chartOptions);
     setTimeout(() => {
       this.drawFS();
-    }, 1000);
+    }, 5000);
     this.time = setInterval(() => {
       this.drawFS();
     }, 60000);
@@ -216,7 +216,7 @@ class Quotes extends Component {
     }
     const widths = 100;
     const liWidth = `${widths / liNums}%`;
-    // this.drawFS();
+
     return (
       <div styleName="quotes">
         <ul styleName="commodity" style={{ height: styleConfig.commodityH }}>
