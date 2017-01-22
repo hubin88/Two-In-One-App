@@ -210,6 +210,12 @@ class Quotes extends Component {
   }
   render() {
     const { commodityData, commodityPrices } = this.props;
+    let liNums = Object.keys(commodityData).length;
+    if (liNums > 3) {
+      liNums = 3;
+    }
+    const widths = 100;
+    const liWidth = `${widths / liNums}%`;
     // this.drawFS();
     return (
       <div styleName="quotes">
@@ -226,6 +232,7 @@ class Quotes extends Component {
               return (
                 <li
                   key={i}
+                  style={{ width: liWidth }}
                   styleName={`${this.props.commodityId === i ? 'active' : ''}`}
                   onClick={this.chooseCommodity(i)}
                 >
