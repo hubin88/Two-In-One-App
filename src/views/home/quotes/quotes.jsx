@@ -57,6 +57,7 @@ class Quotes extends Component {
       commoditySelected: 0,
       isDraw: true,
     };
+    this.timeName = 'fenTime';
   }
   componentDidMount() {
     this.kLine = new window.DrawKLine('kLine', options);
@@ -87,9 +88,10 @@ class Quotes extends Component {
   };
   // 绘制分时图
   drawFS = (id) => {
-    const { dispatch, normalday, commodityId } = this.props;
+    const { dispatch, normalday: { assetinfo }, commodityId } = this.props;
+    console.log('commodityId',commodityId);
     const paramsId = id || commodityId;
-    const info = normalday.assetinfo || [];
+    const info = assetinfo || [];
     info.forEach((item) => {
       if (item.assetid === paramsId) {
         const obj = {
@@ -110,12 +112,13 @@ class Quotes extends Component {
     this.kLine.drawKLine({ data: json.result, timetype: 2 });
     dispatch(successQueryDayLine(json));
   };
-  drawKX = (name) => {
-    const { dispatch, normalday, commodityId } = this.props;
-    normalday.assetinfo.forEach((item) => {
-      if (item.assetid === commodityId) {
+  drawKX = (id, name) => {
+    const { dispatch, normalday: { assetinfo }, commodityId } = this.props;
+    const paramsId = id || commodityId;
+    assetinfo.forEach((item) => {
+      if (item.assetid === paramsId) {
         const obj = {
-          assetid: commodityId,
+          assetid: paramsId,
           timevalue1: item.opentime,
           timetype: 3,
           timevalue2: 100,
@@ -131,6 +134,7 @@ class Quotes extends Component {
   };
   // 切换分时与K线图
   drawCanvas = (name) => {
+    this.timeName = name;
     clearInterval(this.time);
     if (name === 'fenTime') {
       this.drawFS();
@@ -141,9 +145,10 @@ class Quotes extends Component {
       document.getElementById('drawChart').style.display = 'block';
       this.redrawCanvas('chart');
     } else {
-      this.drawKX(name);
+      const timeId = '';
+      this.drawKX(timeId, name);
       this.time = setInterval(() => {
-        this.drawKX(name);
+        this.drawKX(timeId, name);
       }, 60000);
       document.getElementById('drawLine').style.display = 'block';
       document.getElementById('drawChart').style.display = 'none';
@@ -152,7 +157,13 @@ class Quotes extends Component {
   };
   chooseCommodity = (id) => () => {
     const { dispatch } = this.props;
-    this.drawFS(id);
+    if (this.timeName === 'fenTime') {
+      this.drawFS(id);
+    } else {
+      this.drawKX(id, this.timeName);
+    }
+    // this.drawFS(id);
+    // this.drawKX(id, name);
     dispatch(toChangeCommodity(id));
   };
   selectTime = (e, name) => {
