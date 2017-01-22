@@ -55,14 +55,15 @@ class Quotes extends Component {
     super(props);
     this.state = {
       commoditySelected: 0,
+      isDraw: true,
     };
   }
   componentDidMount() {
     this.kLine = new window.DrawKLine('kLine', options);
     this.chart = new window.DrawChart('chart', chartOptions);
-    setTimeout(() => {
-      this.drawFS();
-    }, 5000);
+    // setTimeout(() => {
+    //   this.drawFS();
+    // }, 5000);
     this.time = setInterval(() => {
       this.drawFS();
     }, 60000);
@@ -209,7 +210,11 @@ class Quotes extends Component {
     );
   }
   render() {
-    const { commodityData, commodityPrices } = this.props;
+    const { commodityData, commodityPrices, normalday: { assetinfo } } = this.props;
+    if (assetinfo && this.state.isDraw) {
+      this.drawFS();
+      this.state.isDraw = false;
+    }
     let liNums = Object.keys(commodityData).length;
     if (liNums > 3) {
       liNums = 3;
