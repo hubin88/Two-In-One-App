@@ -16,12 +16,15 @@ var baseDraw = {
   isMobile: function () {
     return navigator.userAgent.match(/(iPhone|iPod|Android|ios|iPad)/i);
   },
-  getEventType: function () {
+  getEventType: function (chart) {
     var eventType = {
       start: 'mousedown',
       move: 'mousemove',
-      end: 'mouseout',
+      end: 'mouseup',
     };
+    if(chart){
+      eventType.end='mouseout';
+    }
     if (this.isMobile()) {
       eventType.start = 'touchstart';
       eventType.move = 'touchmove';
@@ -1070,7 +1073,7 @@ DrawChart.prototype = {
     this.tipsCtx.scale(this.viewRatio, this.viewRatio);
   },
   addBindEvent: function () {
-    var eventType = baseDraw.getEventType();
+    var eventType = baseDraw.getEventType(true);
 
     function tipsEvent(event) {
       var nowPos = baseDraw.getPos(event, this.tips);
