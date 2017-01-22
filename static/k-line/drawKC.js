@@ -20,7 +20,7 @@ var baseDraw = {
     var eventType = {
       start: 'mousedown',
       move: 'mousemove',
-      end: 'mouseup',
+      end: 'mouseout',
     };
     if (this.isMobile()) {
       eventType.start = 'touchstart';
@@ -245,7 +245,7 @@ DrawKLine.prototype = {
       this.setData(opts.data);
       this.redrawKLine();
     }
- 
+
   },
   //重绘k线
   redrawKLine: function () {
@@ -355,7 +355,7 @@ DrawKLine.prototype = {
     }
     var distance = Math.abs(this.eventStatus.prevX - xPos);
     if (distance < info.blockWidth / 2) {
-      if (new Date() - this.eventStatus.startPos.time > 500 && distance < 2) {
+      if (new Date() - this.eventStatus.startPos.time > 250 && distance < 2) {
         this.eventStatus.isShowGuide = true;
       }
       return;
@@ -397,7 +397,7 @@ DrawKLine.prototype = {
 
             this.drawGuide(ctx, nowPos.x, nowPos.y, this.guide.width, this.guide.height);
           }
-        }.bind(this), 1000)
+        }.bind(this), 500)
       }
     }.bind(this);
 
@@ -525,6 +525,8 @@ kLine.prototype = {
     }
     if (opts.timeType) {
       this.timeType = opts.timeType;
+      this.kLineWidth.lineWidth = this.initDefaultData.lineWidth;
+      this.kLineWidth.barWidth = this.initDefaultData.barWidth;
     }
   },
   //获取画布的高度
@@ -557,7 +559,7 @@ kLine.prototype = {
       count = totalCount;
     }
     this.dataInfo.count = count;
-    if (this.isInit) {
+    if (this.isInit || this.initDefaultData.count === 0) {
       this.initDefaultData.count = this.dataInfo.count;
       this.isInit = false;
     }
@@ -845,6 +847,7 @@ DrawChart.prototype = {
       paddingLeft: options.paddingLeft || 35,
       paddingBottom: options.paddingBottom || baseDraw.getPaddingBottom(cHeight),
       paddingTop: options.paddingTop || 10,
+      paddingRight: 1,
       timeCount: options.timeCount - 1 || 5,
       vLineCount: options.vLineCount - 1 || 4,//左边垂直价格数量
       chartLineColor: options.chartLineColor || 'rgba(2,100,30,1)',
@@ -918,7 +921,7 @@ DrawChart.prototype = {
     this.minute = this.options.timeCount * 60;
   },
   setData: function (data) {
-    this.blockWidth = (this.chart.width / this.viewRatio - this.options.paddingLeft) / this.minute;
+    this.blockWidth = (this.chart.width / this.viewRatio - this.options.paddingLeft - this.options.paddingRight) / this.minute;
     if (data) {
       if (baseDraw.isArray(data)) {
         data.forEach(function (d) {
@@ -1035,7 +1038,7 @@ DrawChart.prototype = {
       var txtTime = startTime + ':00';
       var txtWidth = this.layerCtx.measureText(txtTime).width;
       if (i === this.options.timeCount) {
-        layerPosX = this.layer.width / this.viewRatio - this.options.paddingLeft;
+        layerPosX = this.layer.width / this.viewRatio - this.options.paddingLeft - this.options.paddingRight;
         layerPosX -= txtWidth;
       } else if (i !== 0) {
         layerPosX -= txtWidth / 2;
@@ -1083,7 +1086,7 @@ DrawChart.prototype = {
   },
   setTips: function (nowPos) {
     var posIndex = Math.floor((nowPos.x - this.options.paddingLeft) / this.blockWidth);
-    if (posIndex < 0 || posIndex > this.newData.length - 1) {
+    if (!posIndex || posIndex < 0 || posIndex > this.newData.length - 1) {
       return;
     }
     var newData = this.newData[posIndex];
@@ -1103,9 +1106,9 @@ DrawChart.prototype = {
     } else {
       posX = (posX - this.textTips.offsetWidth - 30);
     }
-
     var s = 'transform:translate3d(' + posX + 'px, ' + (nowPos.y - 40) + 'px, 0)';
     this.textTips.setAttribute('style', '-webkit-' + s + ';' + s + ';display:block');
     this.textTips.innerHTML = newData.time + '<br/><b>' + newData.price + '</b>';
+
   },
 };

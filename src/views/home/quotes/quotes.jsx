@@ -21,9 +21,9 @@ const options = {
   timeType: 1,
 };
 const chartOptions = {
-  paddingLeft: 35,
-  paddingBottom: 30,
-  paddingTop: 30,
+  // paddingLeft: 35,
+  // paddingBottom: 30,
+  // paddingTop: 30,
   timeCount: 5,
   vLineCount: 5,
   chartLineColor: 'rgba(2,100,30,1)',
@@ -105,11 +105,11 @@ class Quotes extends Component {
     });
   };
   KXFcallBack = (dispatch, json) => {
-    this.kLine.drawKLine({ data: json.result, timetype: 1 });
+    this.kLine.drawKLine({ data: json.result, timeType: 1 });
     dispatch(successQueryDayLine(json));
   };
   KXRcallBack = (dispatch, json) => {
-    this.kLine.drawKLine({ data: json.result, timetype: 2 });
+    this.kLine.drawKLine({ data: json.result, timeType: 2 });
     dispatch(successQueryDayLine(json));
   };
   drawKX = (id, name) => {

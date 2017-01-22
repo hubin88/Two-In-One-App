@@ -50,10 +50,10 @@
         data: window.kLineData.result,
         timeType: 1
     });
-    d.resetCanvas({
-        width: 300,
-        height: 200,
-    });
+//    d.resetCanvas({
+//        width: 300,
+//        height: 200,
+//    });
 
         var dc = new DrawChart('drawChart', {
             paddingLeft: 35,
@@ -66,12 +66,12 @@
             chartColor: 'black',
         });
 
-        setTimeout(function () {
-            dc.resetCanvas({
-                width: 300,
-                height: 200,
-            });
-        },1000);
+//        setTimeout(function () {
+//            dc.resetCanvas({
+//                width: 300,
+//                height: 200,
+//            });
+//        },1000);
     //
         dc.drawChart(data2);
 
