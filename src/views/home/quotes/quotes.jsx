@@ -18,7 +18,7 @@ const options = {
   horizontalLineCount: 5,
   verticalLineCount: 5,
   timeType: 1,
-  backgroundColor:'rgba(240,240,252,.9)',
+  backgroundColor: 'rgba(240,240,252,.9)',
 };
 const chartOptions = {
   // paddingLeft: 35,
@@ -29,7 +29,7 @@ const chartOptions = {
   chartLineColor: '#96c7e8',
   chartFillColor: '#afdbfc',
   chartColor: 'black',
-  backgroundColor:'rgba(240,240,252,.9)',
+  backgroundColor: 'rgba(240,240,252,.9)',
 };
 const timeList = [
   { name: 'fenTime', label: '分时' },

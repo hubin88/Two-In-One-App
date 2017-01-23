@@ -64,6 +64,7 @@ var baseDraw = {
   },
   drawGuideLine: function (canvasCtx, x, y, canvasWidth, canvasHeight) {
     canvasCtx.lineWidth = 1;
+    canvasCtx.strokeStyle = 'black';
     var lineWidth = 4,
       spaceWidth = 2,
       wNum = Math.ceil(canvasWidth / lineWidth),
@@ -113,10 +114,10 @@ var baseDraw = {
   fillAndDrawGrid: function (opts) {
     opts.ctx.beginPath();
     opts.ctx.strokeStyle = '#fff';
-    opts.ctx.moveTo(opts.lineOne.x, opts.lineOne.y);
-    opts.ctx.lineTo(opts.lineTwo.x, opts.lineTwo.y);
-    opts.ctx.lineTo(opts.lineThree.x, opts.lineThree.y);
-    opts.ctx.lineTo(opts.lineFour.x, opts.lineFour.y);
+    opts.ctx.moveTo(opts.pointOne.x, opts.pointOne.y);
+    opts.ctx.lineTo(opts.pointTwo.x, opts.pointTwo.y);
+    opts.ctx.lineTo(opts.pointThree.x, opts.pointThree.y);
+    opts.ctx.lineTo(opts.pointFour.x, opts.pointFour.y);
     opts.ctx.closePath();
     opts.ctx.stroke();
     opts.ctx.fillStyle = opts.backgroundColor;
@@ -762,13 +763,13 @@ kLine.prototype = {
     var opts = {
       backgroundColor: this.kLineColor.backgroundColor,
       ctx: ctx,
-      lineOne: { x: 0, y: -this.kLineWidth.paddingTop + 1 },
-      lineTwo: { x: 0, y: canvasHeight - 1 },
-      lineThree: {
+      pointOne: { x: 0, y: -this.kLineWidth.paddingTop + 1 },
+      pointTwo: { x: 0, y: canvasHeight - 1 },
+      pointThree: {
         x: canvasWidth - 1,
         y: canvasHeight - 1,
       },
-      lineFour: {
+      pointFour: {
         x: canvasWidth - 1,
         y: -this.kLineWidth.paddingTop + 1,
       },
@@ -1190,8 +1191,15 @@ DrawChart.prototype = {
   },
   setTips: function (nowPos) {
     var posIndex = Math.floor((nowPos.x - this.options.paddingLeft) / this.blockWidth);
-    if (!posIndex || posIndex < 0 || posIndex > this.newData.length - 1) {
+    if (!posIndex) {
       return;
+    }
+    if (posIndex < 0) {
+      posIndex = 0;
+      nowPos.x = this.options.paddingLeft;
+    } else if (posIndex > this.newData.length - 1) {
+      posIndex = this.newData.length - 1;
+      nowPos.x = posIndex * this.blockWidth + this.options.paddingLeft;
     }
 
     var newData = this.newData[posIndex];

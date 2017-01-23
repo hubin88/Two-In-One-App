@@ -25,7 +25,7 @@
 
 .k-line-container > #k-line-guide {
     z-index: 0;
-    opacity: 0.3;
+    /*opacity: 0.3;*/
 }
 
 @keyframes move_eye3 {
