@@ -3,6 +3,17 @@
  */
 "use strict";
 var baseDraw = {
+  kLineTimeType: {
+    minute: 1,
+    day: 2,
+    week: 3,
+    year: 4,
+    mouth: 5
+  },
+  canvasW: {
+    marginLeft: 5,
+    marginRight: 5,
+  },
   getPixelRatio: function (context) {
     var backingStore = context.backingStorePixelRatio ||
       context.webkitBackingStorePixelRatio ||
@@ -22,8 +33,8 @@ var baseDraw = {
       move: 'mousemove',
       end: 'mouseup',
     };
-    if(chart){
-      eventType.end='mouseout';
+    if (chart) {
+      eventType.end = 'mouseout';
     }
     if (this.isMobile()) {
       eventType.start = 'touchstart';
@@ -52,18 +63,19 @@ var baseDraw = {
     };
   },
   drawGuideLine: function (canvasCtx, x, y, canvasWidth, canvasHeight) {
-    canvasCtx.lineWidth = .5;
+    canvasCtx.lineWidth = 1;
     var lineWidth = 4,
       spaceWidth = 2,
       wNum = Math.ceil(canvasWidth / lineWidth),
-      hNum = Math.ceil(canvasHeight / lineWidth);
+      hNum = Math.ceil(canvasHeight / lineWidth),
+      cW = baseDraw.canvasW.marginLeft;
     canvasCtx.beginPath();
     for (var i = 0; i < wNum; i++) {
       var nWidth = i * lineWidth;
       if (i % 2 === 0) {
-        canvasCtx.moveTo(nWidth, y);
+        canvasCtx.moveTo(nWidth + cW, y);
       } else {
-        canvasCtx.lineTo(nWidth + spaceWidth, y);
+        canvasCtx.lineTo(nWidth + spaceWidth + cW, y);
       }
     }
     for (var n = 0; n < hNum; n++) {
@@ -98,13 +110,33 @@ var baseDraw = {
         break;
     }
   },
-  kLineTimeType: {
-    minute: 1,
-    day: 2,
-    week: 3,
-    year: 4,
-    mouth: 5
-  }
+  fillAndDrawGrid: function (opts) {
+    opts.ctx.beginPath();
+    opts.ctx.strokeStyle = '#fff';
+    opts.ctx.moveTo(opts.lineOne.x, opts.lineOne.y);
+    opts.ctx.lineTo(opts.lineTwo.x, opts.lineTwo.y);
+    opts.ctx.lineTo(opts.lineThree.x, opts.lineThree.y);
+    opts.ctx.lineTo(opts.lineFour.x, opts.lineFour.y);
+    opts.ctx.closePath();
+    opts.ctx.stroke();
+    opts.ctx.fillStyle = opts.backgroundColor;
+    opts.ctx.fill();
+
+    var nWidth = Math.ceil(opts.width / 4);
+    var nHeight = Math.ceil(opts.height / 6);
+
+    opts.ctx.beginPath();
+    for (var i = nWidth; i < opts.width; i += nWidth) {
+      opts.ctx.moveTo(i - opts.paddingTop, -opts.paddingTop);
+      opts.ctx.lineTo(i - opts.paddingTop, opts.height);
+    }
+    for (var n = nHeight; n < opts.height; n += nHeight) {
+      opts.ctx.moveTo(0, n - opts.paddingTop);
+      opts.ctx.lineTo(opts.width, n - opts.paddingTop);
+    }
+    opts.ctx.closePath();
+    opts.ctx.stroke();
+  },
 };
 
 function DrawKLine(canvasId, options) {
@@ -128,10 +160,10 @@ DrawKLine.prototype = {
       verticalLineCount: options.verticalLineCount || 5,//左边垂直线的显示价格数
       timeType: options.timeType || baseDraw.kLineTimeType.minute,
       paddingTop: options.paddingTop || 10,
-      paddingLeft: options.paddingLeft || 30,
+      paddingLeft: options.paddingLeft || 40,
       paddingBottom: options.paddingBottom || baseDraw.getPaddingBottom(cHeight),
+      backgroundColor: options.backgroundColor || '#f0f7fc',
     };
-
     this.defaultOpts = {
       width: options.width || cWidth,
       height: options.height || cHeight,
@@ -139,6 +171,7 @@ DrawKLine.prototype = {
       paddingTop: kLineOpts.paddingTop,
       paddingBottom: kLineOpts.paddingBottom,
     };
+    this.defaultOpts.width -= baseDraw.canvasW.marginRight;
     this.kLine = new kLine(kLineOpts);
     this.eventStatus = {
       isChange: false,
@@ -225,7 +258,7 @@ DrawKLine.prototype = {
   },
 
   resetCanvas: function (opts) {
-    this.defaultOpts.width = opts && opts.width || this.defaultOpts.width;
+    this.defaultOpts.width = opts && opts.width - baseDraw.canvasW.marginRight || this.defaultOpts.width;
     this.defaultOpts.height = opts && opts.height || this.defaultOpts.height;
     this.initKLineCanvas();
     this.initGuideCanvas();
@@ -471,50 +504,54 @@ DrawKLine.prototype = {
 }
 
 function kLine(options) {
-  this.viewRatio = options.viewRatio;
-  this.kLineColor = {
-    riseColor: 'red',//阳线颜色
-    fallColor: 'green',//阴线颜色
-    normalColor: 'black',//其他字体之类的颜色
-  }
-  this.kLineWidth = {
-    lineWidth: options.lineWidth,//上影线，下影线宽度
-    barWidth: options.barWidth,//阳线，阴线宽度
-    spaceWidth: options.spaceWidth,//阳线阴线之间的宽度，
-    paddingLeft: options.paddingLeft,
-    paddingTop: options.paddingTop,
-    paddingBottom: options.paddingBottom,
-  }
-  this.kLineCount = {
-    horizontalLineCount: options.horizontalLineCount,//底部水平线的时间数
-    verticalLineCount: options.verticalLineCount,//左边垂直线的显示价格数
-  };
-  this.canvasSize = {
-    width: 0,//画布宽度
-    height: 0,//画布高度
-  };
-  this.dataInfo = {
-    ratio: 1,//实际价格与画布显示正常比率，默认是1
-    high: 0,//最高
-    low: 0,//最低
-    currentIndex: 0,//画布上显示的最后的一条数据index,初始化是最后一条数据
-    currentDataLength: 0,//当前画布上显示的k线实际条数
-    count: 0,//画布上最多显示几条k线
-    blockWidth: 0,//每一等分宽度
-    data: [],//初始数据
-    newData: [],//当前数据
-    isLNewData: true,
-  };
-  this.isInit = true;
-  this.initDefaultData = {
-    count: 0,
-    barWidth: options.barWidth,
-    lineWidth: options.lineWidth,
-  };
-  this.timeType = options.timeType;
+  this.setOptions(options);
 };
 
 kLine.prototype = {
+  setOptions: function (options) {
+    this.viewRatio = options.viewRatio;
+    this.kLineColor = {
+      riseColor: 'red',//阳线颜色
+      fallColor: 'green',//阴线颜色
+      normalColor: 'black',//其他字体之类的颜色
+      backgroundColor: options.backgroundColor,
+    }
+    this.kLineWidth = {
+      lineWidth: options.lineWidth,//上影线，下影线宽度
+      barWidth: options.barWidth,//阳线，阴线宽度
+      spaceWidth: options.spaceWidth,//阳线阴线之间的宽度，
+      paddingLeft: options.paddingLeft,
+      paddingTop: options.paddingTop,
+      paddingBottom: options.paddingBottom,
+    }
+    this.kLineCount = {
+      horizontalLineCount: options.horizontalLineCount,//底部水平线的时间数
+      verticalLineCount: options.verticalLineCount,//左边垂直线的显示价格数
+    };
+    this.canvasSize = {
+      width: 0,//画布宽度
+      height: 0,//画布高度
+    };
+    this.dataInfo = {
+      ratio: 1,//实际价格与画布显示正常比率，默认是1
+      high: 0,//最高
+      low: 0,//最低
+      currentIndex: 0,//画布上显示的最后的一条数据index,初始化是最后一条数据
+      currentDataLength: 0,//当前画布上显示的k线实际条数
+      count: 0,//画布上最多显示几条k线
+      blockWidth: 0,//每一等分宽度
+      data: [],//初始数据
+      newData: [],//当前数据
+      isLNewData: true,
+    };
+    this.isInit = true;
+    this.initDefaultData = {
+      count: 0,
+      barWidth: options.barWidth,
+      lineWidth: options.lineWidth,
+    };
+    this.timeType = options.timeType;
+  },
   setBaseData: function (opts) {
     if (opts.canvasHeight) {
       this.canvasSize.height = opts.canvasHeight;
@@ -649,51 +686,6 @@ kLine.prototype = {
       barHeight: barHeight,
     }
   },
-  //画k线
-  drawKLine: function (ctx) {
-    ctx.clearRect(0, 0, this.canvasSize.width, this.canvasSize.height);
-    ctx.save();
-    //移动原点
-    ctx.translate(this.kLineWidth.paddingLeft, this.kLineWidth.paddingTop);
-    this.drawText(ctx);
-    var nWidth = this.dataInfo.blockWidth;
-    this.posData = [];
-    this.dataInfo.newData.forEach(function (kLine, index) {
-      var line = this.getLineData(kLine.high, kLine.low, kLine.open, kLine.close),
-        nthWidth = index * nWidth,
-        centerX = nthWidth + nWidth / 2,
-        barX = centerX - (this.kLineWidth.barWidth / 2);
-      //开始绘制
-      ctx.fillStyle = line.color;
-      ctx.strokeStyle = line.color;
-      ctx.lineWidth = this.kLineWidth.lineWidth;
-      //画线
-      ctx.beginPath();
-      ctx.moveTo(centerX, line.high);
-      ctx.lineTo(centerX, line.low);
-      ctx.stroke();
-      //画蜡炬图
-      ctx.beginPath();
-      if (line.isRise) {
-        ctx.fillRect(barX, line.close,
-          this.kLineWidth.barWidth,
-          line.barHeight);
-      } else {
-        ctx.fillRect(barX, line.open,
-          this.kLineWidth.barWidth,
-          line.barHeight);
-      }
-      //表示如果开盘价等于收盘价，就画一条线
-      if (line.barHeight === 0) {
-        ctx.beginPath();
-        ctx.moveTo(barX, line.open);
-        ctx.lineTo(barX + this.kLineWidth.barWidth, line.open);
-        ctx.stroke();
-      }
-      this.posData.push({ x: centerX, y: line.close });
-    }.bind(this));
-    ctx.restore();
-  },
   //绘制文本
   drawText: function (ctx) {
     var
@@ -715,7 +707,7 @@ kLine.prototype = {
       if (n === vLineCount) {//最底部直接显示最低价
         high = this.dataInfo.low;
       }
-      ctx.fillText(high + '', -pLeft, posY);
+      ctx.fillText(high + '', -pLeft + baseDraw.canvasW.marginLeft, posY);
     }
 
     //画时间线
@@ -755,6 +747,76 @@ kLine.prototype = {
       ctx.fillText(time, kWidth, timeH);
       // ctx.fillText(time, kWidth, kHeight + pWidth / 2);
     }
+  },
+  //画k线
+  drawKLine: function (ctx) {
+    ctx.clearRect(0, 0, this.canvasSize.width, this.canvasSize.height);
+    ctx.save();
+    //移动原点
+    ctx.translate(this.kLineWidth.paddingLeft, this.kLineWidth.paddingTop);
+
+    this.drawText(ctx);
+    var topBottomHeight = this.kLineWidth.paddingBottom + this.kLineWidth.paddingTop,
+      canvasWidth = this.getCanvasWidth() - this.kLineWidth.paddingLeft,
+      canvasHeight = this.getCanvasHeight() - topBottomHeight;
+    var opts = {
+      backgroundColor: this.kLineColor.backgroundColor,
+      ctx: ctx,
+      lineOne: { x: 0, y: -this.kLineWidth.paddingTop + 1 },
+      lineTwo: { x: 0, y: canvasHeight - 1 },
+      lineThree: {
+        x: canvasWidth - 1,
+        y: canvasHeight - 1,
+      },
+      lineFour: {
+        x: canvasWidth - 1,
+        y: -this.kLineWidth.paddingTop + 1,
+      },
+      width: canvasWidth,
+      height: canvasHeight,
+      paddingTop: this.kLineWidth.paddingTop,
+    }
+    baseDraw.fillAndDrawGrid.call(this, opts);
+    //画网格
+    // this.drawGrid(ctx);
+
+    var nWidth = this.dataInfo.blockWidth;
+    this.posData = [];
+    this.dataInfo.newData.forEach(function (kLine, index) {
+      var line = this.getLineData(kLine.high, kLine.low, kLine.open, kLine.close),
+        nthWidth = index * nWidth,
+        centerX = nthWidth + nWidth / 2,
+        barX = centerX - (this.kLineWidth.barWidth / 2);
+      //开始绘制
+      ctx.fillStyle = line.color;
+      ctx.strokeStyle = line.color;
+      ctx.lineWidth = this.kLineWidth.lineWidth;
+      //画线
+      ctx.beginPath();
+      ctx.moveTo(centerX, line.high);
+      ctx.lineTo(centerX, line.low);
+      ctx.stroke();
+      //画蜡炬图
+      ctx.beginPath();
+      if (line.isRise) {
+        ctx.fillRect(barX, line.close,
+          this.kLineWidth.barWidth,
+          line.barHeight);
+      } else {
+        ctx.fillRect(barX, line.open,
+          this.kLineWidth.barWidth,
+          line.barHeight);
+      }
+      //表示如果开盘价等于收盘价，就画一条线
+      if (line.barHeight === 0) {
+        ctx.beginPath();
+        ctx.moveTo(barX, line.open);
+        ctx.lineTo(barX + this.kLineWidth.barWidth, line.open);
+        ctx.stroke();
+      }
+      this.posData.push({ x: centerX, y: line.close });
+    }.bind(this));
+    ctx.restore();
   },
 
   //根据上一日收盘价与当前价对比设置颜色
@@ -850,13 +912,14 @@ DrawChart.prototype = {
       paddingLeft: options.paddingLeft || 35,
       paddingBottom: options.paddingBottom || baseDraw.getPaddingBottom(cHeight),
       paddingTop: options.paddingTop || 10,
-      paddingRight: 1,
       timeCount: options.timeCount - 1 || 5,
       vLineCount: options.vLineCount - 1 || 4,//左边垂直价格数量
       chartLineColor: options.chartLineColor || 'rgba(2,100,30,1)',
-      chartFillColor: options.chartFillColor || 'rgba(2,100,30,.1)',
+      chartFillColor: options.chartFillColor || 'rgb(2,100,30)',
       chartColor: options.chartColor || 'black',
+      backgroundColor: options.backgroundColor || '#f0f7fc',
     };
+    this.options.width -= baseDraw.canvasW.marginRight;
   },
   createCanvas: function () {
     var parentElement = this.chart.parentNode,
@@ -906,7 +969,7 @@ DrawChart.prototype = {
     this.chart.style.height = this.tips.style.height = this.layer.style.height = this.options.height + 'px';
   },
   resetCanvas: function (opts) {
-    this.options.width = opts && opts.width || this.options.width;
+    this.options.width = opts && opts.width - baseDraw.canvasW.marginRight || this.options.width;
     this.options.height = opts && opts.height || this.options.height;
     this.options.paddingBottom = baseDraw.getPaddingBottom(this.options.height);
     this.setCanvas();
@@ -924,7 +987,7 @@ DrawChart.prototype = {
     this.minute = this.options.timeCount * 60;
   },
   setData: function (data) {
-    this.blockWidth = (this.chart.width / this.viewRatio - this.options.paddingLeft - this.options.paddingRight) / this.minute;
+    this.blockWidth = (this.chart.width / this.viewRatio - this.options.paddingLeft) / this.minute;
     if (data) {
       if (baseDraw.isArray(data)) {
         data.forEach(function (d) {
@@ -993,13 +1056,44 @@ DrawChart.prototype = {
   },
   drawTimeChart: function () {
     var layerHeight = this.layer.height / this.viewRatio;
+    // var layerWidth = this.layer.width / this.viewRatio;
     this.chartCtx.clearRect(0, 0, this.chart.width, this.chart.height);
     this.chartCtx.save();
     this.layerCtx.clearRect(0, 0, this.layer.width, this.layer.height);
     this.layerCtx.save();
-    this.chartCtx.translate(this.options.paddingLeft, this.options.paddingTop);
+
+    this.chartCtx.translate(this.options.paddingLeft, 0);
+    this.chartCtx.beginPath();
+    this.chartCtx.fillStyle = this.options.backgroundColor;
+    this.chartCtx.fillRect(0, 0, this.chart.width - this.options.paddingLeft, this.chart.height);
+    this.layerCtx.save();
+    this.layerCtx.restore();
+    this.chartCtx.translate(0, this.options.paddingTop);
+
+    // this.chartCtx.translate(this.options.paddingLeft, this.options.paddingTop);
     this.layerCtx.translate(this.options.paddingLeft, this.options.paddingTop);
-    this.chartCtx.lineWidth = .5;
+
+    // var opts = {
+    //   backgroundColor: this.options.backgroundColor,
+    //   ctx: this.chartCtx,
+    //   lineOne: { x: 0, y: -this.options.paddingTop+1 },
+    //   lineTwo: { x: 0, y: layerHeight },
+    //   lineThree: {
+    //     x: layerWidth - this.options.paddingLeft-1,
+    //     y: layerHeight-1,
+    //   },
+    //   lineFour: {
+    //     x: layerWidth - this.options.paddingLeft,
+    //     y: -this.options.paddingTop+1,
+    //   },
+    //   width: layerWidth - this.options.paddingLeft,
+    //   height: layerHeight,
+    //   paddingTop: this.options.paddingTop,
+    // }
+    //
+    // baseDraw.fillAndDrawGrid.call(this, opts);
+
+    this.chartCtx.lineWidth = 2;
     this.chartCtx.beginPath();
     this.chartCtx.strokeStyle = this.options.chartLineColor;
     this.layerCtx.beginPath();
@@ -1020,10 +1114,17 @@ DrawChart.prototype = {
       this.layerCtx.lineTo(posX, posY);
     }
     this.chartCtx.stroke();
+
     this.chartCtx.restore();
-    this.layerCtx.fillStyle = this.options.chartFillColor;
+
     this.layerCtx.lineTo(( this.newData.length - 1) * this.blockWidth, layerHeight);
+
+    var lineGradient = this.layerCtx.createLinearGradient(0, 0, 0, layerHeight);
+    lineGradient.addColorStop(0.1, this.options.chartFillColor);
+    lineGradient.addColorStop(0.9, 'white');
+    this.layerCtx.fillStyle = lineGradient;
     this.layerCtx.fill();
+
     this.layerCtx.fillStyle = this.options.chartColor;
     var layerH = layerHeight - this.options.paddingTop;
     //画时间线
@@ -1041,7 +1142,7 @@ DrawChart.prototype = {
       var txtTime = startTime + ':00';
       var txtWidth = this.layerCtx.measureText(txtTime).width;
       if (i === this.options.timeCount) {
-        layerPosX = this.layer.width / this.viewRatio - this.options.paddingLeft - this.options.paddingRight;
+        layerPosX = this.layer.width / this.viewRatio - this.options.paddingLeft;
         layerPosX -= txtWidth;
       } else if (i !== 0) {
         layerPosX -= txtWidth / 2;
@@ -1062,7 +1163,7 @@ DrawChart.prototype = {
       if (m === this.options.vLineCount) {//最底部直接显示最低价
         high = this.min;
       }
-      this.layerCtx.fillText(high + '', -this.options.paddingLeft, pricePosY);
+      this.layerCtx.fillText(high + '', -this.options.paddingLeft + baseDraw.canvasW.marginLeft, pricePosY);
     }
 
     this.layerCtx.restore();
@@ -1092,13 +1193,13 @@ DrawChart.prototype = {
     if (!posIndex || posIndex < 0 || posIndex > this.newData.length - 1) {
       return;
     }
+
     var newData = this.newData[posIndex];
     var posY = (this.max - newData.price) * this.ratio + this.options.paddingTop;
     this.tipsCtx.clearRect(0, 0, this.tips.offsetWidth, this.tips.offsetHeight);
     this.tipsCtx.save();
     baseDraw.drawGuideLine.call(this, this.tipsCtx, nowPos.x, posY, this.tips.offsetWidth, this.tips.offsetHeight);
     this.tipsCtx.beginPath();
-    // this.tipsCtx.strokeStyle = "#ff8d30";
     this.tipsCtx.arc(nowPos.x, posY, 3, 0, Math.PI * 2, false);
     this.tipsCtx.stroke();
     this.tipsCtx.restore();
