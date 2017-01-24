@@ -62,33 +62,33 @@ var baseDraw = {
       y: y - bBox.top * (canvas.offsetHeight / bBox.height)
     };
   },
-  drawGuideLine: function (canvasCtx, x, y, canvasWidth, canvasHeight) {
-    canvasCtx.lineWidth = 1;
-    canvasCtx.strokeStyle = 'black';
+  drawGuideLine: function (opts) {
+    opts.canvasCtx.lineWidth = 1;
+    opts.canvasCtx.strokeStyle = 'black';
     var lineWidth = 4,
       spaceWidth = 2,
-      wNum = Math.ceil(canvasWidth / lineWidth),
-      hNum = Math.ceil(canvasHeight / lineWidth),
+      wNum = Math.ceil(opts.canvasWidth / lineWidth),
+      hNum = Math.ceil(opts.canvasHeight / lineWidth),
       cW = baseDraw.canvasW.marginLeft;
-    canvasCtx.beginPath();
+    opts.canvasCtx.beginPath();
     for (var i = 0; i < wNum; i++) {
       var nWidth = i * lineWidth;
       if (i % 2 === 0) {
-        canvasCtx.moveTo(nWidth + cW, y);
+        opts.canvasCtx.moveTo(nWidth + cW, opts.y);
       } else {
-        canvasCtx.lineTo(nWidth + spaceWidth + cW, y);
+        opts.canvasCtx.lineTo(nWidth + spaceWidth + cW, opts.y);
       }
     }
     for (var n = 0; n < hNum; n++) {
       var nHeight = n * lineWidth;
       if (n % 2 === 0) {
-        canvasCtx.moveTo(x, nHeight);
+        opts.canvasCtx.moveTo(opts.x, nHeight);
       } else {
-        canvasCtx.lineTo(x, nHeight + spaceWidth);
+        opts.canvasCtx.lineTo(opts.x, nHeight + spaceWidth);
       }
     }
-    canvasCtx.closePath();
-    canvasCtx.stroke();
+    opts.canvasCtx.closePath();
+    opts.canvasCtx.stroke();
   },
   isArray: function (data) {
     return Object.prototype.toString.call(data) === '[object Array]';
@@ -138,6 +138,24 @@ var baseDraw = {
     opts.ctx.closePath();
     opts.ctx.stroke();
   },
+  drawPrice: function (opts) {
+    var height = opts.max - opts.min,//总高度
+      nPrice = Math.ceil(height / opts.vLineCount),//每个价格大概相隔多少数量
+      nHeight = opts.canvasHeight / opts.vLineCount,//每一个文字之间的距离
+      high = opts.max + nPrice;//初始化高度，方便下边操作
+    for (var n = 0; n <= opts.vLineCount; n++) {
+      high = high - nPrice;
+      var posY = n * nHeight;
+      if (n === opts.vLineCount) {//最底部直接显示最低价
+        high = opts.min;
+      }
+      opts.ctx.fillText(high + '', -opts.paddingLeft + this.canvasW.marginLeft, posY);
+    }
+  },
+  getWidth: function (width) {
+    return width - this.canvasW.marginRight;
+  },
+
 };
 
 function DrawKLine(canvasId, options) {
@@ -166,14 +184,13 @@ DrawKLine.prototype = {
       backgroundColor: options.backgroundColor || '#f0f7fc',
     };
     this.defaultOpts = {
-      width: options.width || cWidth,
+      width: baseDraw.getWidth(options.width || cWidth),
       height: options.height || cHeight,
       paddingLeft: kLineOpts.paddingLeft,
       paddingTop: kLineOpts.paddingTop,
       paddingBottom: kLineOpts.paddingBottom,
     };
-    this.defaultOpts.width -= baseDraw.canvasW.marginRight;
-    this.kLine = new kLine(kLineOpts);
+    this.kLine = new KLine(kLineOpts);
     this.eventStatus = {
       isChange: false,
       dir: 'right',
@@ -259,7 +276,7 @@ DrawKLine.prototype = {
   },
 
   resetCanvas: function (opts) {
-    this.defaultOpts.width = opts && opts.width - baseDraw.canvasW.marginRight || this.defaultOpts.width;
+    this.defaultOpts.width = baseDraw.getWidth(opts && opts.width) || this.defaultOpts.width;
     this.defaultOpts.height = opts && opts.height || this.defaultOpts.height;
     this.initKLineCanvas();
     this.initGuideCanvas();
@@ -369,7 +386,14 @@ DrawKLine.prototype = {
     x = ax * pos.x + this.defaultOpts.paddingLeft * ax;
     ctx.clearRect(0, 0, canvasWidth, canvasHeight);
     ctx.save();
-    baseDraw.drawGuideLine.call(this, ctx, x, y, canvasWidth, canvasHeight);
+
+    baseDraw.drawGuideLine.call(this, {
+      canvasCtx: ctx,
+      x: x,
+      y: y,
+      canvasWidth: canvasWidth,
+      canvasHeight: canvasHeight,
+    });
     ctx.restore();
   },
 
@@ -413,12 +437,10 @@ DrawKLine.prototype = {
   },
   addEvent: function () {
     var ctx = this.guide.getContext('2d'),
-      // ww = this.guide.width,
-      // wh = this.guide.height,
       eventType = baseDraw.getEventType();
     var touchStartEvent = function (event) {
-      this.eventStatus.isChange = true;
       var nowPos = baseDraw.getPos(event, this.guide);
+      this.eventStatus.isChange = true;
       this.eventStatus.prevX = nowPos.x;
       this.eventStatus.startPos.x = nowPos.x;
       this.eventStatus.startPos.time = new Date();
@@ -450,11 +472,11 @@ DrawKLine.prototype = {
             ratio = distance / this.eventStatus.distance,
             draw = false;
           if (ratio > 1) {
-            if (this.kLine.dataInfo.count >= this.kLine.initDefaultData.count / 2) {
+            if (this.kLine.kLineData.count >= this.kLine.initDefaultData.count / 2) {
               draw = true;
             }
           } else {
-            if (this.kLine.dataInfo.count <= this.kLine.initDefaultData.count) {
+            if (this.kLine.kLineData.count <= this.kLine.initDefaultData.count) {
               draw = true;
             }
           }
@@ -504,11 +526,11 @@ DrawKLine.prototype = {
   },
 }
 
-function kLine(options) {
+function KLine(options) {
   this.setOptions(options);
 };
 
-kLine.prototype = {
+KLine.prototype = {
   setOptions: function (options) {
     this.viewRatio = options.viewRatio;
     this.kLineColor = {
@@ -526,19 +548,18 @@ kLine.prototype = {
       paddingBottom: options.paddingBottom,
     }
     this.kLineCount = {
-      horizontalLineCount: options.horizontalLineCount,//底部水平线的时间数
-      verticalLineCount: options.verticalLineCount,//左边垂直线的显示价格数
+      horizontalLineCount: options.horizontalLineCount - 1,//底部水平线的时间数
+      verticalLineCount: options.verticalLineCount - 1,//左边垂直线的显示价格数
     };
     this.canvasSize = {
       width: 0,//画布宽度
       height: 0,//画布高度
     };
-    this.dataInfo = {
+    this.kLineData = {
       ratio: 1,//实际价格与画布显示正常比率，默认是1
       high: 0,//最高
       low: 0,//最低
       currentIndex: 0,//画布上显示的最后的一条数据index,初始化是最后一条数据
-      currentDataLength: 0,//当前画布上显示的k线实际条数
       count: 0,//画布上最多显示几条k线
       blockWidth: 0,//每一等分宽度
       data: [],//初始数据
@@ -582,55 +603,63 @@ kLine.prototype = {
   setSpaceWidth: function (canvasWidth, count) {
     return (canvasWidth - (count * this.kLineWidth.barWidth)) / count;
   },
-
-  getKLineBottom: function () {
-    return this.kLineWidth.paddingBottom;
+  getContentHeight: function () {
+    return this.getCanvasHeight() - this.kLineWidth.paddingTop - this.kLineWidth.paddingBottom;
+  },
+  getRightCanvasWidth: function () {
+    return this.getCanvasWidth() - this.kLineWidth.paddingLeft;
   },
   //计算一个画布上显示多少条k线
   setKLineCount: function (totalCount) {
-    var canvasWidth = this.getCanvasWidth() - this.kLineWidth.paddingLeft;
+    var canvasWidth = this.getRightCanvasWidth();
     //计算一个k线的宽度跟间隙
     var width = this.kLineWidth.barWidth + this.kLineWidth.spaceWidth;
     var count = Math.floor(canvasWidth / width);
-    this.dataInfo.blockWidth = canvasWidth / count;
-    if (count * width !== canvasWidth && this.dataInfo.currentDataLength === count) {
-      // this.kLineWidth.spaceWidth = this.setSpaceWidth(canvasWidth, count);
-    } else if (count > totalCount) {
-      // this.kLineWidth.spaceWidth = this.setSpaceWidth(canvasWidth, totalCount);
+    this.kLineData.blockWidth = canvasWidth / count;
+    if (count > totalCount) {
       count = totalCount;
     }
-    this.dataInfo.count = count;
+    this.kLineData.count = count;
     if (this.isInit || this.initDefaultData.count === 0) {
-      this.initDefaultData.count = this.dataInfo.count;
+      this.initDefaultData.count = this.kLineData.count;
       this.isInit = false;
     }
   },
   //获取实际参数与画布的比例
   getRatio: function () {
-    var height = this.dataInfo.high - this.dataInfo.low,
-      ratio = (this.getCanvasHeight() - (this.kLineWidth.paddingTop + this.getKLineBottom())) / height;
+    var height = this.kLineData.high - this.kLineData.low,
+      ratio = this.getContentHeight() / height;
     return ratio;
   },
+  getCurrentIndex: function (length) {
+    return this.kLineData.count > length ? length : this.kLineData.count;
+  },
+  //设置当前数据中最后一条数据的索引
   setCurrentDataLastIndex: function (length) {
-    if (this.dataInfo.currentIndex > length) {
-      this.dataInfo.currentIndex = length;
-    } else if (this.dataInfo.currentIndex < 0) {
-      this.dataInfo.currentIndex = this.dataInfo.count > length ? length : this.dataInfo.count;
+    if (this.kLineData.currentIndex > length) {
+      this.kLineData.currentIndex = length;
+    } else if (this.kLineData.currentIndex < 0) {
+      this.kLineData.currentIndex = this.getCurrentIndex(length);
     }
   },
+  //设置当前数据中第一条数据的索引
   setCurrentDataFirstIndex: function (length) {
-    var dataNum = this.dataInfo.currentIndex - this.dataInfo.count;
+    var dataNum = this.kLineData.currentIndex - this.kLineData.count;
     if (dataNum < 0) {
       dataNum = 0;
-      this.dataInfo.currentIndex = this.dataInfo.count > length ? length : this.dataInfo.count;
+      this.kLineData.currentIndex = this.getCurrentIndex(length);
     }
     return dataNum;
+  },
+  setHeadSpace: function (max, min) {
+    this.kLineData.high = max + 5;
+    this.kLineData.low = min - 5;
   },
   //计算当前显示k线的数据
   setKLineItem: function (kData) {
     var length = kData.length;
-    if (this.dataInfo.isLNewData) {
-      this.dataInfo.currentIndex = length;
+    if (this.kLineData.isLNewData) {
+      this.kLineData.currentIndex = length;
       this.setIsNewData(false);
     }
     this.setKLineCount(length);
@@ -642,7 +671,7 @@ kLine.prototype = {
       //判断是否足够数量显示
       dataNum = this.setCurrentDataFirstIndex(length);
 
-    for (var i = dataNum; i < this.dataInfo.currentIndex; i++) {
+    for (var i = dataNum; i < this.kLineData.currentIndex; i++) {
       newData.push(kData[i]);
     }
     newData.forEach(function (d) {
@@ -653,28 +682,24 @@ kLine.prototype = {
       maxHigh = Math.max(d.high, maxHigh);
       minLow = Math.min(d.low, minLow);
     });
-    // this.dataInfo.high = maxHigh;
-    // this.dataInfo.low = minLow;
-    this.dataInfo.high = maxHigh + 5;
-    this.dataInfo.low = minLow - 5;
-    this.dataInfo.currentDataLength = newData.length;
-    this.dataInfo.ratio = this.getRatio();
-    this.dataInfo.newData = newData;
+    this.setHeadSpace(maxHigh, minLow);
+    this.kLineData.ratio = this.getRatio();
+    this.kLineData.newData = newData;
   },
   getLineData: function (lineHigh, lineLow, lineOpen, lineClose) {
     var isRise = lineClose > lineOpen,//是否阳线
-      ratio = this.dataInfo.ratio,//比例
+      ratio = this.kLineData.ratio,//比例
       color = isRise ? this.kLineColor.riseColor : this.kLineColor.fallColor,
       lineHeight = Math.abs(ratio * (lineHigh - lineLow)),
       barHeight = ratio * Math.abs(lineClose - lineOpen),
-      high = (this.dataInfo.high - lineHigh) * ratio,
+      high = (this.kLineData.high - lineHigh) * ratio,
       low = lineHeight + high,
       close, open;
     if (isRise) {
-      close = (this.dataInfo.high - lineClose) * ratio;
+      close = (this.kLineData.high - lineClose) * ratio;
       open = barHeight + close;
     } else {
-      open = (this.dataInfo.high - lineOpen) * ratio;
+      open = (this.kLineData.high - lineOpen) * ratio;
       close = barHeight + open;
     }
     return {
@@ -689,42 +714,31 @@ kLine.prototype = {
   },
   //绘制文本
   drawText: function (ctx) {
-    var
-      cHeight = this.getCanvasHeight(),
-      pLeft = this.kLineWidth.paddingLeft,
-      pTop = this.kLineWidth.paddingTop,
-      pBottom = this.kLineWidth.paddingBottom,
-      kHeight = ( cHeight - pTop - this.getKLineBottom()),//画k线区域高度
-      vLineCount = this.kLineCount.verticalLineCount - 1,
-      hLineCount = this.kLineCount.horizontalLineCount - 1;
+    var hLineCount = this.kLineCount.horizontalLineCount;
     //画价格线
-    var height = this.dataInfo.high - this.dataInfo.low,//总高度
-      nPrice = Math.ceil(height / vLineCount),//每个价格大概相隔多少数量
-      nHeight = kHeight / vLineCount,//每一个文字之间的距离
-      high = this.dataInfo.high + nPrice;//初始化高度，方便下边操作
-    for (var n = 0; n <= vLineCount; n++) {
-      high = high - nPrice;
-      var posY = n * nHeight;
-      if (n === vLineCount) {//最底部直接显示最低价
-        high = this.dataInfo.low;
-      }
-      ctx.fillText(high + '', -pLeft + baseDraw.canvasW.marginLeft, posY);
+    var priceOpts = {
+      ctx: ctx,
+      max: this.kLineData.high,
+      min: this.kLineData.low,
+      vLineCount: this.kLineCount.verticalLineCount,
+      canvasHeight: this.getContentHeight(),
+      paddingLeft: this.kLineWidth.paddingLeft,
     }
-
+    baseDraw.drawPrice(priceOpts);
     //画时间线
     var
-      length = this.dataInfo.newData.length,
-      count = hLineCount > this.dataInfo.count ? this.dataInfo.count : hLineCount,
+      length = this.kLineData.newData.length,
+      count = hLineCount > this.kLineData.count ? this.kLineData.count : hLineCount,
       nTime = Math.floor(length / count + 1) - 1,//计算每一个距离有多少条数据
       nT = 0;//计算每一个距离相对应的数据index
     if (length === 0) {
       return;
     }
-    var times = baseDraw.getDateTime(this.dataInfo.newData[0].time, this.timeType),
+    var times = baseDraw.getDateTime(this.kLineData.newData[0].time, this.timeType),
       timeWidth = ctx.measureText(times).width,
-      totalWidth = this.dataInfo.newData.length * this.dataInfo.blockWidth,
+      totalWidth = length * this.kLineData.blockWidth,
       totalCount = Math.floor(totalWidth / timeWidth),
-      timeH = cHeight - 10;
+      timeH = this.getCanvasHeight() - 10;
     count = totalCount > count ? count : totalCount - 1;
     for (var i = 0; i <= count; i++) {
       nT = nT + nTime;
@@ -733,8 +747,8 @@ kLine.prototype = {
       } else if (i === 0) {
         nT = 0;
       }
-      var kWidth = (nT + 1) * this.dataInfo.blockWidth - this.dataInfo.blockWidth / 2,
-        time = baseDraw.getDateTime(this.dataInfo.newData[nT].time, this.timeType),
+      var kWidth = (nT + 1) * this.kLineData.blockWidth - this.kLineData.blockWidth / 2,
+        time = baseDraw.getDateTime(this.kLineData.newData[nT].time, this.timeType),
         txtWidth = ctx.measureText(time).width;
 
       if (i === count) {//最后一条直接显示
@@ -746,7 +760,6 @@ kLine.prototype = {
       }
 
       ctx.fillText(time, kWidth, timeH);
-      // ctx.fillText(time, kWidth, kHeight + pWidth / 2);
     }
   },
   //画k线
@@ -757,9 +770,10 @@ kLine.prototype = {
     ctx.translate(this.kLineWidth.paddingLeft, this.kLineWidth.paddingTop);
 
     this.drawText(ctx);
-    var topBottomHeight = this.kLineWidth.paddingBottom + this.kLineWidth.paddingTop,
-      canvasWidth = this.getCanvasWidth() - this.kLineWidth.paddingLeft,
-      canvasHeight = this.getCanvasHeight() - topBottomHeight;
+    var
+      canvasWidth = this.getRightCanvasWidth(),
+      canvasHeight = this.getContentHeight();
+    //加1减1只是为了画出右边，顶部线条，因为默认线条宽度是1
     var opts = {
       backgroundColor: this.kLineColor.backgroundColor,
       ctx: ctx,
@@ -778,12 +792,10 @@ kLine.prototype = {
       paddingTop: this.kLineWidth.paddingTop,
     }
     baseDraw.fillAndDrawGrid.call(this, opts);
-    //画网格
-    // this.drawGrid(ctx);
 
-    var nWidth = this.dataInfo.blockWidth;
+    var nWidth = this.kLineData.blockWidth;
     this.posData = [];
-    this.dataInfo.newData.forEach(function (kLine, index) {
+    this.kLineData.newData.forEach(function (kLine, index) {
       var line = this.getLineData(kLine.high, kLine.low, kLine.open, kLine.close),
         nthWidth = index * nWidth,
         centerX = nthWidth + nWidth / 2,
@@ -836,13 +848,13 @@ kLine.prototype = {
   },
   //根据位置获取当前k线数据
   getData: function (posIndex) {
-    var length = this.dataInfo.newData.length;
+    var length = this.kLineData.newData.length;
     if (posIndex >= length) {
       posIndex = length - 1;
     } else if (posIndex < 0) {
       posIndex = 0;
     }
-    return this.dataInfo.newData[posIndex];
+    return this.kLineData.newData[posIndex];
   },
   //获取提示信息
   getTipHtml: function (posIndex) {
@@ -869,14 +881,14 @@ kLine.prototype = {
       paddingLeft: this.kLineWidth.paddingLeft,
       barWidth: this.kLineWidth.barWidth,
       spaceWidth: this.kLineWidth.spaceWidth,
-      blockWidth: this.dataInfo.blockWidth,
-      currentIndex: this.dataInfo.currentIndex,
-      count: this.dataInfo.count,
+      blockWidth: this.kLineData.blockWidth,
+      currentIndex: this.kLineData.currentIndex,
+      count: this.kLineData.count,
     }
   },
   //设置当前数据索引
   setDataIndex: function (num) {
-    this.dataInfo.currentIndex = num;
+    this.kLineData.currentIndex = num;
   },
   //缩放比例设置
   setRatio: function (ratio) {
@@ -889,7 +901,7 @@ kLine.prototype = {
   },
 //设置是否初始化数据
   setIsNewData: function (isNew) {
-    this.dataInfo.isLNewData = isNew;
+    this.kLineData.isLNewData = isNew;
   },
 };
 
@@ -908,7 +920,7 @@ DrawChart.prototype = {
     var cHeight = this.chart.parentNode.offsetHeight,
       cWidth = this.chart.parentNode.offsetWidth;
     this.options = {
-      width: options.width || cWidth,
+      width: baseDraw.getWidth(options.width || cWidth),
       height: options.height || cHeight,
       paddingLeft: options.paddingLeft || 35,
       paddingBottom: options.paddingBottom || baseDraw.getPaddingBottom(cHeight),
@@ -920,7 +932,6 @@ DrawChart.prototype = {
       chartColor: options.chartColor || 'black',
       backgroundColor: options.backgroundColor || '#f0f7fc',
     };
-    this.options.width -= baseDraw.canvasW.marginRight;
   },
   createCanvas: function () {
     var parentElement = this.chart.parentNode,
@@ -970,12 +981,20 @@ DrawChart.prototype = {
     this.chart.style.height = this.tips.style.height = this.layer.style.height = this.options.height + 'px';
   },
   resetCanvas: function (opts) {
-    this.options.width = opts && opts.width - baseDraw.canvasW.marginRight || this.options.width;
+    this.options.width = baseDraw.getWidth(opts && opts.width) || this.options.width;
     this.options.height = opts && opts.height || this.options.height;
     this.options.paddingBottom = baseDraw.getPaddingBottom(this.options.height);
     this.setCanvas();
     this.setCanvasScale();
     this.drawChart();
+  },
+  //获取画布的高度
+  getCanvasHeight: function () {
+    return this.layer.height / this.viewRatio;
+  },
+  //获取画布宽度
+  getCanvasWidth: function () {
+    return this.layer.width / this.viewRatio;
   },
   getViewRatio: function () {
     this.viewRatio = baseDraw.getPixelRatio(this.chartCtx);
@@ -1055,9 +1074,15 @@ DrawChart.prototype = {
   getDateTime: function (time) {
     return new Date(time.replace(/-/g, "/")).getHours();
   },
+  getLineGradient: function () {
+    var lineGradient = this.layerCtx.createLinearGradient(0, 0, 0, this.getCanvasHeight());
+    lineGradient.addColorStop(0.1, this.options.chartFillColor);
+    lineGradient.addColorStop(0.9, 'white');
+    return lineGradient;
+  },
   drawTimeChart: function () {
-    var layerHeight = this.layer.height / this.viewRatio;
-    // var layerWidth = this.layer.width / this.viewRatio;
+    var layerHeight = this.getCanvasHeight();
+    var layerWidth = this.getCanvasWidth();
     this.chartCtx.clearRect(0, 0, this.chart.width, this.chart.height);
     this.chartCtx.save();
     this.layerCtx.clearRect(0, 0, this.layer.width, this.layer.height);
@@ -1120,10 +1145,7 @@ DrawChart.prototype = {
 
     this.layerCtx.lineTo(( this.newData.length - 1) * this.blockWidth, layerHeight);
 
-    var lineGradient = this.layerCtx.createLinearGradient(0, 0, 0, layerHeight);
-    lineGradient.addColorStop(0.1, this.options.chartFillColor);
-    lineGradient.addColorStop(0.9, 'white');
-    this.layerCtx.fillStyle = lineGradient;
+    this.layerCtx.fillStyle = this.getLineGradient();
     this.layerCtx.fill();
 
     this.layerCtx.fillStyle = this.options.chartColor;
@@ -1143,7 +1165,7 @@ DrawChart.prototype = {
       var txtTime = startTime + ':00';
       var txtWidth = this.layerCtx.measureText(txtTime).width;
       if (i === this.options.timeCount) {
-        layerPosX = this.layer.width / this.viewRatio - this.options.paddingLeft;
+        layerPosX = layerWidth - this.options.paddingLeft;
         layerPosX -= txtWidth;
       } else if (i !== 0) {
         layerPosX -= txtWidth / 2;
@@ -1152,20 +1174,17 @@ DrawChart.prototype = {
     }
 
     //画价格文本
-    var priceHeight = layerHeight - this.options.paddingTop - this.options.paddingBottom;
+    var priceHeight = layerH- this.options.paddingBottom;
 
-    var height = this.max - this.min,//总高度
-      nPrice = Math.ceil(height / this.options.vLineCount),//每个价格大概相隔多少数量
-      nHeight = priceHeight / this.options.vLineCount,//每一个文字之间的距离
-      high = this.max + nPrice;//初始化高度，方便下边操作
-    for (var m = 0; m <= this.options.vLineCount; m++) {
-      high = high - nPrice;
-      var pricePosY = m * nHeight;
-      if (m === this.options.vLineCount) {//最底部直接显示最低价
-        high = this.min;
-      }
-      this.layerCtx.fillText(high + '', -this.options.paddingLeft + baseDraw.canvasW.marginLeft, pricePosY);
+    var priceOpts = {
+      ctx: this.layerCtx,
+      max: this.max,
+      min: this.min,
+      vLineCount: this.options.vLineCount,
+      canvasHeight: priceHeight,
+      paddingLeft: this.options.paddingLeft,
     }
+    baseDraw.drawPrice(priceOpts);
 
     this.layerCtx.restore();
   },
@@ -1203,10 +1222,20 @@ DrawChart.prototype = {
     }
 
     var newData = this.newData[posIndex];
+    if (!newData) {
+      return;
+    }
     var posY = (this.max - newData.price) * this.ratio + this.options.paddingTop;
     this.tipsCtx.clearRect(0, 0, this.tips.offsetWidth, this.tips.offsetHeight);
     this.tipsCtx.save();
-    baseDraw.drawGuideLine.call(this, this.tipsCtx, nowPos.x, posY, this.tips.offsetWidth, this.tips.offsetHeight);
+
+    baseDraw.drawGuideLine.call(this, {
+      canvasCtx: this.tipsCtx,
+      x: nowPos.x,
+      y: posY,
+      canvasWidth: this.tips.offsetWidth,
+      canvasHeight: this.tips.offsetHeight,
+    });
     this.tipsCtx.beginPath();
     this.tipsCtx.arc(nowPos.x, posY, 3, 0, Math.PI * 2, false);
     this.tipsCtx.stroke();
