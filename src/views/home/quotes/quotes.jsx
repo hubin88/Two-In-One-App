@@ -90,7 +90,6 @@ class Quotes extends Component {
   // 绘制分时图
   drawFS = (id) => {
     const { dispatch, normalday: { assetinfo }, commodityId } = this.props;
-    console.log('commodityId', commodityId);
     const paramsId = id || commodityId;
     const info = assetinfo || [];
     info.forEach((item) => {
@@ -163,8 +162,6 @@ class Quotes extends Component {
     } else {
       this.drawKX(id, this.timeName);
     }
-    // this.drawFS(id);
-    // this.drawKX(id, name);
     dispatch(toChangeCommodity(id));
   };
   selectTime = (e, name) => {
