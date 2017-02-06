@@ -14,27 +14,27 @@ const imitateData = {
     1: {
       id: 1,
       system: [
-        { type: 'DCB', label: '点差宝', sort: 1 },
-        { type: 'DWB', label: '点微宝', sort: 2 },
+        { type: 'DCB', label: '点差宝', sortNum: 1 },
+        { type: 'DWB', label: '点微宝', sortNum: 2 },
       ],
     },
     2: {
       id: 2,
       system: [
-        { type: 'DCB', label: '点差宝', sort: 1 },
+        { type: 'DCB', label: '点差宝', sortNum: 1 },
       ],
     },
     3: {
       id: 3,
       system: [
-        { type: 'DWB', label: '点微宝', sort: 1 },
+        { type: 'DWB', label: '点微宝', sortNum: 1 },
       ],
     },
     4: {
       id: 4,
       system: [
-        { type: 'DWB', label: '点微宝', sort: 1 },
-        { type: 'DCB', label: '点差宝', sort: 2 },
+        { type: 'DWB', label: '点微宝', sortNum: 1 },
+        { type: 'DCB', label: '点差宝', sortNum: 2 },
       ],
     },
   },

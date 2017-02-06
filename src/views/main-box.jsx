@@ -63,12 +63,12 @@ class MainBox extends Component {
     const {
       dispatch,
       exchangeInfo: { exchangeList, systemList },
-      systemInfo: { navList },
+      systemInfo: { navList, systemSortNum },
     } = this.props;
-    const title = systemList.sort((a, b) => (a.sort - b.sort));
+    const title = systemList.sort((a, b) => (a.sortNum - b.sortNum));
     return (
       <div
-        className={`main-box ${this.state.isShowLeftNav ? 'show-left-nav' : 'hide-left-nav'}`}
+        styleName={`${this.state.isShowLeftNav ? 'show-left-nav' : 'hide-left-nav'}`}
         style={{ paddingTop: styleConfig.headerH, paddingBottom: styleConfig.footerH }}
       >
         <LeftNav
@@ -83,6 +83,7 @@ class MainBox extends Component {
             leftBtnCallBack={this.showLeftNav()}
             leftBtnTxt={<span className="left-nav-btn" />}
             hasLeftBtnIcon={false}
+            titleIdx={systemSortNum - 1}
           />
         </header>
         <section id="section">

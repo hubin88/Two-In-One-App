@@ -365,16 +365,19 @@ export function toChangeCommodity(commodityId) {
 /* === 更改商品 === */
 
 /* === 更改系统 === */
-export function changeSystemType(systemType) {
+export function changeSystemType(systemType, systemSortNum) {
   return {
     type: ActionTypes.CHANGE_SYSTEM_TYPE,
     systemType,
+    systemSortNum,
   };
 }
 export function changeSystem(dispatch, getState, systemType, exchangeData) {
   promise
     .then(() => {
-      dispatch(changeSystemType(systemType));
+      const system = getState().exchangeInfo.systemList.filter(a => a.type === systemType);
+      const systemSortNum = system && system.length === 1 ? system.pop().sortNum : 1;
+      dispatch(changeSystemType(systemType, systemSortNum));
       // TODO: 现阶段接口不同交易系统商品是分开配置的。后期应该商品只跟交易所有关。
       return dispatch(getCommodityAndServers(exchangeData));
     })

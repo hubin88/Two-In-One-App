@@ -26,6 +26,7 @@ const initAvatarURL = require('../images/me_image_avator@3x.png');
 // 切换不同系统，底部导航栏，资金展示方式，个人中心功能点会有所变化
 const initSystemInfo = {
   systemType: SYS_DCB,
+  systemSortNum: 1,
   isLogin: false,
   loginData: {},
   avatarURL: initAvatarURL,
@@ -128,6 +129,7 @@ function systemInfo(state = initSystemInfo, action) {
         ...initSystemInfo,
         ...userData,
         systemType: action.systemType,
+        systemSortNum: action.systemSortNum,
         orgId: ORG_ID[action.systemType],
         isLogin: Cookie.getCookie(`${action.systemType}-isLogin`) || false,
       };
@@ -141,7 +143,6 @@ function systemInfo(state = initSystemInfo, action) {
     }
     case ActionTypes.RESET_USER_DATA: {
       Cookie.setCookie(`${AppConfig.systemType()}-userData`, action.data);
-      console.log(action.data);
       return {
         ...state,
         loginData: action.data,

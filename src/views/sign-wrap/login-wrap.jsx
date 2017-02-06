@@ -5,10 +5,13 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { browserHistory } from 'react-router';
+import cssModules from 'react-css-modules';
 import Login from '../sign/login';
 import { afterLogin } from '../../model/action';
 import { getQueryString } from '../../server/tools';
+import styles from './wrap.scss';
 
+@cssModules(styles, { allowMultiple: true, errorWhenNotFound: false })
 class LoginWrap extends Component {
   static propTypes = {
     dispatch: PropTypes.func,
@@ -24,13 +27,16 @@ class LoginWrap extends Component {
 
   render() {
     return (
-      <Login
-        loginSuccess={this.loginSuc}
-        toRegister={() => { browserHistory.push('/register'); }}
-        toReset={() => { browserHistory.push('/resetPwd'); }}
-        toHome={() => { browserHistory.push('/'); }}
-        orgId={this.props.exchangeInfo.orgId}
-      />
+      <div styleName="content">
+        <Login
+          loginSuccess={this.loginSuc}
+          toRegister={() => { browserHistory.push('/register'); }}
+          toReset={() => { browserHistory.push('/resetPwd'); }}
+          toHome={() => { browserHistory.push('/'); }}
+          orgId={this.props.exchangeInfo.orgId}
+        />
+      </div>
+
     );
   }
 }

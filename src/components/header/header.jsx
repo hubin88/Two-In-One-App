@@ -16,6 +16,7 @@ class Header extends Component {
     titleCallBack: PropTypes.func,
     leftBtnCallBack: PropTypes.func,
     rightBtnCallBack: PropTypes.func,
+    titleIdx: PropTypes.number,
   };
   static defaultProps = {
     title: '',
@@ -23,8 +24,9 @@ class Header extends Component {
     hasLeftBtnIcon: true,
     leftBtnTxt: '',
     rightBtnTxt: '保存',
+    titleIdx: 0,
   };
-  state = { titleIdx: 0 };
+  state = { titleIdx: this.props.titleIdx };
 
   clickTitleBtn = (idx) => {
     this.setState({ titleIdx: idx });

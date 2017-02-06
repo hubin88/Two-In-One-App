@@ -19,12 +19,14 @@ class RegisterWrap extends Component {
 
   render() {
     return (
-      <Register
-        registerSuccess={this.registerSuc}
-        orgId={this.props.exchangeInfo.orgId}
-        systemType={this.props.systemInfo.systemType}
-        type="register"
-      />
+      <div styleName="content">
+        <Register
+          registerSuccess={this.registerSuc}
+          orgId={this.props.exchangeInfo.orgId}
+          systemType={this.props.systemInfo.systemType}
+          type="register"
+        />
+      </div>
     );
   }
 }

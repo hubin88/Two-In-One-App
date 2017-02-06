@@ -5,16 +5,11 @@
 .single-html {
   width: 100%;
   height: 100%;
-  -webkit-overflow-scrolling:touch;
-  overflow:auto;
-
-  iframe {
-    width: 100%;
-    height: 100%;
-    //margin-top: .6rem;
-  }
+  -webkit-overflow-scrolling: touch;
+  overflow: hidden;
 }
-.titleName{
+
+.titleName {
   text-align: center;
   background-color: #fe8228;
   height: .4rem;
@@ -24,11 +19,13 @@
   font-size: .2rem;
   //position: absolute;
 }
-.titleName span{
+
+.titleName span {
   display: inline-block;
   margin: 0 auto;
 }
-.close{
+
+.close {
   background: url(../../images/back@2x.png) no-repeat;
   width: 16px;
   height: 30px;

@@ -26,8 +26,12 @@ class UserWrap extends Component {
     const title = userChannel.title || '';
     return (
       <div>
-        <Header title={title} leftBtnCallBack={this.back} />
-        {this.props.children}
+        <header>
+          <Header title={title} leftBtnCallBack={this.back} />
+        </header>
+        <section>
+          {this.props.children}
+        </section>
       </div>
     );
   }

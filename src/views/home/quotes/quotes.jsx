@@ -250,7 +250,6 @@ class Quotes extends Component {
                   styleName={`${this.props.commodityId === i ? 'active' : ''}`}
                   onClick={this.chooseCommodity(i)}
                 >
-                  <img src="" alt="" />
                   <span>{name}</span>
                   <span>{prices}</span>
                 </li>

@@ -21,10 +21,10 @@ export default class AppConfig {
 
   static singleHtml = () => ({
     pay: {
-      title: PAY_TITLE, url: PAY_URL, backDirect: '',
+      title: PAY_TITLE, url: '', backDirect: '',
     },
     withdraw: {
-      title: WITHDRAW_TITLE, url: WITHDRAW_URL, backDirect: '',
+      title: WITHDRAW_TITLE, url: '', backDirect: '',
     },
     dcbPage: {
       title: DCB_SUGGEST_TITLE, url: DCB_SUGGEST_URL, backDirect: '/user',
@@ -54,7 +54,7 @@ const buildingH = 60;
 const buildingPadding = 12;
 const tipsH = 20;
 const holdH = 90;
-const commodityH = 52;
+const commodityH = 60;
 const quotesH = screenH - headerH - footerH - userInfoH - buildingH - tipsH - commodityH;
 const quotesTipsH = 20;
 const canvasH = quotesH - (3 * quotesTipsH);

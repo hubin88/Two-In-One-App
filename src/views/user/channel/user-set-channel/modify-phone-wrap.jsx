@@ -30,18 +30,22 @@ class ModifyPhoneWrap extends Component {
   render() {
     return (
       <div>
-        <Header
-          title={this.props.title}
-          leftBtnCallBack={this.back}
-          rightBtnCallBack={this.submitFuc}
-        />
-        <Register
-          resetPhoneSuccess={this.resetPhoneSuc}
-          orgId={this.props.exchangeInfo.orgId}
-          systemType={this.props.systemInfo.systemType}
-          sessionId={this.props.systemInfo.loginData.sessionId}
-          type="resetphone"
-        />
+        <header>
+          <Header
+            title={this.props.title}
+            leftBtnCallBack={this.back}
+            rightBtnCallBack={this.submitFuc}
+          />
+        </header>
+        <section>
+          <Register
+            resetPhoneSuccess={this.resetPhoneSuc}
+            orgId={this.props.exchangeInfo.orgId}
+            systemType={this.props.systemInfo.systemType}
+            sessionId={this.props.systemInfo.loginData.sessionId}
+            type="resetphone"
+          />
+        </section>
       </div>
     );
   }

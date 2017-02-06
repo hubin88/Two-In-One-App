@@ -28,8 +28,12 @@ class SignWrap extends Component {
     });
     return (
       <div className="content" ref={(ref) => { this.content = ref; }}>
-        <Header title={titleName} leftBtnCallBack={this.back} />
-        {this.props.children}
+        <header>
+          <Header title={titleName} leftBtnCallBack={this.back} />
+        </header>
+        <section>
+          {this.props.children}
+        </section>
       </div>
     );
   }

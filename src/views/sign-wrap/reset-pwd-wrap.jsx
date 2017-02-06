@@ -18,10 +18,12 @@ class ResetPwdWrap extends Component {
 
   render() {
     return (
-      <Reset
-        resetSuccess={this.resetSuc}
-        orgId={this.props.exchangeInfo.orgId}
-      />
+      <div styleName="content">
+        <Reset
+          resetSuccess={this.resetSuc}
+          orgId={this.props.exchangeInfo.orgId}
+        />
+      </div>
     );
   }
 }

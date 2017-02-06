@@ -27,15 +27,20 @@ class ModifyPwdWrap extends Component {
   render() {
     return (
       <div>
-        <Header
-          title={this.props.title}
-          leftBtnCallBack={this.back}
-          rightBtnCallBack={this.submitFuc}
-        />
-        <ModifyPwd
-          resetPasswordSuccess={this.resetPasswordSuc}
-          sessionId={this.props.systemInfo.loginData.sessionId}
-        />
+        <header>
+          <Header
+            title={this.props.title}
+            leftBtnCallBack={this.back}
+            rightBtnCallBack={this.submitFuc}
+          />
+        </header>
+        <section>
+          <ModifyPwd
+            resetPasswordSuccess={this.resetPasswordSuc}
+            sessionId={this.props.systemInfo.loginData.sessionId}
+          />
+        </section>
+
       </div>
     );
   }

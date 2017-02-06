@@ -213,7 +213,7 @@ class Home extends Component {
               ['bullish', 'bearish'].map((direction, idx) => {
                 const title = `${AppConfig.tradeLabel()[systemType][direction]}`;
                 return (
-                  <span
+                  <button
                     style={{
                       height: styleConfig.buildingH - (2 * styleConfig.buildingPadding),
                       lineHeight: `${styleConfig.buildingH - (2 * styleConfig.buildingPadding)}px`,
@@ -221,7 +221,7 @@ class Home extends Component {
                     key={`building-${idx}`}
                     styleName={direction}
                     onClick={() => this.showOrder(title, direction, systemType)}
-                  >{title}</span>
+                  >{title}</button>
                 );
               })
             }

@@ -57,13 +57,13 @@ class OrderDCB extends Component {
             <div className="td" styleName="content">
               {
                 this.depositArr.map((item, index) =>
-                  <div
+                  <button
                     styleName={`item ${this.state.depositIdx === index ? 'active' : ''}`}
                     key={index}
                     onClick={this.chooseDeposit(index)}
                   >
                     {item}
-                  </div>
+                  </button>
                 )
               }
             </div>
@@ -75,13 +75,13 @@ class OrderDCB extends Component {
             <div className="td" styleName="content">
               {
                 this.rangeArr.map((item, index) =>
-                  <div
+                  <button
                     styleName={`item ${this.state.rangeIdx === index ? 'active' : ''}`}
                     key={index}
                     onClick={this.chooseRange(index)}
                   >
                     {item[0]}
-                  </div>
+                  </button>
                 )
               }
             </div>

@@ -67,12 +67,16 @@ class resetName extends Component {
   render() {
     return (
       <div styleName="nickName">
-        <Header
-          title={this.props.title}
-          leftBtnCallBack={this.back}
-          rightBtnCallBack={this.submitFuc}
-        />
-        {this.nameCenter()}
+        <header>
+          <Header
+            title={this.props.title}
+            leftBtnCallBack={this.back}
+            rightBtnCallBack={this.submitFuc}
+          />
+        </header>
+        <section>
+          {this.nameCenter()}
+        </section>
       </div>
     );
   }

@@ -2,12 +2,12 @@ $headerBgColor: #FF9D45;
 $headerColor: #fff;
 .header {
   background-color: $headerBgColor;
-  width: 100%;
-  position: absolute;
+  //width: 100%;
+  //position: absolute;
 }
-.header + iframe, .header + div{
-  padding-top: .66rem;
-}
+//.header + iframe, .header + div{
+//  padding-top: .66rem;
+//}
 .top {
   height: 22px;
   width: 100%;

@@ -6,7 +6,7 @@
   border: none;
   box-sizing: border-box;
   outline: none;
-  -webkit-user-select:none;
+  -webkit-user-select: none;
 }
 
 html, body {
@@ -22,22 +22,17 @@ html {
 body {
   font-family: Roboto, helvetica, arial, sans-serif;
   font-size: .12rem;
-}
-
-#root {
-  width: 100%;
-  height: 100%;
+  overflow: hidden;
 }
 
 a {
   text-decoration: none;
   color: inherit;
-  //-webkit-tap-highlight-color: rgba(0,0,0,0);
   -webkit-tap-highlight-color: transparent; /* For some Androids */
 }
 
-input,textarea {
-  -webkit-user-select:auto; /*webkit浏览器*/
+input, textarea {
+  -webkit-user-select: auto; /*webkit浏览器*/
 }
 
 ul, li, ol, h3, table, td, th, tr {
@@ -47,6 +42,15 @@ ul, li, ol, h3, table, td, th, tr {
 
 li {
   list-style: none;
+}
+
+input, button,textarea {
+  border: none;
+  background: transparent;
+  outline: none;
+  color: inherit;
+  -webkit-tap-highlight-color: transparent; /* For some Androids */
+
 }
 
 .fl {
@@ -76,11 +80,9 @@ li {
   display: table-cell;
 }
 
-input, button {
-  border: none;
-  background: transparent;
-  outline: none;
-  color: inherit;
+#root {
+  width: 100%;
+  height: 100%;
 }
 
 #root > div:first-child {
@@ -88,26 +90,42 @@ input, button {
   height: 100%;
   width: 100%;
   min-height: 5.5rem;
+  padding-top: .66rem;
+  background-color: #EFEFF5;
   transition: left 0.6s cubic-bezier(0.65, 0.05, 0.36, 1);
 }
 
-.content > div:last-child {
-  padding: .66rem 4.83%;
-  height: 100%;
-  font-size: 0.14rem;
+header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background-color: #FF9D45;
 }
 
-.indend-2 {
+section {
+  height: 100%;
+  width: 100%;
+  background: #EFEFF4;
+  overflow: auto;
+}
+
+footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  border-top: .01rem #c0c0c0 solid;
+  background: #fff;
+}
+
+iframe {
+  height: 100%;
+  width: 100%;
+}
+
+.agreement {
   text-indent: 2em;
 }
 
-.show-left-nav {
-  left: 75%;
-}
-
-.hide-left-nav {
-  left: 0;
-}
 
 
 

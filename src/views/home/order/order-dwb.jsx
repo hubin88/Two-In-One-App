@@ -58,13 +58,13 @@ class OrderDWB extends Component {
             <div className="td" styleName="content">
               {
                 this.depositArr.map((item, index) =>
-                  <div
+                  <button
                     styleName={`item ${this.state.depositIdx === index ? 'active' : ''}`}
                     key={index}
                     onClick={this.chooseSetting('depositIdx', index)}
                   >
                     {item[0]}
-                  </div>
+                  </button>
                 )
               }
             </div>
@@ -86,13 +86,13 @@ class OrderDWB extends Component {
                 <div className="td" styleName="content">
                   {
                     this.rangeArr.map((item, index) =>
-                      <div
+                      <button
                         styleName={`item item-line ${this.state[name] === index ? 'active' : ''}`}
                         key={`${name}-${index}`}
                         onClick={this.chooseSetting(name, index)}
                       >
                         {parseFloat(item) === 0 ? '无' : `${parseInt(item * 100, 10)}%`}
-                      </div>
+                      </button>
                     )
                   }
                 </div>
