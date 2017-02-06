@@ -161,7 +161,7 @@ class Home extends Component {
     const allCashNum = isLogin ? allCash : '- -';
     const hasHold = holdArr && holdArr.length !== 0;
     const holdHeight = hasHold ? styleConfig.holdH : 0;
-    if (isLogin) {
+    if (isLogin && secKey) {
       clearInterval(this.time);
       this.time = setInterval(() => {
         dispatch(queryUserInfoGatewayReapt(secKey));

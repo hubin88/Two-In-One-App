@@ -6,6 +6,7 @@
   border: none;
   box-sizing: border-box;
   outline: none;
+  -webkit-user-select:none;
 }
 
 html, body {
@@ -31,6 +32,12 @@ body {
 a {
   text-decoration: none;
   color: inherit;
+  //-webkit-tap-highlight-color: rgba(0,0,0,0);
+  -webkit-tap-highlight-color: transparent; /* For some Androids */
+}
+
+input,textarea {
+  -webkit-user-select:auto; /*webkit浏览器*/
 }
 
 ul, li, ol, h3, table, td, th, tr {
