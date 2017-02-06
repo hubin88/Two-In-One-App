@@ -100,8 +100,10 @@ var baseDraw = {
     var date = new Date(dateString.replace(/-/g, "/"));
     switch (timeType) {
       case this.kLineTimeType.minute:
-        var minutes = date.getMinutes();
-        return date.getHours() + ':' + (minutes === 0 ? '00' : minutes);
+        var minutes = date.getMinutes() + '',
+          hours = date.getHours() + '';
+        hours = hours.length === 1 ? '0' + hours : hours;
+        return hours + ':' + (minutes.length === 1 ? minutes + '0' : minutes);
       case this.kLineTimeType.year:
       case this.kLineTimeType.week:
       case this.kLineTimeType.day:
@@ -256,6 +258,7 @@ DrawKLine.prototype = {
   setData: function (data) {
     if (data) {
       if (baseDraw.isArray(data)) {
+        this.data = [];
         data.forEach(function (d) {
           this.data.push({
             close: d.close,
@@ -290,16 +293,17 @@ DrawKLine.prototype = {
     this.redrawKLine();
   },
   drawKLine: function (opts) {
-    if (opts && opts.timeType) {
-      this.kLine.setBaseData({
-        timeType: opts.timeType,
-      });
+    if (opts) {
+      if (opts.timeType) {
+        this.kLine.setBaseData({
+          timeType: opts.timeType,
+        });
+      }
+      if (opts.data) {
+        this.setData(opts.data);
+        this.redrawKLine();
+      }
     }
-    if (opts && opts.data) {
-      this.setData(opts.data);
-      this.redrawKLine();
-    }
-
   },
   //重绘k线
   redrawKLine: function () {
@@ -363,7 +367,7 @@ DrawKLine.prototype = {
       if (middleX > x) {
         posX = posX + 50;
       } else {
-        posX = (posX - this.tips.offsetWidth - 30);
+        posX = (posX - this.tips.offsetWidth - 50);
       }
       this.tips.style.left = posX + 'px';
       this.tips.style.top = y - 40 + 'px';
@@ -396,16 +400,19 @@ DrawKLine.prototype = {
     });
     ctx.restore();
   },
-
-  //移动k线
-  moveKLine: function (xPos) {
-    var kLine = this.kLine;
-    var info = kLine.getBaseInfo();
-    if (xPos < this.eventStatus.prevX) {
+  setDir: function (currentXPos, prevPos) {
+    if (currentXPos < prevPos) {
       this.eventStatus.dir = 'left';//往左移动
     } else {
       this.eventStatus.dir = 'right';//往左移动
     }
+  },
+  //移动k线
+  moveKLine: function (xPos) {
+    var kLine = this.kLine;
+    var info = kLine.getBaseInfo();
+    this.setDir(xPos, this.eventStatus.prevX);
+
 //移动几个k线
     var rangeCount = Math.floor(Math.abs(xPos - this.eventStatus.startPos.x) / info.blockWidth);
     var n = 0;
@@ -1174,7 +1181,7 @@ DrawChart.prototype = {
     }
 
     //画价格文本
-    var priceHeight = layerH- this.options.paddingBottom;
+    var priceHeight = layerH - this.options.paddingBottom;
 
     var priceOpts = {
       ctx: this.layerCtx,
@@ -1245,7 +1252,7 @@ DrawChart.prototype = {
     if (middleX > nowPos.x) {
       posX = posX + 50;
     } else {
-      posX = (posX - this.textTips.offsetWidth - 30);
+      posX = (posX - this.textTips.offsetWidth - 50);
     }
     var s = 'transform:translate3d(' + posX + 'px, ' + (nowPos.y - 40) + 'px, 0)';
     this.textTips.setAttribute('style', '-webkit-' + s + ';' + s + ';display:block');
