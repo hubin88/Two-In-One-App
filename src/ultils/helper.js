@@ -109,3 +109,14 @@ export function arrayToObject(data, key) {
   }, {});
 }
 
+export function pricesArrayToObject(array) {
+  const arrObj = [];
+  array.forEach((value) => {
+    const temp = {};
+    value.forEach((val, j) => {
+      temp[j] = val;
+    });
+    arrObj.push(temp);
+  });
+  console.log('22', arrObj);
+}

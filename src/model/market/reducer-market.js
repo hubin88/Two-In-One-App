@@ -25,6 +25,7 @@ export default function marketInfo(state = initMarketInfo, action) {
     case ActionQuoteTypes.SUCCESS_GET_QUOT: {
       return {
         ...state,
+        // commodityPrices: action.data.result,
         commodityPrices: action.data.result,
       };
     }

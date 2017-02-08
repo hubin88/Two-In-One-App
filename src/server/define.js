@@ -32,3 +32,12 @@ export const STATUS = {
   success: 1,
   error: -1,
 };
+
+export const PRICES = {
+  assetId: 0,
+  price: 1,
+  high: 2,
+  low: 3,
+  open: 4,
+  preclose: 5,
+};

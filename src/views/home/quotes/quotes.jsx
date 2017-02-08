@@ -10,6 +10,7 @@ import {
   successQueryDayLine,
   successQueryTimeShare,
 } from '../../../model/market/action-market';
+import { PRICES } from '../../../server/define';
 
 const options = {
   lineWidth: 1,
@@ -177,7 +178,7 @@ class Quotes extends Component {
     const { commodityId, commodityPrices } = this.props;
     const tpl = [];
     commodityPrices.forEach((item) => {
-      if (commodityId === item[0]) {
+      if (commodityId === item[PRICES.assetId]) {
         this.quotesName.forEach((itemName, idx) => {
           tpl.push(<li key={idx}>{itemName}{Number.parseInt([...item][idx + 2], 10)}</li>);
         });
@@ -239,8 +240,8 @@ class Quotes extends Component {
               const name = commodityData[i].Name;
               let prices = 0;
               commodityPrices.forEach((item) => {
-                if (item[0] === i) {
-                  prices = Number.parseInt(item[1], 10);
+                if (item[PRICES.assetId] === i) {
+                  prices = Number.parseInt(item[PRICES.price], 10);
                 }
               });
               return (
