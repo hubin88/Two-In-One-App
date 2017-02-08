@@ -41,20 +41,18 @@ const initSystemInfo = {
     // rule: { name: 'rule', label: '规则', direction: '/rule' },
     user: { name: 'user', label: '我', direction: '/user' },
   },
-  assetInfo: {
-    // allCash: '',
-    // availableCash: '',
-    // frozenCash: '',
-    // cashEarnAll: '',
-  },
+  assetInfo: {},
+  holdArray: [],
   checkChannel: [
     { type: 'pay', label: '充值', direction: '/pay' },
     { type: 'withdraw', label: '提现', direction: '/withdraw' },
   ],
-};
-
-const initCommodityState = {
   commodityId: null,
+  imitateHoldArray: {
+    [SYS_DCB]: [],
+    [SYS_DWB]: [],
+  },
+
 };
 
 // 交易所信息
@@ -132,6 +130,7 @@ function systemInfo(state = initSystemInfo, action) {
         systemSortNum: action.systemSortNum,
         orgId: ORG_ID[action.systemType],
         isLogin: Cookie.getCookie(`${action.systemType}-isLogin`) || false,
+        imitateHoldArray: state.imitateHoldArray,
       };
     }
     case ActionTypes.CHANGE_LOGIN_STATUS: {
@@ -156,17 +155,32 @@ function systemInfo(state = initSystemInfo, action) {
       };
     }
     case ActionTypes.SUCCESS_QUERY_USER_INFO_GATEWAY: {
+      console.log(action.data);
+      const {
+        TotalAssets: allAssets,
+        ValidAssets: validAssets,
+        TotalUsed: usedAssets,
+        vec,
+      } = action.data;
+      const holdArray = [
+        ...vec, ...state.imitateHoldArray[state.systemType],
+      ];
       return {
         ...state,
-        assetInfo: action.data,
+        assetInfo: {
+          allAssets,
+          validAssets,
+          usedAssets,
+        },
+        holdArray,
       };
     }
     case ActionTypes.SUCCESS_FIND_USER: {
       const { headImg, nikeName: nickName, mobile } = action.data;
       return {
         ...state,
-        avatarURL: `data:image/png;base64,${headImg}`,
-        nickName,
+        avatarURL: headImg ? `data:image/png;base64,${headImg}` : initAvatarURL,
+        nickName: nickName || mobile,
         mobile,
       };
     }
@@ -176,30 +190,49 @@ function systemInfo(state = initSystemInfo, action) {
         directUrl: action.data.url,
       };
     }
-    default: {
-      return state;
-    }
-  }
-}
-
-// 商品状态
-function commodityState(state = initCommodityState, action) {
-  switch (action.type) {
     case ActionTypes.CHANGE_COMMODITY_ID: {
       return {
         ...state,
         commodityId: action.commodityId,
       };
     }
+    case ActionTypes.REQUEST_CREATE_USER_ORDER: {
+      const {
+        commodityInfo: { AssetId, MerchCode, MarketId, Name, price },
+        deposit: { fee, mount: Margin },
+        direction,
+      } = action.data;
+      return {
+        ...state,
+        imitateHoldArray: {
+          ...state.imitateHoldArray,
+          [state.systemType]: [
+            ...state.imitateHoldArray[state.systemType],
+            {
+              orderId: '',
+              MarketId,
+              Name,
+              AssetId,
+              MerchCode,
+              Price: price[1],
+              Margin,
+              earnBase: fee,
+              direction,
+            },
+          ],
+        },
+      };
+    }
+
     default: {
       return state;
     }
   }
 }
+
 export default combineReducers({
   exchangeInfo,
   marketInfo,
   systemInfo,
-  commodityState,
   routing: routerReducer,
 });

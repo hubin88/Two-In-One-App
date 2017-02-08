@@ -8,9 +8,9 @@ import { SYS_DCB, SYS_DWB } from '../../server/define';
 const renderList = {
   [SYS_DCB]: {
     asset: [
-      { name: 'TotalAssets', label: '总资产' },
-      { name: 'ValidAssets', label: '可用资金' },
-      { name: 'TotalUsed', label: '占用合约定金' },
+      { name: 'allAssets', label: '总资产' },
+      { name: 'validAssets', label: '可用资金' },
+      { name: 'usedAssets', label: '占用合约定金' },
     ],
     channel: [
       { name: 'track', label: '交易轨迹', direction: '/track' },
@@ -22,9 +22,9 @@ const renderList = {
   },
   [SYS_DWB]: {
     asset: [
-      { name: 'TotalAssets', label: '总资产' },
-      { name: 'ValidAssets', label: '可用资金' },
-      { name: 'TotalUsed', label: '占用合约定金' },
+      { name: 'allAssets', label: '总资产' },
+      { name: 'validAssets', label: '可用资金' },
+      { name: 'usedAssets', label: '占用合约定金' },
       { name: 'cashEarnAll', label: '持仓盈亏' },
     ],
     channel: [

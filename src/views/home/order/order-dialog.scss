@@ -23,10 +23,13 @@
     font-size: $buildingTitleF;
     vertical-align: middle;
     i {
+      display: inline-block;
       width: $buildingTitleF;
+      height: $buildingTitleF;
       background-repeat: no-repeat;
       background-position: center;
       background-size: 100%;
+      margin-right: $buildingTitleP;
     }
     b {
       font-size: inherit;

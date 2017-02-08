@@ -22,6 +22,7 @@ class OrderBoxWrap extends Component {
     title: PropTypes.string,
     onConfirm: PropTypes.func,
     commodityData: PropTypes.object,
+    commodityPricesObj: PropTypes.object,
     commodityId: PropTypes.string,
   };
 
@@ -31,24 +32,28 @@ class OrderBoxWrap extends Component {
 
   onConfirm = () => {
     if (this.props.onConfirm) {
-      const settingData = this.order.getSettingData();
+      const settingData = { ...this.order.getSettingData() };
       this.props.onConfirm(settingData);
     }
     this.dialog.close();
   };
 
   renderSetting() {
-    const { systemType, direction, commodityData, commodityId } = this.props;
+    const { systemType, direction, commodityData, commodityId, commodityPricesObj } = this.props;
+    const commodity = {
+      ...commodityData[commodityId],
+      price: commodityPricesObj[commodityId],
+    };
     const o = {
       [SYS_DCB]: <OrderDCB
         ref={(ref) => { this.order = ref; }}
         direction={direction}
-        commodity={commodityData[commodityId]}
+        commodity={commodity}
       />,
       [SYS_DWB]: <OrderDWB
         ref={(ref) => { this.order = ref; }}
         direction={direction}
-        commodity={commodityData[commodityId]}
+        commodity={commodity}
       />,
     };
     return o[systemType];
@@ -73,7 +78,7 @@ class OrderBoxWrap extends Component {
   renderTitle() {
     return (<span styleName={this.props.direction}>
       <i className="td" />
-      <b className="td">{this.props.title}</b>
+      <span className="td">{this.props.title}</span>
     </span>);
   }
 

@@ -2,6 +2,7 @@
  * Created by Amg on 2016/12/26.
  */
 import * as ActionQuoteTypes from './action-type-market';
+import { arrayToObject } from '../../ultils/helper';
 
 const initMarketInfo = {
   normalday: {},
@@ -27,6 +28,7 @@ export default function marketInfo(state = initMarketInfo, action) {
         ...state,
         // commodityPrices: action.data.result,
         commodityPrices: action.data.result,
+        commodityPricesObj: arrayToObject(action.data.result, 0),
       };
     }
     default:

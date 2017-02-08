@@ -53,6 +53,7 @@ class Quotes extends Component {
     normalday: PropTypes.object,
     timeLists: PropTypes.array,
   };
+
   constructor(props) {
     super(props);
     this.state = {
@@ -61,6 +62,7 @@ class Quotes extends Component {
     };
     this.timeName = 'fenTime';
   }
+
   componentDidMount() {
     this.kLine = new window.DrawKLine('kLine', options);
     this.chart = new window.DrawChart('chart', chartOptions);
@@ -75,15 +77,20 @@ class Quotes extends Component {
     // this.kLine.drawKLine(window.kLineData.result);
     // this.chart.drawChart(window.data2);
   }
+
   componentWillUnmount() {
     clearInterval(this.time);
   }
+
   quotesName = ['昨收：', '今开：', '最高：', '最低：'];
-  redrawCanvas(drawType = 'chart') {
+
+  redrawCanvas = (drawType = 'chart') => {
     const w = styleConfig.screenW;
+    console.log(this.props);
     const h = styleConfig.canvasH - this.props.holdHeight;
     this[drawType].resetCanvas({ width: w, height: h });
-  }
+  };
+
   FScallBack = (dispatch, json) => {
     this.chart.drawChart(json.result);
     dispatch(successQueryTimeShare(json));
@@ -186,6 +193,7 @@ class Quotes extends Component {
     });
     return tpl;
   };
+
   renderChart() {
     const canvasH = styleConfig.canvasH - this.props.holdHeight;
     this.timeList = timeList;
@@ -219,6 +227,7 @@ class Quotes extends Component {
       </div>
     );
   }
+
   render() {
     const { commodityData, commodityPrices, normalday: { assetinfo } } = this.props;
     if (assetinfo && this.state.isDraw) {

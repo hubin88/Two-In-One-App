@@ -15,10 +15,20 @@ class OrderDCB extends Component {
 
   constructor(props) {
     super(props);
-    console.log(props);
     const { commodity: { Margin: deposit, Point: range } } = props;
     this.depositArr = deposit.split(',') || [];
-    this.rangeArr = range.split('|').map(r => r.split(','));
+
+    const arr = range.split('|');
+
+    this.rangeArr = arr.map(r => {
+      const [float, fee] = r.split(',');
+
+      return {
+        float,
+        fee,
+      };
+    });
+
     this.state = {
       depositIdx: 0,
       rangeIdx: 0,
@@ -80,7 +90,7 @@ class OrderDCB extends Component {
                     key={index}
                     onClick={this.chooseRange(index)}
                   >
-                    {item[0]}
+                    {item.float}
                   </button>
                 )
               }
@@ -90,7 +100,8 @@ class OrderDCB extends Component {
             <div className="td" styleName="title-dcb">
               <span styleName="color-gray">数量:</span>
             </div>
-            <div className="td" styleName="content"><span>拖动条</span></div>
+            <div className="td" styleName="content"><span><input type="range" defaultValue="0" /></span>
+            </div>
           </div>
         </div>
         <div styleName="prompt">
@@ -102,4 +113,6 @@ class OrderDCB extends Component {
   }
 }
 
-export default OrderDCB;
+export
+default
+OrderDCB;

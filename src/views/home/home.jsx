@@ -11,27 +11,6 @@ import { SYS_DCB, SYS_DWB } from '../../server/define';
 import AppConfig, { styleConfig } from '../../server/app-config';
 import { toCreateUserOrder, queryUserInfoGatewayReapt } from '../../model/action';
 
-const holdRecord = {
-  [SYS_DCB]: [
-    {
-      name: '亚太银',
-      mount: '2',
-      openPrice: '3732',
-      earnest: '10.00',
-      range: '5',
-      MerchCode: 'BU.QHDW',
-    },
-    { name: '亚银', mount: '2', openPrice: '3732', earnest: '10.00', range: '5' },
-    { name: '亚太银', mount: '2', openPrice: '3732', earnest: '10.00', range: '5' },
-    { name: '亚太银', mount: '2', openPrice: '3732', earnest: '10.00', range: '5' },
-  ],
-  [SYS_DWB]: [
-    { name: '亚太银', mount: '2', openPrice: '3732', float: '-5' },
-    { name: '亚银', mount: '2', openPrice: '3732', float: '-5' },
-    { name: '亚太银', mount: '2', openPrice: '3732', float: '-5' },
-    { name: '亚太银', mount: '2', openPrice: '3732', float: '-5' },
-  ],
-};
 @cssModules(styles, { allowMultiple: true, errorWhenNotFound: false })
 class Home extends Component {
   static defaultProps = {};
@@ -40,14 +19,15 @@ class Home extends Component {
     exchangeInfo: PropTypes.object,
     marketInfo: PropTypes.object,
     systemInfo: PropTypes.object,
-    commodityState: PropTypes.object,
   };
+
   constructor(props) {
     super(props);
     this.state = {
       holdBody: [],
     };
   }
+
   onCover = (d) => {
     console.log('平仓', d);
   };
@@ -58,14 +38,9 @@ class Home extends Component {
       browserHistory.push('/login?source=user');
     }
   };
-  haveHold = (systemType) => {
-    this.setState({
-      holdBody: holdRecord[systemType],
-    });
-  };
   confirmBuild = (data) => {
     const orderData = {
-      sessionId: '',
+      // sessionId: '',
       marketId: '',
       symbolId: '',
       direction: '',
@@ -75,20 +50,15 @@ class Home extends Component {
       stopLoss: '', // DWB
       margin: '',   // DCB
       point: '',    // DCB
+      data,
     };
-    // TODO: 未完成，开发调试用
-    const i = 0;
-    if (i === 0) {
-      this.haveHold(this.props.systemInfo.systemType);
-    } else {
-      this.props.dispatch(toCreateUserOrder(orderData));
-    }
-    console.log('下单成功', data);
+    this.props.dispatch(toCreateUserOrder(orderData, this.quotes.redrawCanvas));
   };
   showOrder = (title, direction, systemType) => {
     const {
       exchangeInfo: { commodityData },
-      commodityState: { commodityId },
+      systemInfo: { commodityId },
+      marketInfo: { commodityPricesObj },
     } = this.props;
     OrderBox.show({
       dispatch: this.props.dispatch,
@@ -98,14 +68,18 @@ class Home extends Component {
       onConfirm: this.confirmBuild,
       commodityData,
       commodityId,
+      commodityPricesObj,
     });
   };
   // 持仓记录头部
   holdHeaderList = (systemType) => {
     const {
       exchangeInfo: { commodityData },
-      commodityState: { commodityId },
+      systemInfo: { commodityId },
     } = this.props;
+
+    // const mountUnit = cid => cid === COMMODITY_BU ? MOUNT_UNIT_BU : MOUNT_UNIT_OTHERS;
+
     const obj = {
       [SYS_DCB]: [
         {
@@ -116,6 +90,13 @@ class Home extends Component {
           ),
         },
         { key: 'Margin', label: '数量' },
+        // {
+        //   key: 'volume',
+        //   label: '数量',
+        //   render: (data) => (
+        //     <span>{ data.valiableAsset.asset * mountUnit(data.AssentId)}</span>
+        //   ),
+        // },
         { key: 'Price', label: '建仓价' },
         { key: 'earnest', label: '定金' },
         { key: 'range', label: '止盈止损' },
@@ -124,15 +105,22 @@ class Home extends Component {
         {
           key: 'name',
           label: '名称',
-          render: () => (
-            <span><img src="" alt="" />{commodityData[commodityId].Name}</span>
+          render: (keyData, d) => (
+            <span styleName={`${d.direction}`}><i />{commodityData[commodityId].Name}</span>
           ),
         },
         { key: 'Margin', label: '数量' },
+        // {
+        //   key: 'volume',
+        //   label: '数量',
+        //   render: (data) => (
+        //     <span>{ data.valiableAsset.asset * mountUnit(data.AssentId)}</span>
+        //   ),
+        // },
         { key: 'Price', label: '建仓价' },
         { key: 'float', label: '盈亏' },
         {
-          key: '',
+          key: 'cover',
           label: '操作',
           render: (keyData, d) => (
             <a href="#" onClick={() => this.onCover(d)}>平仓</a>
@@ -141,7 +129,9 @@ class Home extends Component {
       ],
     };
     return obj[systemType];
-  };
+  }
+    ;
+
   render() {
     const {
       dispatch,
@@ -149,16 +139,17 @@ class Home extends Component {
       marketInfo: { commodityPrices, normalday },
       systemInfo: {
         systemType,
-        assetInfo: { TotalAssets: allCash, vec = [] },
+        assetInfo: { allAssets },
+        holdArray,
         isLogin,
         avatarURL,
         checkChannel,
+        commodityId,
       },
-      commodityState: { commodityId },
     } = this.props;
     const commodityCode = commodityData[commodityId] ? commodityData[commodityId].MerchCode : null;
-    const holdArr = vec.filter((i) => i.MerchCode === commodityCode);
-    const allCashNum = isLogin ? allCash : '- -';
+    const holdArr = holdArray.filter((i) => i.MerchCode === commodityCode);
+    const allAssetsNum = isLogin ? allAssets : '- -';
     const hasHold = holdArr && holdArr.length !== 0;
     const holdHeight = hasHold ? styleConfig.holdH : 0;
     if (isLogin && secKey) {
@@ -177,7 +168,7 @@ class Home extends Component {
             <img src={avatarURL} alt="" />
           </span>
           <span styleName="asset">
-            总资产<b>{allCashNum}</b>元
+            总资产<b>{allAssetsNum}</b>元
           </span>
           <span className="fr">
             {
@@ -252,7 +243,7 @@ function mapStateToProps(state) {
     exchangeInfo: state.exchangeInfo,
     marketInfo: state.marketInfo,
     systemInfo: state.systemInfo,
-    commodityState: state.commodityState,
   };
 }
+
 export default connect(mapStateToProps)(Home);

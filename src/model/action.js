@@ -211,15 +211,18 @@ export function successQueryUserInfoGateway(json) {
   };
 }
 
-export function toQueryUserInfoGateway(obj) {
+export function toQueryUserInfoGateway() {
   return function wrap(dispatch, getState) {
+    const { exchangeInfo: { secKey } } = getState();
+    return TradeApi.queryUserInfoGateway(secKey)
+      .then(json => dispatch(successQueryUserInfoGateway(json)));
+  };
+}
+export function toQueryUserInfoGatewayWrap(obj) {
+  return function wrap(dispatch) {
     // TODO: 通过获取商品接口获取seckey
     dispatch(getCommodityAndServers(obj))
-      .then(() => {
-        const { exchangeInfo: { secKey } } = getState();
-        return TradeApi.queryUserInfoGateway(secKey)
-          .then(json => dispatch(successQueryUserInfoGateway(json)));
-      });
+      .then(() => dispatch(toQueryUserInfoGateway()));
   };
 }
 
@@ -246,7 +249,7 @@ export function resetUser(dispatch, userData, loginStatus) {
   if (isLogin) {
     dispatch(toGetUseData(userData));
     dispatch(toFindUser(userData));
-    dispatch(toQueryUserInfoGateway(userData));
+    dispatch(toQueryUserInfoGatewayWrap(userData));
   }
 }
 /* === 重置用户 === */
@@ -357,7 +360,7 @@ export function changeCommodity(dispatch, commodityId) {
 }
 export function toChangeCommodity(commodityId) {
   return function wrap(dispatch, getState) {
-    if (commodityId === getState().commodityState.commodityId) return;
+    if (commodityId === getState().systemInfo.commodityId) return;
 
     changeCommodity(dispatch, commodityId);
   };
@@ -434,9 +437,10 @@ export function appStart(initExchangeData = AppConfig.exchangeData()) {
 /* === 程序启动 === */
 
 /* === 下单建仓 === */
-export function requestCreateUserOrder() {
+export function requestCreateUserOrder(data) {
   return {
     type: ActionTypes.REQUEST_CREATE_USER_ORDER,
+    data: data.data,
   };
 }
 export function successCreateUserOrder() {
@@ -449,9 +453,16 @@ export function errorCreateUserOrder() {
     type: ActionTypes.ERROR_CREATE_USER_ORDER,
   };
 }
-export function toCreateUserOrder(obj) {
+export function toCreateUserOrder(obj, callBack) {
   return function wrap(dispatch) {
-    dispatch(requestCreateUserOrder());
+    // TODO: 模拟下单
+    promise
+      .then(() => {
+        dispatch(requestCreateUserOrder(obj));
+        return dispatch(toQueryUserInfoGateway());
+      })
+      .then(() => callBack && callBack());
+
     return TradeApi.createUserOrder(obj)
       .then((data) => dispatch(successCreateUserOrder(data)))
       .catch(() => dispatch(errorCreateUserOrder()));

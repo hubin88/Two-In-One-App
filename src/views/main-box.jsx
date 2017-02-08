@@ -46,7 +46,6 @@ class MainBox extends Component {
 
   showLeftNav = () => (location.href.includes('home') ?
     () => {
-      console.log('显示左侧导航栏');
       this.setState({
         isShowLeftNav: true,
       }, () => { Mask.show(this.hideLeftNav); });

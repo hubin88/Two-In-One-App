@@ -18,7 +18,7 @@ export default class TradeApi {
 
   // 下单、建仓
   static createUserOrder(obj = {}) {
-    return postWithTrade(InterFace.CREATE_USER_ORDER, obj, TradeApi.createUserOrder.name);
+    return postWithTrade(InterFace.CREATE_USER_ORDER, wrapWithUserData(obj), TradeApi.createUserOrder.name);
   }
 
   // 查询用户信息
@@ -58,6 +58,7 @@ export default class TradeApi {
       name: TradeApi.queryUserInfoGateway.name,
     });
   }
+
   // 获取支付中心地址
   static getDirect(obj = {}) {
     return postWithTrade(InterFace.DIRECT, wrapWithUserData(obj), TradeApi.getDirect.name);
