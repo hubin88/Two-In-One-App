@@ -118,7 +118,7 @@ export function getCommodityAndServers(obj = {}) {
         dispatch(requestGetQuot(data));
         // setInterval(() => {
         //   dispatch(requestGetQuot(data));
-        // }, 20000);
+        // }, 2000);
       })
       .catch(() => dispatch(errorGetCommodityAndServers()));
   };

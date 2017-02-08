@@ -45,10 +45,11 @@ export const STATUS = {
 };
 
 export const PRICES = {
-  assetId: 0,
-  price: 1,
-  high: 2,
-  low: 3,
-  open: 4,
-  preclose: 5,
+  assetId: [0, 0],
+  price: [1, 2],
+  preclose: [2, 6],
+  open: [3, 5],
+  high: [4, 3],
+  low: [5, 4],
+  changePct: [6, 10],
 };

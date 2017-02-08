@@ -3,6 +3,7 @@
  */
 import postJSON from '../helper';
 import * as InterFace from './inter-face-type';
+import { PRICES } from '../define';
 
 export default class QuotationApi {
 
@@ -66,8 +67,13 @@ export default class QuotationApi {
 
   // 获取个股行情
   static getQuot(obj = {}) {
+    const priceArray = [];
+    Object.keys(PRICES).forEach((value) => {
+      priceArray.push(PRICES[value][1]);
+    });
     const assetIdObj = {
-      fields: '0|2|6|5|3|4|',
+      fields: priceArray.join('|'),
+      // fields: '0|2|6|5|3|4|10',
       assetIds: this.formartData(obj),
     };
     return postJSON({

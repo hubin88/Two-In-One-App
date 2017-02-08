@@ -185,7 +185,7 @@ class Quotes extends Component {
     const { commodityId, commodityPrices } = this.props;
     const tpl = [];
     commodityPrices.forEach((item) => {
-      if (commodityId === item[PRICES.assetId]) {
+      if (commodityId === item[PRICES.assetId[0]]) {
         this.quotesName.forEach((itemName, idx) => {
           tpl.push(<li key={idx}>{itemName}{Number.parseInt([...item][idx + 2], 10)}</li>);
         });
@@ -193,7 +193,19 @@ class Quotes extends Component {
     });
     return tpl;
   };
-
+  showImage = (i, changePct) => {
+    let tpl = '';
+    if (this.props.commodityId === i) {
+      tpl = changePct >= 0 ?
+        <img src={require('../../../images/arrow_up_red@2x.png')} alt="up" styleName="showImg" /> :
+        <img src={require('../../../images/arrow_down_green@2x.png')} alt="up" styleName="showImg" />;
+    } else {
+      tpl = changePct >= 0 ?
+        <img src={require('../../../images/arrow_up@2x.png')} alt="up" styleName="showImg" /> :
+        <img src={require('../../../images/arrow_down@2x.png')} alt="dowm" styleName="showImg" />;
+    }
+    return tpl;
+  };
   renderChart() {
     const canvasH = styleConfig.canvasH - this.props.holdHeight;
     this.timeList = timeList;
@@ -248,9 +260,11 @@ class Quotes extends Component {
             Object.keys(commodityData).map((i) => {
               const name = commodityData[i].Name;
               let prices = 0;
+              let changePct = 0;
               commodityPrices.forEach((item) => {
-                if (item[PRICES.assetId] === i) {
-                  prices = Number.parseInt(item[PRICES.price], 10);
+                if (item[PRICES.assetId[0]] === i) {
+                  changePct = item[PRICES.changePct[0]];
+                  prices = Number.parseInt(item[PRICES.price[0]], 10);
                 }
               });
               return (
@@ -260,8 +274,13 @@ class Quotes extends Component {
                   styleName={`${this.props.commodityId === i ? 'active' : ''}`}
                   onClick={this.chooseCommodity(i)}
                 >
-                  <span>{name}</span>
-                  <span>{prices}</span>
+                  <div>
+                    <span>{name}</span>
+                    <span>{prices}</span>
+                  </div>
+                  {
+                    this.showImage(i, changePct)
+                  }
                 </li>
               );
             })

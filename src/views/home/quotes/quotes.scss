@@ -26,9 +26,19 @@
     //display: table-cell;
     //width: 50%;
 
+    div {
+      display: inline-block;
+      width: 70%;
+    }
     span {
       display: block;
-      //width: 70%;
+      width: 100%;
+    }
+    .showImg {
+      display: inline-block;
+      width: .21rem;
+      height: .17rem;
+      float: right;
     }
   }
 }
@@ -44,7 +54,7 @@
 
 .active {
   border-top: 1px gray solid;
-  background-color: #96c7e8;
+  background-color: #b9e3ff;
   color: #000;
 }
 
