@@ -154,8 +154,8 @@ export default class Login extends Component {
               <span>密码</span>
               <input
                 type={this.state.isShowPassword ? 'text' : 'password'} id="password"
-                placeholder="请输入6位密码"
-                maxLength="6"
+                placeholder="请输入6-12位密码"
+                maxLength="12"
                 ref={(ref) => { this.password = ref; }} onChange={this.check}
               />
               <span

@@ -70,7 +70,7 @@ export function getQueryString(name) {
 }
 
 export const regAccount = /^1[34578]{1}[0-9]{9}$/;
-export const regPassword = /^\w{6}$/;
+export const regPassword = /^\w{6,12}$/;
 export const regCode = /^\d{4}$/;
 
 // 判断设备

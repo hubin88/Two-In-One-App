@@ -181,7 +181,7 @@ export default class ResetPwd extends Component {
               <input
                 type={this.state.isShowPassword ? 'text' : 'password'} id="password"
                 placeholder="请输入新的交易密码"
-                maxLength="6"
+                maxLength="12"
                 ref={(ref) => { this.password = ref; }} onChange={this.check}
               />
               <span

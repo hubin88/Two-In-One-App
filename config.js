@@ -3,12 +3,17 @@
 // 后台服务器地址(后缀必须'/')
 var BASE_SERVER = {
   EXCHANGE: 'http://120.76.246.19/',
-  DCB: 'http://120.76.246.192:9091/',
-  DWB: 'http://120.76.246.192:9002/',
+  // DCB: 'http://120.76.246.192:9091/',
+  // DWB: 'http://120.76.246.192:9002/',
   DCB_ASSET: 'http://120.76.223.65:9510/',
   // DWB_ASSET: 'http://120.77.22.247:9510/',
+  // QUOTATION: 'http://120.76.246.192:9001/',
+
+  // 测试环境
+  DWB: 'http://120.76.246.190:9112/',
+  DCB: 'http://120.76.246.190:9091/',
+  QUOTATION: 'http://120.76.246.190:9001/',
   DWB_ASSET: 'http://120.77.22.48:9510/',
-  QUOTATION: 'http://120.76.246.192:9001/',
 };
 
 // 交易相关字段
@@ -30,6 +35,8 @@ var PAY_TITLE = '充值';
 //  提现
 var WITHDRAW_TITLE = '提现';
 // var WITHDRAW_URL = 'http://www.baidu.com';
+
+var CRJ = '出入金';
 
 //  点差宝介绍
 var DCB_SUGGEST_TITLE = '点差宝介绍';

@@ -32,6 +32,9 @@ export default class AppConfig {
     dwbPage: {
       title: DWB_SUGGEST_TITLE, url: DWB_SUGGEST_URL, backDirect: '/user',
     },
+    gold: {
+      title: CRJ, url: '', backDirect: '',
+    },
   });
 
   static userChannel = () => ({

@@ -111,13 +111,13 @@ function postJSONImitate(param) {
 
 /* 资产推送请求 */
 function ajaxAsset(url, obj) {
-  return fetch(`${url}?SecKey=${obj}`, {
-    method: 'get',
+  return fetch(`${codeUrl(url)}?SecKey=${obj}`, {
+    method: 'GET',
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
     },
-    body: {},
+    // body: JSON.stringify({ params: { SecKey: obj } }),
   }).then(res => res.json()).then((rs) => {
     if (parseInt(rs.status, 10) !== 0) {
       console.error(`调用失败! ${JSON.stringify(rs)}`);
