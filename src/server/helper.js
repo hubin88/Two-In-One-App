@@ -27,7 +27,7 @@ const postDataFormat = (systemType) => {
   };
 };
 
-const codeUrl = (url) => `http://192.168.0.74/get/${encodeURIComponent(url)}`;
+const codeUrl = (url) => `http://10.10.10.68/get/${encodeURIComponent(url)}`;
 
 function ajax(url, obj) {
 // function ajax(url, obj, systemType, name) {

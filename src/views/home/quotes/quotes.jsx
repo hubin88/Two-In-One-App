@@ -86,7 +86,6 @@ class Quotes extends Component {
 
   redrawCanvas = (drawType = 'chart') => {
     const w = styleConfig.screenW;
-    console.log(this.props);
     const h = styleConfig.canvasH - this.props.holdHeight;
     this[drawType].resetCanvas({ width: w, height: h });
   };
