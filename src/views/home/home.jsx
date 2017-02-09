@@ -78,7 +78,7 @@ class Home extends Component {
       systemInfo: { commodityId },
     } = this.props;
 
-    // const mountUnit = cid => cid === COMMODITY_BU ? MOUNT_UNIT_BU : MOUNT_UNIT_OTHERS;
+    // const mountUnit = cid => cid === COMMODITY_BU ? AMOUNT_UNIT_BU : AMOUNT_UNIT_OTHERS;
 
     const obj = {
       [SYS_DCB]: [

@@ -6,7 +6,7 @@ import React, { Component, PropTypes } from 'react';
 import cssModules from 'react-css-modules';
 import styles from './order.scss';
 import {
-  COMMODITY_BU, MOUNT_UNIT_BU, MOUNT_UNIT_OTHERS, ASSET_SCALE, MOUNT_SCALE,
+  COMMODITY_BU, AMOUNT_UNIT_BU, AMOUNT_UNIT_OTHERS, ASSET_SCALE, AMOUNT_SCALE,
 } from '../../../server/define';
 
 const rangeName = { lossIdx: '止损', profitIdx: '止盈' };
@@ -33,14 +33,14 @@ class OrderDWB extends Component {
     const firstScale = arr[0].split(',')[0] * ASSET_SCALE;
     const feeBase = arr[0].split(',')[1] / firstScale;
 
-    const mountScale = ASSET_SCALE * MOUNT_SCALE;
-    const mountUnit = commodityCode === COMMODITY_BU ? MOUNT_UNIT_BU : MOUNT_UNIT_OTHERS;
+    const amountScale = ASSET_SCALE * AMOUNT_SCALE;
+    const amountUnit = commodityCode === COMMODITY_BU ? AMOUNT_UNIT_BU : AMOUNT_UNIT_OTHERS;
 
     this.depositArr = arr.map(r => {
       const [asset, float] = r.split(',');
 
-      const mountNum = this.fmNum(asset * mountScale);
-      const mount = this.fmNum(mountNum * mountUnit);
+      const amountNum = this.fmNum(asset * amountScale);
+      const amount = this.fmNum(amountNum * amountUnit);
 
       const feeNum = float / feeBase;
       const fee = this.fmNum(openFee * feeNum);
@@ -49,8 +49,8 @@ class OrderDWB extends Component {
         asset,
         float,
         fee,
-        mountNum,
-        mount,
+        amountNum,
+        amount,
       };
     });
     this.rangeArr = RANGE_LIST;
@@ -69,8 +69,7 @@ class OrderDWB extends Component {
     direction: this.props.direction,
   });
 
-  chooseSetting = (name, idx, mount) => () => {
-    console.log(mount);
+  chooseSetting = (name, idx) => () => {
     this.setState({
       [name]: idx,
     });
@@ -89,24 +88,24 @@ class OrderDWB extends Component {
     } = this.props;
     const { depositIdx } = this.state;
 
-    const { mountNum, mount, fee, float } = this.depositArr[depositIdx];
-    const mountPrice = this.fmNum(parseInt(price['1'], 10) * mountNum);
+    const { amountNum, amount, fee, float } = this.depositArr[depositIdx];
+    const amountPrice = this.fmNum(parseInt(price['1'], 10) * amountNum);
 
     return (
       <div styleName={`order ${direction}`}>
         <div styleName="info">
           <span styleName="color-gray">购买
             <span styleName="color-red">
-              <b>{mount}</b>
+              <b>{amount}</b>
               {unit}{name}
             </span>,
-            市场价<span styleName="color-red"><b>{mountPrice}</b></span>元
+            市场价<span styleName="color-red"><b>{amountPrice}</b></span>元
           </span>
         </div>
         <div className="table" styleName="setting">
           <div className="tr" styleName="deposit">
             <div className="td" styleName="title-dwb less-height">
-              <span styleName="color-gray">购买金额(元)</span>
+              <span styleName="color-gray">购买<br />金额<br />(元):</span>
             </div>
             <div className="td" styleName="content">
               {
@@ -114,7 +113,7 @@ class OrderDWB extends Component {
                   <button
                     styleName={`item ${depositIdx === index ? 'active' : ''}`}
                     key={index}
-                    onClick={this.chooseSetting('depositIdx', index, mount)}
+                    onClick={this.chooseSetting('depositIdx', index, amount)}
                   >
                     {item.asset}
                   </button>
@@ -123,15 +122,20 @@ class OrderDWB extends Component {
             </div>
           </div>
         </div>
-        <div styleName="info">
-          <span styleName="color-gray">手续费
-            <span styleName="color-red">
-              <b>{ fee }</b>元
-            </span>(手续费单边收取)
-            <span styleName="color-red">
-              波动一个点,盈亏<b>{float}</b>元
-            </span>
-          </span>
+        <div className="table" styleName="setting">
+          <div className="tr" styleName="info">
+            <div className="td" styleName="title-dwb less-height">
+              <span styleName="color-gray">手续费:</span>
+            </div>
+            <div className="td" styleName="content">
+              <span styleName="color-red">
+                <b>{ fee }</b>元
+              </span>（手续费单边收取）
+              <span styleName="color-red">
+                波动一个点,盈亏<b>{float}</b>元
+              </span>
+            </div>
+          </div>
         </div>
         {
           Object.keys(rangeName).map(n => (

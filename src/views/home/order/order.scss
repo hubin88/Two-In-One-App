@@ -11,7 +11,7 @@
 }
 
 .title-dwb {
-  width: 2.5*$buildingFont;
+  width: 3.5*$buildingFont;
   height: 100%;
 }
 
@@ -27,7 +27,7 @@
 
 .item {
   display: inline-block;
-  width: 30%;
+  width: 31%;
   text-align: center;
   border: solid .01rem gray;
   border-radius: 0.02rem;
@@ -37,7 +37,7 @@
 }
 
 .item-line {
-  width: 14%;
+  width: 14.5%;
 }
 
 @each $key, $color in $buildingColor {
@@ -57,6 +57,37 @@
   line-height: 1.5*$buildingFont;
 }
 
+.amount {
+  input[type="range"] {
+    appearance: none;
+    border-radius: 2px;
+    width: 200px;
+    height: 3px;
+    background-image: -webkit-linear-gradient(left, #f22 0%, #f22 50%, #fff 50%, #fff 100%);
+    box-shadow: inset #ebb 0 0 5px;
+    outline: none;
+    transition: .1s;
+    &::-webkit-slider-thumb {
+      position: relative;
+      -webkit-appearance: none;
+      width: 0.25rem;
+      height: 0.25rem;
+      background: #f22;
+      transition: .1s;
+      //&::after {
+      //  content: "";
+      //  position: absolute;
+      //  bottom: 0.3rem;
+      //  left: -0.12rem;
+      //  display: inline-block;
+      //  width: 0.3rem;
+      //  height: 0.6rem;
+      //  border: solid 1px red;
+      //}
+    }
+  }
+}
+
 .prompt {
   display: inline-block;
   width: 100%;
@@ -71,6 +102,7 @@
 .color-gray {
   color: gray;
 }
+
 .color-red {
   color: $colorRed;
 

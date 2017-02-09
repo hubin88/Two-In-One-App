@@ -100,7 +100,10 @@ class OrderDCB extends Component {
             <div className="td" styleName="title-dcb">
               <span styleName="color-gray">数量:</span>
             </div>
-            <div className="td" styleName="content"><span><input type="range" defaultValue="0" /></span>
+            <div className="td" styleName="content">
+              <span>
+                <input type="range" defaultValue="1" min="1" max="4" step="1" />
+              </span>
             </div>
           </div>
         </div>

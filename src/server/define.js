@@ -18,11 +18,11 @@ export const NONE = -1;
 
 export const COMMODITY_BU = 'BU';
 
-export const MOUNT_UNIT_BU = 10;
+export const AMOUNT_UNIT_BU = 10;
 
-export const MOUNT_UNIT_OTHERS = 1;
+export const AMOUNT_UNIT_OTHERS = 1;
 
-export const MOUNT_SCALE = 0.1;
+export const AMOUNT_SCALE = 0.1;
 
 export const ASSET_SCALE = 0.1;
 

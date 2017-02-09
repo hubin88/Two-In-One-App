@@ -21,6 +21,7 @@
 
 .confirm {
   width: 55%;
+  color: #fff;
 }
 
 @each $key, $color in $buildingColor {

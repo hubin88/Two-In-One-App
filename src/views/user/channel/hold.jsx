@@ -35,7 +35,7 @@ class Hold extends Component {
             <span><img src="" alt="" />{d.name}</span>
           ),
         },
-        { key: 'mount', label: '数量' },
+        { key: 'amount', label: '数量' },
         { key: 'openPrice', label: '建仓价' },
         { key: 'float', label: '盈亏' },
         {

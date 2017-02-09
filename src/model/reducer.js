@@ -199,7 +199,7 @@ function systemInfo(state = initSystemInfo, action) {
     case ActionTypes.REQUEST_CREATE_USER_ORDER: {
       const {
         commodityInfo: { AssetId, MerchCode, MarketId, Name, price },
-        deposit: { fee, mount: Margin },
+        deposit: { fee, amount: Margin },
         direction,
       } = action.data;
       return {
