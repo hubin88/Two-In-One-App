@@ -129,8 +129,7 @@ class Home extends Component {
       ],
     };
     return obj[systemType];
-  }
-    ;
+  };
 
   render() {
     const {

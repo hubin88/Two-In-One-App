@@ -7,13 +7,14 @@ import cssModules from 'react-css-modules';
 import { connect } from 'react-redux';
 import styles from './hold.scss';
 import styles2 from '../../home/hold-table.scss';
+import { SYS_DCB, SYS_DWB } from '../../../server/define';
 import Table from '../../../components/table/table';
 
 @cssModules(styles, { allowMultiple: true, errorWhenNotFound: false })
 class Hold extends Component {
   static propTypes = {
-    value: '',
     systemInfo: PropTypes.object,
+    exchangeInfo: PropTypes.object,
   };
 
   state = {
@@ -25,21 +26,34 @@ class Hold extends Component {
     console.log('平仓', d);
   };
 
-  holdHeader = () => {
+  holdHeaderList = (systemType) => {
     const obj = {
-      dwb: [
+      [SYS_DCB]: [
+        {
+          key: 'name',
+          label: '名称',
+          render: (keyData,d) => (
+            <span><img src="" alt="" />{d.Name}</span>
+          ),
+        },
+        { key: 'Margin', label: '数量' },
+        { key: 'Price', label: '建仓价' },
+        { key: 'earnest', label: '定金' },
+        { key: 'range', label: '止盈止损' },
+      ],
+      [SYS_DWB]: [
         {
           key: 'name',
           label: '名称',
           render: (keyData, d) => (
-            <span><img src="" alt="" />{d.name}</span>
+            <span styleName={`${d.direction}`}><i />{d.Name}</span>
           ),
         },
-        { key: 'amount', label: '数量' },
-        { key: 'openPrice', label: '建仓价' },
-        { key: 'float', label: '盈亏' },
+        { key: 'Margin', label: '数量' },
+        { key: 'Price', label: '建仓价' },
+        { key: 'float', label: '盈亏', render: () => (<span>22</span>) },
         {
-          key: '',
+          key: 'cover',
           label: '操作',
           render: (keyData, d) => (
             <a href="#" onClick={() => this.onCover(d)}>平仓</a>
@@ -47,7 +61,7 @@ class Hold extends Component {
         },
       ],
     };
-    return obj.dwb;
+    return obj[systemType];
   };
 
   nameList = [
@@ -58,11 +72,17 @@ class Hold extends Component {
   ];
 
   render() {
+    const {
+      systemInfo: {
+        systemType,
+        holdArray,
+      },
+    } = this.props;
     return (
       <div styleName="hold">
         <div styleName="holdValue">
           <span>持仓总盈亏(元)</span>
-          <p styleName="profit">{this.props.value}</p>
+          <p styleName="profit">88</p>
         </div>
         <ul styleName="nameList">
           {
@@ -75,14 +95,13 @@ class Hold extends Component {
           }
         </ul>
         <div styleName="holdList">
-          {
+          {holdArray ?
             <Table
               ref={(ref) => { this.table = ref; }}
-              fields={this.holdHeader()}
-              data={this.state.holdBody}
-              className="txt-center"
+              fields={this.holdHeaderList(systemType)}
+              data={holdArray}
               styles={styles2}
-            />
+            /> : null
           }
         </div>
       </div>
@@ -91,6 +110,7 @@ class Hold extends Component {
 }
 
 function mapStateToProps(state) {
+  console.log(state.exchangeInfo);
   return {
     exchangeInfo: state.exchangeInfo,
     systemInfo: state.systemInfo,
