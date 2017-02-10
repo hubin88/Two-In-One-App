@@ -9,6 +9,7 @@ import styles from './home.scss';
 import holdStyles from './hold-table.scss';
 import { SYS_DCB, SYS_DWB } from '../../server/define';
 import AppConfig, { styleConfig } from '../../server/app-config';
+import CloseOut from '../../components/close-out/close-out';
 import { toCreateUserOrder, queryUserInfoGatewayReapt } from '../../model/action';
 import { requestGetQuot } from '../../model/market/action-market';
 
@@ -30,7 +31,8 @@ class Home extends Component {
   }
 
   onCover = (d) => {
-    console.log('平仓', d);
+    d.float = 22;
+    CloseOut.show(d);
   };
   clickAvatar = () => {
     if (this.props.systemInfo.isLogin) {

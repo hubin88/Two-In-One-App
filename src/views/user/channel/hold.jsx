@@ -8,6 +8,7 @@ import { connect } from 'react-redux';
 import styles from './hold.scss';
 import styles2 from './hold-table.scss';
 import { SYS_DCB, SYS_DWB } from '../../../server/define';
+import CloseOut from '../../../components/close-out/close-out';
 import Table from '../../../components/table/table';
 
 @cssModules(styles, { allowMultiple: true, errorWhenNotFound: false })
@@ -23,7 +24,8 @@ class Hold extends Component {
   };
 
   onCover = (d) => {
-    console.log('平仓', d);
+    d.float = 22;
+    CloseOut.show(d);
   };
 
   holdHeaderList = (systemType) => {

@@ -15,17 +15,17 @@ class CloseOut extends Component {
   static show = (props) => {
     insertComponent(<Wrap {...props} />);
   }
-  onClick = () => {}
 
-  key = ['建仓价', '数量', '盈亏(元)']
+  key = ['Price', 'Margin', 'float']
 
-  value = ['3371', '2桶', '-0.60']
+  kyeName = { Price: '建仓价', Margin: '数量', float: '盈亏' }
 
   cancel = () => {
     removeComponentByRef(this.CloseOut);
   }
 
   render() {
+    console.log(this.props);
     return (
       <div styleName="close-out" ref={(ref) => { this.CloseOut = ref; }}>
         <div styleName="panel">
@@ -35,8 +35,8 @@ class CloseOut extends Component {
             <table styleName="table">
               {this.key.map((item, index) =>
                 <tr key={index}>
-                  <td styleName="item">{item}</td>
-                  <td styleName="value">{this.value[index]}</td>
+                  <td styleName="item">{this.kyeName[item]}</td>
+                  <td styleName="value">{this.props[item]}</td>
                 </tr>
               )}
             </table>
