@@ -81,9 +81,9 @@ export function successGetQuot(json) {
     data: json,
   };
 }
-export function requestGetQuot(obj) {
+export function requestGetQuot(obj, repeat) {
   return function wrap(dispatch) {
-    return QuotationApi.getQuot(obj)
+    return QuotationApi.getQuot(obj, repeat)
       .then(json => dispatch(successGetQuot(json)));
   };
 }

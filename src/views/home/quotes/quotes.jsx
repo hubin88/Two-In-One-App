@@ -11,6 +11,7 @@ import {
   successQueryTimeShare,
 } from '../../../model/market/action-market';
 import { PRICES } from '../../../server/define';
+import { Cookie } from '../../../ultils/tools';
 
 const options = {
   lineWidth: 1,
@@ -192,22 +193,33 @@ class Quotes extends Component {
     });
     return tpl;
   };
-  showImage = (i, changePct) => {
+  showImage = (i, prices) => {
     let tpl = '';
-    if (this.props.commodityId === i) {
-      tpl = changePct >= 0 ?
-        <img src={require('../../../images/arrow_up_red@2x.png')} alt="up" styleName="showImg" /> :
-        <img src={require('../../../images/arrow_down_green@2x.png')} alt="up" styleName="showImg" />;
+    const commodityPricesOld = JSON.parse(Cookie.getCookie('commodityPrices'));
+    if (commodityPricesOld) {
+      commodityPricesOld.forEach((val) => {
+        if (i === val[PRICES.assetId[0]] && prices >= Number.parseInt(val[PRICES.price[0]], 10)) {
+          tpl = this.props.commodityId === i ?
+            <img src={require('../../../images/arrow_up_red@2x.png')} alt="up" styleName="showImg" /> :
+            <img src={require('../../../images/arrow_up@2x.png')} alt="up" styleName="showImg" />;
+        } else if (i === val[PRICES.assetId[0]] && prices < Number.parseInt(val[PRICES.price[0]], 10)) {
+          tpl = this.props.commodityId === i ?
+            <img src={require('../../../images/arrow_down_green@2x.png')} alt="up" styleName="showImg" /> :
+            <img src={require('../../../images/arrow_down@2x.png')} alt="up" styleName="showImg" />;
+        }
+      });
     } else {
-      tpl = changePct >= 0 ?
-        <img src={require('../../../images/arrow_up@2x.png')} alt="up" styleName="showImg" /> :
-        <img src={require('../../../images/arrow_down@2x.png')} alt="dowm" styleName="showImg" />;
+      if (this.props.commodityId === i) {
+        return <img src={require('../../../images/arrow_up_red@2x.png')} alt="up" styleName="showImg" />;
+      }
+      return <img src={require('../../../images/arrow_up@2x.png')} alt="up" styleName="showImg" />;
     }
     return tpl;
   };
   renderChart() {
     const canvasH = styleConfig.canvasH - this.props.holdHeight;
     this.timeList = timeList;
+    if (this.props.commodityPrices) Cookie.setCookie('commodityPrices', this.props.commodityPrices);
     return (
       <div
         styleName="trend-chart"
@@ -259,10 +271,8 @@ class Quotes extends Component {
             Object.keys(commodityData).map((i) => {
               const name = commodityData[i].Name;
               let prices = 0;
-              let changePct = 0;
               commodityPrices.forEach((item) => {
                 if (item[PRICES.assetId[0]] === i) {
-                  changePct = item[PRICES.changePct[0]];
                   prices = Number.parseInt(item[PRICES.price[0]], 10);
                 }
               });
@@ -278,7 +288,7 @@ class Quotes extends Component {
                     <span>{prices}</span>
                   </div>
                   {
-                    this.showImage(i, changePct)
+                    this.showImage(i, prices)
                   }
                 </li>
               );

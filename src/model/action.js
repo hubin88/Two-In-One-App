@@ -116,9 +116,6 @@ export function getCommodityAndServers(obj = {}) {
         dispatch(successGetCommodityAndServers(data));
         dispatch(requestQueryNormalday(data));
         dispatch(requestGetQuot(data));
-        // setInterval(() => {
-        //   dispatch(requestGetQuot(data));
-        // }, 2000);
       })
       .catch(() => dispatch(errorGetCommodityAndServers()));
   };

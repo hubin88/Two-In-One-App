@@ -32,7 +32,7 @@ class Hold extends Component {
         {
           key: 'name',
           label: '名称',
-          render: (keyData,d) => (
+          render: (keyData, d) => (
             <span><img src="" alt="" />{d.Name}</span>
           ),
         },

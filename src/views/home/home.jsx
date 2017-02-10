@@ -10,6 +10,7 @@ import holdStyles from './hold-table.scss';
 import { SYS_DCB, SYS_DWB } from '../../server/define';
 import AppConfig, { styleConfig } from '../../server/app-config';
 import { toCreateUserOrder, queryUserInfoGatewayReapt } from '../../model/action';
+import { requestGetQuot } from '../../model/market/action-market';
 
 @cssModules(styles, { allowMultiple: true, errorWhenNotFound: false })
 class Home extends Component {
@@ -151,12 +152,20 @@ class Home extends Component {
     const allAssetsNum = isLogin ? allAssets : '- -';
     const hasHold = holdArr && holdArr.length !== 0;
     const holdHeight = hasHold ? styleConfig.holdH : 0;
+    const commodityKey = Object.keys(commodityData);
     if (isLogin && secKey) {
       clearInterval(this.time);
       this.time = setInterval(() => {
         dispatch(queryUserInfoGatewayReapt(secKey));
       }, 60000);
     }
+    if (commodityKey) {
+      clearInterval(this.timeGetQuto);
+      this.timeGetQuto = setInterval(() => {
+        dispatch(requestGetQuot(null, commodityKey));
+      }, 500000);
+    }
+
     return (
       <div styleName="home">
         <div

@@ -66,7 +66,7 @@ export default class QuotationApi {
   }
 
   // 获取个股行情
-  static getQuot(obj = {}) {
+  static getQuot(obj = {}, repeat) {
     const priceArray = [];
     Object.keys(PRICES).forEach((value) => {
       priceArray.push(PRICES[value][1]);
@@ -74,7 +74,7 @@ export default class QuotationApi {
     const assetIdObj = {
       fields: priceArray.join('|'),
       // fields: '0|2|6|5|3|4|10',
-      assetIds: this.formartData(obj),
+      assetIds: repeat || this.formartData(obj),
     };
     return postJSON({
       interFacePos: InterFace.GET_QUOT,
