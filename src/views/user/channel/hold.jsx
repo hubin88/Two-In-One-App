@@ -6,7 +6,7 @@ import React, { Component, PropTypes } from 'react';
 import cssModules from 'react-css-modules';
 import { connect } from 'react-redux';
 import styles from './hold.scss';
-import styles2 from '../../home/hold-table.scss';
+import styles2 from './hold-table.scss';
 import { SYS_DCB, SYS_DWB } from '../../../server/define';
 import Table from '../../../components/table/table';
 
@@ -80,20 +80,22 @@ class Hold extends Component {
     } = this.props;
     return (
       <div styleName="hold">
-        <div styleName="holdValue">
-          <span>持仓总盈亏(元)</span>
-          <p styleName="profit">88</p>
+        <div styleName="holdValue-wrap">
+          <div styleName="holdValue">
+            <span>持仓总盈亏(元)</span>
+            <p styleName="profit">88</p>
+          </div>
+          <ul styleName="nameList">
+            {
+              this.nameList.map((name) => (
+                <li key={name.name}>
+                  <span>{name.label}:</span>
+                  <span>{name.nums}</span>
+                </li>
+              ))
+            }
+          </ul>
         </div>
-        <ul styleName="nameList">
-          {
-            this.nameList.map((name) => (
-              <li key={name.name}>
-                <span>{name.label}:</span>
-                <span>{name.nums}</span>
-              </li>
-            ))
-          }
-        </ul>
         <div styleName="holdList">
           {holdArray ?
             <Table

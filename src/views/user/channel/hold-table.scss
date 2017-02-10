@@ -1,0 +1,78 @@
+@import '../../home/val-home';
+
+.table {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background-color: #fff2e7;
+  border-collapse: collapse;
+}
+
+.header {
+  background-color: #fff;
+  table-layout: fixed;
+  position: relative;
+  width: 100%;
+  height: 2.5em;
+  line-height: 2.5em;
+  bottom: 0;
+}
+
+.body {
+  background-color: #dde0ef;
+  overflow: auto;
+  position: absolute;
+  width: 100%;
+  top: 2.5em;
+  bottom: 0;
+}
+
+.row {
+  height: 2.5em;
+  line-height: 2.5em;
+  vertical-align: middle;
+  width: 100%;
+}
+
+.cell {
+  display: inline-block;
+  text-align: center;
+  width: 20%;
+  span {
+    display: inline-block;
+    height: $holdListF;
+    line-height: $holdListF;
+    font-size: $holdListF;
+    i {
+      display: inline-block;
+      width: $holdListF;
+      height: $holdListF;
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: 100%;
+      margin-right: 0.05rem;
+    }
+  }
+  a {
+    display: inline-block;
+    border: solid 1px red;
+  }
+}
+
+.no-data {
+  width: 100%;
+  padding: 1em;
+  text-align: center;
+}
+
+.row:nth-child(even) {
+  background-color: #fff2e7;
+}
+
+@each $key, $color, $icon in $buildingColor {
+  .#{$key} {
+    i {
+      background-image: url("../../../images/trade_#{$icon}@2x.png");
+    }
+  }
+}
