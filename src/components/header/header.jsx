@@ -27,7 +27,6 @@ class Header extends Component {
     titleIdx: 0,
   };
   state = { titleIdx: this.props.titleIdx };
-
   clickTitleBtn = (idx) => {
     this.setState({ titleIdx: idx });
   };

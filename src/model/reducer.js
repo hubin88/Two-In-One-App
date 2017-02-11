@@ -52,6 +52,7 @@ const initSystemInfo = {
     [SYS_DCB]: [],
     [SYS_DWB]: [],
   },
+  ad: true,
 
 };
 
@@ -220,6 +221,12 @@ function systemInfo(state = initSystemInfo, action) {
             },
           ],
         },
+      };
+    }
+    case ActionTypes.SHOW_FIRST_AD: {
+      return {
+        ...state,
+        ad: false,
       };
     }
 

@@ -5,12 +5,13 @@
 import React, { Component, PropTypes } from 'react';
 import cssModules from 'react-css-modules';
 import styles from './direct.scss';
-import TouchPage from './touch_page/touch_page';
+// import TouchPage from './touch_page/touch_page';
 import OnePage from './one_page/one_page';
 
 class Direct extends Component {
   static propTypes = {
     go: PropTypes.func,
+    dispatch: PropTypes.any,
   };
 
   componentDidMount() {
@@ -18,11 +19,12 @@ class Direct extends Component {
   }
 
   localStorage() {
-    if (localStorage.getItem('direct')) {
-      return <OnePage go={this.go} />;
-    }
-    localStorage.setItem('direct', true);
-    return <TouchPage go={this.go} />;
+    const { dispatch } = this.props;
+    // if (localStorage.getItem('direct')) {
+    return <OnePage go={this.go} dispatch={dispatch} />;
+    // }
+    // localStorage.setItem('direct', true);
+    // return <TouchPage go={this.go} />;
   }
 
   go() {

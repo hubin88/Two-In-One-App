@@ -5,6 +5,7 @@
 import React, { Component, PropTypes } from 'react';
 import cssModules from 'react-css-modules';
 import styles from './one_page.scss';
+import { showFirstAD } from '../../../model/action';
 
 require('../../../images/splash/ad_Content@3x.png');
 require('../../../images/splash/ad_bottom@3x.png');
@@ -12,6 +13,7 @@ require('../../../images/splash/ad_bottom@3x.png');
 class OnePage extends Component {
   static propTypes = {
     go: PropTypes.func,
+    dispatch: PropTypes.any,
   };
 
   componentDidMount() {
@@ -27,15 +29,19 @@ class OnePage extends Component {
       }
     }
     let speed = 5;
-    const times = setInterval(() => {
+    this.times = setInterval(() => {
       speed--;
       this.over.firstElementChild.innerText = speed;
       const text = parseInt(this.over.firstElementChild.innerText, 10);
       if (text === 0) {
-        clearInterval(times);
-        location.href = location.href;
+        clearInterval(this.times);
+        this.props.dispatch(showFirstAD());
       }
     }, 1000);
+  }
+  goHome =() => {
+    this.props.dispatch(showFirstAD());
+    clearInterval(this.times);
   }
 
   src(item, index) {
@@ -56,7 +62,7 @@ class OnePage extends Component {
           <div styleName="splash ad_bottom">
             <img src={require('../../../images/splash/ad_bottom@2x.png')} alt="" />
           </div>
-          <div styleName="over" ref={(ref) => { this.over = ref; }} onClick={this.props.go}>
+          <div styleName="over" ref={(ref) => { this.over = ref; }} onClick={this.goHome}>
             跳过<span>5</span>s
           </div>
         </div>

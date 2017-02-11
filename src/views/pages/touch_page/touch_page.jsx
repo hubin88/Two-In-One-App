@@ -56,10 +56,8 @@ class TouchPage extends Component {
       },
       left() {
         const me = this;
-        // (me.page && me.page < 0) && (me.page = 0);
-        if ((me.page && me.page < 0) && (me.page === 0)) {
-          me.page += 1;
-        }
+        // (me.page && me.page < 0) && (me.page = 0)
+        me.page += 1;
         if (me.page && me.page > me.length - 1) {
           me.page = me.length - 1;
           return;

@@ -13,6 +13,7 @@ import styles from './main-box.scss';
 import { styleConfig } from '../server/app-config';
 import { toChangeExchange, toChangeSystem } from '../model/action';
 import { SYS_DCB, SYS_DWB } from '../server/define';
+import Direct from './pages/direct';
 
 @cssModules(styles, { allowMultiple: true, errorWhenNotFound: false })
 class MainBox extends Component {
@@ -25,6 +26,7 @@ class MainBox extends Component {
 
   state = {
     isShowLeftNav: false,
+    isOnePage: true,
   };
 
   selectExchange(exchangeData) {
@@ -32,6 +34,7 @@ class MainBox extends Component {
   }
 
   changeSystem = (type) => {
+    this.state.isOnePage = false;
     switch (type) {
       case SYS_DCB:
         this.props.dispatch(toChangeSystem(SYS_DCB));
@@ -62,35 +65,40 @@ class MainBox extends Component {
     const {
       dispatch,
       exchangeInfo: { exchangeList, systemList },
-      systemInfo: { navList, systemSortNum },
+      systemInfo: { navList, systemSortNum, ad },
     } = this.props;
     const title = systemList.sort((a, b) => (a.sortNum - b.sortNum));
     return (
-      <div
-        styleName={`${this.state.isShowLeftNav ? 'show-left-nav' : 'hide-left-nav'}`}
-        style={{ paddingTop: styleConfig.headerH, paddingBottom: styleConfig.footerH }}
-      >
-        <LeftNav
-          ref={(ref) => { this.leftNav = ref; }}
-          dispatch={dispatch}
-          exchangeList={exchangeList}
-        />
-        <header style={{ height: styleConfig.headerH }}>
-          <Header
-            title={title}
-            titleCallBack={this.changeSystem}
-            leftBtnCallBack={this.showLeftNav()}
-            leftBtnTxt={<span className="left-nav-btn" />}
-            hasLeftBtnIcon={false}
-            titleIdx={systemSortNum - 1}
-          />
-        </header>
-        <section id="section">
-          {this.props.children}
-        </section>
-        <footer style={{ height: styleConfig.footerH }}>
-          <Footer navList={navList} />
-        </footer>
+      <div>
+        {
+          (ad && this.state.isOnePage) ? <Direct dispatch={dispatch} /> :
+          <div
+            styleName={`${this.state.isShowLeftNav ? 'show-left-nav' : 'hide-left-nav'}`}
+            style={{ paddingTop: styleConfig.headerH, paddingBottom: styleConfig.footerH }}
+          >
+            <LeftNav
+              ref={(ref) => { this.leftNav = ref; }}
+              dispatch={dispatch}
+              exchangeList={exchangeList}
+            />
+            <header style={{ height: styleConfig.headerH }}>
+              <Header
+                title={title}
+                titleCallBack={this.changeSystem}
+                leftBtnCallBack={this.showLeftNav()}
+                leftBtnTxt={<span className="left-nav-btn" />}
+                hasLeftBtnIcon={false}
+                titleIdx={systemSortNum - 1}
+              />
+            </header>
+            <section id="section">
+              {this.props.children}
+            </section>
+            <footer style={{ height: styleConfig.footerH }}>
+              <Footer navList={navList} />
+            </footer>
+          </div>
+        }
       </div>
     );
   }
