@@ -24,8 +24,9 @@ class Hold extends Component {
   };
 
   onCover = (d) => {
-    d.float = 22;
-    CloseOut.show(d);
+    const de = d;
+    de.float = 22;
+    CloseOut.show(de);
   };
 
   holdHeaderList = (systemType) => {

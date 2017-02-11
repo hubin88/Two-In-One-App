@@ -34,7 +34,7 @@ function ajax(url, obj) {
   const postData = (typeof obj === 'object') ? JSON.stringify(obj) : obj;
   // const postUrl = (systemType === 'QUOTATION') ? `${url}` : `${url}?${name}(${systemType})`;
   const postUrl = `${url}`;
-  // return fetch(u(postUrl), {
+  // return fetch((postUrl), {
   return fetch(codeUrl(postUrl), {
     method: 'post',
     mode: 'cors',

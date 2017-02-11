@@ -7,8 +7,8 @@ import cssModules from 'react-css-modules';
 import styles from './touch_page.scss';
 
 for (let i = 1; i <= 4; i++) {
-  require(`../../images/help/help_na${i}@3x.png`);
-  require(`../../images/help/ad_arrow${i}@3x.png`);
+  require(`../../../images/help/help_na${i}@3x.png`);
+  require(`../../../images/help/ad_arrow${i}@3x.png`);
 }
 class TouchPage extends Component {
   static propTypes = {

@@ -27,6 +27,7 @@ import RegisterWrap from './views/sign-wrap/register-wrap';
 import ResetPwdWrap from './views/sign-wrap/reset-pwd-wrap';
 import ModifyPhoneWrap from './views/user/channel/user-set-channel/modify-phone-wrap';
 import ModifyPwdWrap from './views/user/channel/user-set-channel/modify-pwd-wrap';
+// import Direct from './views/pages/direct';
 
 const store = DEBUG ? createStore(
   rootReducer,

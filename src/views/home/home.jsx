@@ -31,8 +31,9 @@ class Home extends Component {
   }
 
   onCover = (d) => {
-    d.float = 22;
-    CloseOut.show(d);
+    const de = d;
+    de.float = 22;
+    CloseOut.show(de);
   };
   clickAvatar = () => {
     if (this.props.systemInfo.isLogin) {
@@ -159,7 +160,7 @@ class Home extends Component {
       clearInterval(this.time);
       this.time = setInterval(() => {
         dispatch(queryUserInfoGatewayReapt(secKey));
-      }, 60000);
+      }, 6000);
     }
     if (commodityKey) {
       clearInterval(this.timeGetQuto);
@@ -167,7 +168,6 @@ class Home extends Component {
         dispatch(requestGetQuot(null, commodityKey));
       }, 500000);
     }
-
     return (
       <div styleName="home">
         <div
@@ -201,6 +201,7 @@ class Home extends Component {
               holdHeight={holdHeight}
               normalday={normalday}
               commodityId={commodityId}
+              systemType={systemType}
             />
           </div>
           <div

@@ -155,7 +155,6 @@ function systemInfo(state = initSystemInfo, action) {
       };
     }
     case ActionTypes.SUCCESS_QUERY_USER_INFO_GATEWAY: {
-      console.log(action.data);
       const {
         TotalAssets: allAssets,
         ValidAssets: validAssets,

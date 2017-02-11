@@ -53,15 +53,17 @@ class Quotes extends Component {
     holdHeight: PropTypes.number,
     normalday: PropTypes.object,
     timeLists: PropTypes.array,
+    systemType: PropTypes.string,
   };
 
   constructor(props) {
     super(props);
     this.state = {
       commoditySelected: 0,
-      isDraw: true,
+      // isDraw: true,
     };
     this.timeName = 'fenTime';
+    this.isDraw = true;
   }
 
   componentDidMount() {
@@ -70,9 +72,7 @@ class Quotes extends Component {
     // setTimeout(() => {
     //   this.drawFS();
     // }, 5000);
-    this.time = setInterval(() => {
-      this.drawFS();
-    }, 60000);
+    this.timer();
     const selectDefault = this.timeList.children[0].getElementsByTagName('span')[0];
     selectDefault.style.cssText = 'color:#FF8212;border: 1px #ff8212 solid;padding: 2px; 0';
     // this.kLine.drawKLine(window.kLineData.result);
@@ -80,8 +80,20 @@ class Quotes extends Component {
   }
 
   componentWillUnmount() {
-    clearInterval(this.time);
+    if (this.time) clearInterval(this.time);
   }
+
+  timer = () => {
+    if (this.time) clearInterval(this.time);
+    this.time = setInterval(() => {
+      this.drawFS();
+    }, 60000);
+  };
+
+  reStart = () => {
+    this.isDraw = true;
+    this.timer();
+  };
 
   quotesName = ['昨收：', '今开：', '最高：', '最低：'];
 
@@ -252,10 +264,14 @@ class Quotes extends Component {
   }
 
   render() {
-    const { commodityData, commodityPrices, normalday: { assetinfo } } = this.props;
-    if (assetinfo && this.state.isDraw) {
+    const { commodityData, commodityPrices, normalday: { assetinfo }, systemType } = this.props;
+    if (Cookie.getCookie('sys') !== systemType) {
+      this.reStart();
+      Cookie.setCookie('sys', systemType);
+    }
+    if (assetinfo && this.isDraw) {
       this.drawFS();
-      this.state.isDraw = false;
+      this.isDraw = false;
     }
     let liNums = Object.keys(commodityData).length;
     if (liNums > 3) {
