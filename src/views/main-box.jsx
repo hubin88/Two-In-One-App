@@ -26,7 +26,6 @@ class MainBox extends Component {
 
   state = {
     isShowLeftNav: false,
-    isOnePage: true,
   };
 
   selectExchange(exchangeData) {
@@ -34,7 +33,6 @@ class MainBox extends Component {
   }
 
   changeSystem = (type) => {
-    this.state.isOnePage = false;
     switch (type) {
       case SYS_DCB:
         this.props.dispatch(toChangeSystem(SYS_DCB));
@@ -64,11 +62,11 @@ class MainBox extends Component {
   render() {
     const {
       dispatch,
-      exchangeInfo: { exchangeList, systemList },
-      systemInfo: { navList, systemSortNum, ad },
+      exchangeInfo: { exchangeList, systemList, ad },
+      systemInfo: { navList, systemSortNum },
     } = this.props;
     const title = systemList.sort((a, b) => (a.sortNum - b.sortNum));
-    return ((ad && this.state.isOnePage) ? <Direct dispatch={dispatch} /> :
+    return (ad ? <Direct dispatch={dispatch} /> :
     <div
       className="wrap"
       styleName={`${this.state.isShowLeftNav ? 'show-left-nav' : 'hide-left-nav'}`}

@@ -19,6 +19,7 @@ const initExchangeInfo = {
   systemList: initSystemList,
   orgId: NONE,
   commodityData: {},
+  ad: true,
 };
 
 const initAvatarURL = require('../images/me_image_avator@3x.png');
@@ -52,7 +53,7 @@ const initSystemInfo = {
     [SYS_DCB]: [],
     [SYS_DWB]: [],
   },
-  ad: true,
+  // ad: true,
 
 };
 
@@ -109,6 +110,12 @@ function exchangeInfo(state = initExchangeInfo, action) {
       return {
         ...state,
         orgId: ORG_ID[action.systemType],
+      };
+    }
+    case ActionTypes.SHOW_FIRST_AD: {
+      return {
+        ...state,
+        ad: false,
       };
     }
     default: {
@@ -228,12 +235,12 @@ function systemInfo(state = initSystemInfo, action) {
         },
       };
     }
-    case ActionTypes.SHOW_FIRST_AD: {
-      return {
-        ...state,
-        ad: false,
-      };
-    }
+    // case ActionTypes.SHOW_FIRST_AD: {
+    //   return {
+    //     ...state,
+    //     ad: false,
+    //   };
+    // }
 
     default: {
       return state;
