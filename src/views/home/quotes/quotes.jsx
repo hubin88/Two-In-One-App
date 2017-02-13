@@ -278,12 +278,13 @@ class Quotes extends Component {
   }
 
   render() {
-    const { commodityData, commodityPrices, normalday: { assetinfo }, systemType } = this.props;
+    const { commodityData, commodityPrices, normalday: { assetinfo }, systemType, commodityId } = this.props;
     if (Cookie.getCookie('sys') !== systemType) {
       this.reStart();
       Cookie.setCookie('sys', systemType);
     }
-    if (assetinfo && this.isDraw) {
+    if (assetinfo && this.isDraw && commodityId) {
+      console.log(commodityId);
       this.drawFS();
       this.isDraw = false;
     }
@@ -293,7 +294,6 @@ class Quotes extends Component {
     }
     const widths = 100;
     const liWidth = `${widths / liNums}%`;
-
     return (
       <div styleName="quotes">
         <ul styleName="commodity" style={{ height: styleConfig.commodityH }}>

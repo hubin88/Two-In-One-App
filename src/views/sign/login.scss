@@ -2,7 +2,8 @@
 
 .logo {
   height: 1.3rem;
-  background: url('../../images/quote_login_logo@2x.png') no-repeat center top;
+  background: url('../../images/quote_login_logo@2x.png') no-repeat center;
+  background-size: .65rem .65rem;
 }
 
 form.form-login {
