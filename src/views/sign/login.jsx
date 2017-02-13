@@ -139,7 +139,7 @@ export default class Login extends Component {
               <input
                 type="text" id="account" placeholder="请输入手机号码" maxLength="11"
                 ref={(ref) => { this.account = ref; }} onChange={this.check}
-                autoFocus="autofocus"
+                autoFocus="autofocus" defaultValue="18928488102"
               />
               {this.state.isAccountEmpty ? null :
               <span
@@ -157,6 +157,7 @@ export default class Login extends Component {
                 placeholder="请输入6-12位密码"
                 maxLength="12"
                 ref={(ref) => { this.password = ref; }} onChange={this.check}
+                defaultValue="123456"
               />
               <span
                 styleName={this.state.isShowPassword ? 'icon show-password' : 'icon hide-password'}

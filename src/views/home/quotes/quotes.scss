@@ -63,7 +63,9 @@
   background-color: #f7f7f7;
   text-align: center;
   white-space: nowrap;
-  overflow-y: auto;
+  //overflow-y: auto;
+  overflow-x: auto;
+  overflow-y: hidden;
   &::-webkit-scrollbar {
     display: none;
   }

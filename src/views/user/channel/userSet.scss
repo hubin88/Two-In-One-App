@@ -10,12 +10,14 @@
     a {
       display: table;
       width: 100%;
+      border-bottom: 1px solid #f3f3f3;
       li {
         display: table-row;
-        line-height: .4rem;
-        height: .4rem;
+        line-height: .5rem;
+        height: .5rem;
         background-color: #fff;
         border: 1px #f5f5f5 solid;
+        font-size: .14rem;
         & > * {
           display: table-cell;
           width: 50%;
@@ -60,6 +62,7 @@
     background-color: #fff;
     margin-top: .3rem;
     text-align: center;
+    font-size: .14rem;
     //font-weight: bold;
   }
 }
