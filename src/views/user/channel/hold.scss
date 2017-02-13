@@ -21,7 +21,7 @@
   }
 }
 .nameList{
-  height: .5rem;
+  height: .6rem;
   background-color: #FEA461;
   text-align: center;
   white-space: nowrap;
@@ -34,18 +34,25 @@
     display: inline-block;
     width: 33.4%;
     border-right: 1px #bdbdbd solid;
-    margin-top: .18rem;
+    margin-top: .1rem;
+    margin-bottom: .1rem;
   }
   li:last-child{
     border-right: 0;
   }
+  .nums {
+    color: #FFFFFF;
+    font-size: 2em;
+  }
+  .label {
+    color: #FFFFFF;
+  }
 }
 .holdList {
   position: absolute;
-  margin-top: .1rem;
   width: 100%;
   bottom: 0;
-  top: 1.5rem;
+  top: 1.8rem;
   & > div {
     position: absolute;
     width: 100%;

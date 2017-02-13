@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import cssModules from 'react-css-modules';
+import CloseOut from '../../../components/close-out/close-out';
 import styles from './track.scss';
 import { SYS_DCB, SYS_DWB } from '../../../server/define';
 
@@ -23,6 +24,12 @@ class Track extends Component {
     };
   }
 
+  onCover = () => {
+    const de = {};
+    de.float = 22;
+    CloseOut.show(de);
+  };
+
   setTrackValue = () => {
     let tpls = '';
     if (this.props.systemInfo.systemType === SYS_DCB) {
@@ -30,18 +37,19 @@ class Track extends Component {
         <div styleName="main">
           <div styleName="mains">
             <div styleName="title">
-              <b>正元银</b><span>X</span>手<span>平仓</span>
+              <b styleName="product">白银</b><b>0.1千克</b><b>手</b>
+              <span styleName="cover">手动平仓</span>
             </div>
-            <div>+176</div>
-            <div><i>建仓价</i><span>21</span></div>
-            <div><i>建仓时间</i><span>21</span></div>
-            <div><i>平仓价</i><span>21</span></div>
-            <div><i>平仓类型</i><span>21</span></div>
-            <div><i>手续费</i><span>21</span></div>
-            <div><i>交易方向</i><span>21</span></div>
-            <div><i>定金</i><span>21</span></div>
+            <div><span styleName="icon">赚</span><span styleName="money">176</span></div>
+            <div><i>建仓价</i><span>3.165</span></div>
+            <div><i>建仓时间</i><span>2016-02-26 16:44</span></div>
+            <div><i>平仓价</i><span>3.169</span></div>
+            <div><i>平仓类型</i><span>手动平仓</span></div>
+            <div><i>手续费</i><span>1.50</span></div>
+            <div><i>交易方向</i><span>看涨</span></div>
+            <div><i>定金</i><span>100</span></div>
             <div><i>止盈止损</i><span>21</span></div>
-            <p>时间</p>
+            <p>时间 2016-02-26 16:44</p>
           </div>
           <div styleName="notMore">没有更多</div>
         </div>
@@ -52,18 +60,19 @@ class Track extends Component {
         <div styleName="main">
           <div styleName="mains">
             <div styleName="title">
-              <b>正元银</b><b>X</b>
+              <b styleName="product">白银</b><b>0.1千克</b>
             </div>
-            <div>+176</div>
-            <div><i>建仓价</i><span>21</span></div>
-            <div><i>建仓时间</i><span>21</span></div>
-            <div><i>平仓价</i><span>21</span></div>
-            <div><i>平仓类型</i><span>21</span></div>
-            <div><i>手续费</i><span>21</span></div>
-            <div><i>交易方向</i><span>21</span></div>
-            <div><i>保证金</i><span>21</span></div>
-            <p>时间</p>
+            <div><span styleName="icon">赚</span><span styleName="money">176</span></div>
+            <div><i>建仓价</i><span>3.165</span></div>
+            <div><i>建仓时间</i><span>2016-02-26 16:44</span></div>
+            <div><i>平仓价</i><span>3.169</span></div>
+            <div><i>平仓类型</i><span>手动平仓</span></div>
+            <div><i>手续费</i><span>1.50</span></div>
+            <div><i>交易方向</i><span>看涨</span></div>
+            <div><i>保证金</i><span>100</span></div>
+            <p>时间 2016-02-26 16:44</p>
           </div>
+          <div styleName="notMore">没有更多</div>
         </div>
       );
     }

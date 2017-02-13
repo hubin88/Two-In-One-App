@@ -11,6 +11,31 @@ i{
 }
 .mains{
   border-bottom: 1px solid #efecec;
+  .product　{
+    font-size: .15rem;
+    display: inline-block;
+    width: .5rem;
+  }
+  .icon {
+    background-color: red;
+    padding: 3px;
+    color: #FFFFFF;
+    border-radius: 3px;
+    margin-right: .1rem;
+  }
+  .money {
+    color: red;
+  }
+  i {
+    color: #606060;
+  }
+  .cover {
+    background-color: red;
+    color: #FFFFFF;
+    padding: 3px;
+    border-radius: 3px;
+    margin-left: 10px;
+  }
 }
 .mains>div{
   display: inline-block;
@@ -31,6 +56,6 @@ i{
 //  margin-left: 0.1rem;
 //}
 .notMore{
-  margin: .2rem 0;
+  padding: .1rem 0;
   text-align: center;
 }

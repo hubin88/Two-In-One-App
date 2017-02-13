@@ -92,8 +92,8 @@ class Hold extends Component {
             {
               this.nameList.map((name) => (
                 <li key={name.name}>
-                  <span>{name.label}:</span>
-                  <span>{name.nums}</span>
+                  <p styleName="nums">{name.nums}</p>
+                  <p styleName="label">{name.label}:</p>
                 </li>
               ))
             }
