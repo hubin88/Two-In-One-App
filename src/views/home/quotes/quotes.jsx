@@ -20,7 +20,7 @@ const options = {
   horizontalLineCount: 5,
   verticalLineCount: 5,
   timeType: 1,
-  backgroundColor: 'rgba(240,240,252,.9)',
+  backgroundColor: '#fff',
 };
 const chartOptions = {
   // paddingLeft: 35,
@@ -31,9 +31,9 @@ const chartOptions = {
   chartLineColor: '#96c7e8',
   chartFillColor: '#afdbfc',
   chartColor: 'black',
-  backgroundColor: 'rgba(240,240,252,.9)',
+  backgroundColor: 'transparent',
 };
-const timeList = [
+const drawList = [
   { name: 'fenTime', label: '分时' },
   { name: 'oneMinute', label: '1分' },
   { name: 'fiveMinute', label: '5分' },
@@ -44,6 +44,7 @@ const timeList = [
   { name: 'weekK', label: '周K' },
   { name: 'monthK', label: '月K' },
 ];
+
 class Quotes extends Component {
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
@@ -60,6 +61,7 @@ class Quotes extends Component {
     super(props);
     this.state = {
       commoditySelected: 0,
+      drawIdx: 0,
       // isDraw: true,
     };
     this.timeName = 'fenTime';
@@ -69,14 +71,7 @@ class Quotes extends Component {
   componentDidMount() {
     this.kLine = new window.DrawKLine('kLine', options);
     this.chart = new window.DrawChart('chart', chartOptions);
-    // setTimeout(() => {
-    //   this.drawFS();
-    // }, 5000);
     this.timer();
-    const selectDefault = this.timeList.children[0].getElementsByTagName('span')[0];
-    selectDefault.style.cssText = 'color:#FF8212;border: 1px #ff8212 solid;padding: 2px; 0';
-    // this.kLine.drawKLine(window.kLineData.result);
-    // this.chart.drawChart(window.data2);
   }
 
   componentWillUnmount() {
@@ -107,6 +102,7 @@ class Quotes extends Component {
     this.chart.drawChart(json.result);
     dispatch(successQueryTimeShare(json));
   };
+
   // 绘制分时图
   drawFS = (id) => {
     const { dispatch, normalday: { assetinfo }, commodityId } = this.props;
@@ -124,14 +120,17 @@ class Quotes extends Component {
       }
     });
   };
+
   KXFcallBack = (dispatch, json) => {
     this.kLine.drawKLine({ data: json.result, timeType: 1 });
     dispatch(successQueryDayLine(json));
   };
+
   KXRcallBack = (dispatch, json) => {
     this.kLine.drawKLine({ data: json.result, timeType: 2 });
     dispatch(successQueryDayLine(json));
   };
+
   drawKX = (id, name) => {
     const { dispatch, normalday: { assetinfo }, commodityId } = this.props;
     const paramsId = id || commodityId;
@@ -152,6 +151,7 @@ class Quotes extends Component {
       }
     });
   };
+
   // 切换分时与K线图
   drawCanvas = (name) => {
     this.timeName = name;
@@ -175,6 +175,7 @@ class Quotes extends Component {
       this.redrawCanvas('kLine');
     }
   };
+
   chooseCommodity = (id) => () => {
     const { dispatch } = this.props;
     if (this.timeName === 'fenTime') {
@@ -184,15 +185,12 @@ class Quotes extends Component {
     }
     dispatch(toChangeCommodity(id, this.redrawCanvas));
   };
-  selectTime = (e, name) => {
+
+  selectDraw = (name, idx) => {
     this.drawCanvas(name);
-    const value = e.currentTarget.getElementsByTagName('span')[0];
-    const len = this.timeList.children.length;
-    for (let i = 0; i < len; i += 1) {
-      this.timeList.childNodes[i].firstChild.style.cssText = '';
-    }
-    value.style.cssText = 'color:#FF8212;border: 1px #ff8212 solid;padding: 2px; 0';
+    this.setState({ drawIdx: idx });
   };
+
   quoteLi = () => {
     const { commodityId, commodityPrices } = this.props;
     const tpl = [];
@@ -205,6 +203,7 @@ class Quotes extends Component {
     });
     return tpl;
   };
+
   showImage = (i, prices) => {
     let tpl = '';
     const commodityPricesOld = JSON.parse(Cookie.getCookie('commodityPrices'));
@@ -240,31 +239,36 @@ class Quotes extends Component {
 
   renderChart() {
     const canvasH = styleConfig.canvasH - this.props.holdHeight;
-    this.timeList = timeList;
     if (this.props.commodityPrices) Cookie.setCookie('commodityPrices', this.props.commodityPrices);
     return (
       <div
         styleName="trend-chart"
       >
-        <div style={{ height: styleConfig.quotesTipsH }}>
-          <ul styleName="quotesInfo">{this.quoteLi()}</ul>
+        <div
+          style={{ height: styleConfig.quotesTrendH, lineHeight: `${styleConfig.quotesTrendH}px` }}
+        >
+          <ul styleName="quotes-info">{this.quoteLi()}</ul>
         </div>
-        <div>
-          <div id="drawLine" style={{ height: canvasH, display: 'none' }}>
+        <div styleName="draw-box">
+          <div id="drawLine" style={{ height: canvasH - 8, display: 'none' }}>
             <canvas id="kLine" />
           </div>
-          <div id="drawChart" style={{ height: canvasH }}>
+          <div id="drawChart" style={{ height: canvasH - 8 }}>
             <canvas id="chart" />
           </div>
         </div>
-        <div style={{ height: 2 * styleConfig.quotesTipsH }}>
-          <ul styleName="timeList" ref={(ref) => { this.timeList = ref; }}>
+        <div style={{ height: styleConfig.quotesTimeH + 8, paddingTop: 8 }}>
+          <ul styleName="time-list">
             {
-              this.timeList.map((item, i) => (
+              drawList.map((item, i) => (
                 <li
                   key={i}
-                  onTouchTap={(e) => { this.selectTime(e, item.name); }}
-                ><span>{item.label}</span></li>
+                  onTouchTap={() => { this.selectDraw(item.name, i); }}
+                >
+                  <span styleName={this.state.drawIdx === i ? 'active-t' : ''}>
+                    {item.label}
+                  </span>
+                </li>
               ))
             }
           </ul>
@@ -306,7 +310,7 @@ class Quotes extends Component {
                 <li
                   key={i}
                   style={{ width: liWidth }}
-                  styleName={`${this.props.commodityId === i ? 'active' : ''}`}
+                  styleName={`${this.props.commodityId === i ? 'active-c' : ''}`}
                   onTouchTap={this.chooseCommodity(i)}
                 >
                   <div>

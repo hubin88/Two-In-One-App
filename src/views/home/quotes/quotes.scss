@@ -21,11 +21,7 @@
   li {
     list-style-type: none;
     padding: .09rem;
-    //height: 100%;
     display: inline-block;
-    //display: table-cell;
-    //width: 50%;
-
     div {
       display: inline-block;
       width: 70%;
@@ -34,13 +30,20 @@
       display: block;
       width: 100%;
     }
-    .showImg {
-      display: inline-block;
-      width: .21rem;
-      height: .17rem;
-      float: right;
-    }
   }
+}
+
+.showImg {
+  display: inline-block;
+  width: .21rem;
+  height: .17rem;
+  float: right;
+}
+
+.active-c {
+  border-top: 1px #F8812C solid;
+  background-color: #c3e1f5;
+  color: #000;
 }
 
 .trend-chart {
@@ -52,18 +55,10 @@
   background-color: #E0EEFF;
 }
 
-.active {
-  border-top: 1px #F8812C solid;
-  background-color: #c3e1f5;
-  color: #000;
-}
-
-.canvas{
-  height: 70%;
-}
-.timeList {
-  height: .4rem;
-  background-color: #f1e9e9;
+.time-list {
+  height: 100%;
+  padding: .09rem 0 0.08rem;
+  background-color: #f7f7f7;
   text-align: center;
   white-space: nowrap;
   overflow-y: auto;
@@ -71,24 +66,30 @@
     display: none;
   }
 
-  li{
+  li {
     display: inline-block;
     width: 20%;
-    border-right: 1px #ced4d4 solid;
-    margin: .12rem 0 0 2px;
-    font-size: .18rem;
+    height: 100%;
+    font-size: .14rem;
+    span {
+      display: inline-block;
+      height: .23rem;
+      line-height: .23rem;
+      width: 60%;
+    }
   }
+  li:not(:first-child) {
+    border-left: .01rem #eae7e4 solid;
+  }
+}
 
-  //li:last-child{
-  //  border-right: 0;
-  //}
+.active-t {
+  color: #ff8212;
+  border: .01rem solid #ff8212;
+  border-radius: .03rem;
 }
-.action {
-  color: #FF8212;
-  border: 1px #ff8212 solid;
-  padding: .1rem;
-}
-.quotesInfo {
+
+.quotes-info {
   li {
     width: 25%;
     display: inline-block;

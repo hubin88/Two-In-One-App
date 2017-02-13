@@ -1,6 +1,7 @@
 @import "./valViews";
 
 $navList: 'home', 'broker', 'user';
+
 .footer {
   height: 100%;
   width: 100%;
@@ -20,7 +21,7 @@ $navList: 'home', 'broker', 'user';
     span {
       display: inline-block;
       height: 100%;
-      background-position: center .05rem;
+      background-position: center .07rem;
       background-size: .22rem;
       background-repeat: no-repeat;
       padding-top: .3rem;
@@ -34,22 +35,21 @@ $navList: 'home', 'broker', 'user';
   color: $bgColor;
 }
 
-@each $nav in $navList {
-  .#{$nav} {
-    b {
-      //background-image: url("../images/#{$nav}");
+:global .active-nav {
+  @each $nav in $navList {
+    ##{$nav} {
+      color: $bgColor;
+      @include retina-images((
+              '../images/#{$nav}_press',
+      ));
     }
   }
 }
 
-// sample 1
 @include retina-images((
-        '.home':'../images/transaction_normal',
+        '.home':'../images/home_normal',
         '.broker':'../images/broker_normal',
         '.user':'../images/user_normal',
-        '.active.home':'../images/transaction_press',
-        '.active.broker':'../images/broker_press',
-        '.active.user':'../images/user_press',
 ));
 
 

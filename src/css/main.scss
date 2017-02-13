@@ -107,7 +107,6 @@ header {
 section {
   height: 100%;
   width: 100%;
-  background: #EFEFF4;
   overflow: hidden;
 }
 
@@ -115,8 +114,8 @@ footer {
   position: absolute;
   bottom: 0;
   width: 100%;
-  border-top: .01rem #c0c0c0 solid;
-  background: #fff;
+  border-top: .01rem #eae7e4 solid;
+  background-color: #fff;
 }
 
 iframe {

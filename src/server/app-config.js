@@ -54,13 +54,14 @@ const headerH = AppConfig.isApp ? 0 : 66;
 const footerH = AppConfig.isApp ? 0 : 50;
 const userInfoH = 60;
 const buildingH = 60;
-const buildingPadding = 12;
+const buildingPadding = 10;
 const tipsH = 20;
 const holdH = 90;
 const commodityH = 60;
 const quotesH = screenH - headerH - footerH - userInfoH - buildingH - tipsH - commodityH;
-const quotesTipsH = 20;
-const canvasH = quotesH - (3 * quotesTipsH);
+const quotesTrendH = 25;
+const quotesTimeH = 40;
+const canvasH = quotesH - quotesTimeH - quotesTrendH;
 
 export const styleConfig = {
   screenH,
@@ -73,6 +74,7 @@ export const styleConfig = {
   tipsH,
   holdH,
   commodityH,
-  quotesTipsH,
+  quotesTimeH,
+  quotesTrendH,
   canvasH,
 };

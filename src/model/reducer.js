@@ -37,7 +37,7 @@ const initSystemInfo = {
   orgId: NONE,
   directUrl: null,
   navList: {
-    home: { name: 'home', label: '首页', direction: '/home' },
+    home: { name: 'home', label: '交易', direction: '/home' },
     track: { name: 'broker', label: '经纪人', direction: '/broker' },
     // rule: { name: 'rule', label: '规则', direction: '/rule' },
     user: { name: 'user', label: '我', direction: '/user' },

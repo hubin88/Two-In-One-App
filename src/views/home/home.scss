@@ -3,15 +3,13 @@
 .home {
   height: 100%;
   width: 100%;
-  //padding: $avatarH+$infoPaddingTop+$infoPaddingBottom 0 0;
   position: relative;
+  background-color: $homeBgColor;
 }
 
 .user-info {
-  //height: 0.7rem;
   width: 100%;
   padding: 0 $infoPaddingLeft;
-  border-bottom: .01rem #c0c0c0 solid;
   background-color: #FFFFFF;
   span {
     height: 100%;
@@ -56,7 +54,6 @@
 }
 
 .trade {
-  //height: 100%;
   width: 100%;
 }
 
@@ -72,7 +69,6 @@
     width: 46%;
     margin: 0 2%;
     font-size: $buildingBtnF;
-    //font-weight: bold;
     text-align: center;
     border-radius: 3px;
     color: #fff;
@@ -88,10 +84,8 @@
 .tips {
   display: inline-block;
   width: 100%;
-  background-color: #EFEFF4;
-  border-top: .01rem #c0c0c0 solid;
+  background-color: #f7f7f7;
   text-align: center;
-  color: #CACACE;
   font-size: .1rem;
 }
 
