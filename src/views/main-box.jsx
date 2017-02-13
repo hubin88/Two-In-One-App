@@ -68,38 +68,34 @@ class MainBox extends Component {
       systemInfo: { navList, systemSortNum, ad },
     } = this.props;
     const title = systemList.sort((a, b) => (a.sortNum - b.sortNum));
-    return (
-      <div>
-        {
-          (ad && this.state.isOnePage) ? <Direct dispatch={dispatch} /> :
-          <div
-            styleName={`${this.state.isShowLeftNav ? 'show-left-nav' : 'hide-left-nav'}`}
-            style={{ paddingTop: styleConfig.headerH, paddingBottom: styleConfig.footerH }}
-          >
-            <LeftNav
-              ref={(ref) => { this.leftNav = ref; }}
-              dispatch={dispatch}
-              exchangeList={exchangeList}
-            />
-            <header style={{ height: styleConfig.headerH }}>
-              <Header
-                title={title}
-                titleCallBack={this.changeSystem}
-                leftBtnCallBack={this.showLeftNav()}
-                leftBtnTxt={<span className="left-nav-btn" />}
-                hasLeftBtnIcon={false}
-                titleIdx={systemSortNum - 1}
-              />
-            </header>
-            <section id="section">
-              {this.props.children}
-            </section>
-            <footer style={{ height: styleConfig.footerH }}>
-              <Footer navList={navList} />
-            </footer>
-          </div>
-        }
-      </div>
+    return ((ad && this.state.isOnePage) ? <Direct dispatch={dispatch} /> :
+    <div
+      className="wrap"
+      styleName={`${this.state.isShowLeftNav ? 'show-left-nav' : 'hide-left-nav'}`}
+      style={{ paddingTop: styleConfig.headerH, paddingBottom: styleConfig.footerH }}
+    >
+      <LeftNav
+        ref={(ref) => { this.leftNav = ref; }}
+        dispatch={dispatch}
+        exchangeList={exchangeList}
+      />
+      <header style={{ height: styleConfig.headerH }}>
+        <Header
+          title={title}
+          titleCallBack={this.changeSystem}
+          leftBtnCallBack={this.showLeftNav()}
+          leftBtnTxt={<span className="left-nav-btn" />}
+          hasLeftBtnIcon={false}
+          titleIdx={systemSortNum - 1}
+        />
+      </header>
+      <section id="section">
+        {this.props.children}
+      </section>
+      <footer style={{ height: styleConfig.footerH }}>
+        <Footer navList={navList} />
+      </footer>
+    </div>
     );
   }
 }

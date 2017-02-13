@@ -19,7 +19,7 @@ class MaskWrap extends Component {
 
   render() {
     return (
-      <div styleName="mask" ref={(ref) => { this.wrap = ref; }} onClick={this.close} />
+      <div styleName="mask" ref={(ref) => { this.wrap = ref; }} onTouchTap={this.close} />
     );
   }
 }

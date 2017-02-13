@@ -29,7 +29,7 @@
   display: inline-block;
   width: 31%;
   text-align: center;
-  border: solid .01rem gray;
+  border: solid .01rem $colorGray;
   border-radius: 0.02rem;
   margin: 2% 0 0 2%;
   height: 0.3rem;
@@ -48,6 +48,13 @@
       color: #fff;
     }
   }
+
+  :global .drag-#{$key} {
+    #dragBlock, #dragLeft {
+      background-color: $color;
+    }
+  }
+
 }
 
 .info {
@@ -57,34 +64,22 @@
   line-height: 1.5*$buildingFont;
 }
 
-.amount {
-  input[type="range"] {
-    appearance: none;
-    border-radius: 2px;
-    width: 200px;
-    height: 3px;
-    background-image: -webkit-linear-gradient(left, #f22 0%, #f22 50%, #fff 50%, #fff 100%);
-    box-shadow: inset #ebb 0 0 5px;
-    outline: none;
-    transition: .1s;
-    &::-webkit-slider-thumb {
-      position: relative;
-      -webkit-appearance: none;
-      width: 0.25rem;
-      height: 0.25rem;
-      background: #f22;
-      transition: .1s;
-      //&::after {
-      //  content: "";
-      //  position: absolute;
-      //  bottom: 0.3rem;
-      //  left: -0.12rem;
-      //  display: inline-block;
-      //  width: 0.3rem;
-      //  height: 0.6rem;
-      //  border: solid 1px red;
-      //}
-    }
+.drag-box {
+  width: 97%;
+  position: relative;
+  button {
+    position: absolute;
+    display: inline-block;
+    right: 0;
+    top: 0;
+    width: 2*$buildingBtnF;
+    height: 2*$buildingBtnF;
+    line-height: 2*$buildingBtnF;
+    font-size: $buildingBtnF;
+    border: solid .01rem $colorGray;
+  }
+  button:first-child {
+    left: 0;
   }
 }
 

@@ -15,7 +15,7 @@ import SingleHtml from './views/single-html/single-html';
 import SignWrap from './views/sign-wrap/sign-wrap';
 import UserWrap from './views/user/user-wrap';
 import Rule from './views/rule/rule';
-// import Gold from './views/user/channel/gold';
+import Gold from './views/user/channel/gold';
 import Hold from './views/user/channel/hold';
 import Track from './views/user/channel/track';
 import ModifyName from './views/user/channel/user-set-channel/modify-name';
@@ -66,7 +66,7 @@ const StoreWrap = () => (
         <Route component={UserWrap}>
           <Route path="/rule" component={Rule} />
           <Route path="/hold" component={Hold} onEnter={checkLogin} />
-          <Route path="/gold" component={GoldHtml} onEnter={checkLogin} />
+          <Route path="/gold" component={Gold} onEnter={checkLogin} />
           <Route path="/userSet" component={UserSet} onEnter={checkLogin} />
           <Route path="/track" component={Track} onEnter={checkLogin} />
         </Route>

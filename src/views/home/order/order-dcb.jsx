@@ -5,24 +5,43 @@
 import React, { Component, PropTypes } from 'react';
 import cssModules from 'react-css-modules';
 import styles from './order.scss';
+import Drag from '../../../components/drag/drag';
+
+const minBuyNum = 1;
+// const test = () => {
+// return (
+//   <input
+//   type="range"
+//   value={this.state.amountNum}
+//   onChange={this.settingAmount()}
+//   min={minBuyNum}
+//   max={maxBuyNum}
+//   step="1"
+// />
+// );
+// };
+
 @cssModules(styles, { allowMultiple: true, errorWhenNotFound: false })
 class OrderDCB extends Component {
+  static defaultProps = {
+    defaultAmountNum: 1,
+  };
   static propTypes = {
     dispatch: PropTypes.func,
     direction: PropTypes.string,
     commodity: PropTypes.object,
+    defaultAmountNum: PropTypes.number,
   };
 
   constructor(props) {
     super(props);
-    const { commodity: { Margin: deposit, Point: range } } = props;
+    const { commodity: { Margin: deposit, Point: point } } = props;
     this.depositArr = deposit.split(',') || [];
 
-    const arr = range.split('|');
+    const arr = point.split('|');
 
-    this.rangeArr = arr.map(r => {
+    this.pointArr = arr.map(r => {
       const [float, fee] = r.split(',');
-
       return {
         float,
         fee,
@@ -31,13 +50,16 @@ class OrderDCB extends Component {
 
     this.state = {
       depositIdx: 0,
-      rangeIdx: 0,
+      pointIdx: 0,
     };
   }
 
   getSettingData = () => ({
+    commodityInfo: this.props.commodity,
     deposit: this.depositArr[this.state.depositIdx],
-    range: this.rangeArr[this.state.rangeIdx],
+    point: this.pointArr[this.state.pointIdx],
+    direction: this.props.direction,
+    margin: { amount: this.drag.getNowNum() },
   });
 
   chooseDeposit = (idx) => () => {
@@ -46,31 +68,29 @@ class OrderDCB extends Component {
     });
   };
 
-  chooseRange = (idx) => () => {
+  choosePoint = (idx) => () => {
     this.setState({
-      rangeIdx: idx,
+      pointIdx: idx,
     });
   };
 
-  // 计算利润
-  profit() {
-    return 1000;
-  }
-
   render() {
-    const { direction, commodity: { MaxBuyNum: maxBuyNum } } = this.props;
+    const { direction, commodity: { MaxBuyNum }, defaultAmountNum } = this.props;
+    const maxBuyNum = parseInt(MaxBuyNum, 10);
+    const { depositIdx, pointIdx } = this.state;
+    const profit = (this.depositArr[depositIdx] * (100 - this.pointArr[pointIdx].fee)) / 100;
     return (
       <div styleName={`order ${direction}`}>
         <div className="table" styleName="setting">
-          <div className="tr" styleName="deposit">
+          <div className="tr" styleName="margin">
             <div className="td" styleName="title-dcb"><span>合约定金:</span></div>
             <div className="td" styleName="content">
               {
                 this.depositArr.map((item, index) =>
                   <button
-                    styleName={`item ${this.state.depositIdx === index ? 'active' : ''}`}
+                    styleName={`item ${depositIdx === index ? 'active' : ''}`}
                     key={index}
-                    onClick={this.chooseDeposit(index)}
+                    onTouchTap={this.chooseDeposit(index)}
                   >
                     {item}
                   </button>
@@ -78,17 +98,17 @@ class OrderDCB extends Component {
               }
             </div>
           </div>
-          <div className="tr" styleName="range">
+          <div className="tr" styleName="point">
             <div className="td" styleName="title-dcb">
               <span styleName="color-gray">止盈/止损点:</span>
             </div>
             <div className="td" styleName="content">
               {
-                this.rangeArr.map((item, index) =>
+                this.pointArr.map((item, index) =>
                   <button
-                    styleName={`item ${this.state.rangeIdx === index ? 'active' : ''}`}
+                    styleName={`item ${pointIdx === index ? 'active' : ''}`}
                     key={index}
-                    onClick={this.chooseRange(index)}
+                    onTouchTap={this.choosePoint(index)}
                   >
                     {item.float}
                   </button>
@@ -101,14 +121,20 @@ class OrderDCB extends Component {
               <span styleName="color-gray">数量:</span>
             </div>
             <div className="td" styleName="content">
-              <span>
-                <input type="range" defaultValue="1" min="1" max="4" step="1" />
-              </span>
+              <div styleName="drag-box">
+                <Drag
+                  ref={(ref) => { this.drag = ref; }}
+                  clsName={`drag-${direction}`}
+                  minNum={minBuyNum}
+                  maxNum={maxBuyNum}
+                  defaultNum={defaultAmountNum}
+                />
+              </div>
             </div>
           </div>
         </div>
         <div styleName="prompt">
-          <span styleName="except">有望盈利<b styleName="color-red">{this.profit()}</b>元</span>
+          <span styleName="except">有望盈利<b styleName="color-red">{profit}</b>元</span>
           <span styleName="color-gray">当前可下单最大数量{maxBuyNum}手</span>
         </div>
       </div>
@@ -116,6 +142,4 @@ class OrderDCB extends Component {
   }
 }
 
-export
-default
-OrderDCB;
+export default OrderDCB;

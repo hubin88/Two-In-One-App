@@ -200,7 +200,7 @@ class TouchPage extends Component {
             <div styleName="help help_na4">
               <img src={require('../../../images/help/help_na4@2x.png')} alt="" />
             </div>
-            <div id="go" onClick={this.props.go} styleName="ad ad_arrow4">
+            <div id="go" onTouchTap={this.props.go} styleName="ad ad_arrow4">
               <img src={require('../../../images/help/ad_arrow4@2x.png')} alt="" />
             </div>
           </div>

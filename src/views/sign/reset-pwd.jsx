@@ -152,7 +152,7 @@ export default class ResetPwd extends Component {
               />
               {this.state.isAccountEmpty ? null :
               <span
-                onClick={this.clearAccount}
+                onTouchTap={this.clearAccount}
                 styleName={this.state.isAccountRight ? 'icon account-right' : 'icon account-error'}
               />
               }
@@ -172,7 +172,7 @@ export default class ResetPwd extends Component {
                 id="code-btn"
                 styleName={this.state.isCodeRequest ? 'pass' : 'no-pass'}
                 value={this.state.codeBtnValue}
-                onClick={this.forgetPwdGetCode}
+                onTouchTap={this.forgetPwdGetCode}
               />
             </div>
           </div>
@@ -186,7 +186,7 @@ export default class ResetPwd extends Component {
               />
               <span
                 styleName={this.state.isShowPassword ? 'icon show-password' : 'icon hide-password'}
-                onClick={this.changePasswordState}
+                onTouchTap={this.changePasswordState}
               />
             </label>
           </div>
@@ -194,7 +194,7 @@ export default class ResetPwd extends Component {
         <div styleName="submit">
           <input
             type="submit" styleName={isSubmit ? 'pass' : 'no-pass'} value="提交"
-            onClick={this.submit}
+            onTouchTap={this.submit}
           />
         </div>
       </div>

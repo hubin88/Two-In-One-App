@@ -35,6 +35,7 @@ class Home extends Component {
     de.float = 22;
     CloseOut.show(de);
   };
+
   clickAvatar = () => {
     if (this.props.systemInfo.isLogin) {
       browserHistory.push('/user');
@@ -42,6 +43,7 @@ class Home extends Component {
       browserHistory.push('/login?source=user');
     }
   };
+
   confirmBuild = (data) => {
     const orderData = {
       // sessionId: '',
@@ -58,6 +60,7 @@ class Home extends Component {
     };
     this.props.dispatch(toCreateUserOrder(orderData, this.quotes.redrawCanvas));
   };
+
   showOrder = (title, direction, systemType) => {
     const {
       exchangeInfo: { commodityData },
@@ -75,59 +78,39 @@ class Home extends Component {
       commodityPricesObj,
     });
   };
+
   // 持仓记录头部
   holdHeaderList = (systemType) => {
-    const {
-      exchangeInfo: { commodityData },
-      systemInfo: { commodityId },
-    } = this.props;
-
-    // const mountUnit = cid => cid === COMMODITY_BU ? AMOUNT_UNIT_BU : AMOUNT_UNIT_OTHERS;
-
     const obj = {
       [SYS_DCB]: [
         {
           key: 'name',
           label: '名称',
-          render: () => (
-            <span><img src="" alt="" />{commodityData[commodityId].Name}</span>
+          render: (keyData, d) => (
+            <span styleName={`${d.direction}`}><i />{d.Name}</span>
           ),
         },
         { key: 'Margin', label: '数量' },
-        // {
-        //   key: 'volume',
-        //   label: '数量',
-        //   render: (data) => (
-        //     <span>{ data.valiableAsset.asset * mountUnit(data.AssentId)}</span>
-        //   ),
-        // },
         { key: 'Price', label: '建仓价' },
-        { key: 'earnest', label: '定金' },
-        { key: 'range', label: '止盈止损' },
+        { key: 'deposit', label: '定金' },
+        { key: 'floatPoint', label: '止盈止损' },
       ],
       [SYS_DWB]: [
         {
           key: 'name',
           label: '名称',
           render: (keyData, d) => (
-            <span styleName={`${d.direction}`}><i />{commodityData[commodityId].Name}</span>
+            <span styleName={`${d.direction}`}><i />{d.Name}</span>
           ),
         },
         { key: 'Margin', label: '数量' },
-        // {
-        //   key: 'volume',
-        //   label: '数量',
-        //   render: (data) => (
-        //     <span>{ data.valiableAsset.asset * mountUnit(data.AssentId)}</span>
-        //   ),
-        // },
         { key: 'Price', label: '建仓价' },
         { key: 'float', label: '盈亏' },
         {
           key: 'cover',
           label: '操作',
           render: (keyData, d) => (
-            <a href="#" onClick={() => this.onCover(d)}>平仓</a>
+            <span><a href="#" onTouchTap={() => this.onCover(d)}>平仓</a></span>
           ),
         },
       ],
@@ -174,7 +157,7 @@ class Home extends Component {
           styleName="user-info"
           style={{ height: styleConfig.userInfoH, lineHeight: `${styleConfig.userInfoH}px` }}
         >
-          <span styleName="avatar" onClick={this.clickAvatar}>
+          <span styleName="avatar" onTouchTap={this.clickAvatar}>
             <img src={avatarURL} alt="" />
           </span>
           <span styleName="asset">
@@ -222,7 +205,7 @@ class Home extends Component {
                     }}
                     key={`building-${idx}`}
                     styleName={direction}
-                    onClick={() => this.showOrder(title, direction, systemType)}
+                    onTouchTap={() => this.showOrder(title, direction, systemType)}
                   >{title}</button>
                 );
               })

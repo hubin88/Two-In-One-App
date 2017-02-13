@@ -182,7 +182,7 @@ class Quotes extends Component {
     } else {
       this.drawKX(id, this.timeName);
     }
-    dispatch(toChangeCommodity(id));
+    dispatch(toChangeCommodity(id, this.redrawCanvas));
   };
   selectTime = (e, name) => {
     this.drawCanvas(name);
@@ -212,22 +212,32 @@ class Quotes extends Component {
       commodityPricesOld.forEach((val) => {
         if (i === val[PRICES.assetId[0]] && prices >= Number.parseInt(val[PRICES.price[0]], 10)) {
           tpl = this.props.commodityId === i ?
-            <img src={require('../../../images/arrow_up_red@2x.png')} alt="up" styleName="showImg" /> :
+            (<img
+              src={require('../../../images/arrow_up_red@2x.png')} alt="up"
+              styleName="showImg"
+            />) :
             <img src={require('../../../images/arrow_up@2x.png')} alt="up" styleName="showImg" />;
         } else if (i === val[PRICES.assetId[0]] && prices < Number.parseInt(val[PRICES.price[0]], 10)) {
           tpl = this.props.commodityId === i ?
-            <img src={require('../../../images/arrow_down_green@2x.png')} alt="up" styleName="showImg" /> :
+            (<img
+              src={require('../../../images/arrow_down_green@2x.png')} alt="up"
+              styleName="showImg"
+            />) :
             <img src={require('../../../images/arrow_down@2x.png')} alt="up" styleName="showImg" />;
         }
       });
     } else {
       if (this.props.commodityId === i) {
-        return <img src={require('../../../images/arrow_up_red@2x.png')} alt="up" styleName="showImg" />;
+        return (<img
+          src={require('../../../images/arrow_up_red@2x.png')} alt="up"
+          styleName="showImg"
+        />);
       }
       return <img src={require('../../../images/arrow_up@2x.png')} alt="up" styleName="showImg" />;
     }
     return tpl;
   };
+
   renderChart() {
     const canvasH = styleConfig.canvasH - this.props.holdHeight;
     this.timeList = timeList;
@@ -253,7 +263,7 @@ class Quotes extends Component {
               this.timeList.map((item, i) => (
                 <li
                   key={i}
-                  onClick={(e) => { this.selectTime(e, item.name); }}
+                  onTouchTap={(e) => { this.selectTime(e, item.name); }}
                 ><span>{item.label}</span></li>
               ))
             }
@@ -297,7 +307,7 @@ class Quotes extends Component {
                   key={i}
                   style={{ width: liWidth }}
                   styleName={`${this.props.commodityId === i ? 'active' : ''}`}
-                  onClick={this.chooseCommodity(i)}
+                  onTouchTap={this.chooseCommodity(i)}
                 >
                   <div>
                     <span>{name}</span>

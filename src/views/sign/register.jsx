@@ -261,7 +261,7 @@ export default class Register extends Component {
               />
               {this.state.isAccountEmpty ? null :
               <span
-                onClick={this.clearAccount}
+                onTouchTap={this.clearAccount}
                 styleName={this.state.isAccountRight ? 'icon account-right' : 'icon account-error'}
               />
               }
@@ -281,7 +281,7 @@ export default class Register extends Component {
                 id="code-btn"
                 styleName={this.state.isCodeRequest ? 'code pass' : 'code no-pass'}
                 value={this.state.codeBtnValue}
-                onClick={this.registerGetCode}
+                onTouchTap={this.registerGetCode}
               />
             </div>
           </div>
@@ -296,7 +296,7 @@ export default class Register extends Component {
               />
               <span
                 styleName={this.state.isShowPassword ? ('icon show-password') : ('icon hide-password')}
-                onClick={this.changePasswordState}
+                onTouchTap={this.changePasswordState}
               />
             </label>
           </div>
@@ -304,13 +304,13 @@ export default class Register extends Component {
         <div styleName="submit">
           <input
             type="submit" styleName={isSubmit ? 'submit-btn pass' : 'submit-btn no-pass'} value="提交"
-            onClick={this.submit}
+            onTouchTap={this.submit}
           />
         </div>
         {
           this.props.type === 'register' ?
             <div styleName="agreement">
-              提交注册表示您已阅读并同意<span onClick={this.showAgreement}>《用户协议书》</span>
+              提交注册表示您已阅读并同意<span onTouchTap={this.showAgreement}>《用户协议书》</span>
             </div> : null
         }
       </div>

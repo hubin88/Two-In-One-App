@@ -59,7 +59,7 @@ class Hold extends Component {
           key: 'cover',
           label: '操作',
           render: (keyData, d) => (
-            <a href="#" onClick={() => this.onCover(d)}>平仓</a>
+            <a href="#" onTouchTap={() => this.onCover(d)}>平仓</a>
           ),
         },
       ],

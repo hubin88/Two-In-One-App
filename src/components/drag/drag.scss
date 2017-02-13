@@ -1,0 +1,99 @@
+/**
+ * Created by Amg on 2017/2/10.
+ */
+
+$dragBtnF: .14rem;
+$dragBtnP: .4rem;
+$colorRed: #F84142;
+$colorGray: #afaaaa;
+
+.drag {
+  width: 100%;
+  position: relative;
+  height: 2*$dragBtnF;
+  line-height: 1.8*$dragBtnF;
+  padding: 0 $dragBtnP+.75*$dragBtnF;
+  margin: .03rem 0 .03rem 2%;
+  button {
+    position: absolute;
+    display: inline-block;
+    right: 0;
+    top: 0;
+    width: 2*$dragBtnF;
+    height: 2*$dragBtnF;
+    line-height: 2*$dragBtnF;
+    font-size: $dragBtnF;
+    border: solid .01rem $colorGray;
+  }
+  button:first-child {
+    left: 0;
+  }
+}
+
+.drag-box {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.drag-line {
+  display: inline-block;
+  position: absolute;
+  top: 50%;
+  height: .01rem;
+  margin-top: -.005rem;
+}
+
+@each $direct, $bgColor in ('left', $colorRed), ('right', $colorGray) {
+  .drag-#{$direct} {
+    background-color: $bgColor;
+    #{$direct}: 0;
+  }
+}
+
+.drag-block {
+  display: inline-block;
+  position: absolute;
+  top: 50%;
+  width: 1.5*$dragBtnF;
+  height: 1.5*$dragBtnF;
+  line-height: 1.6*$dragBtnF;
+  margin-top: -.7*$dragBtnF;
+  margin-left: -.75*$dragBtnF;
+  text-align: center;
+  color: #fff;
+  background: $colorRed;
+  border-radius: 0.05rem;
+}
+
+.drag-tips {
+  position: absolute;
+  display: inline-block;
+  border-radius: .05rem;
+  border: solid 1px $colorGray;
+  top: -0.45rem;
+  width: 0.3rem;
+  margin-left: -.15rem;
+
+  //margin-left: -.75*$buildingBtnF;
+  height: 0.4rem;
+  line-height: 0.4rem;
+  background-color: #fff;
+  text-align: center;
+  opacity: 0.8;
+  visibility: hidden;
+
+  &:after {
+    position: absolute;
+    bottom: -0.04rem;
+    left: .11rem;
+    content: '';
+    display: inline-block;
+    width: .05rem;
+    height: .05rem;
+    border: solid .01rem;
+    border-color: transparent #4C5258 #4C5258 transparent;
+    background-color: #fff;
+    transform: rotate(45deg);
+  }
+}

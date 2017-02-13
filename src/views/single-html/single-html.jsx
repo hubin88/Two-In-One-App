@@ -30,7 +30,7 @@ class SingleHtml extends Component {
     const title = this.htmlInfo.title;
     const directUrl = this.htmlInfo.url;
     return (
-      <div>
+      <div className="wrap">
         <Iframe title={title} htmlUrl={directUrl} leftBtnFunc={this.back} />
       </div>
     );

@@ -25,7 +25,7 @@ class UserWrap extends Component {
     const userChannel = AppConfig.userChannel()[pathName.substring(1)];
     const title = userChannel.title || '';
     return (
-      <div>
+      <div className="wrap">
         <header>
           <Header title={title} leftBtnCallBack={this.back} />
         </header>

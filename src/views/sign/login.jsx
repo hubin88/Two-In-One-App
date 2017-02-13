@@ -143,7 +143,7 @@ export default class Login extends Component {
               />
               {this.state.isAccountEmpty ? null :
               <span
-                onClick={this.clearAccount}
+                onTouchTap={this.clearAccount}
                 styleName={this.state.isAccountRight ? 'icon account-right' : 'icon account-error'}
               />
               }
@@ -160,7 +160,7 @@ export default class Login extends Component {
               />
               <span
                 styleName={this.state.isShowPassword ? 'icon show-password' : 'icon hide-password'}
-                onClick={this.changePasswordState}
+                onTouchTap={this.changePasswordState}
               />
             </label>
           </div>
@@ -168,21 +168,21 @@ export default class Login extends Component {
         <div styleName="login">
           <input
             type="submit" styleName={isSubmit ? 'pass' : 'no-pass'} value="登录"
-            onClick={this.submit}
+            onTouchTap={this.submit}
           />
         </div>
         <div styleName="forget">
           <div styleName="tr">
             <div styleName="td">
-              <input type="button" value="忘记密码？" onClick={this.toReset} />
+              <input type="button" value="忘记密码？" onTouchTap={this.toReset} />
             </div>
             <div styleName="td">
-              <input type="button" value="随便看看" onClick={this.toHome} />
+              <input type="button" value="随便看看" onTouchTap={this.toHome} />
             </div>
           </div>
         </div>
         <div styleName="register">
-          <input type="button" value="没有账号？请注册" onClick={this.toRegister} />
+          <input type="button" value="没有账号？请注册" onTouchTap={this.toRegister} />
         </div>
       </div>
     );

@@ -2,6 +2,7 @@
  * Created by dz on 16/9/27.
  */
 import ReactDOM from 'react-dom';
+import { isArray } from './tools';
 
 export function insertComponent(component) {
   const el = document.createElement('div');
@@ -102,9 +103,11 @@ export function safeGetParameter(param, key) {
 export function arrayToObject(data, key) {
   return data.reduce((obj, product) => {
     const o = obj;
-    o[product[key]] = {
-      ...product,
-    };
+    if (isArray(o)) {
+      o[product[key]] = [...product];
+    } else {
+      o[product[key]] = { ...product };
+    }
     return obj;
   }, {});
 }

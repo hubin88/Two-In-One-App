@@ -16,6 +16,19 @@ class DialogWrap extends React.Component {
     onCloseCallback: PropTypes.func,
   };
 
+  componentDidMount() {
+    this.dialog.addEventListener('webkitAnimationEnd', this.addClose);
+  }
+
+  componentWillUnmount() {
+    this.dialog.removeEventListener('webkitAnimationEnd', this.addClose);
+    this.overlay.removeEventListener('touchstart', this.close);
+  }
+
+  addClose = () => {
+    this.overlay.addEventListener('touchstart', this.close);
+  };
+
   close = () => {
     if (this.props.onCloseCallback) this.props.onCloseCallback();
     removeComponentByRef(this.box);
@@ -24,11 +37,15 @@ class DialogWrap extends React.Component {
   render() {
     return (
       <div ref={(ref) => { this.box = ref; }}>
-        <div styleName="overlay" onClick={this.close} />
-        <div styleName="dialog" style={this.props.style}>
+        <div styleName="overlay" ref={(ref) => { this.overlay = ref; }} />
+        <div
+          styleName="dialog"
+          ref={(ref) => { this.dialog = ref; }}
+          style={this.props.style}
+        >
           <div styleName="title" className="main-nav-bg-color">
             {this.props.title}
-            <input type="button" styleName="close" onClick={this.close} />
+            <input type="button" styleName="close" onTouchTap={this.close} />
           </div>
           <div styleName="content">
             <div styleName="cell">{this.props.children}</div>

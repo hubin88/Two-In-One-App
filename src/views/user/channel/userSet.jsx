@@ -32,7 +32,7 @@ class UserSet extends Component {
     const tpl = (
       <div styleName="main">
         <ul>
-          <a onClick={this.showImg}>
+          <a onTouchTap={this.showImg}>
             <li>
               <span styleName="listLeft">头像</span>
               <span styleName="listRight">
@@ -65,7 +65,7 @@ class UserSet extends Component {
             </li>
           </Link>
         </ul>
-        <div styleName="out" onClick={this.userOut}>退出登录</div>
+        <div styleName="out" onTouchTap={this.userOut}>退出登录</div>
       </div>
     );
     return tpl;

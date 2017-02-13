@@ -26,7 +26,7 @@ export default class Footer extends Component {
             const navClass = `${idx === this.state.navNum ? 'actives' : ''}`;
             return (
               <li key={navList[navItem].name} className="td" styleName="nav-item">
-                <Link to={navList[navItem].direction} onClick={this.changeNav(idx)}>
+                <Link to={navList[navItem].direction} onTouchTap={this.changeNav(idx)}>
                   <span styleName={`${navList[navItem].name} ${navClass}`}>
                     {navList[navItem].label}
                   </span>

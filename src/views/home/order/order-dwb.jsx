@@ -23,20 +23,20 @@ class OrderDWB extends Component {
     super(props);
     const {
       commodity: {
-        Margin: deposit,
+        Margin: margin,
         MerchCode: commodityCode,
         OpenFee: openFee,
       },
     } = props;
-    // this.depositArr = deposit.split('|').map(r => r.split(','));
-    const arr = deposit.split('|');
+    // this.marginArr = margin.split('|').map(r => r.split(','));
+    const arr = margin.split('|');
     const firstScale = arr[0].split(',')[0] * ASSET_SCALE;
     const feeBase = arr[0].split(',')[1] / firstScale;
 
     const amountScale = ASSET_SCALE * AMOUNT_SCALE;
     const amountUnit = commodityCode === COMMODITY_BU ? AMOUNT_UNIT_BU : AMOUNT_UNIT_OTHERS;
 
-    this.depositArr = arr.map(r => {
+    this.marginArr = arr.map(r => {
       const [asset, float] = r.split(',');
 
       const amountNum = this.fmNum(asset * amountScale);
@@ -55,7 +55,7 @@ class OrderDWB extends Component {
     });
     this.rangeArr = RANGE_LIST;
     this.state = {
-      depositIdx: 0,
+      marginIdx: 0,
       lossIdx: 0,
       profitIdx: 0,
     };
@@ -63,7 +63,7 @@ class OrderDWB extends Component {
 
   getSettingData = () => ({
     commodityInfo: this.props.commodity,
-    deposit: this.depositArr[this.state.depositIdx],
+    margin: this.marginArr[this.state.marginIdx],
     loss: this.rangeArr[this.state.lossIdx],
     profit: this.rangeArr[this.state.profitIdx],
     direction: this.props.direction,
@@ -86,9 +86,9 @@ class OrderDWB extends Component {
         price,
       },
     } = this.props;
-    const { depositIdx } = this.state;
+    const { marginIdx } = this.state;
 
-    const { amountNum, amount, fee, float } = this.depositArr[depositIdx];
+    const { amountNum, amount, fee, float } = this.marginArr[marginIdx];
     const amountPrice = this.fmNum(parseInt(price['1'], 10) * amountNum);
 
     return (
@@ -103,17 +103,17 @@ class OrderDWB extends Component {
           </span>
         </div>
         <div className="table" styleName="setting">
-          <div className="tr" styleName="deposit">
+          <div className="tr" styleName="margin">
             <div className="td" styleName="title-dwb less-height">
               <span styleName="color-gray">购买<br />金额<br />(元):</span>
             </div>
             <div className="td" styleName="content">
               {
-                this.depositArr.map((item, index) =>
+                this.marginArr.map((item, index) =>
                   <button
-                    styleName={`item ${depositIdx === index ? 'active' : ''}`}
+                    styleName={`item ${marginIdx === index ? 'active' : ''}`}
                     key={index}
-                    onClick={this.chooseSetting('depositIdx', index, amount)}
+                    onTouchTap={this.chooseSetting('marginIdx', index, amount)}
                   >
                     {item.asset}
                   </button>
@@ -150,7 +150,7 @@ class OrderDWB extends Component {
                       <button
                         styleName={`item item-line ${this.state[n] === index ? 'active' : ''}`}
                         key={`${n}-${index}`}
-                        onClick={this.chooseSetting(n, index)}
+                        onTouchTap={this.chooseSetting(n, index)}
                       >
                         {parseFloat(item) === 0 ? '无' : `${parseInt(item * 100, 10)}%`}
                       </button>

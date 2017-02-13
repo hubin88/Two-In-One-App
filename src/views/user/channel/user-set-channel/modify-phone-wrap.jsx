@@ -29,7 +29,7 @@ class ModifyPhoneWrap extends Component {
 
   render() {
     return (
-      <div>
+      <div className="wrap">
         <header>
           <Header
             title={this.props.title}

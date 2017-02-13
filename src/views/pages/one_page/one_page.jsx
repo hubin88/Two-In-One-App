@@ -39,10 +39,11 @@ class OnePage extends Component {
       }
     }, 1000);
   }
-  goHome =() => {
+
+  goHome = () => {
     this.props.dispatch(showFirstAD());
     clearInterval(this.times);
-  }
+  };
 
   src(item, index) {
     const src = item.children[index];
@@ -62,7 +63,7 @@ class OnePage extends Component {
           <div styleName="splash ad_bottom">
             <img src={require('../../../images/splash/ad_bottom@2x.png')} alt="" />
           </div>
-          <div styleName="over" ref={(ref) => { this.over = ref; }} onClick={this.goHome}>
+          <div styleName="over" ref={(ref) => { this.over = ref; }} onTouchTap={this.goHome}>
             跳过<span>5</span>s
           </div>
         </div>

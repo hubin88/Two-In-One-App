@@ -37,7 +37,7 @@ class GoldHtml extends Component {
   render() {
     const { systemInfo: { directUrl } } = this.props;
     return (
-      <div>
+      <div className="wrap">
         <Iframe title={this.htmlInfo.title} htmlUrl={directUrl} leftBtnFunc={this.back} />
       </div>
     );

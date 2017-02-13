@@ -39,9 +39,10 @@
   width: 20%;
   span {
     display: inline-block;
-    height: $holdListF;
-    line-height: $holdListF;
+    height: 2*$holdListF;
+    line-height: 2*$holdListF;
     font-size: $holdListF;
+    vertical-align: middle;
     i {
       display: inline-block;
       width: $holdListF;
@@ -54,7 +55,13 @@
   }
   a {
     display: inline-block;
-    border: solid 1px red;
+    height: 1.5*$holdListF;
+    line-height: 1.6*$holdListF;
+    font-style: inherit;
+    padding: 0 .08rem;
+    border-radius: .05rem;
+    color: #fff;
+    background-color: $colorRed;
   }
 }
 

@@ -41,7 +41,7 @@ class resetName extends Component {
             defaultValue={this.props.value}
             ref={(ref) => { this.nameValue = ref; }}
           />
-          <b onClick={this.clearName}>×</b>
+          <b onTouchTap={this.clearName}>×</b>
         </div>
       );
     }
@@ -66,7 +66,7 @@ class resetName extends Component {
 
   render() {
     return (
-      <div styleName="nickName">
+      <div className="wrap" styleName="nickName">
         <header>
           <Header
             title={this.props.title}

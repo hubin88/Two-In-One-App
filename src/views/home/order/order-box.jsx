@@ -62,12 +62,12 @@ class OrderBoxWrap extends Component {
   renderButtons() {
     if (this.props.onConfirm) {
       return (<div className="table" styleName="buttons">
-        <button className="td" styleName="button close" onClick={() => this.dialog.close()}>取消
+        <button className="td" styleName="button close" onTouchTap={() => this.dialog.close()}>取消
         </button>
         <button
           className="td"
           styleName={`button confirm ${this.props.direction}`}
-          onClick={this.onConfirm}
+          onTouchTap={this.onConfirm}
         >确定
         </button>
       </div>);

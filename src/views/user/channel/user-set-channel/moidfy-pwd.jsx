@@ -124,7 +124,7 @@ class ModifyPwd extends Component {
         <div styleName="submit">
           <input
             type="submit" styleName={isSubmit ? 'pass' : 'no-pass'} value="保存"
-            onClick={this.submit}
+            onTouchTap={this.submit}
           />
         </div>
       </div>

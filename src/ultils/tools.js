@@ -179,6 +179,9 @@ export const timer = (id, suc) => {
   return timeCount();
 };
 
+// 是否为数组
+export const isArray = (obj) => Object.prototype.toString.call(obj) === '[object Array]';
+
 // 回车事件
 export const enterKey = (event, id) => {
   const e = event || window.event;

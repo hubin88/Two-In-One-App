@@ -1,6 +1,9 @@
 import { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+import injectTapEventPlugin from 'react-tap-event-plugin';
 import { appStart } from './model/action';
+
+injectTapEventPlugin();
 
 class App extends Component {
   static defaultProps = {};

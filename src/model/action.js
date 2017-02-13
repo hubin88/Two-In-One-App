@@ -350,16 +350,19 @@ export function changeCommodityId(commodityId) {
     commodityId,
   };
 }
-export function changeCommodity(dispatch, commodityId) {
-  dispatch(changeCommodityId(commodityId));
+export function changeCommodity(dispatch, commodityId, callBack) {
+  promise
+    .then(() => {
+      dispatch(changeCommodityId(commodityId));
+    })
+    .then(() => callBack && callBack());
   // dispatch(toGetQuotesInfo(commodityId));
   // dispatch(toGetUserCommodityData(commodityId));
 }
-export function toChangeCommodity(commodityId) {
+export function toChangeCommodity(commodityId, callBack) {
   return function wrap(dispatch, getState) {
     if (commodityId === getState().systemInfo.commodityId) return;
-
-    changeCommodity(dispatch, commodityId);
+    changeCommodity(dispatch, commodityId, callBack);
   };
 }
 /* === 更改商品 === */

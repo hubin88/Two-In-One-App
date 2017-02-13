@@ -65,7 +65,7 @@ class Header extends Component {
                 return (<button
                   key={idx}
                   styleName={`title-btn ${this.state.titleIdx === idx ? 'active' : ''}`}
-                  onClick={clickFunc}
+                  onTouchTap={clickFunc}
                 >
                   {label}
                 </button>);
@@ -92,7 +92,7 @@ class Header extends Component {
             leftBtnCallBack ?
               <button
                 styleName={`left-btn ${hasLeftBtnIcon ? 'left-btn-icon' : ''}`}
-                onClick={this.leftBtnClick}
+                onTouchTap={this.leftBtnClick}
               >
                 {leftBtnTxt}
               </button> : null
@@ -100,7 +100,7 @@ class Header extends Component {
           <div styleName="title">{this.renderTitle()}</div>
           {
             rightBtnCallBack ?
-              <button styleName="right-btn" onClick={this.rightBtnClick}>
+              <button styleName="right-btn" onTouchTap={this.rightBtnClick}>
                 {rightBtnTxt}
               </button> : null
           }

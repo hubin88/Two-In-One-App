@@ -4,7 +4,7 @@ import * as ActionTypes from './action-types';
 import marketInfo from './market/reducer-market';
 import { Cookie } from '../ultils/tools';
 import { arrayToObject } from '../ultils/helper';
-import { SYS_DCB, SYS_DWB, NONE, ORG_ID } from '../server/define';
+import { SYS_DCB, SYS_DWB, NONE, ORG_ID, PRICES } from '../server/define';
 import AppConfig from '../server/app-config';
 
 const initSystemList = [];
@@ -199,9 +199,12 @@ function systemInfo(state = initSystemInfo, action) {
     case ActionTypes.REQUEST_CREATE_USER_ORDER: {
       const {
         commodityInfo: { AssetId, MerchCode, MarketId, Name, price },
-        deposit: { fee, amount: Margin },
+        margin: { fee, amount: Margin } = { fee: null, amount: null },
+        deposit = null,
+        point: { float: floatPoint } = { float: null },
         direction,
       } = action.data;
+      console.log(action.data);
       return {
         ...state,
         imitateHoldArray: {
@@ -214,7 +217,9 @@ function systemInfo(state = initSystemInfo, action) {
               Name,
               AssetId,
               MerchCode,
-              Price: price[1],
+              Price: price[PRICES.price[0]],
+              deposit,
+              floatPoint,
               Margin,
               earnBase: fee,
               direction,

@@ -49,7 +49,7 @@ class DialogWrap extends React.Component {
             </div>
           </div>
           <div styleName="close">
-            <input type="button" styleName="close-btn" onClick={this.close} />
+            <input type="button" styleName="close-btn" onTouchTap={this.close} />
           </div>
         </div>
       </div>

@@ -52,7 +52,7 @@ export default class LeftNav extends Component {
               <li
                 styleName={exchange.id === this.state.exchangeId ? 'active' : ''}
                 key={exchange.id}
-                onClick={() => { this.choseExchange(exchange); }}
+                onTouchTap={() => { this.choseExchange(exchange); }}
               >
                 {exchange.name}
                 <span />

@@ -27,7 +27,7 @@ class SignWrap extends Component {
       }
     });
     return (
-      <div className="content" ref={(ref) => { this.content = ref; }}>
+      <div className="wrap" ref={(ref) => { this.content = ref; }}>
         <header>
           <Header title={titleName} leftBtnCallBack={this.back} />
         </header>

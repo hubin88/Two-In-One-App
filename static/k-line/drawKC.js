@@ -962,10 +962,10 @@ DrawChart.prototype = {
     ball.appendChild(outer2);
     ball.appendChild(inner);
     container.appendChild(textTips);
-    container.appendChild(ball);
     container.appendChild(this.chart);
     container.appendChild(layer);
     container.appendChild(tips);
+    container.appendChild(ball);
     parentElement.appendChild(container);
     this.layer = layer;
     this.tips = tips;

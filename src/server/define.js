@@ -48,7 +48,7 @@ export const STATUS = {
 export const PRICES = {
   assetId: [0, 0],
   price: [1, 2],
-  preclose: [2, 6],
+  preClose: [2, 6],
   open: [3, 5],
   high: [4, 3],
   low: [5, 4],
