@@ -18,7 +18,7 @@ class ResetPwdWrap extends Component {
 
   render() {
     return (
-      <div styleName="content">
+      <div>
         <Reset
           resetSuccess={this.resetSuc}
           orgId={this.props.exchangeInfo.orgId}

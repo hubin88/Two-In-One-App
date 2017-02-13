@@ -54,14 +54,13 @@ const StoreWrap = () => (
           <IndexRedirect to="/home" />
           <Route path="/home" component={Home} />
           <Route path="/user" component={User} />
+          <Route path="/broker" component={Broker} />
         </Route>
         <Route component={SignWrap}>
           <Route path="/login" component={LoginWrap} />
           <Route path="/register" component={RegisterWrap} />
           <Route path="/resetPwd" component={ResetPwdWrap} />
         </Route>
-
-        <Route path="/broker" component={Broker} onEnter={checkLogin} />
 
         <Route component={UserWrap}>
           <Route path="/rule" component={Rule} />

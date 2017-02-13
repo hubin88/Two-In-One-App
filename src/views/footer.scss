@@ -32,12 +32,8 @@ $navList: 'home', 'broker', 'user';
 }
 
 .active {
-  color: $bgColor;
-}
-
-:global .active-nav {
   @each $nav in $navList {
-    ##{$nav} {
+    .#{$nav} {
       color: $bgColor;
       @include retina-images((
               '../images/#{$nav}_press',

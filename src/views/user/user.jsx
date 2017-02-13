@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router';
+import { Link, browserHistory } from 'react-router';
 import cssModules from 'react-css-modules';
 import styles from './user.scss';
 import { SYS_DCB, SYS_DWB } from '../../server/define';
@@ -46,6 +46,14 @@ class User extends Component {
     systemInfo: PropTypes.object,
   };
 
+  onClickAvatar = () => {
+    browserHistory.push('/userSet');
+  };
+
+  onClickSign = (type) => () => {
+    browserHistory.push(`${type}?source=user`);
+  };
+
   render() {
     const {
       systemInfo: {
@@ -55,7 +63,7 @@ class User extends Component {
     return (
       <div styleName="user">
         <div styleName="info">
-          <div styleName="avatar">
+          <div styleName="avatar" onTouchTap={this.onClickAvatar}>
             <img src={avatarURL} alt="" />
           </div>
           <div styleName="middle">
@@ -63,8 +71,8 @@ class User extends Component {
               isLogin ?
                 <div><span>{nickName}</span></div> :
                 <div>
-                  <button><Link to="/register">注册</Link></button>
-                  <button><Link to="/login">登录</Link></button>
+                  <button onTouchTap={this.onClickSign('register')}>注册</button>
+                  <button onTouchTap={this.onClickSign('login')}>登录</button>
                 </div>
             }
           </div>

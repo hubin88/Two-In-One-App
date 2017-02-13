@@ -37,11 +37,7 @@ class Home extends Component {
   };
 
   clickAvatar = () => {
-    if (this.props.systemInfo.isLogin) {
-      browserHistory.push('/user');
-    } else {
-      browserHistory.push('/login?source=user');
-    }
+    browserHistory.push('/userSet');
   };
 
   confirmBuild = (data) => {
@@ -62,21 +58,25 @@ class Home extends Component {
   };
 
   showOrder = (title, direction, systemType) => {
-    const {
-      exchangeInfo: { commodityData },
-      systemInfo: { commodityId },
-      marketInfo: { commodityPricesObj },
-    } = this.props;
-    OrderBox.show({
-      dispatch: this.props.dispatch,
-      title,
-      direction,
-      systemType,
-      onConfirm: this.confirmBuild,
-      commodityData,
-      commodityId,
-      commodityPricesObj,
-    });
+    if (this.props.systemInfo.isLogin) {
+      const {
+        exchangeInfo: { commodityData },
+        systemInfo: { commodityId },
+        marketInfo: { commodityPricesObj },
+      } = this.props;
+      OrderBox.show({
+        dispatch: this.props.dispatch,
+        title,
+        direction,
+        systemType,
+        onConfirm: this.confirmBuild,
+        commodityData,
+        commodityId,
+        commodityPricesObj,
+      });
+    } else {
+      browserHistory.push('/login?source=home');
+    }
   };
 
   // 持仓记录头部

@@ -19,7 +19,7 @@ class RegisterWrap extends Component {
 
   render() {
     return (
-      <div styleName="content">
+      <div>
         <Register
           registerSuccess={this.registerSuc}
           orgId={this.props.exchangeInfo.orgId}

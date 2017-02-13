@@ -28,13 +28,13 @@ class SingleHtml extends Component {
     const { title, htmlUrl } = this.props;
     return (
       <div styleName="single-html">
-        <header>
+        {this.props.needHeader ? <header>
           <Header
             title={title}
             leftBtnCallBack={this.leftFunc}
             rightBtnCallBack={this.rightFunc}
           />
-        </header>
+        </header> : null}
         <section>
           <iframe src={htmlUrl} />
         </section>

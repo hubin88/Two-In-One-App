@@ -11,7 +11,7 @@ const Footer = (props) => {
         Object.keys(navList).map((navItem) => (
           <li key={navList[navItem].name} className="td" styleName="nav-item">
             <Link
-              activeClassName="active-nav"
+              activeClassName={styles.active}
               to={navList[navItem].direction}
             >
               <span id={`${navList[navItem].name}`} styleName={`${navList[navItem].name}`}>
