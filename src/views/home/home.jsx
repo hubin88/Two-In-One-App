@@ -30,13 +30,22 @@ class Home extends Component {
     };
   }
 
+  componentDidMount() {
+    this.avatar.addEventListener('touchend', this.onClickAvatar);
+  }
+
+  componentWillUnmount() {
+    this.avatar.removeEventListener('touchend', this.onClickAvatar);
+  }
+
   onCover = (d) => {
     const de = d;
     de.float = 22;
     CloseOut.show(de);
   };
 
-  clickAvatar = () => {
+  onClickAvatar = (e) => {
+    e.preventDefault();
     browserHistory.push('/userSet');
   };
 
@@ -157,7 +166,7 @@ class Home extends Component {
           styleName="user-info"
           style={{ height: styleConfig.userInfoH, lineHeight: `${styleConfig.userInfoH}px` }}
         >
-          <span styleName="avatar" onTouchTap={this.clickAvatar}>
+          <span styleName="avatar" ref={(ref) => { this.avatar = ref; }}>
             <img src={avatarURL} alt="" />
           </span>
           <span styleName="asset">

@@ -46,7 +46,16 @@ class User extends Component {
     systemInfo: PropTypes.object,
   };
 
-  onClickAvatar = () => {
+  componentDidMount() {
+    this.avatar.addEventListener('touchend', this.onClickAvatar);
+  }
+
+  componentWillUnmount() {
+    this.avatar.removeEventListener('touchend', this.onClickAvatar);
+  }
+
+  onClickAvatar = (e) => {
+    e.preventDefault();
     browserHistory.push('/userSet');
   };
 
@@ -63,7 +72,7 @@ class User extends Component {
     return (
       <div styleName="user">
         <div styleName="info">
-          <div styleName="avatar" onTouchTap={this.onClickAvatar}>
+          <div styleName="avatar" ref={(ref) => { this.avatar = ref; }}>
             <img src={avatarURL} alt="" />
           </div>
           <div styleName="middle">

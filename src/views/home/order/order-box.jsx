@@ -30,7 +30,18 @@ class OrderBoxWrap extends Component {
     title: '建仓',
   };
 
-  onConfirm = () => {
+  componentDidMount() {
+    this.closeBtn.addEventListener('touchend', this.dialog.close);
+    this.confirmBtn.addEventListener('touchend', this.dialog.close);
+  }
+
+  componentWillUnmount() {
+    this.closeBtn.removeEventListener('touchend', this.onConfirm);
+    this.confirmBtn.removeEventListener('touchend', this.onConfirm);
+  }
+
+  onConfirm = (e) => {
+    e.preventDefault();
     if (this.props.onConfirm) {
       const settingData = { ...this.order.getSettingData() };
       this.props.onConfirm(settingData);
@@ -62,12 +73,17 @@ class OrderBoxWrap extends Component {
   renderButtons() {
     if (this.props.onConfirm) {
       return (<div className="table" styleName="buttons">
-        <button className="td" styleName="button close" onTouchTap={() => this.dialog.close()}>取消
+        <button
+          className="td"
+          styleName="button close"
+          ref={(ref) => { this.closeBtn = ref; }}
+        >取消
         </button>
         <button
           className="td"
           styleName={`button confirm ${this.props.direction}`}
-          onTouchTap={this.onConfirm}
+          ref={(ref) => { this.confirmBtn = ref; }}
+
         >确定
         </button>
       </div>);

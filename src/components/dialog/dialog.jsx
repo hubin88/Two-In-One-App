@@ -29,7 +29,8 @@ class DialogWrap extends React.Component {
     this.overlay.addEventListener('touchstart', this.close);
   };
 
-  close = () => {
+  close = (e) => {
+    e.preventDefault();
     if (this.props.onCloseCallback) this.props.onCloseCallback();
     removeComponentByRef(this.box);
   };
