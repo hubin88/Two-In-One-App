@@ -22,6 +22,7 @@ class MainBox extends Component {
     exchangeInfo: PropTypes.object.isRequired,
     systemInfo: PropTypes.object.isRequired,
     children: PropTypes.any,
+    location: PropTypes.object,
   };
 
   state = {
