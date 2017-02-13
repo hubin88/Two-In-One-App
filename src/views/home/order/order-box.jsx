@@ -32,21 +32,23 @@ class OrderBoxWrap extends Component {
 
   componentDidMount() {
     this.closeBtn.addEventListener('touchend', this.dialog.close);
-    this.confirmBtn.addEventListener('touchend', this.dialog.close);
+    this.confirmBtn.addEventListener('touchend', this.onConfirm);
   }
 
   componentWillUnmount() {
-    this.closeBtn.removeEventListener('touchend', this.onConfirm);
+    this.closeBtn.removeEventListener('touchend', this.dialog.close);
     this.confirmBtn.removeEventListener('touchend', this.onConfirm);
   }
 
   onConfirm = (e) => {
+    // console.log(e);
     e.preventDefault();
+
     if (this.props.onConfirm) {
       const settingData = { ...this.order.getSettingData() };
       this.props.onConfirm(settingData);
     }
-    this.dialog.close();
+    this.dialog.close(e);
   };
 
   renderSetting() {

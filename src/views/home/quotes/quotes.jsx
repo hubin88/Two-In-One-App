@@ -284,7 +284,6 @@ class Quotes extends Component {
       Cookie.setCookie('sys', systemType);
     }
     if (assetinfo && this.isDraw && commodityId) {
-      console.log(commodityId);
       this.drawFS();
       this.isDraw = false;
     }
