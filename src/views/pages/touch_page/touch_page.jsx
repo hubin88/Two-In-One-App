@@ -5,6 +5,7 @@
 import React, { Component, PropTypes } from 'react';
 import cssModules from 'react-css-modules';
 import styles from './touch_page.scss';
+import { showFirstAD } from '../../../model/action';
 
 for (let i = 1; i <= 4; i++) {
   require(`../../../images/help/help_na${i}@3x.png`);
@@ -13,6 +14,7 @@ for (let i = 1; i <= 4; i++) {
 class TouchPage extends Component {
   static propTypes = {
     go: PropTypes.func,
+    dispatch: PropTypes.func,
   };
 
   componentDidMount() {
@@ -20,9 +22,10 @@ class TouchPage extends Component {
   }
 
   componentWillUnmount() {
-    document.getElementById('direct').removeEventListener('touchstart', (e) => this.touchStart(e));
-    document.getElementById('direct').removeEventListener('touchmove', (e) => this.touchMove(e));
-    document.getElementById('direct').removeEventListener('touchend', (e) => this.touchEnd(e));
+    // console.log(document.getElementById('direct'));
+    // document.getElementById('direct').removeEventListener('touchstart', (e) => this.touchStart(e));
+    // document.getElementById('direct').removeEventListener('touchmove', (e) => this.touchMove(e));
+    // document.getElementById('direct').removeEventListener('touchend', (e) => this.touchEnd(e));
   }
 
   touchPage() {
@@ -169,6 +172,11 @@ class TouchPage extends Component {
     intro.init();
   }
 
+  goHome = () => {
+    localStorage.setItem('direct', true);
+    this.props.dispatch(showFirstAD());
+  }
+
   render() {
     return (
       <div styleName="direct" ref={(ref) => { this.direct = ref; }}>
@@ -200,7 +208,7 @@ class TouchPage extends Component {
             <div styleName="help help_na4">
               <img src={require('../../../images/help/help_na4@2x.png')} alt="" />
             </div>
-            <div id="go" onTouchTap={this.props.go} styleName="ad ad_arrow4">
+            <div id="go" onTouchTap={this.goHome} styleName="ad ad_arrow4">
               <img src={require('../../../images/help/ad_arrow4@2x.png')} alt="" />
             </div>
           </div>
