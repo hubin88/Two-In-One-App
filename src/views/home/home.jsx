@@ -35,6 +35,7 @@ class Home extends Component {
   }
 
   componentWillUnmount() {
+    if (this.timeGetQuto) clearInterval(this.timeGetQuto)
     this.avatar.removeEventListener('touchend', this.onClickAvatar);
   }
 
@@ -152,13 +153,13 @@ class Home extends Component {
       clearInterval(this.time);
       this.time = setInterval(() => {
         dispatch(queryUserInfoGatewayReapt(secKey));
-      }, 6000);
+      }, repeatTime.userInfo);
     }
     if (commodityKey) {
       clearInterval(this.timeGetQuto);
       this.timeGetQuto = setInterval(() => {
         dispatch(requestGetQuot(null, commodityKey));
-      }, 500000);
+      }, repeatTime.getQuot);
     }
     return (
       <div styleName="home">

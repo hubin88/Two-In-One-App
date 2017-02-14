@@ -39,5 +39,9 @@ module.exports = {
     DWB_SUGGEST_URL: true,
     HTML_PAGE:true,
     CRJ: true,
+    repeatTime: true,
+    getQuot: true,
+    fs: true,
+    kx: true,
   }
 };

@@ -94,7 +94,7 @@ class Quotes extends Component {
     if (this.time) clearInterval(this.time);
     this.time = setInterval(() => {
       this.drawFS();
-    }, 60000);
+    }, repeatTime.fs);
   };
 
   reStart = () => {
@@ -172,7 +172,7 @@ class Quotes extends Component {
       this.drawFS();
       this.time = setInterval(() => {
         this.drawFS();
-      }, 60000);
+      }, repeatTime.fs);
       document.getElementById('drawLine').style.display = 'none';
       document.getElementById('drawChart').style.display = 'block';
       this.redrawCanvas('chart');
@@ -181,7 +181,7 @@ class Quotes extends Component {
       this.drawKX(timeId, name);
       this.time = setInterval(() => {
         this.drawKX(timeId, name);
-      }, 60000);
+      }, repeatTime.kx);
       document.getElementById('drawLine').style.display = 'block';
       document.getElementById('drawChart').style.display = 'none';
       this.redrawCanvas('kLine');
