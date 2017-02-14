@@ -914,6 +914,7 @@ KLine.prototype = {
 
 function DrawChart(canvasId, options) {
   this.data = [];
+  this.isSaveData = false;
   this.newData = [];
   this.ratio = 1;
   this.chart = document.getElementById(canvasId);
@@ -993,6 +994,7 @@ DrawChart.prototype = {
     this.options.paddingBottom = baseDraw.getPaddingBottom(this.options.height);
     this.setCanvas();
     this.setCanvasScale();
+    this.isSaveData = true;
     this.drawChart();
   },
   //获取画布的高度
@@ -1059,9 +1061,11 @@ DrawChart.prototype = {
 
   },
   drawChart: function (data) {
-    // if (isSwitch) {
-    this.data.length = 0;
-    // }
+    if (this.isSaveData === false) {
+      this.data.length = 0;
+    } else {
+      this.isSaveData = true;
+    }
 
     this.setData(data);
     this.getRelativeRatio();
