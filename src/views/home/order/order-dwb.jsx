@@ -105,7 +105,7 @@ class OrderDWB extends Component {
         <div className="table" styleName="setting">
           <div className="tr" styleName="margin">
             <div className="td" styleName="title-dwb less-height">
-              <span styleName="color-gray">购买<br />金额<br />(元):</span>
+              <span>购买<br />金额<br />(元):</span>
             </div>
             <div className="td" styleName="content">
               {
@@ -125,7 +125,7 @@ class OrderDWB extends Component {
         <div className="table" styleName="setting">
           <div className="tr" styleName="info">
             <div className="td" styleName="title-dwb less-height">
-              <span styleName="color-gray">手续费:</span>
+              <span>手续费:</span>
             </div>
             <div className="td" styleName="content">
               <span styleName="color-red">
@@ -142,7 +142,7 @@ class OrderDWB extends Component {
             <div key={n} className="table" styleName="setting">
               <div className="tr" styleName="range">
                 <div className="td" styleName="title-dwb">
-                  <span styleName="color-gray">{rangeName[n]}:</span>
+                  <span>{rangeName[n]}:</span>
                 </div>
                 <div className="td" styleName="content">
                   {

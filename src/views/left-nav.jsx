@@ -16,9 +16,9 @@ export default class LeftNav extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      exchangeId: 1,
-      exchangeName: '海西亚太微交易',
-      logoUrl: '/src/images/touxiang.jpg',
+      exchangeId: props.exchangeList[0].id,
+      exchangeName: props.exchangeList[0].name,
+      logoUrl: props.exchangeList[0].logoUrl,
     };
   }
 

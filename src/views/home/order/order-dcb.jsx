@@ -100,7 +100,7 @@ class OrderDCB extends Component {
           </div>
           <div className="tr" styleName="point">
             <div className="td" styleName="title-dcb">
-              <span styleName="color-gray">止盈/止损点:</span>
+              <span>止盈/止损点:</span>
             </div>
             <div className="td" styleName="content">
               {
@@ -118,7 +118,7 @@ class OrderDCB extends Component {
           </div>
           <div className="tr" styleName="amount">
             <div className="td" styleName="title-dcb">
-              <span styleName="color-gray">数量:</span>
+              <span>数量:</span>
             </div>
             <div className="td" styleName="content">
               <div styleName="drag-box">

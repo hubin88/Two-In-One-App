@@ -5,7 +5,7 @@
 $dragBtnF: .14rem;
 $dragBtnP: .4rem;
 $colorRed: #F84142;
-$colorGray: #afaaaa;
+$colorGray: #e0e0ee;
 
 .drag {
   width: 100%;
@@ -92,7 +92,7 @@ $colorGray: #afaaaa;
     width: .05rem;
     height: .05rem;
     border: solid .01rem;
-    border-color: transparent #4C5258 #4C5258 transparent;
+    border-color: transparent #e0e0ee #e0e0ee transparent;
     background-color: #fff;
     transform: rotate(45deg);
   }

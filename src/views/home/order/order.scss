@@ -8,11 +8,13 @@
 .title-dcb {
   width: 7*$buildingFont;
   height: 100%;
+  vertical-align: middle;
 }
 
 .title-dwb {
   width: 3.5*$buildingFont;
   height: 100%;
+  vertical-align: middle;
 }
 
 .less-height {
@@ -88,9 +90,10 @@
   width: 100%;
   height: 1.8*$buildingFont;
   line-height: 1.8*$buildingFont;
-  text-align: right;
+  padding-left: $buildingBtnP;
+;
   span {
-    padding-left: $buildingFont;
+    padding-left: .05rem;
   }
 }
 

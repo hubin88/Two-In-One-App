@@ -7,8 +7,6 @@
   left: 0;
   bottom: 0;
   background-color: #000;
-  //opacity: 0.3;
-  //filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=30);
   animation: show-overlay 0.25s ease-in forwards;
 }
 
@@ -17,7 +15,7 @@
   height: $buildingTitleH;
   line-height: $buildingTitleH;
   background: #fff;
-  border-bottom: solid .01rem rgba(128, 128, 128, 0.63);
+  border-bottom: solid .01rem $colorGray;
   span {
     height: $buildingTitleF;
     line-height: $buildingTitleF;
@@ -59,7 +57,7 @@
 }
 
 .content {
-  color: #494a54;
+  color: #333333;
   display: table;
   width: 100%;
   height: 100%;
@@ -75,7 +73,7 @@
 .dialog {
   //box-shadow: 0 0 60px rgba(0, 0, 0, 0.6);
   position: absolute;
-  background-color: #f0f2f9;
+  background-color: #fff;
   //width: 80%;
   //top: 30%;
   //left: 50%;

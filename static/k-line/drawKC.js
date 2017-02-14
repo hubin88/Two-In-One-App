@@ -1058,13 +1058,13 @@ DrawChart.prototype = {
       this.max += 10;
       this.min -= 10;
     }
-
   },
   drawChart: function (data) {
+
     if (this.isSaveData === false) {
       this.data.length = 0;
     } else {
-      this.isSaveData = true;
+      this.isSaveData = false;
     }
 
     this.setData(data);

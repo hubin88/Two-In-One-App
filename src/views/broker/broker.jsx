@@ -5,11 +5,7 @@ import { browserHistory } from 'react-router';
 import styles from './broker.scss';
 import Iframe from '../single-html/iframe';
 import AppConfig from '../../server/app-config';
-
-// const ttt = {
-//   DCB: 'http://www.baidu.com',
-//   DWB: 'http://www.hao123.com',
-// };
+import formatUrl from '../../ultils/url-format';
 
 @cssModules(styles, { allowMultiple: true, errorWhenNotFound: false })
 class Broker extends Component {
@@ -34,11 +30,17 @@ class Broker extends Component {
 
   render() {
     const { sessionId, mobile, orgId } = AppConfig.userData();
-    const orgCode = '0004';
-    const exChangeID = 10;
-    const directUrl = `http://192.168.1.127/?sessionId=${sessionId}&mobile=${mobile}&
-    orgCode=${orgCode}&exChangeID=${exChangeID}&orgID=${orgId}&type=${AppConfig.systemType()}`;
-    // const directUrl = ttt[AppConfig.systemType()];
+    const url = 'http://192.168.1.127';
+    const opt = {
+      sessionId,
+      mobile,
+      orgId,
+      orgCode: '0004',
+      exchangeID: 10,
+      type: AppConfig.systemType(),
+    };
+    const directUrl = formatUrl(url, opt);
+
     return (
       <div styleName="broker">
         <Iframe needHeader={false} htmlUrl={directUrl} leftBtnFunc={this.back} />
@@ -47,12 +49,20 @@ class Broker extends Component {
   }
 }
 
-function mapStateToProps(state) {
+function
+
+mapStateToProps(state) {
   return {
     exchangeInfo: state.exchangeInfo,
     systemInfo: state.systemInfo,
   };
 }
 
-export default connect(mapStateToProps)(Broker);
+export
+default
+
+connect(mapStateToProps)(
+  Broker
+)
+;
 

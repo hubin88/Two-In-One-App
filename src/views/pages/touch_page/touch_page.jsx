@@ -19,9 +19,12 @@ class TouchPage extends Component {
 
   componentDidMount() {
     this.touchPage();
+    this.goBtn.addEventListener('touchend', this.goHome);
   }
 
   componentWillUnmount() {
+    this.goBtn.removeEventListener('touchend', this.goHome);
+
     // console.log(document.getElementById('direct'));
     // document.getElementById('direct').removeEventListener('touchstart', (e) => this.touchStart(e));
     // document.getElementById('direct').removeEventListener('touchmove', (e) => this.touchMove(e));
@@ -172,10 +175,11 @@ class TouchPage extends Component {
     intro.init();
   }
 
-  goHome = () => {
+  goHome = (e) => {
+    e.preventDefault();
     localStorage.setItem('direct', true);
     this.props.dispatch(showFirstAD());
-  }
+  };
 
   render() {
     return (
@@ -208,7 +212,7 @@ class TouchPage extends Component {
             <div styleName="help help_na4">
               <img src={require('../../../images/help/help_na4@2x.png')} alt="" />
             </div>
-            <div id="go" onTouchTap={this.goHome} styleName="ad ad_arrow4">
+            <div id="go" ref={(ref) => { this.goBtn = ref; }} styleName="ad ad_arrow4">
               <img src={require('../../../images/help/ad_arrow4@2x.png')} alt="" />
             </div>
           </div>

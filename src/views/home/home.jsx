@@ -35,7 +35,7 @@ class Home extends Component {
   }
 
   componentWillUnmount() {
-    if (this.timeGetQuto) clearInterval(this.timeGetQuto)
+    if (this.timeGetQuto) clearInterval(this.timeGetQuto);
     this.avatar.removeEventListener('touchend', this.onClickAvatar);
   }
 

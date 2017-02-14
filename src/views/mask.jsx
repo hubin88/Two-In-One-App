@@ -12,14 +12,24 @@ class MaskWrap extends Component {
   static propTypes = {
     onCloseCallback: PropTypes.func,
   };
-  close = () => {
+
+  componentDidMount() {
+    this.wrap.addEventListener('touchend', this.close);
+  }
+
+  componentWillUnmount() {
+    this.wrap.removeEventListener('touchend', this.close);
+  }
+
+  close = (e) => {
+    e.preventDefault();
     if (this.props.onCloseCallback) this.props.onCloseCallback();
     removeComponentByRef(this.wrap);
   };
 
   render() {
     return (
-      <div styleName="mask" ref={(ref) => { this.wrap = ref; }} onTouchTap={this.close} />
+      <div styleName="mask" ref={(ref) => { this.wrap = ref; }} />
     );
   }
 }
