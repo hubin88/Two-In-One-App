@@ -2,13 +2,13 @@
  * Created by kiny on 16/10/5.
  */
 
-import React, { PropTypes } from 'react';
+import React, { PropTypes, Component } from 'react';
 import cssModules from 'react-css-modules';
 import styles from './table.scss';
 import Row from './row';
 
 @cssModules(styles, { allowMultiple: true, errorWhenNotFound: false })
-export default class Table extends React.Component {
+export default class Table extends Component {
   static defaultProps = {
     styles,
   };

@@ -5,10 +5,11 @@
 
 .buttons {
   width: 100%;
+  margin: .05rem 0;
 }
 
 .button {
-  padding: 0.5em 1em;
+  padding: 0.7em 1em;
   border-radius: 2px;
   background-color: #fff;
 }
@@ -27,11 +28,17 @@
 @each $key, $color in $buildingColor {
   .#{$key} {
     background-color: $color;
+    border: 1px solid $color;
   }
 }
 
 .prompt {
   font-size: .11rem;
+  display: inline-block;
+  font-size: .11rem;
+  color: gray;
+  width: 100%;
+  text-align: center;
 }
 
 
