@@ -11,6 +11,13 @@ export function insertComponent(component) {
   return el;
 }
 
+export function insertComponentWrap(component) {
+  const el = document.createElement('div');
+  document.getElementsByClassName('wrap')[0].appendChild(el);
+  ReactDOM.render(component, el);
+  return el;
+}
+
 export function removeComponentByRef(ref) {
   const p = ref.parentNode;
   ReactDOM.unmountComponentAtNode(p);

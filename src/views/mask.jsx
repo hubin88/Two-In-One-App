@@ -5,7 +5,7 @@
 import React, { Component, PropTypes } from 'react';
 import cssModules from 'react-css-modules';
 import styles from './mask.scss';
-import { insertComponent, removeComponentByRef } from '../server/tools';
+import { removeComponentByRef, insertComponentWrap } from '../server/tools';
 
 @cssModules(styles, { allowMultiple: true, errorWhenNotFound: false })
 class MaskWrap extends Component {
@@ -36,7 +36,7 @@ class MaskWrap extends Component {
 
 export default class Mask extends MaskWrap {
   static show(callback) {
-    insertComponent(<MaskWrap onCloseCallback={callback} />);
+    insertComponentWrap(<MaskWrap onCloseCallback={callback} />);
   }
 }
 

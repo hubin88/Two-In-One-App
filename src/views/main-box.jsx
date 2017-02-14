@@ -50,7 +50,9 @@ class MainBox extends Component {
     () => {
       this.setState({
         isShowLeftNav: true,
-      }, () => { Mask.show(this.hideLeftNav); });
+      }, () => {
+        Mask.show(this.hideLeftNav);
+      });
     } : null);
 
   hideLeftNav = () => {
@@ -72,6 +74,7 @@ class MainBox extends Component {
       className="wrap"
       styleName={`${this.state.isShowLeftNav ? 'show-left-nav' : 'hide-left-nav'}`}
       style={{ paddingTop: styleConfig.headerH, paddingBottom: styleConfig.footerH }}
+      ref={(ref) => { this.wrap = ref; }}
     >
       <LeftNav
         ref={(ref) => { this.leftNav = ref; }}
