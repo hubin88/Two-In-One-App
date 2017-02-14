@@ -11,10 +11,11 @@
   width: 100%;
   padding: 0 $infoPaddingLeft;
   background-color: #FFFFFF;
+  font-size: 0.14rem;
   span {
     height: 100%;
     display: inline-block;
-    vertical-align: top;
+    vertical-align: middle;
   }
 }
 
@@ -30,11 +31,11 @@
 
 .asset {
   margin-left: 0.1rem;
-  b {
+  span {
     display: inline-block;
-    padding: 0 .01rem;
+    padding: 0 .02rem;
     color: #ffa040;
-    font-weight: bold;
+    //font-weight: bold;
   }
 }
 

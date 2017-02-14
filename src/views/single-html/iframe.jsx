@@ -19,6 +19,23 @@ class SingleHtml extends Component {
     leftBtnFunc: PropTypes.func,
     rightBtnFunc: PropTypes.func,
     htmlUrl: PropTypes.string,
+    didMountCallBack: PropTypes.func,
+  };
+
+  componentDidMount() {
+    this.connectTest();
+  }
+
+  receiveMessage = (event) => {
+    console.log('a接收 event', event.data);
+  };
+
+  connectTest = () => {
+    const ifr = document.getElementById('ifr');
+    const targetOrigin = 'http://192.168.0.71:9000';  // 若写成'http://b.com/c/proxy.html'效果一样
+    ifr.contentWindow.postMessage('I was there!', targetOrigin);
+
+    window.addEventListener('message', this.receiveMessage, false);
   };
 
   leftFunc = this.props.needHeader && this.props.leftBtnFunc ? this.props.leftBtnFunc : null;
@@ -36,7 +53,7 @@ class SingleHtml extends Component {
           />
         </header> : null}
         <section>
-          <iframe src={htmlUrl} />
+          <iframe id="ifr" src={htmlUrl} />
         </section>
       </div>
     );

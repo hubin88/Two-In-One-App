@@ -171,7 +171,7 @@ class Home extends Component {
             <img src={avatarURL} alt="" />
           </span>
           <span styleName="asset">
-            总资产<b>{allAssetsNum}</b>元
+            总资产<span>{allAssetsNum}</span>元
           </span>
           <span className="fr">
             {

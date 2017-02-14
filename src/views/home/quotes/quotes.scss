@@ -20,17 +20,24 @@
   }
   li {
     list-style-type: none;
-    padding: .09rem;
+    padding: 0 .06rem;
     display: inline-block;
     div {
       display: inline-block;
       width: 70%;
-    }
-    span {
-      display: block;
-      width: 100%;
+      b {
+        display: block;
+        width: 100%;
+        height: .24rem;
+        padding: .05rem 0 .03rem;
+        color: #828284;
+      }
     }
   }
+}
+
+.commodity-prices {
+  padding-top: .05rem;
 }
 
 .showImg {
@@ -38,14 +45,16 @@
   width: .14rem;
   height: .12rem;
   float: right;
-  margin-top: .08rem;
+  margin-top: .18rem;
 }
 
 .active-c {
   border-top: 1px #F8812C solid;
   background-color: #c3e1f5;
-  color: #000;
-  
+  .commodity-name {
+    color: #272424;
+  }
+
 }
 
 .trend-chart {

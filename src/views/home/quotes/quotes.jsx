@@ -262,14 +262,16 @@ class Quotes extends Component {
           <ul styleName="quotes-info">{this.quoteLi()}</ul>
         </div>
         <div styleName="draw-box">
-          <div id="drawLine" style={{ height: canvasH - 8, display: 'none' }}>
+          <div id="drawLine" style={{ height: canvasH, display: 'none' }}>
             <canvas id="kLine" />
           </div>
-          <div id="drawChart" style={{ height: canvasH - 8 }}>
+          <div id="drawChart" style={{ height: canvasH }}>
             <canvas id="chart" />
           </div>
         </div>
-        <div style={{ height: styleConfig.quotesTimeH + 8, paddingTop: 8 }}>
+        <div
+          style={{ height: styleConfig.quotesTimeH, paddingTop: styleConfig.canvasPaddingBottom }}
+        >
           <ul styleName="time-list">
             {
               drawList.map((item, i) => (
@@ -325,8 +327,8 @@ class Quotes extends Component {
                   onTouchTap={this.chooseCommodity(i)}
                 >
                   <div>
-                    <span>{name}</span>
-                    <span>{prices}</span>
+                    <b styleName="commodity-name">{name}</b>
+                    <b styleName="commodity-prices">{prices}</b>
                   </div>
                   {
                     this.showImage(i, prices)
