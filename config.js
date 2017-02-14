@@ -51,3 +51,10 @@ var HTML_PAGE = {
   DCB: 'http://120.25.135.199:9003/webstatic/1zjyjy/rule/rule.html',
   DWB: 'http://www.baidu.com',
 };
+
+var repeatTime = {
+  userInfo: 5000, // 轮询资产数据
+  getQuot: 5000, // 轮询个股信息
+  fs: 60000, // 轮询分时图
+  kx: 60000, // 轮询K线图
+}
