@@ -10,7 +10,7 @@
     table-layout: fixed;
     height: 1.4rem;
     width: 100%;
-    background: #1195DA;
+    background: #FF9D45;
     & > div {
       display: table-row;
     }
@@ -61,7 +61,7 @@
     text-overflow: ellipsis;
     color: #666666;
     &.active {
-      color: #1195DA;
+      color: #FF9D45;
       span{
         background: url("../images/Correct@2x.png") no-repeat center center/50% auto;
       }
