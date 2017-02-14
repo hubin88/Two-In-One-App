@@ -83,8 +83,8 @@ export default class Login extends Component {
   submit = (e) => {
     e.stopPropagation();
     e.preventDefault();
-    const isSubmit = this.state.isAccountRight && this.state.isPassWordRight;
-    if (!isSubmit) return;
+    // const isSubmit = this.state.isAccountRight && this.state.isPassWordRight;
+    // if (!isSubmit) return; //todo 测试登陆
     const options = {
       orgId: this.props.orgId,
       mobile: this.account.value,

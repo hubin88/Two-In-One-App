@@ -68,7 +68,11 @@ class OnePage extends Component {
             <img src={require('../../../images/splash/ad_Content@2x.png')} alt="" />
           </div>
           <div styleName="splash ad_bottom">
-            <img src={require('../../../images/splash/ad_bottom@2x.png')} alt="" />
+            <img
+              src={require('../../../images/splash/ad_bottom@2x.png')}
+              srcSet={`${require('../../../images/splash/ad_bottom@3x.png')} 3x`}
+              alt=""
+            />
           </div>
           <div styleName="over" ref={(ref) => { this.over = ref; }}>
             跳过<span>5</span>s

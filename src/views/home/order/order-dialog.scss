@@ -78,17 +78,38 @@
   //top: 30%;
   //left: 50%;
   //margin-left: -40%;
-  top: 100%;
+  //top: 100%;
+  bottom: 0;
   width: 100%;
+  transform: translate3d(0, 100%, 0);
   animation: show-mask 0.25s ease-out forwards;
+}
+
+.close-dialog {
+  //box-shadow: 0 0 60px rgba(0, 0, 0, 0.6);
+  position: absolute;
+  background-color: #f0f2f9;
+  bottom: 0;
+  width: 100%;
+  transform: translate3d(0, 0, 0);
+  animation: dialog-close 0.25s ease-out forwards;
 }
 
 @keyframes show-mask {
   0% {
+    transform: translate3d(0, 100%, 0);
+  }
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes dialog-close {
+  0% {
     transform: translate3d(0, 0, 0);
   }
   100% {
-    transform: translate3d(0, -100%, 0);
+    transform: translate3d(0, 100%, 0);
   }
 }
 

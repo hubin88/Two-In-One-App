@@ -16,23 +16,31 @@ class DialogWrap extends React.Component {
     onCloseCallback: PropTypes.func,
   };
 
+  state = {
+    isClose: true,
+  };
+
   componentDidMount() {
-    this.dialog.addEventListener('webkitAnimationEnd', this.addClose);
+    this.dialog.addEventListener('webkitAnimationEnd', this.addOverlayTouch);
   }
 
   componentWillUnmount() {
-    this.dialog.removeEventListener('webkitAnimationEnd', this.addClose);
     this.overlay.removeEventListener('touchstart', this.close);
   }
 
-  addClose = () => {
-    this.overlay.addEventListener('touchstart', this.close);
+  addOverlayTouch = () => {
+    this.dialog.removeEventListener('webkitAnimationEnd', this.addOverlayTouch);
+    this.overlay.addEventListener('touchend', this.close);
   };
 
   close = (e) => {
     e.preventDefault();
+
     if (this.props.onCloseCallback) this.props.onCloseCallback();
-    removeComponentByRef(this.box);
+    this.setState({
+      isClose: false,
+    });
+    this.dialog.addEventListener('webkitAnimationEnd', () => removeComponentByRef(this.box));
   };
 
   render() {
@@ -40,13 +48,13 @@ class DialogWrap extends React.Component {
       <div ref={(ref) => { this.box = ref; }}>
         <div styleName="overlay" ref={(ref) => { this.overlay = ref; }} />
         <div
-          styleName="dialog"
+          styleName={this.state.isClose ? 'dialog' : 'close-dialog'}
           ref={(ref) => { this.dialog = ref; }}
           style={this.props.style}
         >
           <div styleName="title" className="main-nav-bg-color">
             {this.props.title}
-            <input type="button" styleName="close" onTouchTap={this.close} />
+            <input type="button" styleName="close" onTouchTap={(e) => this.close(e)} />
           </div>
           <div styleName="content">
             <div styleName="cell">{this.props.children}</div>
