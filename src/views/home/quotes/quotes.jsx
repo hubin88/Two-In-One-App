@@ -66,12 +66,24 @@ class Quotes extends Component {
     };
     this.timeName = 'fenTime';
     this.isDraw = true;
+    this.needRedraw = true;
   }
 
   componentDidMount() {
     this.kLine = new window.DrawKLine('kLine', options);
     this.chart = new window.DrawChart('chart', chartOptions);
     this.timer();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { holdHeight } = nextProps;
+    if (holdHeight !== this.props.holdHeight) {
+      this.reStart();
+      this.needRedraw = true;
+    } else if (this.needRedraw && holdHeight === this.props.holdHeight) {
+      this.redrawCanvas();
+      this.needRedraw = false;
+    }
   }
 
   componentWillUnmount() {
