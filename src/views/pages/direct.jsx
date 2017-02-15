@@ -5,7 +5,7 @@
 import React, { Component, PropTypes } from 'react';
 import cssModules from 'react-css-modules';
 import styles from './direct.scss';
-import TouchPage from './touch_page/touch_page';
+// import TouchPage from './touch_page/touch_page';
 import OnePage from './one_page/one_page';
 
 class Direct extends Component {
@@ -20,10 +20,12 @@ class Direct extends Component {
 
   localStorage() {
     const { dispatch } = this.props;
-    if (localStorage.getItem('direct')) {
-      return <OnePage go={this.go} dispatch={dispatch} />;
-    }
-    return <TouchPage go={this.go} dispatch={dispatch} />;
+    return <OnePage go={this.go} dispatch={dispatch} />;
+    // todo 首页引导为完善
+    // if (localStorage.getItem('direct')) {
+    //   return <OnePage go={this.go} dispatch={dispatch} />;
+    // }
+    // return <TouchPage go={this.go} dispatch={dispatch} />;
   }
 
   go() {
