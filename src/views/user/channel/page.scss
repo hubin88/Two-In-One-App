@@ -1,0 +1,11 @@
+.content {
+  display: inline-block;
+  position: absolute;
+  top: 66px;
+  bottom: 0;
+  overflow: auto;
+  padding: 20px;
+  & > div:first-child {
+    font-size: 18px;
+  }
+}

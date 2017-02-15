@@ -1,22 +1,27 @@
 /**
  * Created by dell on 2017/1/5.
  */
+import React, { Component } from 'react';
+import cssModules from 'react-css-modules';
+import Header from '../../../components/header/header';
+import { Agreement } from '../../sign/agreement';
+import styles from './page.scss';
 
-import React, { Component, PropTypes } from 'react';
-import SingleHtml from '../../single-html/single-html';
-
+@cssModules(styles, { allowMultiple: true, errorWhenNotFound: false })
 export default class Dwpage extends Component {
-  static defaultProps = {
-    htmlURL: 'http://baidu.com',
-    title: '点微宝介绍',
+
+  back = () => {
+    window.history.go(-1);
   };
-  static propTypes = {
-    htmlURL: PropTypes.string,
-    title: PropTypes.string,
-  };
+
   render() {
     return (
-      <SingleHtml htmlURL={this.props.htmlURL} title={this.props.title} />
+      <div>
+        <Header title={'点微宝介绍'} leftBtnCallBack={this.back} />
+        <div styleName="content">
+          {Agreement}
+        </div>
+      </div>
     );
   }
 }
