@@ -7,7 +7,8 @@ var BASE_SERVER = {
   DWB: 'http://120.76.246.192:9092/',
   DCB_ASSET: 'http://120.76.223.65:9510/',
   DWB_ASSET: 'http://120.77.22.247:9510/',
-  QUOTATION: 'http://120.76.246.192:9001/',
+  QUOTATION: 'http://120.25.135.199:9001/',
+  // QUOTATION: 'http://120.76.246.192:9001/',
 
   // 测试环境
   // DWB: 'http://120.76.246.190:9112/',
@@ -53,8 +54,8 @@ var HTML_PAGE = {
 };
 
 var repeatTime = {
-  userInfo: 5000, // 轮询资产数据
-  getQuot: 5000, // 轮询个股信息
+  userInfo: 50000, // 轮询资产数据
+  getQuot: 50000, // 轮询个股信息
   fs: 60000, // 轮询分时图
   kx: 60000, // 轮询K线图
 }
