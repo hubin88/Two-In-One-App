@@ -40,11 +40,11 @@ var CRJ = '出入金';
 
 //  点差宝介绍
 var DCB_SUGGEST_TITLE = '点差宝介绍';
-var DCB_SUGGEST_URL = 'http://120.25.135.199:9003/webstatic/1zjyjy/rule/rule.html';
+var DCB_SUGGEST_URL = '/static/intro/intro.html';
 
 //  点微宝介绍
 var DWB_SUGGEST_TITLE = '点微宝介绍';
-var DWB_SUGGEST_URL = 'http://120.25.135.199:9003/webstatic/1zjyjy/rule/rule.html';
+var DWB_SUGGEST_URL = '/static/intro/intro.html';
 
 //规则内嵌页面地址
 var HTML_PAGE = {

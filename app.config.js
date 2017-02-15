@@ -6,6 +6,7 @@ const config = {
   copyFile: [
     // { from: './single_part', to: './' },
     { from: './config.js', to: './config.js' },
+    { from: './static/intro', to: './static/intro' },
   ],
   html: [
     {
