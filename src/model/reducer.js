@@ -224,7 +224,7 @@ function systemInfo(state = initSystemInfo, action) {
               Name,
               AssetId,
               MerchCode,
-              Price: price[PRICES.price[0]],
+              Price: price[PRICES.price.sort],
               deposit,
               floatPoint,
               Margin,

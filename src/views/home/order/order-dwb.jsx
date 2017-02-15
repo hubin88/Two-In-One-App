@@ -93,18 +93,21 @@ class OrderDWB extends Component {
 
     return (
       <div styleName={`order ${direction}`}>
-        <div styleName="info">
-          <span styleName="color-gray">购买
+        <div styleName="setting">
+          <div styleName="info">
+            <span styleName="color-gray">购买
             <span styleName="color-red">
               <b>{amount}</b>
               {unit}{name}
             </span>,
             市场价<span styleName="color-red"><b>{amountPrice}</b></span>元
           </span>
+          </div>
         </div>
+
         <div className="table" styleName="setting">
           <div className="tr" styleName="margin">
-            <div className="td" styleName="title-dwb less-height">
+            <div className="td" styleName="title-dwb">
               <span>购买<br />金额<br />(元):</span>
             </div>
             <div className="td" styleName="content">
@@ -124,7 +127,7 @@ class OrderDWB extends Component {
         </div>
         <div className="table" styleName="setting">
           <div className="tr" styleName="info">
-            <div className="td" styleName="title-dwb less-height">
+            <div className="td" styleName="title-dwb">
               <span>手续费:</span>
             </div>
             <div className="td" styleName="content">

@@ -26,7 +26,6 @@ export const AMOUNT_SCALE = 0.1;
 
 export const ASSET_SCALE = 0.1;
 
-
 export const ORG_ID = {
   [SYS_DCB]: 118,
   // [SYS_DWB]: 81,
@@ -46,11 +45,13 @@ export const STATUS = {
 };
 
 export const PRICES = {
-  assetId: [0, 0],
-  price: [1, 2],
-  preClose: [2, 6],
-  open: [3, 5],
-  high: [4, 3],
-  low: [5, 4],
-  changePct: [6, 10],
+  assetId: { sort: 0, key: 0, name: 'ID' },
+  price: { sort: 1, key: 2, name: '现价' },
+  preClose: { sort: 2, key: 6, name: '昨收' },
+  open: { sort: 3, key: 5, name: '今开' },
+  high: { sort: 4, key: 3, name: '最高' },
+  low: { sort: 5, key: 4, name: '最低' },
+  changePct: { sort: 6, key: 10, name: '涨跌幅' },
 };
+
+export const PRICES_LIST = ['preClose', 'open', 'high', 'low'];

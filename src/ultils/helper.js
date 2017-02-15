@@ -103,7 +103,7 @@ export function safeGetParameter(param, key) {
 export function arrayToObject(data, key) {
   return data.reduce((obj, product) => {
     const o = obj;
-    if (isArray(o)) {
+    if (isArray(product)) {
       o[product[key]] = [...product];
     } else {
       o[product[key]] = { ...product };
@@ -121,5 +121,4 @@ export function pricesArrayToObject(array) {
     });
     arrObj.push(temp);
   });
-  console.log('22', arrObj);
 }

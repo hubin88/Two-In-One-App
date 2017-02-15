@@ -72,7 +72,7 @@ class Home extends Component {
       const {
         exchangeInfo: { commodityData },
         systemInfo: { commodityId },
-        marketInfo: { commodityPricesObj },
+        marketInfo: { commodityPrices },
       } = this.props;
       OrderBox.show({
         dispatch: this.props.dispatch,
@@ -82,7 +82,7 @@ class Home extends Component {
         onConfirm: this.confirmBuild,
         commodityData,
         commodityId,
-        commodityPricesObj,
+        commodityPrices,
       });
     } else {
       browserHistory.push('/login?source=home');
@@ -132,7 +132,7 @@ class Home extends Component {
     const {
       dispatch,
       exchangeInfo: { commodityData, secKey },
-      marketInfo: { commodityPrices, normalday },
+      marketInfo: { normalday, commodityPricesOld, commodityPrices },
       systemInfo: {
         systemType,
         assetInfo: { allAssets },
@@ -146,9 +146,10 @@ class Home extends Component {
     const commodityCode = commodityData[commodityId] ? commodityData[commodityId].MerchCode : null;
     const holdArr = holdArray.filter((i) => i.MerchCode === commodityCode);
     const allAssetsNum = isLogin ? allAssets : '- -';
-    const holdNum = holdArr && holdArr.length > 0 ? holdArr.length : -1;
-    const holdHeightScale = 1 + (holdNum >= 2 ? 2 : holdNum);
-    const holdHeight = styleConfig.holdBaseH * holdHeightScale;
+    const hasHold = holdArr && holdArr.length > 0;
+    const holdHeaderH = hasHold ? styleConfig.holdHeaderH : 0;
+    const holdNum = hasHold && holdArr.length > 2 ? 2 : holdArr.length;
+    const holdHeight = (styleConfig.holdBaseH * holdNum) + holdHeaderH;
     const commodityKey = Object.keys(commodityData);
     if (isLogin && secKey) {
       clearInterval(this.time);
@@ -192,6 +193,7 @@ class Home extends Component {
               dispatch={dispatch}
               commodityData={commodityData}
               commodityPrices={commodityPrices}
+              commodityPricesOld={commodityPricesOld}
               holdHeight={holdHeight}
               normalday={normalday}
               commodityId={commodityId}
@@ -202,7 +204,7 @@ class Home extends Component {
             styleName="building"
             style={{
               height: styleConfig.buildingH,
-              padding: styleConfig.buildingPadding,
+              padding: styleConfig.buildingP,
             }}
           >
             {
@@ -211,8 +213,8 @@ class Home extends Component {
                 return (
                   <button
                     style={{
-                      height: styleConfig.buildingH - (2 * styleConfig.buildingPadding),
-                      lineHeight: `${styleConfig.buildingH - (2 * styleConfig.buildingPadding)}px`,
+                      height: styleConfig.buildingH - (2 * styleConfig.buildingP),
+                      lineHeight: `${styleConfig.buildingH - (2 * styleConfig.buildingP)}px`,
                     }}
                     key={`building-${idx}`}
                     styleName={direction}

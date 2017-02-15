@@ -105,7 +105,9 @@ class Drag extends Component {
     const clickPointX = parseInt(touch.pageX, 10);
     const scale = (clickPointX - this.dragStartX) / (this.dragEndX - this.dragStartX);
     const num = (((this.props.maxNum - this.props.minNum) * scale) + 1).toFixed(0);
-    this.changeNum(parseInt(num, 10), null);
+    this.changeNum(parseInt(num, 10), () => {
+      this.tipsTimer();
+    });
   };
 
   changeNum = (num, callBack) => {

@@ -6,7 +6,8 @@ import { arrayToObject } from '../../ultils/helper';
 
 const initMarketInfo = {
   normalday: {},
-  commodityPrices: [],
+  commodityPricesOld: {},
+  commodityPrices: {},
   // quotInfo: {},
 };
 export default function marketInfo(state = initMarketInfo, action) {
@@ -26,9 +27,8 @@ export default function marketInfo(state = initMarketInfo, action) {
     case ActionQuoteTypes.SUCCESS_GET_QUOT: {
       return {
         ...state,
-        // commodityPrices: action.data.result,
-        commodityPrices: action.data.result,
-        commodityPricesObj: arrayToObject(action.data.result, 0),
+        commodityPricesOld: state.commodityPrices,
+        commodityPrices: arrayToObject(action.data.result, 0),
       };
     }
     default:

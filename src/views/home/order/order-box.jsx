@@ -22,7 +22,7 @@ class OrderBoxWrap extends Component {
     title: PropTypes.string,
     onConfirm: PropTypes.func,
     commodityData: PropTypes.object,
-    commodityPricesObj: PropTypes.object,
+    commodityPrices: PropTypes.object,
     commodityId: PropTypes.string,
   };
 
@@ -52,10 +52,10 @@ class OrderBoxWrap extends Component {
   };
 
   renderSetting() {
-    const { systemType, direction, commodityData, commodityId, commodityPricesObj } = this.props;
+    const { systemType, direction, commodityData, commodityId, commodityPrices } = this.props;
     const commodity = {
       ...commodityData[commodityId],
-      price: commodityPricesObj[commodityId],
+      price: commodityPrices[commodityId],
     };
     const o = {
       [SYS_DCB]: <OrderDCB

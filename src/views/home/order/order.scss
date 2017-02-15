@@ -3,6 +3,7 @@
 .setting {
   width: 100%;
   font-size: $buildingFont;
+  padding: .05rem 0;
 }
 
 .title-dcb {
@@ -17,14 +18,8 @@
   vertical-align: middle;
 }
 
-.less-height {
-  vertical-align: baseline;
-  line-height: 1.3*$buildingFont;
-}
-
 .content {
   width: auto;
-  padding-bottom: .05rem;
 }
 
 .item {
@@ -33,7 +28,7 @@
   text-align: center;
   border: solid .01rem $colorGray;
   border-radius: 0.02rem;
-  margin: 2% 0 0 2%;
+  margin-left: 2%;
   height: 0.3rem;
   line-height: 0.3rem;
 }
@@ -90,8 +85,8 @@
   width: 100%;
   height: 1.8*$buildingFont;
   line-height: 1.8*$buildingFont;
-  padding-left: $buildingBtnP;
-;
+  //padding-left: $buildingBtnP;
+  text-align: right;
   span {
     padding-left: .05rem;
   }

@@ -28,9 +28,10 @@ class Broker extends Component {
     }
   }
 
+
   render() {
     const { sessionId, mobile, orgId } = AppConfig.userData();
-    const url = 'http://192.168.1.127';
+    const url = 'http://192.168.0.71:9000';
     const opt = {
       sessionId,
       mobile,
@@ -43,7 +44,12 @@ class Broker extends Component {
 
     return (
       <div styleName="broker">
-        <Iframe needHeader={false} htmlUrl={directUrl} leftBtnFunc={this.back} />
+        <Iframe
+          didMountCallBack={this.connentIframe}
+          needHeader={false}
+          htmlUrl={directUrl}
+          leftBtnFunc={this.back}
+        />
       </div>
     );
   }

@@ -1,3 +1,4 @@
+@import "../../valViews";
 @import "../_val-home";
 
 .quotes {
@@ -7,7 +8,6 @@
 }
 
 .commodity {
-  padding-top: 0.1rem;
   width: 100%;
   white-space: nowrap;
   overflow-x: auto;
@@ -20,24 +20,48 @@
   }
   li {
     list-style-type: none;
+    height: 100%;
     padding: 0 .06rem;
     display: inline-block;
-    div {
-      display: inline-block;
-      width: 70%;
-      b {
-        display: block;
-        width: 100%;
-        height: .24rem;
-        padding: .05rem 0 .03rem;
-        color: #828284;
-      }
-    }
+    background-position: 90% center;
+    background-size: .14rem .12rem;
+    background-repeat: no-repeat;
   }
 }
 
-.commodity-prices {
-  padding-top: .05rem;
+.commodity-info {
+  display: inline-block;
+  height: 100%;
+  width: 70%;
+  b {
+    display: inline-block;
+    width: 100%;
+    max-height: 50%;
+    padding: .07rem .03rem 0;
+    color: #828284;
+  }
+}
+
+@each $key, $color, $icon in $buildingColor {
+  .inactive-#{$icon} {
+    @include retina-images((
+            '../../../images/arrow_#{$icon}',
+    ));
+  }
+  .active-#{$icon} {
+    border-top: 1px #F8812C solid;
+    background-color: #c3e1f5;
+    @include retina-images((
+            '../../../images/arrow_#{$icon}_light',
+    ));
+
+    b.commodity-prices {
+      color: $color;
+    }
+  }
+  b.commodity-name {
+    color: #272424;
+  }
 }
 
 .showImg {
@@ -46,15 +70,6 @@
   height: .12rem;
   float: right;
   margin-top: .18rem;
-}
-
-.active-c {
-  border-top: 1px #F8812C solid;
-  background-color: #c3e1f5;
-  .commodity-name {
-    color: #272424;
-  }
-
 }
 
 .trend-chart {

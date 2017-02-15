@@ -4,11 +4,11 @@
 
 const imitateData = {
   getExchangeList: [
-    { name: '交易所1', id: 1, logoUrl: '/src/images/exchange-1.jpg' },
-    { name: '交易所2', id: 2, logoUrl: '/src/images/exchange-2.jpg' },
-    { name: '交易所3', id: 3, logoUrl: '/src/images/exchange-3.jpg' },
-    { name: '交易所4', id: 4, logoUrl: '/src/images/exchange-4.jpg' },
-    { name: '交易所5', id: 5, logoUrl: '/src/images/exchange-5.jpg' },
+    { name: '交易所1', id: 1, logoUrl: 'images/exchange-1.jpg' },
+    { name: '交易所2', id: 2, logoUrl: 'images/exchange-2.jpg' },
+    { name: '交易所3', id: 3, logoUrl: 'images/exchange-3.jpg' },
+    { name: '交易所4', id: 4, logoUrl: 'images/exchange-4.jpg' },
+    { name: '交易所5', id: 5, logoUrl: 'images/exchange-5.jpg' },
   ],
   getOneExchangeInfo: {
     1: {

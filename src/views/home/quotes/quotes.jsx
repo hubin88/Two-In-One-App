@@ -10,7 +10,7 @@ import {
   successQueryDayLine,
   successQueryTimeShare,
 } from '../../../model/market/action-market';
-import { PRICES } from '../../../server/define';
+import { PRICES, PRICES_LIST } from '../../../server/define';
 import { Cookie } from '../../../ultils/tools';
 
 const options = {
@@ -49,7 +49,8 @@ class Quotes extends Component {
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
     commodityData: PropTypes.object.isRequired,
-    commodityPrices: PropTypes.array.isRequired,
+    commodityPricesOld: PropTypes.object.isRequired,
+    commodityPrices: PropTypes.object.isRequired,
     commodityId: PropTypes.string,
     holdHeight: PropTypes.number,
     normalday: PropTypes.object,
@@ -203,55 +204,20 @@ class Quotes extends Component {
     this.setState({ drawIdx: idx });
   };
 
-  quoteLi = () => {
+  renderPriceList = () => {
     const { commodityId, commodityPrices } = this.props;
-    const tpl = [];
-    commodityPrices.forEach((item) => {
-      if (commodityId === item[PRICES.assetId[0]]) {
-        this.quotesName.forEach((itemName, idx) => {
-          tpl.push(<li key={idx}>{itemName}{Number.parseInt([...item][idx + 2], 10)}</li>);
-        });
-      }
-    });
-    return tpl;
-  };
-
-  showImage = (i, prices) => {
-    let tpl = '';
-    const commodityPricesOld = JSON.parse(Cookie.getCookie('commodityPrices'));
-    if (commodityPricesOld) {
-      commodityPricesOld.forEach((val) => {
-        if (i === val[PRICES.assetId[0]] && prices >= Number.parseInt(val[PRICES.price[0]], 10)) {
-          tpl = this.props.commodityId === i ?
-            (<img
-              src={require('../../../images/arrow_up_red@2x.png')} alt="up"
-              styleName="showImg"
-            />) :
-            <img src={require('../../../images/arrow_up@2x.png')} alt="up" styleName="showImg" />;
-        } else if (i === val[PRICES.assetId[0]] && prices < Number.parseInt(val[PRICES.price[0]], 10)) {
-          tpl = this.props.commodityId === i ?
-            (<img
-              src={require('../../../images/arrow_down_green@2x.png')} alt="up"
-              styleName="showImg"
-            />) :
-            <img src={require('../../../images/arrow_down@2x.png')} alt="up" styleName="showImg" />;
-        }
-      });
-    } else {
-      if (this.props.commodityId === i) {
-        return (<img
-          src={require('../../../images/arrow_up_red@2x.png')} alt="up"
-          styleName="showImg"
-        />);
-      }
-      return <img src={require('../../../images/arrow_up@2x.png')} alt="up" styleName="showImg" />;
-    }
+    const nowCommodityData = commodityPrices[commodityId] || [];
+    const tpl = nowCommodityData.length > 0 ? PRICES_LIST.map((pri) => (
+      <li key={pri}>
+        {PRICES[pri].name}：{Number.parseInt(nowCommodityData[PRICES[pri].sort], 10)}
+      </li>
+    )) : [];
+    // console.log(nowCommodityData, nowCommodityData.length > 0, tpl);
     return tpl;
   };
 
   renderChart() {
     const canvasH = styleConfig.canvasH - this.props.holdHeight;
-    if (this.props.commodityPrices) Cookie.setCookie('commodityPrices', this.props.commodityPrices);
     return (
       <div
         styleName="trend-chart"
@@ -259,7 +225,7 @@ class Quotes extends Component {
         <div
           style={{ height: styleConfig.quotesTrendH, lineHeight: `${styleConfig.quotesTrendH}px` }}
         >
-          <ul styleName="quotes-info">{this.quoteLi()}</ul>
+          <ul styleName="quotes-info">{this.renderPriceList()}</ul>
         </div>
         <div styleName="draw-box">
           <div id="drawLine" style={{ height: canvasH, display: 'none' }}>
@@ -292,7 +258,15 @@ class Quotes extends Component {
   }
 
   render() {
-    const { commodityData, commodityPrices, normalday: { assetinfo }, systemType, commodityId } = this.props;
+    const {
+      commodityData,
+      commodityPrices,
+      commodityPricesOld,
+      normalday: { assetinfo },
+      systemType,
+      commodityId,
+    } = this.props;
+
     if (Cookie.getCookie('sys') !== systemType) {
       this.reStart();
       Cookie.setCookie('sys', systemType);
@@ -307,32 +281,35 @@ class Quotes extends Component {
     }
     const widths = 100;
     const liWidth = `${widths / liNums}%`;
+
     return (
       <div styleName="quotes">
-        <ul styleName="commodity" style={{ height: styleConfig.commodityH }}>
+        <ul
+          styleName="commodity"
+          style={{ height: styleConfig.commodityH, paddingTop: styleConfig.commodityP }}
+        >
           {
-            Object.keys(commodityData).map((i) => {
-              const name = commodityData[i].Name;
-              let prices = 0;
-              commodityPrices.forEach((item) => {
-                if (item[PRICES.assetId[0]] === i) {
-                  prices = Number.parseInt(item[PRICES.price[0]], 10);
-                }
-              });
+            Object.keys(commodityData).map((id) => {
+              const name = commodityData[id].Name;
+              const nowPriceArr = commodityPrices[id] || [];
+              const oldPriceArr = commodityPricesOld[id] || [];
+              const nowPrice = Number.parseInt((nowPriceArr[PRICES.price.sort] || 0), 10);
+              const oldPrice = Number.parseInt((oldPriceArr[PRICES.price.sort] || 0), 10);
+              const commodityDirect = nowPrice >= oldPrice ? 'up' : 'down';
+              const clsName = `${commodityId === id ? 'active' : 'inactive'}-${commodityDirect}`;
+
               return (
                 <li
-                  key={i}
+                  key={id}
                   style={{ width: liWidth }}
-                  styleName={`${this.props.commodityId === i ? 'active-c' : ''}`}
-                  onTouchTap={this.chooseCommodity(i)}
+                  styleName={`${clsName}`}
+                  onTouchTap={this.chooseCommodity(id)}
                 >
-                  <div>
-                    <b styleName="commodity-name">{name}</b>
-                    <b styleName="commodity-prices">{prices}</b>
-                  </div>
-                  {
-                    this.showImage(i, prices)
-                  }
+                  <span styleName="commodity-info">
+                    <b styleName="commodity-name">{name}</b><br />
+                    <b styleName="commodity-prices">{nowPrice}</b>
+                  </span>
+
                 </li>
               );
             })

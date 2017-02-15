@@ -98,6 +98,9 @@ class OrderDCB extends Component {
               }
             </div>
           </div>
+        </div>
+        <div className="table" styleName="setting">
+
           <div className="tr" styleName="point">
             <div className="td" styleName="title-dcb">
               <span>止盈/止损点:</span>
@@ -116,6 +119,9 @@ class OrderDCB extends Component {
               }
             </div>
           </div>
+        </div>
+        <div className="table" styleName="setting">
+
           <div className="tr" styleName="amount">
             <div className="td" styleName="title-dcb">
               <span>数量:</span>

@@ -6,6 +6,12 @@ import React, { Component, PropTypes } from 'react';
 import cssModules from 'react-css-modules';
 import styles from './left-nav.scss';
 
+require('../images/exchange-1.jpg');
+require('../images/exchange-2.jpg');
+require('../images/exchange-3.jpg');
+require('../images/exchange-4.jpg');
+require('../images/exchange-5.jpg');
+
 @cssModules(styles, { allowMultiple: true, errorWhenNotFound: false })
 export default class LeftNav extends Component {
   static propTypes = {

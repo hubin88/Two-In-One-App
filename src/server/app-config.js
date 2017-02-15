@@ -52,17 +52,19 @@ const screenH = document.documentElement.clientHeight;
 const screenW = document.documentElement.clientWidth;
 const headerH = AppConfig.isApp ? 0 : 66;
 const footerH = AppConfig.isApp ? 0 : 50;
-const userInfoH = 60;
+const userInfoH = 65;
 const buildingH = 60;
-const buildingPadding = 10;
+const buildingP = 10;
 const tipsH = 20;
-const holdBaseH = 30;
-const commodityH = 60;
+const holdHeaderH = 30;
+const holdBaseH = holdHeaderH;
+const commodityP = 7;
+const commodityH = 50 + commodityP;
 const canvasPaddingBottom = 8;
 const quotesH = screenH - headerH - footerH - userInfoH - buildingH - tipsH - commodityH;
 const quotesTrendH = 25;
 const quotesTimeH = 40 + canvasPaddingBottom;
-const canvasH = quotesH - quotesTimeH - quotesTrendH - canvasPaddingBottom;
+const canvasH = quotesH - quotesTimeH - quotesTrendH;
 
 export const styleConfig = {
   screenH,
@@ -71,9 +73,11 @@ export const styleConfig = {
   footerH,
   userInfoH,
   buildingH,
-  buildingPadding,
+  buildingP,
   tipsH,
+  holdHeaderH,
   holdBaseH,
+  commodityP,
   commodityH,
   quotesTimeH,
   quotesTrendH,

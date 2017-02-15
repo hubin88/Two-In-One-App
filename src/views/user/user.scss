@@ -134,12 +134,16 @@ $padding: .1rem;
 }
 
 .links {
-  margin-top: .05rem;
+  margin-top: .1rem;
 
   li {
     background-color: #fff;
     border-top: 0.01rem #f3f3f3 solid;
     padding: 0 .25rem;
+    background-image: url("../../images/icon_more@2x.png");
+    background-position: 95% center;
+    background-size: .08rem .15rem;
+    background-repeat: no-repeat;
     span {
       display: inline-block;
       height: $channelH;
@@ -155,7 +159,6 @@ $padding: .1rem;
   a:nth-last-child(2) li {
     margin-top: .1rem;
   }
-
 }
 
 // sample 1
@@ -170,5 +173,17 @@ $padding: .1rem;
         '.link-set': '../../images/me_icon_set',
         '.link-intro': '../../images/me_icon_intro',
 ));
+
+@media screen and (min-width: 414px) {
+  .links {
+    margin-top: .1rem;
+    li {
+      span {
+        height: 1.2*$channelH;
+        line-height: 1.2*$channelH;
+      }
+    }
+  }
+}
 
 

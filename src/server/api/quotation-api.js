@@ -69,7 +69,7 @@ export default class QuotationApi {
   static getQuot(obj = {}, repeat) {
     const priceArray = [];
     Object.keys(PRICES).forEach((value) => {
-      priceArray.push(PRICES[value][1]);
+      priceArray.push(PRICES[value].key);
     });
     const assetIdObj = {
       fields: priceArray.join('|'),
