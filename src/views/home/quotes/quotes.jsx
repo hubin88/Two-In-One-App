@@ -82,7 +82,8 @@ class Quotes extends Component {
       this.reStart();
       this.needRedraw = true;
     } else if (this.needRedraw && holdHeight === this.props.holdHeight) {
-      this.redrawCanvas();
+      const drawType = this.timeName === 'fenTime' ? 'chart' : 'kLine';
+      this.redrawCanvas(drawType);
       this.needRedraw = false;
     }
   }
@@ -102,8 +103,6 @@ class Quotes extends Component {
     this.isDraw = true;
     this.timer();
   };
-
-  quotesName = ['昨收：', '今开：', '最高：', '最低：'];
 
   redrawCanvas = (drawType = 'chart') => {
     const w = styleConfig.screenW;
