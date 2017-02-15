@@ -5,10 +5,10 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { browserHistory } from 'react-router';
-import AppConfig from '../../server/app-config';
-import Iframe from './iframe';
-import { requestGetDirect } from '../../model/action';
-import { DIRECTS } from '../../server/define';
+import AppConfig from '../../../server/app-config';
+import Iframe from '../../../components/iframe/iframe';
+import { requestGetDirect } from '../../../model/action';
+import { DIRECTS } from '../../../server/define';
 
 class GoldHtml extends Component {
   static propTypes = {
@@ -37,9 +37,7 @@ class GoldHtml extends Component {
   render() {
     const { systemInfo: { directUrl } } = this.props;
     return (
-      <div className="wrap">
-        <Iframe title={this.htmlInfo.title} htmlUrl={directUrl} leftBtnFunc={this.back} />
-      </div>
+      <Iframe title={this.htmlInfo.title} htmlUrl={directUrl} leftBtnFunc={this.back} />
     );
   }
 }

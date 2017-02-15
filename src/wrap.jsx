@@ -10,8 +10,8 @@ import MainBox from './views/main-box';
 import Home from './views/home/home';
 import Broker from './views/broker/broker';
 import User from './views/user/user';
-import GoldHtml from './views/single-html/gold-html';
-// import SingleHtml from './views/single-html/single-html';
+import GoldHtml from './views/user/channel/gold-html';
+import Page from './views/user/channel/page';
 import SignWrap from './views/sign-wrap/sign-wrap';
 import UserWrap from './views/user/user-wrap';
 import Rule from './views/rule/rule';
@@ -20,8 +20,6 @@ import Hold from './views/user/channel/hold';
 import Track from './views/user/channel/track';
 import ModifyName from './views/user/channel/user-set-channel/modify-name';
 import UserSet from './views/user/channel/userSet';
-import Dcpage from './views/user/channel/dcpage';
-import Dwpage from './views/user/channel/dwpage';
 import { Cookie } from './ultils/tools';
 import LoginWrap from './views/sign-wrap/login-wrap';
 import RegisterWrap from './views/sign-wrap/register-wrap';
@@ -69,9 +67,10 @@ const StoreWrap = () => (
           <Route path="/gold" component={Gold} onEnter={checkLogin} />
           <Route path="/userSet" component={UserSet} onEnter={checkLogin} />
           <Route path="/track" component={Track} onEnter={checkLogin} />
-          <Route path="/dcbPage" component={Dcpage} />
-          <Route path="/dwbPage" component={Dwpage} />
+          <Route path="/dcbPage" component={Page} />
+          <Route path="/dwbPage" component={Page} />
         </Route>
+
 
         <Route path="/modifyPhone" component={ModifyPhoneWrap} />
         <Route path="/modifyPwd" component={ModifyPwdWrap} />

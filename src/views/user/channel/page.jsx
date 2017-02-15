@@ -3,11 +3,10 @@
  */
 
 import React, { Component, PropTypes } from 'react';
-import { browserHistory } from 'react-router';
-import AppConfig from '../../server/app-config';
-import Iframe from './iframe';
+import AppConfig from '../../../server/app-config';
+import Iframe from '../../../components/iframe/iframe';
 
-class SingleHtml extends Component {
+class Page extends Component {
   static propTypes = {
     location: PropTypes.object,
   };
@@ -22,19 +21,13 @@ class SingleHtml extends Component {
     }
   }
 
-  back = () => {
-    browserHistory.push(this.htmlInfo.backDirect);
-  };
-
   render() {
     const title = this.htmlInfo.title;
     const directUrl = this.htmlInfo.url;
     return (
-      <div className="wrap">
-        <Iframe title={title} htmlUrl={directUrl} leftBtnFunc={this.back} />
-      </div>
+      <Iframe needHeader={false} title={title} htmlUrl={directUrl} />
     );
   }
 }
 
-export default SingleHtml;
+export default Page;

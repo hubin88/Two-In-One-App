@@ -33,6 +33,7 @@ module.exports = {
     PAY_URL: true,
     WITHDRAW_TITLE: true,
     WITHDRAW_URL: true,
+    BROKER_URL: true,
     DCB_SUGGEST_TITLE: true,
     DCB_SUGGEST_URL: true,
     DWB_SUGGEST_TITLE: true,

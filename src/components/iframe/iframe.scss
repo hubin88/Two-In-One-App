@@ -2,11 +2,17 @@
  * Created by Amg on 2016/12/26.
  */
 
-.single-html {
+.iframe-wrap {
+  width: 100%;
+  height: 100%;
+  padding-top: .66rem;
+}
+
+.iframe {
   width: 100%;
   height: 100%;
   -webkit-overflow-scrolling: touch;
-  overflow: hidden;
+  overflow: auto;
 }
 
 .titleName {

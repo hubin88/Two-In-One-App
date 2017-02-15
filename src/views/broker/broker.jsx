@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import cssModules from 'react-css-modules';
 import { browserHistory } from 'react-router';
 import styles from './broker.scss';
-import Iframe from '../single-html/iframe';
+import Iframe from '../../components/iframe/iframe';
 import AppConfig from '../../server/app-config';
 import formatUrl from '../../ultils/url-format';
 
@@ -28,10 +28,9 @@ class Broker extends Component {
     }
   }
 
-
   render() {
     const { sessionId, mobile, orgId } = AppConfig.userData();
-    const url = 'http://192.168.0.71:9000';
+    const url = BROKER_URL;
     const opt = {
       sessionId,
       mobile,
