@@ -56,7 +56,7 @@ const userInfoH = 60;
 const buildingH = 60;
 const buildingPadding = 10;
 const tipsH = 20;
-const holdH = 90;
+const holdBaseH = 30;
 const commodityH = 60;
 const canvasPaddingBottom = 8;
 const quotesH = screenH - headerH - footerH - userInfoH - buildingH - tipsH - commodityH;
@@ -73,7 +73,7 @@ export const styleConfig = {
   buildingH,
   buildingPadding,
   tipsH,
-  holdH,
+  holdBaseH,
   commodityH,
   quotesTimeH,
   quotesTrendH,

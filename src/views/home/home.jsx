@@ -146,8 +146,9 @@ class Home extends Component {
     const commodityCode = commodityData[commodityId] ? commodityData[commodityId].MerchCode : null;
     const holdArr = holdArray.filter((i) => i.MerchCode === commodityCode);
     const allAssetsNum = isLogin ? allAssets : '- -';
-    const hasHold = holdArr && holdArr.length !== 0;
-    const holdHeight = hasHold ? styleConfig.holdH : 0;
+    const holdNum = holdArr && holdArr.length > 0 ? holdArr.length : -1;
+    const holdHeightScale = 1 + (holdNum >= 2 ? 2 : holdNum);
+    const holdHeight = styleConfig.holdBaseH * holdHeightScale;
     const commodityKey = Object.keys(commodityData);
     if (isLogin && secKey) {
       clearInterval(this.time);
@@ -230,7 +231,7 @@ class Home extends Component {
         </div>
         <div styleName="hold" style={{ height: holdHeight }}>
           {
-            hasHold ? <Table
+            holdArr && holdArr.length >= 0 ? <Table
               ref={(ref) => { this.table = ref; }}
               fields={this.holdHeaderList(systemType)}
               data={holdArr}
