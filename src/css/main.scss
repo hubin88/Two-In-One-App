@@ -98,11 +98,10 @@ input, button, textarea {
   position: relative;
   height: 100%;
   width: 100%;
+  //min-height: 5.5rem;
   padding-top: .66rem;
   background-color: #EFEFF5;
   transition: left 0.4s ease-out;
-  -webkit-overflow-scrolling: touch;
-  overflow: auto;
 }
 
 header {
