@@ -56,8 +56,8 @@ var HTML_PAGE = {
 var BROKER_URL = 'http://192.168.0.71:9000';
 
 var repeatTime = {
-  userInfo: 50000, // 轮询资产数据
-  getQuot: 50000, // 轮询个股信息
-  fs: 60000, // 轮询分时图
+  userInfo: 60000, // 轮询资产数据
+  getQuot: 30000, // 轮询个股信息
+  fs: 30000, // 轮询分时图
   kx: 60000, // 轮询K线图
 };

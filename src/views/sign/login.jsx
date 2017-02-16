@@ -128,7 +128,8 @@ export default class Login extends Component {
   };
 
   render() {
-    const isSubmit = this.state.isAccountRight && this.state.isPassWordRight;
+    // const isSubmit = this.state.isAccountRight && this.state.isPassWordRight; //todo 暂时默认登陆按钮高亮状态
+    const isSubmit = true;
     return (
       <div styleName="login-box">
         <div styleName="logo" />
@@ -139,7 +140,7 @@ export default class Login extends Component {
               <input
                 type="text" id="account" placeholder="请输入手机号码" maxLength="11"
                 ref={(ref) => { this.account = ref; }} onChange={this.check}
-                autoFocus="autofocus" defaultValue="18928488102"
+                defaultValue="15625510286"
               />
               {this.state.isAccountEmpty ? null :
               <span
