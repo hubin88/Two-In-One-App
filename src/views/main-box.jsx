@@ -13,7 +13,7 @@ import styles from './main-box.scss';
 import { styleConfig } from '../server/app-config';
 import { toChangeExchange, toChangeSystem } from '../model/action';
 import { SYS_DCB, SYS_DWB } from '../server/define';
-import Direct from './pages/direct';
+// import Direct from './pages/direct';
 
 @cssModules(styles, { allowMultiple: true, errorWhenNotFound: false })
 class MainBox extends Component {
@@ -65,39 +65,41 @@ class MainBox extends Component {
   render() {
     const {
       dispatch,
-      exchangeInfo: { exchangeList, systemList, ad },
+      exchangeInfo: { hasGetExchangeList, exchangeList, systemList },
       systemInfo: { navList, systemSortNum },
     } = this.props;
     const title = systemList.sort((a, b) => (a.sortNum - b.sortNum));
-    return (ad ? <Direct dispatch={dispatch} /> :
-    <div
-      className="wrap"
-      styleName={`${this.state.isShowLeftNav ? 'show-left-nav' : 'hide-left-nav'}`}
-      style={{ paddingTop: styleConfig.headerH, paddingBottom: styleConfig.footerH }}
-      ref={(ref) => { this.wrap = ref; }}
-    >
-      <LeftNav
-        ref={(ref) => { this.leftNav = ref; }}
-        dispatch={dispatch}
-        exchangeList={exchangeList}
-      />
-      <header style={{ height: styleConfig.headerH }}>
-        <Header
-          title={title}
-          titleCallBack={this.changeSystem}
-          leftBtnCallBack={this.showLeftNav()}
-          leftBtnTxt={<span className="left-nav-btn" />}
-          hasLeftBtnIcon={false}
-          titleIdx={systemSortNum - 1}
-        />
-      </header>
-      <section id="section">
-        {this.props.children}
-      </section>
-      <footer style={{ height: styleConfig.footerH }}>
-        <Footer navList={navList} />
-      </footer>
-    </div>
+    return (
+      <div
+        className="wrap"
+        styleName={`${this.state.isShowLeftNav ? 'show-left-nav' : 'hide-left-nav'}`}
+        style={{ paddingTop: styleConfig.headerH, paddingBottom: styleConfig.footerH }}
+        ref={(ref) => { this.wrap = ref; }}
+      >
+        {
+          hasGetExchangeList ? <LeftNav
+            ref={(ref) => { this.leftNav = ref; }}
+            dispatch={dispatch}
+            exchangeList={exchangeList}
+          /> : null
+        }
+        <header style={{ height: styleConfig.headerH }}>
+          <Header
+            title={title}
+            titleCallBack={this.changeSystem}
+            leftBtnCallBack={this.showLeftNav()}
+            leftBtnTxt={<span className="left-nav-btn" />}
+            hasLeftBtnIcon={false}
+            titleIdx={systemSortNum - 1}
+          />
+        </header>
+        <section id="section">
+          {this.props.children}
+        </section>
+        <footer style={{ height: styleConfig.footerH }}>
+          <Footer navList={navList} />
+        </footer>
+      </div>
     );
   }
 }

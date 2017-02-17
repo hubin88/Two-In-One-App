@@ -1,0 +1,50 @@
+@import "../../_valViews";
+
+.scroll-page {
+  width: 100%;
+  height: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.page-wrap {
+  width: 100%;
+  height: 100%;
+  //border: solid 1px red;
+  //transition: transform 300ms;
+}
+
+.page-bg {
+  display: inline-block;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background-size: 100% 100%;
+  background-position: center top;
+  background-repeat: no-repeat;
+}
+
+.page-btn {
+  display: inline-block;
+  position: absolute;
+  left: 50%;
+  margin-left: -0.2rem;
+  bottom: 0.1rem;
+  width: 0.5rem;
+  height: 0.5rem;
+  background-size: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+@each $name, $img in ('bg', 'help_na'), ('btn', 'ad_arrow') {
+  @for $idx from 0 through 3 {
+    .page-#{$name}-#{$idx} {
+      @include retina-images((
+              '../../../images/help/#{$img}#{$idx+1}',
+      ));
+    }
+  }
+}
+
+

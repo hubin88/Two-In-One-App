@@ -47,7 +47,7 @@ class Home extends Component {
 
   onClickAvatar = (e) => {
     e.preventDefault();
-    browserHistory.push('/userSet');
+    browserHistory.push('/user');
   };
 
   confirmBuild = (data) => {

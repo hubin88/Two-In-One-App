@@ -4,28 +4,28 @@
 
 import React, { Component, PropTypes } from 'react';
 import cssModules from 'react-css-modules';
-import styles from './one_page.scss';
-import { showFirstAD } from '../../../model/action';
+import styles from './ad-page.scss';
 
 require('../../../images/splash/ad_Content@3x.png');
 require('../../../images/splash/ad_bottom@3x.png');
 
-class OnePage extends Component {
+class AdPage extends Component {
   static propTypes = {
-    go: PropTypes.func,
-    dispatch: PropTypes.any,
+    goCallBack: PropTypes.func,
   };
 
   componentDidMount() {
-    this.timeHref();
+    this.setTimeToGoHome();
     this.over.addEventListener('touchend', this.goHome);
   }
 
   componentWillUnmount() {
+    if (this.times) clearInterval(this.times);
     this.over.removeEventListener('touchend', this.goHome);
   }
 
-  timeHref() {
+  setTimeToGoHome() {
+    if (this.times) clearInterval(this.times);
     this.onePage.style.height = `${window.innerHeight}px`;
     if (window.devicePixelRatio === 3) {
       const ad = this.ad.children;
@@ -39,17 +39,14 @@ class OnePage extends Component {
       this.over.firstElementChild.innerText = speed;
       const text = parseInt(this.over.firstElementChild.innerText, 10);
       if (text === 0) {
-        clearInterval(this.times);
-        this.props.dispatch(showFirstAD());
+        this.goHome();
       }
     }, 1000);
   }
 
   goHome = (e) => {
-    // e.stopPropagation();
-    e.preventDefault();
-    this.props.dispatch(showFirstAD());
-    clearInterval(this.times);
+    if (e) e.preventDefault();
+    if (this.props.goCallBack) this.props.goCallBack();
   };
 
   src(item, index) {
@@ -75,7 +72,7 @@ class OnePage extends Component {
             />
           </div>
           <div styleName="over" ref={(ref) => { this.over = ref; }}>
-            跳过<span>5</span>s
+            跳过<span>5</span>
           </div>
         </div>
       </div>
@@ -83,4 +80,4 @@ class OnePage extends Component {
   }
 }
 
-export default cssModules(OnePage, styles, { allowMultiple: true, errorWhenNotFound: false });
+export default cssModules(AdPage, styles, { allowMultiple: true, errorWhenNotFound: false });

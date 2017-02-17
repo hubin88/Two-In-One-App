@@ -26,6 +26,7 @@ import RegisterWrap from './views/sign-wrap/register-wrap';
 import ResetPwdWrap from './views/sign-wrap/reset-pwd-wrap';
 import ModifyPhoneWrap from './views/user/channel/user-set-channel/modify-phone-wrap';
 import ModifyPwdWrap from './views/user/channel/user-set-channel/modify-pwd-wrap';
+import StartPageWrap from './views/pages/start-page-wrap';
 
 const store = DEBUG ? createStore(
   rootReducer,
@@ -36,6 +37,13 @@ const store = DEBUG ? createStore(
 ) : createStore(rootReducer, applyMiddleware(thunkMiddleware));
 
 const history = syncHistoryWithStore(browserHistory, store);
+
+const checkLoadingStartPage = (nextState, replace) => {
+  const isStart = Cookie.getCookie('isStart') || false;
+  if (!isStart) {
+    replace({ pathname: '/start' });
+  }
+};
 
 const checkLogin = (nextState, replace) => {
   const systemType = Cookie.getCookie('systemType');
@@ -49,8 +57,9 @@ const StoreWrap = () => (
   <Provider store={store}>
     <Router history={history}>
       <Route path="/" component={App}>
-        <Route component={MainBox}>
-          <IndexRedirect to="/home" />
+        <IndexRedirect to="/start" />
+        <Router path="/start" component={StartPageWrap} />
+        <Route component={MainBox} onEnter={checkLoadingStartPage}>
           <Route path="/home" component={Home} />
           <Route path="/user" component={User} />
           <Route path="/broker" component={Broker} onEnter={checkLogin} />
@@ -70,7 +79,6 @@ const StoreWrap = () => (
           <Route path="/dcbPage" component={Page} />
           <Route path="/dwbPage" component={Page} />
         </Route>
-
 
         <Route path="/modifyPhone" component={ModifyPhoneWrap} />
         <Route path="/modifyPwd" component={ModifyPwdWrap} />

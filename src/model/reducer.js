@@ -12,6 +12,7 @@ const localExchangeData = Cookie.getCookie('exchangeData') || {};
 // 交易所的信息
 const initExchangeInfo = {
   exchangeList: [],
+  hasGetExchangeList: false,
   exchangeId: parseInt(localExchangeData.id || NONE, 10),
   exchangeName: localExchangeData.name || '',
   exchangeLogoUrl: localExchangeData.logoUrl || '',
@@ -53,7 +54,7 @@ const initSystemInfo = {
     [SYS_DCB]: [],
     [SYS_DWB]: [],
   },
-  // ad: true,
+  needShowAd: true,
 
 };
 
@@ -63,6 +64,7 @@ function exchangeInfo(state = initExchangeInfo, action) {
     case ActionTypes.SUCCESS_GET_EXCHANGE_LIST: {
       return {
         ...state,
+        hasGetExchangeList: true,
         exchangeList: action.exchangeList,
       };
     }
@@ -115,7 +117,7 @@ function exchangeInfo(state = initExchangeInfo, action) {
     case ActionTypes.SHOW_FIRST_AD: {
       return {
         ...state,
-        ad: false,
+        needShowAd: false,
       };
     }
     default: {
