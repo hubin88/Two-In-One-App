@@ -16,7 +16,7 @@ export default class StartPageWrap extends Component {
   }
 
   componentWillUnmount() {
-    localStorage.removeItem('hasShowScrollPage');
+    // localStorage.removeItem('hasShowScrollPage');
   }
 
   scrollPageGoCallBack = () => {
